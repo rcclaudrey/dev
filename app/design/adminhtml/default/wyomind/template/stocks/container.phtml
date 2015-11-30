@@ -1,0 +1,42 @@
+<div class="content-header">
+
+    <table cellspacing="0">
+
+        <tr>
+
+            <td style="width:50%;"><h3 class="icon-head head-products"><?php echo Mage::helper('catalog')->__('Manage Stocks') ?></h3></td>
+
+            <td class="a-right">
+
+                <?php echo $this->getButtonsHtml() ?>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<?php if (!$this->isSingleStoreMode()): ?>
+
+    <?php echo $this->getChildHtml('store_switcher'); ?>
+
+<?php endif; ?>
+
+<script>
+
+    InventoryManager.disableMsg = "<?php echo Mage::helper('advancedinventory')->__("Disable local stocks") ?>";
+
+    InventoryManager.enableMsg = "<?php echo Mage::helper('advancedinventory')->__("Enable local stocks") ?>";
+
+    
+
+
+</script>
+
+<form id="localStocks_form" method='post' action=''>
+
+    <?php echo $this->getGridHtml() ?>
+
+</form>

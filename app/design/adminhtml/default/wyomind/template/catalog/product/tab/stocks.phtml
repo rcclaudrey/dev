@@ -1,0 +1,109 @@
+<?php
+$product_id = $this->getRequest()->getParam('id');
+$store_id = Mage::app()->getRequest()->getParam('store');
+
+$stocks = Mage::getModel('advancedinventory/stock')->getStocksByProductIdAndStoreId($product_id, $store_id);
+$manage_local_stock = $stocks->getFirstItem()->getManageLocalStock();
+$stock_id = $stocks->getFirstItem()->getStockProductId();
+
+$fieldName = "inventory[" . $product_id . "]";
+
+if ((in_array(Mage::getModel('catalog/product')->load($product_id)->getTypeId(), array('simple', 'virtual', 'downloadable')) ) && Mage::getSingleton('admin/session')->isAllowed('catalog/products/advancedinventory') && Mage::getModel('pointofsale/pointofsale')->getPlaces()->count() > 0 && (($store_id && $manage_local_stock) || !$store_id)) :
+    ?>
+    <div class="entry-edit" id='advancedinventory_stocks' >
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend">
+                <?php echo Mage::helper('advancedinventory')->__('Stocks') ?>
+            </h4>
+        </div>
+        <fieldset> 
+            <legend>
+                <?php echo Mage::helper('advancedinventory')->__('Stocks') ?>
+            </legend>
+
+            <table cellspacing="0" class="form-list">
+                <?php if (!$store_id) : ?>
+                    <tr style='display:block'>
+                        <td class="label">
+                            <label for="inventory_manage_stock">
+                                <b><?php echo Mage::helper('advancedinventory')->__('Enable multi-stock') ?></b>
+                            </label>
+                        </td>
+                        <td class="value">
+                            <select id="multi_stock_enabled" name='<?php echo $fieldName; ?>[multi_stock_enabled]' class="select" onChange="InventoryManager.enableMultiStock('inventory', this)">
+                                <option value="0" <?php if ($manage_local_stock == 0) echo 'selected="selected"'; ?>><?php echo Mage::helper('advancedinventory')->__('No') ?></option>
+                                <option value="1" <?php if ($manage_local_stock == 1) echo 'selected="selected"'; ?>> <?php echo Mage::helper('advancedinventory')->__('Yes') ?></option>
+                            </select>
+                        </td>
+                        <td class="value scope-label"><?php echo Mage::helper('advancedinventory')->__('[GLOBAL]') ?></td>
+                    </tr>
+                <?php endif ?>
+                <?php
+                $i = 0;
+                foreach ($stocks as $store):
+
+                    $pos_wh = $fieldName . "[pos_wh][" . $store->getPlaceId() . "]";
+
+                    if ($store->getStatus() == 0)
+                        $visibility = Mage::helper('pointofsale')->__('Warehouse (hidden)');
+                    else
+                        $visibility = Mage::helper('pointofsale')->__('Point of Sales (visible)');
+                    ?>
+                    <tr style='display:<?php echo ($manage_local_stock == 1) ? "block" : "none"; ?>'>
+                        <td class="label">
+                            <label for="inventory_manage_local_stock">
+                                <?php echo $store->getName(); ?> 
+                                <span class="required">*</span>
+                                <br>
+                                <span style="font-size:10px;">[<?php echo $visibility; ?>, code : <?php echo $store->getStoreCode(); ?>]</span>
+                            </label>
+                        </td>
+                        <td class="value">
+
+                            <select  name="<?php echo $pos_wh ?>[manage_stock]" class="select"  onchange='InventoryManager.showDetails(this)'>
+                                <option value="1" <?php if ($store->getManage_stock() == 1 || !$manage_local_stock) echo 'selected="selected"'; ?>><?php echo Mage::helper('advancedinventory')->__("Stock management enabled") ?></option>
+                                <option value="0" <?php if ($store->getManage_stock() == 0 && $manage_local_stock) echo 'selected="selected"'; ?>><?php echo Mage::helper('advancedinventory')->__("Stock management disabled") ?></option>
+                            </select>
+                            <div <?php if (!$store->getManage_stock() && $manage_local_stock) echo "style='display:none';"; ?>>
+                                <input  
+                                    style="width:30px;text-align:center" 
+                                    type="text" 
+                                    class="keydown input-text required-entry validate-number" 
+                                    name='<?php echo $pos_wh ?>[qty]'
+                                    value="<?php echo $store->getQty(); ?>" 
+                                    onchange="InventoryManager.updateQty()"
+
+                                    />
+                                    <?php
+                                    // valeur non initiliasée
+                                    if (!$store->getStockId() || $store->getUseConfigSettingForBackorders()) {
+                                        $backorders_checked = true;
+                                        $backorders_value = Mage::getStoreConfig("cataloginventory/item_options/backorders");
+                                        $backorders_disabled = true;
+                                    } else {
+                                        $backorders_checked = false;
+                                        $backorders_value = $store->getBackorderAllowed();
+                                        $backorders_disabled = false;
+                                    }
+                                    ?>
+                                <select    <?php echo ($backorders_disabled) ? 'disabled="disabled"' : null; ?> name='<?php echo $pos_wh ?>[backorder_allowed]'  style="width:240px;">
+                                    <option value="0" <?php echo ($backorders_value == 0) ? 'selected' : null; ?> ><?php echo Mage::helper('advancedinventory')->__('No backorders') ?></option>
+                                    <option value="1" <?php echo ($backorders_value == 1) ? 'selected' : null; ?>><?php echo Mage::helper('advancedinventory')->__('Allow Qty below 0') ?></option>
+                                    <option value="2" <?php echo ($backorders_value == 2) ? 'selected' : null; ?>><?php echo Mage::helper('advancedinventory')->__('Allow Qty below 0 and Notify Customer') ?></option>
+                                </select>
+                                <input    onclick="this.previous().disabled = this.checked;"<?php echo ($backorders_checked) ? 'checked' : null; ?> name='<?php echo $pos_wh ?>[use_config_setting_for_backorders]' type="checkbox" style="margin-left:40px"/> 
+                                <?php echo Mage::helper('advancedinventory')->__('Use Config Settings') ?>
+                            </div>
+                        </td>
+                        <td class="value scope-label"><?php echo Mage::helper('catalog')->__('[GLOBAL]') ?></td>
+                    </tr>
+                    <?php
+                    $i++;
+                endforeach;
+                ?>
+            </table>
+        </fieldset>
+    </div>
+
+
+<?php endif; ?> 

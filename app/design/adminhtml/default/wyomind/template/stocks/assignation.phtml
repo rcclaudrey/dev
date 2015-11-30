@@ -1,0 +1,165 @@
+<?php
+$order_id = $this->getRequest()->getParam('order_id');
+
+$order = Mage::getModel('sales/order')->load($order_id);
+
+$orderedItems = Mage::helper('advancedinventory/data')->getOrderedItems($order);
+
+$permissions = Mage::helper('advancedinventory/permissions')->getUserPermissions();
+$all = $permissions->isAdmin();
+$pos = $permissions->getPos();
+
+
+try {
+    $data = Mage::helper('core')->jsonDecode($order->getAssignationStock());
+} catch (Exception $e) {
+    echo "<span class='ai-error'>" . Mage::helper('advancedinventory')->__("Assignation error") . "</span>";
+}
+$warehouses = explode(',', $order->getAssignationWarehouse());
+$pos_wh = Mage::getModel('pointofsale/pointofsale')->getPlaces();
+
+
+foreach ($orderedItems as $item) {
+    $qty = array();
+    foreach ($data[$item["id"]] as $wh => $q) {
+        $qty[$wh] = $q;
+    }
+    $line[] = array("id" => $item['id'], "sku" => $item['sku'], "name" => $item['name'], "qty" => $qty, "orderQty" => $item["qty"]);
+}
+?>
+
+<?php $disabled = (Mage::helper('advancedinventory')->getAllowedOrder($order)) ? (Mage::getStoreConfig("advancedinventory/setting/multiple_assignation_enabled")) ? "" : "disabled" : "disabled"; ?>
+
+
+<?php if (!Mage::helper('advancedinventory')->getAllowedOrder($order)): ?>
+    <div class="notification-global"><?php echo Mage::helper('advancedinventory')->__("The stock assignation can't be updated due to the order status.") ?></div>
+<?php endif; ?>
+
+<?php if ($this->getRequest()->getParam("isAjax")): ?>
+    <div class='close' onclick='InventoryManager.closePopup()'>✖</div>
+<?php endif; ?>
+<div class='ai-stock-inner'>
+    <table  cellpadding='0' cellspacing='0' style='width:300px;'>
+        <thead>
+            <tr class='headings'><th style='text-align:left;' width='250'>Sku</th>
+                <th width='50'><?php echo Mage::helper('advancedinventory')->__("Qty"); ?> </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $js = null;
+            foreach ($line as $c) :
+                ?>
+
+                <?php
+                $length = 30;
+                if (strlen($c["name"]) > $length) {
+                    $name = substr($c["name"], 0, $length) . "...";
+                } else {
+                    $name = $c["name"];
+                }
+                ?>
+
+                <tr qty='<?php echo $c["orderQty"] ?>' id='product_<?php echo $c["id"] ?> '>
+                    <td style='text-align:left' title="<?php echo $c["name"]; ?>"><b><?php echo $name ?></db></td>
+                    <td  align='right' class=''><b><?php echo (int) $c["orderQty"] ?></b></td>
+                </tr>
+            <?php endforeach; ?>
+
+        </tbody>
+    </table>
+    <div id='ai-scroller'>
+        <table  cellpadding='0' cellspacing='0'>
+            <thead>
+                <tr class='headings'>
+
+                    <?php $k = 0; ?>
+                    <?php foreach ($pos_wh as $p) : ?>
+                        <?php $display = (in_array($p->getPlaceId(), $pos) || $all) ? '' : 'none'; ?>
+                        <th  style="white-space:nowrap; display:<?php echo $display ?>" colspan='2' class='double-border' title='<?php echo $p->getName() ?>'>
+                            <?php if (!Mage::getStoreConfig("advancedinventory/setting/multiple_assignation_enabled")): ?>
+
+                                <?php ($warehouses[0] == $p->getPlaceId()) ? $checked = "checked='checked'" : $checked = null; ?>
+                                <?php if (Mage::helper('advancedinventory')->getAllowedOrder($order)): ?>
+                                    <input type='radio' <?php echo $checked; ?> class="choose_assignation" name='choose_assignation' value='<?php echo $k; ?>'/> 
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <?php echo $p->getStoreCode() ?> </th>
+                        <?php $k++; ?>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $js = null;
+                foreach ($line as $c) :
+                    ?>
+                    <tr qty='<?php echo $c["orderQty"] ?>' id='product_<?php echo $c["id"] ?> '>
+
+                        <?php
+                        foreach ($pos_wh as $p) :
+                            $display = (in_array($p->getPlaceId(), $pos) || $all) ? '' : 'none';
+                            $stock = Mage::getModel('advancedinventory/stock')->getStockByProductIdAndPlaceId($c["id"], $p->getId());
+
+                            if ($stock->getManage_local_stock()) :
+                                $class = Mage::helper('advancedinventory')->getStockStatus($stock);
+                                //$disabled = ($class == 'out_of_stock') ? 'disabled="disabled"' : null;
+                                if ($stock->getManageStock()) :
+                                    ?>
+
+                                    <?php $class = (Mage::helper('advancedinventory')->isBackorderable($stock)) ? "backorder" : $class; ?>
+
+                                    <td style="display:<?php echo $display ?>" align='center' width='35' class='<?php echo $class; ?>'><?php echo$stock->getQuantityInStock() ?></td>
+                                <?php else: ?>
+                                    <td style="display:<?php echo $display ?>" align='center' width='35' class='multistock_disabled'><?php echo Mage::helper('advancedinventory')->__("X") ?></td>
+                                <?php
+                                endif;
+                                if ($data[$c["id"]][$p->getId()])
+                                    $qty = $data[$c["id"]][$p->getId()];
+                                else
+                                    $qty = 0;
+
+                                $valid = ($qty) ? 'valid' : null;
+                                $input = "<input type='text' maximum='" . ($stock->getQuantityInStock() + $qty) . "' class='keydown " . $valid . "' $disabled onchange='InventoryManager.updateRemainingStock(this)' origin='" . $qty . " ' value='$qty'  name='inventory[" . $c["id"] . "][" . $p->getId() . "]'/>";
+                                ?>
+                                <td  style="display:<?php echo $display ?>"width='35' class='double-border'><?php echo $input ?></td>
+                            <?php else: ?>
+
+                                <td style="display:<?php echo $display ?>" width='70' colspan='2' class='double-border'>-</td>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<input type='hidden' id='assignation_to_json' value='<?php echo $order->getAssignationStock(); ?>'/>
+<input type='hidden' id='assignation_to_json_origin' value='<?php echo $order->getAssignationStock(); ?>'/>
+<input type='hidden' id='assignation_action' value='<?php echo $this->getUrl("*/stocks/assignation"); ?>'/>
+<input type='hidden' id='order_id' value='<?php echo $order_id ?>'/>
+<div style='clear:both'></div>
+<ul>
+    <li class='in_stock'><?php echo Mage::helper('advancedinventory')->__("In stock"); ?> </li>
+    <li class='out_of_stock'><?php echo Mage::helper('advancedinventory')->__("Out of stock"); ?> </li>
+    <li class='backorder'><?php echo Mage::helper('advancedinventory')->__("Backorders"); ?></li>
+    <li class='not_managed'><?php echo Mage::helper('advancedinventory')->__("X") . Mage::helper('advancedinventory')->__("Stock management disabled"); ?></li>
+    <li class=''><?php echo Mage::helper('advancedinventory')->__("-") . Mage::helper('advancedinventory')->__("Stock not applicable"); ?> </li>
+</ul>
+<?php if (Mage::helper('advancedinventory')->getAllowedOrder($order)): ?>
+    <input id='assignation_button' type='button' onclick='InventoryManager.setAssignation()' value='<?php echo Mage::helper('advancedinventory')->__("Save") ?>'/>  
+<?php endif; ?>
+<script type='text/javascript'>
+    InventoryManager.validateStockData();
+<?php
+if (!Mage::getStoreConfig("advancedinventory/setting/multiple_assignation_enabled")) {
+    echo "InventoryManager.locked=true;\n";
+}
+?>
+</script>
+
+

@@ -1,0 +1,29 @@
+
+<?php
+echo $this->getLayout()->createBlock('watchlog/adminhtml_chart')->toHtml();
+?>
+
+
+
+
+
+<div class="content-header">
+    <table cellspacing="0" style="width:50%; float:left">
+        <tbody><tr>
+                <td style="width:50%;"><h3 class="icon-head head-adminhtml-watchlog">
+                        <?php if (Mage::getStoreConfig("watchlogpro/settings/history") != 0) : ?>
+                            <?php echo $this->__("Summary of the last") . " " . Mage::getStoreConfig("watchlogpro/settings/history") . " " . $this->__("days"); ?>
+                        <?php else: ?>
+                            <?php echo $this->__("Summary view"); ?>
+                        <?php endif; ?>
+                    </h3></td>
+                <td class="form-buttons"></td>
+            </tr>
+        </tbody></table>
+
+    <button style="float:right" onclick="document.location = '<?php echo $this->getUrl("adminhtml/basic/"); ?>'" class="scalable " type="button" id="id_ac70c58d4253e1185f2c709235b0c991"><span><span><span><?php echo $this->__("Switch to the detailled view"); ?></span></span></span></button>
+
+</div>
+
+<?php
+echo $this->getGridHtml();

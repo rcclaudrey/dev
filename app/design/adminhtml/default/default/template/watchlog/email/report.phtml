@@ -1,0 +1,29 @@
+
+<table border='1' cellmargin='0' cellpaddin='2'>
+    <thead>
+        <tr>
+            <td align="center" width='150'><b>IP</b></td>
+            <td align="center" width='100'><b>Date</b></td>
+            <td align="center" width='100'><b>Total Attempts</b></td>
+            <td align="center" width='100'><b>Failed attemtps</b></td>
+            <td align="center" width='100'><b>Succeeded attemtps</b></td>
+            <td align="center" width='100'><b>Blocked attemtps</b></td>
+
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getLog() as $data): ?>
+            <tr>
+                <td align="right"><?php echo ($data['ip']) ?> </td>
+                <td align="right"><?php echo Mage::getSingleton('core/date')->date("m/d/Y", strtotime($data['date'])) ?></td>
+                <td align="right"><?php echo $data['attempts'] ?></td>
+                <td align="right"><?php echo $data['failed'] ?></td>
+                <td align="right"><?php echo $data['succeeded'] ?></td>
+                <td align="right"><?php echo $data['blocked'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+
+</table>
+
+

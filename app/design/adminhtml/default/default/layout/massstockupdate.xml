@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+   
+  
+    
+    <adminhtml_imports_index>
+        <reference name="content">
+            <block type="massstockupdate/adminhtml_import" name="import" />
+        </reference>
+    </adminhtml_imports_index>
+    <adminhtml_imports_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>massstockupdate/import.css</name>
+            </action>
+             <action method="addItem">
+                <type>skin_js</type>
+                <name>massstockupdate/import.js</name>
+            </action>
+        </reference>
+    </adminhtml_imports_edit>
+   
+</layout>

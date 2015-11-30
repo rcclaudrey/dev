@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+   
+    <pointofsales_index_index>
+        <reference name="root">
+                <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+         <reference name="head">
+               <action method="addItem"><type>skin_css</type><name>pointofsale/css/pointofsale.css</name></action>
+                <action method="addItem"><type>skin_js</type><name>pointofsale/js/pointofsale.js</name></action>				
+        </reference>
+        <reference name="content">
+            <block type="pointofsale/pointofsale" name="pointofsale" template="pointofsale/pointofsale.phtml" />
+        </reference>
+        
+    </pointofsales_index_index>
+    
+</layout> 

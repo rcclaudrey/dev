@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <WYOMIND translate="label">
+            <label>WYOMIND</label>
+            <sort_order>1000000</sort_order>
+        </WYOMIND>
+    </tabs>
+    <sections>
+        <advancedinventory translate="label">
+            <label>Advanced Inventory</label>
+            <tab>WYOMIND</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1001</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <license translate="label">
+                    <label>License activation</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                       
+                        <version translate="label comment">
+                            <label>Extension version</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Advancedinventory_Model_System_Config_Source_Link</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </version>
+                        <activation_key translate="label comment">
+                            <label>Activation key</label>
+                            <comment>
+                <![CDATA[<span class="notice">Enter your activation key.</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_key>
+                        <get_online_license translate="label comment">
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_online_license>
+                        <activation_code translate="label comment">
+                            <label>License code</label>
+                            <comment>
+                <![CDATA[<span class="notice">Do not fill this input, excepted if you are prompted to enter the license code manually.</span>]]>
+                            </comment>
+                           
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_code>
+			
+                    </fields>
+                </license>
+                <setting translate="label">
+                    <label>Preferences</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        
+                        
+                        <usemultistock translate="label comment">
+                            <label>Quantity and availability based on</label>
+                            <frontend_type>select</frontend_type> 
+                            <source_model>advancedinventory/system_config_source_stocks</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </usemultistock>
+                        <multiple_assignation_enabled translate="label comment">
+                            <label>Multiple assignation enabled</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">One order can be assigned to different POS/warehouses</span>]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </multiple_assignation_enabled>
+                        <autoassign_order translate="label comment">
+                            <label>Automatic order assignation</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">Automatically assign orders to one inventory by using :
+                                        <ol style='font-size:11px' class='notice'>
+                                           <li>1 - Store view of the order</li>
+                                           <li>2 - Customer group</li>
+                                           <li>3 - Priority of the warehouse/pos</li>
+                                           <li>4 - Assignment rules and shipping address<li>
+                                           <li>5 - Availability of the items in the stock</li>
+                                         </ol> 
+                                    </span>]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </autoassign_order>
+                     
+                        <order_notification translate="label comment">
+                            <label>Enable order assignation notifications</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">Display a notification when orders are not assigned to any inventory</span>]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_notification>
+                        <order_notification_from_date translate="label comment">
+                            <label>Start date for order assignation</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">Manage multi-stock for all orders placed after this date </span>]]>
+                            </comment>
+                           
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Advancedinventory_Model_System_Config_Source_Date</frontend_model>
+                           
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_notification_from_date>
+                        <disallow_assignation_status translate="label comment">
+                            <label>Disallow assignation update for order statuses</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">Stock assignation for the above order statuses can't be modified</span>]]>
+                            </comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>Wyomind_Advancedinventory_Model_System_Config_Source_Statuses</source_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </disallow_assignation_status>
+                        
+                        <auto_update_stock_status translate="label comment">
+                            <label>Automatically update stock status</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">Automatically update stock status when product qty are changed from the admin panel</span>]]>
+                            </comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </auto_update_stock_status>
+                       
+                       
+                      
+                    </fields>
+                </setting>
+                <system>
+                    <label>System</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <use_log translate="label comment">
+                            <label>Enable the stock movement journal</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </use_log>
+                        <log_history translate="label comment">
+                            <label>Journal history. Lifetime in days</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                             <depends>
+                                <use_log>1</use_log>
+                            </depends>
+                        </log_history>
+                        <enableproductgrid translate="label comment">
+                            <label>Show stock treeview in product grid</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enableproductgrid>
+                        <productgrid translate="label comment">
+                            <label>Product grid to override </label>
+                            <comment>
+                                <![CDATA[ <span class="notice"> Default value : `Mage_Adminhtml_Block_Catalog_Product_Grid`</span>]]>
+                            </comment>
+                            <depends>
+                                <enableproductgrid>1</enableproductgrid>
+                            </depends>
+                            <frontend_type>text</frontend_type>
+                            
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </productgrid>
+                        <ordergrid translate="label comment">
+                            <label>Order grid to override </label>
+                            <comment>
+                                <![CDATA[ <span class="notice"> Default value : `Mage_Adminhtml_Block_Sales_Order_Grid`</span>]]>
+                            </comment>
+                            <depends>
+                                <enableproductgrid>1</enableproductgrid>
+                            </depends>
+                            <frontend_type>text</frontend_type>
+                            
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </ordergrid>
+                       
+                    </fields>
+                </system>
+            </groups>
+        </advancedinventory>
+        
+    </sections>
+</config>

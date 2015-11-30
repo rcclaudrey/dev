@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <WYOMIND translate="label">
+            <label>WYOMIND</label>
+            <sort_order>1000000</sort_order>
+        </WYOMIND>
+    </tabs>
+    <sections>
+        <pointofsale translate="label">
+            <label>Pos / Warehouses</label>
+            <tab>WYOMIND</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <license translate="label">
+                    <label>License</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <version translate="label comment">
+                            <label>Extension version</label>
+                            <frontend_type>Link</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </version>
+                        <activation_key translate="label comment">
+                            <label>Activation key</label>
+                            <comment>
+                <![CDATA[<span class="notice">Enter your activation key.</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_key>
+                       
+                        <get_online_license translate="label comment">
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_online_license>
+                        <activation_code translate="label comment">
+                            <label>License code</label>
+                            <comment>
+                <![CDATA[<span class="notice">Do not fill this input, excepted if you are prompted to enter the license code manually.</span>]]>
+                            </comment>
+                           
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_code>
+			
+                    </fields>
+                </license> 
+                <settings>
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <pattern translate="label comment">
+                          
+                            <label>Store description template</label>
+                            <comment>
+                <![CDATA[<span class="notice">Html and css code are supported. Available variables : {{code}},{{name}},{{phone}},{{email}},{{address_1}},{{address_2}},{{city}},{{state}},{{country}},{{zipcode}},{{hours}},{{description}},{{image}}</span>]]>
+                            </comment>
+                           
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </pattern>
+                 
+                        <time  translate="label comment">
+                            <label>Time format to display</label>
+                            <comment>
+
+                                
+                                  <![CDATA[<span class="notice">Example : h:i A for 2:30 AM.
+    <br>
+        <br>
+            <style>
+                .date-format TD{
+                border:1px solid grey
+                }
+                .date-format .section{
+                background: none repeat scroll 0 0 #FC862E;
+                color: white;
+                font-weight: bold;
+                }
+               #estimateddeliverydate_settings .input-text, #estimateddeliverydate_settings .note{
+                width:90%;
+                }
+            </style>
+               
+            <table style="width:750px;border:1px solid grey" class='date-format' >
+                <caption>
+                    <strong>The following characters are recognized in the time format
+                </caption>
+        
+                <thead>
+                    <tr>
+                        <th>Character</th>
+                        <th>Description</th>
+                        <th>Returned values</th>
+                    </tr>
+
+                </thead>
+
+                <tbody class="tbody">
+                    <tr class='section'>
+                        <td style="text-align: center;" colspan="3">Time</td>
+          
+                    </tr>
+ <tr><td><em>a</em> <td>Lowercase Ante meridiem and Post meridiem</td><td> 	<em>am</em> or <em>pm</em></td></tr>
+ <tr><td><em>A</em> 	 <td>Uppercase Ante meridiem and Post meridiem</td><td>  	<em>AM</em> or <em>PM</em></td></tr>
+ <tr><td><em>g</em> <td> 	12-hour format of an hour without leading zeros </td><td> 	<em>1</em> through <em>12</em></td></tr>
+ <tr><td><em>G</em> <td> 	24-hour format of an hour without leading zeros </td><td> 	<em>0</em> through <em>23</em></td></tr>
+ <tr><td><em>h</em> <td> 	12-hour format of an hour with leading zeros</td><td>  	<em>01</em> through <em>12</em></td></tr>
+ <tr><td><em>H</em> <td> 	24-hour format of an hour with leading zeros </td><td> 	<em>00</em> through <em>23</em></td></tr>
+ <tr><td><em>i</em> <td> 	Minutes with leading zeros </td><td> 	<em>00</em> to <em>59</em></td></tr>
+ <tr><td><em>s</em>  <td>	Seconds, with leading zeros </td><td> 	<em>00</em> through <em>59</em></td></tr>
+
+                   
+
+         
+
+                </tbody>
+        
+            </table>
+</span>]]>
+                     
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </time>
+                       
+                    </fields>
+                </settings>
+            </groups>
+        </pointofsale>
+    </sections>
+</config>
+
+
+
+

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Wyomind_Watchlog>
+      <active>true</active>
+      <codePool>community</codePool>
+      <version>1.0.1</version>
+    </Wyomind_Watchlog>
+  </modules>
+</config>

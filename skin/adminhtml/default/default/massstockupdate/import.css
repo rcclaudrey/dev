@@ -1,0 +1,137 @@
+
+
+.morning .cron-h-box{
+    border: 1px solid #AFAFAF;
+    border-radius: 3px 3px 3px 3px;
+    margin: 2px;
+    padding: 0 3px;
+
+    -background:#CFC9FC;
+    background:#efefef;
+
+}
+.afternoon .cron-h-box{
+
+    -background:#F9C7CD;
+
+    background:#efefef;
+    border: 1px solid #AFAFAF;
+    border-radius: 3px 3px 3px 3px;
+    margin: 2px;
+    padding: 0 3px;
+}
+.morning-half .cron-h-box{
+
+    -background:#BEB6F9;
+    background:#efefef;
+    border: 1px solid #AFAFAF;
+    border-radius: 3px 3px 3px 3px;
+    margin: 2px;
+    padding: 0 3px;
+}
+.afternoon-half .cron-h-box{
+
+    -background:#F9B3BC;
+    background:#efefef;
+    border: 1px solid #AFAFAF;
+    border-radius: 3px 3px 3px 3px;
+    margin: 2px;
+    padding: 0 3px;
+}
+
+.cron-d-box{
+
+    background:#efefef;
+    border: 1px solid #AFAFAF;
+    border-radius: 3px 3px 3px 3px;
+    margin: 2px;
+    padding: 0 3px;
+}
+.checked{
+    background-color: #EFFFF0!important;
+}
+
+#import-preview{
+    border:1px solid grey;
+    border-right:0px solid grey;
+}
+#import-preview THEAD{
+    margin:0;
+    padding:0;
+}
+#import-preview TH{
+    background-color:#aaa;
+    color:white;
+    border-right:1px solid grey;
+
+    min-width: 150px;
+    text-align: center;
+    padding:2px;
+}
+
+
+#import-preview TD{
+    border:1px solid grey;
+    border-left:0px solid grey;
+    border-bottom:0px solid grey;
+    padding:1px;
+    text-align:right;
+}
+#import-preview TD.sku{
+    color:#444;
+    text-align:left;
+    background:#EFEFEF;
+    font-weight:bold;
+}
+
+
+#import-preview SELECT{
+    width:95%;
+}
+
+INPUT.scalable{
+    background: url("../images/btn_bg.gif") repeat-x scroll 0 100% #FFAC47;
+    border-color: #ED6502 #A04300 #A04300 #ED6502;
+    border-style: solid;
+    border-width: 1px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font: bold 12px arial,helvetica,sans-serif;
+    padding: 0 7px 1px;
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+
+#import-preview .total,#import-preview .is_in_stock,#import-preview .manage_stock{
+     color:orange;
+}
+#import-preview .not-used{
+     color:red;
+}
+#import-preview .used{
+     color:green;
+}
+#import-preview .store{
+    color:blue;
+}
+#import-preview .attribute{
+    color:purple;
+}
+
+#import-preview .output{
+    color:orangered;
+     text-align:center;
+}
+#import-preview .ignored{
+    color:red;
+    font-style: italic;
+   
+}
+
+#import-preview .instock{
+    color:green;
+}
+#import-preview .outofstock{
+    color:grey;
+}

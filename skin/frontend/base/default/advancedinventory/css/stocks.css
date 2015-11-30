@@ -1,0 +1,12 @@
+.in_stock{
+    color:green;
+}
+.out_of_stock{
+    color:red;
+}
+.backorder{
+    color:orange;
+}
+.not_managed{
+    color:green;
+}

@@ -1,0 +1,71 @@
+<?php
+
+#error_reporting(E_ALL | E_STRICT);
+#ini_set('display_errors', 1);
+
+$apiUser = "apiuser";
+$apiKey = "apikey";
+$host = "http://example.website.com/";
+
+$client = new SoapClient($host . "api/?wsdl");
+
+$sessionID = $client->login($apiUser, $apiKey);
+
+$product_id = __YOUR_PRODUCT_ID__;
+$status = true;
+$warehouse_id = __YOUR_STORE_ID__;
+$data = array(
+    "quantity_in_stock" => 999,
+    "manage_stock" => 1,
+    "backorder_allowed" => 2,
+    "use_config_setting_for_backorders" => 0
+);
+
+$context = "Custom context";
+$action = "Custom action";
+$reference = "Custom reference";
+$details = "Details";
+
+echo "<pre>";
+/* * ********************************* ENABLE/DISABLE MULTISOCK *************************************** */
+
+$result = $client->call($sessionID, 'advancedinventory.setMultistock', array($product_id, $status));
+if ($result) {
+    echo "> Multistock enabled for ProductId $product_id <br>";
+}
+
+/* * ************************************************************************************************** */
+
+/* * ********************************* GET ALL WAREHOUSES ********************************************* */
+$result = $client->call($sessionID, 'advancedinventory.getWh');
+if ($result) {
+    echo "> Available warehouse :" . print_r($result, true) . "<br>";
+}
+/* * ************************************************************************************************** */
+
+
+/* * ********************************* GET STOCK DATA BY PRODUCT ID AND WAREHOUSE ID ******************* */
+
+
+$result = $client->call($sessionID, 'advancedinventory.getData', array($product_id, $warehouse_id));
+if ($result) {
+    echo "> Stock data for ProductId $product_id in Warehouse $warehouse_id : " . print_r($result, true) . "<br>";
+}
+/* * ************************************************************************************************** */
+
+/* * ********************************* SET WAREHOUSE DATA BY PRODUCT ID AND WAREHOUSE ID ************** */
+
+
+$result = $client->call($sessionID, 'advancedinventory.setData', array($product_id, $warehouse_id, $data));
+if ($result) {
+    echo "> Stock Updated for ProductId $product_id in Warehouse $warehouse_id<br>";
+}
+/* * ************************************************************************************************** */
+
+/* * ********************************* INSERT A ROW INTO THE JOURNAL *********************************** */
+$result = $client->call($sessionID, 'advancedinventory.writejournal', array($context, $action, $reference, $details));
+if ($result) {
+    echo "> Journal updated";
+}
+/* * ************************************************************************************************** */
+echo "</pre>";

@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Wyomind_Pointofsale>
+            <version>5.1.3</version>
+        </Wyomind_Pointofsale>
+    </modules>
+    <default>
+        <pointofsale>
+            <license>
+                <version>5.1.3</version>
+                <get_online_license>1</get_online_license>
+            </license>
+            <settings>
+                <pattern>  <![CDATA[{{image}}
+{{address_1}}
+{{address_2}}
+{{zipcode}} {{city}}
+{{country}} {{state}}
+☎ {{phone}}
+✉ {{email}}
+<p style="margin-top:10px">{{hours}}</p>]]></pattern>
+                <time>h:i A</time>
+            </settings>
+        </pointofsale>
+    </default>
+    <frontend>
+        <routers>
+            <pointofsales>
+                <use>standard</use>
+                <args>
+                    <module>Wyomind_Pointofsale</module>
+                    <frontName>pointofsales</frontName>
+                </args>
+            </pointofsales>
+        </routers>
+        <translate>
+            <modules>
+                <Wyomind_Pointofsale>
+                    <files>
+                        <default>Wyomind_Pointofsale.csv</default>
+                    </files>
+                </Wyomind_Pointofsale>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <pointofsale>
+                    <file>pointofsale.xml</file>
+                </pointofsale>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+               
+                <args>
+                    <modules>
+                        <Wyomind_Pointofsale before="Mage_Adminhtml">Wyomind_Pointofsale_Adminhtml</Wyomind_Pointofsale>
+                    </modules>
+                   
+                    
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <sales>
+                <children>
+                    <pointofsale translate="title" module="pointofsale">
+                        <title>Manage POS / Warehouses</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/manage</action>
+                    </pointofsale>
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    
+                    <children> 
+                        <sales>
+                            <children>
+                                <pointofsale translate="title" module="pointofsale">
+                                    <title>POS / Warehouses</title>
+                                </pointofsale>		
+                            </children>
+                        </sales>
+				
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <pointofsale>
+                                            <title>POS / Warehouses</title>
+                                        </pointofsale>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        
+        <translate>
+            <modules>
+                <Wyomind_Pointofsale>
+                    <files>
+                        <default>Wyomind_Pointofsale.csv</default>
+                    </files>
+                </Wyomind_Pointofsale>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <pointofsale>
+                    <file>pointofsale.xml</file>
+                </pointofsale>
+            </updates>
+        </layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <pointofsale>
+                <class>Wyomind_Pointofsale_Model</class>
+                <resourceModel>pointofsale_mysql4</resourceModel>
+            </pointofsale>
+            <pointofsale_mysql4>
+                <class>Wyomind_Pointofsale_Model_Mysql4</class>
+                <entities>
+                    <pointofsale>
+                        <table>pointofsale</table>
+                    </pointofsale>
+                    
+                </entities>
+            </pointofsale_mysql4>
+        </models>
+        <resources>
+            <pointofsale_setup>
+                <setup>
+                    <module>Wyomind_Pointofsale</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </pointofsale_setup>
+            <pointofsale_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </pointofsale_write>
+            <pointofsale_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </pointofsale_read>
+        </resources>
+        <blocks>
+            <pointofsale>
+                <class>Wyomind_Pointofsale_Block</class>
+            </pointofsale>
+        </blocks>
+        <helpers>
+            <pointofsale>
+                <class>Wyomind_Pointofsale_Helper</class>
+            </pointofsale>
+        </helpers>
+    </global>
+</config>

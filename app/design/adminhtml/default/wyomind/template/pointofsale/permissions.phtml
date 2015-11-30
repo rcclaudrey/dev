@@ -1,0 +1,128 @@
+<?php
+$stores = Mage::getModel('pointofsale/pointofsale')->getPlaces();
+
+$users_data = array();
+$users = Mage::getResourceModel('admin/roles_user_collection');
+foreach ($users as $user) {
+    $user = Mage::getModel('admin/user')->load($user->getUserId());
+    $users_data[] = array(
+        'id' => $user->getUserId(),
+        'label' => $user->getUsername() . ' - ' . $user->getFirstname() . " " . $user->getLastname(),
+    );
+}
+
+$permissions =  Mage::getStoreConfig("advancedinventory/setting/pos_permissions");
+
+
+
+?>
+<script>
+    var permissions = <?php echo ($permissions=="*")?"'*'":$permissions; ?>;
+    var save_url = "<?php echo $this->getUrl('*/*/save'); ?>";
+</script>
+
+
+
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3 class="icon-head head-products"><?php echo Mage::helper('advancedinventory')->__('Manage POS / Warehouses users permissions') ?></h3></td>
+            <td class="a-right">
+                <?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="grid" style="float:left;">
+    <div class="">
+        <table id="permissionsGrid_table" class="data" cellspacing="0">
+            <thead>
+                <tr class="headings">
+                    <th style="min-width:200px;">
+                        <span class="nobr">
+                            <a class="not-sort" title="asc" name="user" href="#">
+                                <span class="sort-title" style="">Admin User</span>
+                            </a>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $i = 0; 
+                foreach ($users_data as $user) { 
+                ?>
+                    <tr class="<?php echo ($i%2==0)?"even":""; ?> pointer">
+                        <td class=" ">
+                            <?php echo $user['label']; ?>
+                        </td>
+                    </tr>
+                    <?php 
+                    $i++; 
+                } 
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="grid" style="width:80%;float: left;">
+    <div class="hor-scroll">
+        <table id="permissionsGrid_table" class="data" cellspacing="0">
+            <thead>
+                <tr class="headings">
+                    <th>
+                        <span class="nobr">
+                            <a class="not-sort" title="asc" name="all" href="#">
+                                <span class="sort-title" style="color:orangered">All</span>
+                            </a>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="nobr">
+                            <a class="not-sort" title="asc" name="not_assigned" href="#">
+                                <span class="sort-title" style="color:orangered;">Orders not assigned</span>
+                            </a>
+                        </span>
+                    </th>
+                    <?php foreach ($stores as $store) { ?>
+                        <th>
+                            <span class="nobr">
+                                <a class="not-sort" title="asc" name="store" href="#">
+                                    <span class="sort-title"><?php echo $store->getName(); ?></span>
+                                </a>
+                            </span>
+                        </th>
+                    <?php } ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $i = 0; 
+                $checked = ($permissions == "*")?"checked":"";
+                $disabled = ($permissions == "*")?"disabled":"";
+                foreach ($users_data as $user) { 
+                ?>
+                    <tr class="<?php echo ($i%2==0)?"even":""; ?> pointer">
+                        <td style="text-align:center;">
+                            <input type="checkbox" id="<?php echo $user['id']; ?>_all" <?php echo $checked; ?>/>
+                        </td>
+                        <td style="text-align:center;">
+                            <input class="store_cbx" type="checkbox" id="<?php echo $user['id']; ?>_na" <?php echo $checked." ".$disabled; ?>/>
+                        </td>
+                        <?php foreach ($stores as $store) { ?>
+                        <td style="text-align:center;">
+                            <input class="store_cbx" type="checkbox" id="<?php echo $user['id']; ?>_<?php echo $store->getPlaceId(); ?>" <?php echo $checked." ".$disabled; ?>/>
+                        </td>
+                        <?php } ?>
+                    </tr>
+                    <?php 
+                    $i++; 
+                } 
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!--<div id="debug" style="overflow-y:scroll;width:100%;height:400px;border:1px solid red;border-radius:3px;">Initial value : <?php echo $permissions; ?></div>-->

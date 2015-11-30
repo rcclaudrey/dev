@@ -1,0 +1,512 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <WYOMIND translate="label">
+            <label>WYOMIND</label>
+            <sort_order>1000000</sort_order>
+        </WYOMIND>
+    </tabs>
+    <sections>
+        <pickupatstore translate="label">
+            <label>Pickup@Store</label>
+            <tab>WYOMIND</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1001</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <license translate="label">
+                    <label>License</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                       
+                        <version translate="label comment">
+                            <label>Extension version</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Pickupatstore_Model_System_Config_Source_Link</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </version>
+                        <activation_key translate="label comment">
+                            <label>Activation key</label>
+                            <comment>
+                <![CDATA[<span class="notice">Enter your activation key.</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_key>
+                        <get_online_license translate="label comment">
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_online_license>
+                        <activation_code translate="label comment">
+                            <label>License code</label>
+                            <comment>
+                <![CDATA[<span class="notice">Do not fill this input, excepted if you are prompted to enter the license code manually.</span>]]>
+                            </comment>
+                           
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_code>
+			
+                    </fields>
+                </license>
+                <settings>
+                    
+                    <label>Core settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                       
+                        <grid translate="label comment">
+                            <label>Orders grid to override </label>
+                            <comment>
+                                <![CDATA[ <span class="notice"> Default value : `Mage_Adminhtml_Block_Sales_Order_Grid`</span>]]>
+                            </comment>
+                            <validate>required-entry  validate-address</validate>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid>
+                 
+                        
+                        
+                    </fields>
+                </settings>
+            </groups>
+        </pickupatstore>
+        <carriers>
+            <groups>
+                <pickupatstore translate="label" module="shipping">
+                    <label>Store Pickup</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>999</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                      
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                               
+                            </depends>
+                        </title>
+                       
+                       
+                        <handling_fee translate="label">
+                            <label>Handling fee</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                               
+                            </depends>
+                        </handling_fee>
+                      
+                        <dropdown translate="label">
+                            <label>Display the locations in a dropdown</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                               
+                            </depends>
+                        </dropdown>                      
+                        <date translate="label">
+                            <label>Allow the customer to choose the day to pickup the order</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                            </depends>
+                        </date>    
+                        <scheduleahead translate="label">
+                            <label>Allow pickup method ahead  </label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>in days</comment>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                                <date>1</date>
+                            </depends>
+                        </scheduleahead>
+                        
+                        <dateformat  translate="label comment">
+                            <label>Date format to display</label>
+                            <comment>
+               <![CDATA[<span class="notice">Example : m/d/Y for 01/21/2014.
+    <br>
+        <br>
+            <style>
+                .date-format TD{
+                border:1px solid grey
+                }
+                .date-format .section{
+                background: none repeat scroll 0 0 #FC862E;
+                color: white;
+                font-weight: bold;
+                }
+               #estimateddeliverydate_settings .input-text, #estimateddeliverydate_settings .note{
+                width:90%;
+                }
+            </style>
+               
+            <table style="width:750px;border:1px solid grey" class='date-format' >
+                <caption>
+                    <strong>The following characters are recognized in the date format
+                </caption>
+        
+                <thead>
+                    <tr>
+                        <th>Character</th>
+                        <th>Description</th>
+                        <th>Returned values</th>
+                    </tr>
+
+                </thead>
+
+                <tbody class="tbody">
+                    <tr class='section'>
+                        <td style="text-align: center;" colspan="3">Day</td>
+          
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>d</em>
+                        </td>
+                        <td>Day of the month, 2 digits with leading zeros</td>
+                        <td>
+                            <em>01</em> to <em>31</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>D</em>
+                        </td>
+                        <td>A textual representation of a day, three letters</td>
+                        <td>
+                            <em>Mon</em> through <em>Sun</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>j</em>
+                        </td>
+                        <td>Day of the month without leading zeros</td>
+                        <td>
+                            <em>1</em> to <em>31</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>l</em> (lowercase 'L')</td>
+                        <td>A full textual representation of the day of the week</td>
+                        <td>
+                            <em>Sunday</em> through <em>Saturday</em>
+                        </td>
+                    </tr>
+
+         
+
+                    <tr>
+                        <td>
+                            <em>S</em>
+                        </td>
+                        <td>English ordinal suffix for the day of the month, 2 characters</td>
+                        <td>
+                            <em>st</em>, <em>nd</em>, <em>rd</em> or
+                            <em>th</em>.  Works well with <em>j</em>
+                        </td>
+                    </tr>
+
+          
+
+        
+
+                    <tr class='section'>
+                        <td style="text-align: center;" colspan="3">Month</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>F</em>
+                        </td>
+                        <td>A full textual representation of a month, such as January or March</td>
+                        <td>
+                            <em>January</em> through <em>December</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>m</em>
+                        </td>
+                        <td>Numeric representation of a month, with leading zeros</td>
+                        <td>
+                            <em>01</em> through <em>12</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>M</em>
+                        </td>
+                        <td>A short textual representation of a month, three letters</td>
+                        <td>
+                            <em>Jan</em> through <em>Dec</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>n</em>
+                        </td>
+                        <td>Numeric representation of a month, without leading zeros</td>
+                        <td>
+                            <em>1</em> through <em>12</em>
+                        </td>
+                    </tr>
+
+         
+
+                    <tr class='section'>
+                        <td style="text-align: center;" colspan="3">Year</td>
+                    </tr>
+
+         
+
+                    <tr>
+                        <td>
+                            <em>Y</em>
+                        </td>
+                        <td>A full numeric representation of a year, 4 digits</td>
+                        <td>Examples: <em>1999</em> or <em>2003</em></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <em>y</em>
+                        </td>
+                        <td>A two digit representation of a year</td>
+                        <td>Examples: <em>99</em> or <em>03</em></td>
+                    </tr>
+
+         
+
+                </tbody>
+        
+            </table>
+</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                                <date>1</date>
+                            </depends>
+                        </dateformat>
+                        <time translate="label">
+                            <label>Allow the customer to choose the time to pickup the order</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                                <date>1</date>
+                            </depends>
+                        </time>  
+                        <timerange translate="label">
+                            <label>Pickup time range</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>in minutes (maximum 60mn)</comment>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                                <date>1</date>
+                                <time>1</time>
+                            </depends>
+                        </timerange>
+                        <minimaldelay translate="label">
+                            <label>Minimum time required to handle an order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>in minutes</comment>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                                <date>1</date>
+                                <time>1</time>
+                            </depends>
+                        </minimaldelay>
+                        <timeformat  translate="label comment">
+                            <label>Time format to display</label>
+                            <comment>
+
+                                
+                                  <![CDATA[<span class="notice">Example : h:i A for 2:30 AM.
+    <br>
+        <br>
+            <style>
+                .date-format TD{
+                border:1px solid grey
+                }
+                .date-format .section{
+                background: none repeat scroll 0 0 #FC862E;
+                color: white;
+                font-weight: bold;
+                }
+               #estimateddeliverydate_settings .input-text, #estimateddeliverydate_settings .note{
+                width:90%;
+                }
+            </style>
+               
+            <table style="width:750px;border:1px solid grey" class='date-format' >
+                <caption>
+                    <strong>The following characters are recognized in the time format
+                </caption>
+        
+                <thead>
+                    <tr>
+                        <th>Character</th>
+                        <th>Description</th>
+                        <th>Returned values</th>
+                    </tr>
+
+                </thead>
+
+                <tbody class="tbody">
+                    <tr class='section'>
+                        <td style="text-align: center;" colspan="3">Time</td>
+          
+                    </tr>
+ <tr><td><em>a</em> <td>Lowercase Ante meridiem and Post meridiem</td><td> 	<em>am</em> or <em>pm</em></td></tr>
+ <tr><td><em>A</em> 	 <td>Uppercase Ante meridiem and Post meridiem</td><td>  	<em>AM</em> or <em>PM</em></td></tr>
+ <tr><td><em>g</em> <td> 	12-hour format of an hour without leading zeros </td><td> 	<em>1</em> through <em>12</em></td></tr>
+ <tr><td><em>G</em> <td> 	24-hour format of an hour without leading zeros </td><td> 	<em>0</em> through <em>23</em></td></tr>
+ <tr><td><em>h</em> <td> 	12-hour format of an hour with leading zeros</td><td>  	<em>01</em> through <em>12</em></td></tr>
+ <tr><td><em>H</em> <td> 	24-hour format of an hour with leading zeros </td><td> 	<em>00</em> through <em>23</em></td></tr>
+ <tr><td><em>i</em> <td> 	Minutes with leading zeros </td><td> 	<em>00</em> to <em>59</em></td></tr>
+ <tr><td><em>s</em>  <td>	Seconds, with leading zeros </td><td> 	<em>00</em> through <em>59</em></td></tr>
+
+                   
+
+         
+
+                </tbody>
+        
+            </table>
+</span>]]>
+                     
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                                <date>1</date>
+                                <time>1</time>
+                            </depends>
+                        </timeformat>  
+                        <gmap translate="label">
+                            <label>Display the Gooogle Map </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <dropdown>1</dropdown>
+                            </depends>
+                        </gmap>   
+
+					<sort_order translate="label">
+						<label>Sort Order</label>
+						<frontend_type>text</frontend_type>
+						<sort_order>180</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>0</show_in_store>
+					</sort_order>						
+                    </fields>
+                </pickupatstore>
+            </groups>
+        </carriers>
+    </sections>
+</config>

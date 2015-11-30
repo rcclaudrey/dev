@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <WYOMIND translate="label">
+            <label>WYOMIND</label>
+            <sort_order>1000000</sort_order>
+        </WYOMIND>
+    </tabs>
+    <sections>
+        <massstockupdate translate="label">
+            <label>Mass Stock Update</label>
+            <tab>WYOMIND</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1001</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <license translate="label">
+                    <label>License activation</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                       
+                        <version translate="label comment">
+                            <label>Extension version</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Massstockupdate_Model_System_Config_Source_Link</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </version>
+                        <activation_key translate="label comment">
+                            <label>Activation key</label>
+                            <comment>
+                <![CDATA[<span class="notice">Enter your activation key.</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_key>
+                        <get_online_license translate="label comment">
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_online_license>
+                        <activation_code translate="label comment">
+                            <label>License code</label>
+                            <comment>
+                <![CDATA[<span class="notice">Do not fill this input, excepted if you are prompted to enter the license code manually.</span>]]>
+                            </comment>
+                           
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_code>
+			
+                    </fields>
+                </license>
+                
+                <import translate="label">
+                    <label>Email reporting</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store> 
+                    <fields>
+                        <enable_report translate="label comment">
+                            <label>Enable reporting</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enable_report>
+                        <emails translate="label comment">
+                            <label>Send the reports to </label>
+                            <comment>
+               <![CDATA[<span class="notice">Emails must be separated with a comma (,).</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </emails>
+                        <report_title translate="label comment">
+                            <label>Report title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </report_title>
+                        
+                    </fields>
+                </import>
+                <settings translate="settings">
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>300</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store> 
+                    <fields>
+                        <backup_file translate="label comment">
+                            <label>File name of the stock backup</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </backup_file>
+                        <backup_dir translate="label comment">
+                            <label>Directory to store the stock backup</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </backup_dir>
+                        <sql_file translate="label comment">
+                            <label>File name of the sql file</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sql_file>
+                        <sql_dir translate="label comment">
+                            <label>Directory to store the sql file</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sql_dir>
+                       
+                        <sh_mode translate="label comment">
+                            <label>Shell mode</label>
+                          
+                            <frontend_type>select</frontend_type>
+                            <comment>
+               <![CDATA[<span class="notice">When sh mode is enabled no stocks are updated, only one sql file is generated that must be executed through a shell script.</span>]]>
+                            </comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sh_mode>
+                    </fields>
+                </settings>
+            </groups>
+        </massstockupdate>
+        
+    </sections>
+</config>

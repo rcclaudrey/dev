@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Wyomind_Pointofsale>
+            <active>false</active>
+            <codePool>local</codePool>
+        </Wyomind_Pointofsale>
+    </modules>
+</config> 

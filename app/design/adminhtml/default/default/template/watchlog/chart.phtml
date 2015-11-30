@@ -1,0 +1,72 @@
+
+
+<div class="content-header" >
+    <table cellspacing="0" style="width:50%; float:left">
+        <tbody><tr>
+                <td style="width:50%;"><h3 class="icon-head head-adminhtml-watchlog"><?php echo $this->__("Watchlog charts"); ?></h3></td>
+                <td class="form-buttons"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript"
+        src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}">
+</script>
+
+<?php
+$data = $this->getChartDataSummaryMonth();
+$data_day = $this->getChartDataSummaryDay();
+?>
+
+<script type="text/javascript">
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+
+
+            var options = {
+            title: 'Logging attempts (last 30 days)',
+                    legend: {position: 'bottom'},
+                    series: {
+                    0: {color: 'darkgreen'},
+                            1: {color: 'red'},
+                            2: {color: 'orange'},
+                    },
+                    hAxis: {
+                    format: 'd/M/y'
+                    },
+                    tooltip: {isHtml: false},
+                    pointSize: 5,
+            };
+                    var formatter = new google.visualization.DateFormat({pattern: "d/M/y"});
+                    // last 30 days
+                    var data = google.visualization.arrayToDataTable(<?php echo str_replace(array('"#', '#"'), '', json_encode($data)); ?>);
+                    var chart = new google.visualization.LineChart(document.getElementById('summary'));
+                    formatter.format(data, 0);
+                    chart.draw(data, options);
+                    // last 24 hours
+
+                    var options = {
+                    title: 'Logging attempts (last 24 hours)',
+                            legend: {position: 'bottom'},
+                            series: {
+                            0: {color: 'darkgreen'},
+                                    1: {color: 'red'},
+                                    2: {color: 'orange'},
+                            },
+                            hAxis: {
+                            format: 'h:00 a'
+                            },
+                            tooltip: {isHtml: false},
+                            pointSize: 5
+                    };
+                    var formatter = new google.visualization.DateFormat({pattern: "d/M/y - h:00 a"});
+                    var data_day = google.visualization.arrayToDataTable(<?php echo str_replace(array('"#', '#"'), '', json_encode($data_day)); ?>);
+                    var chart = new google.visualization.LineChart(document.getElementById('summary_day'));
+                    formatter.format(data_day, 0);
+                    chart.draw(data_day, options);
+            }
+</script>
+<div id="summary" style="width: 49%; height: 500px; float:left;"></div>
+
+<div id="summary_day" style="width: 49%; height: 500px; display:inline-block"></div>

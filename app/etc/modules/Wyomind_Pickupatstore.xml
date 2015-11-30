@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Wyomind_Pickupatstore>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Wyomind_Pointofsale/>
+            </depends>
+        </Wyomind_Pickupatstore>
+    </modules>
+</config> 

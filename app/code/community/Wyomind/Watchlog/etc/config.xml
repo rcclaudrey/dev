@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wyomind_Watchlog>
+            <version>1.1.1</version>
+        </Wyomind_Watchlog>
+    </modules>
+    <default>
+        <watchlogpro>
+            <license>
+                <version>1.1.1</version>
+            </license>
+            <settings>
+                <history>30</history>
+                <report>0</report>
+                <report_period>1</report_period>
+                <report_title>Watchlog report</report_title>
+                <last_report>2000-01-01 00:00:00</last_report>
+                <last_notification>2000-01-01 00:00:00</last_notification>
+                <failed_limit>0.9</failed_limit>
+                <notification_title>Watchlog security warning</notification_title>
+                <notification_description><![CDATA[Watchlog has detected an abnormaly high level of failed connection attempts to your backoffice (%s&#37;).
+<br/> Please check <a href='%s'>Watchlog panel</a> for further details.]]></notification_description>
+                <notification_details><![CDATA[Watchlog has detected an abnormaly high level of failed connection attempts to your backoffice (%s&#37;).
+<br/> <b>Upgrade Watchlog to <a href="https://www.wyomind.com/watchlog-security-enhancement-magento.html" target="_blank">Watchlog Pro</a> to protect your store!</b>]]></notification_details>
+                
+            </settings>
+        </watchlogpro>
+    </default>
+    <global>
+        <helpers>
+            <watchlog>
+                <class>Wyomind_Watchlog_Helper</class>
+            </watchlog>
+        </helpers>
+        <blocks>
+            <watchlog>
+                <class>Wyomind_Watchlog_Block</class>
+            </watchlog>
+        </blocks>
+        <models>
+            <watchlog>
+                <class>Wyomind_Watchlog_Model</class>
+                <resourceModel>watchlog_mysql4</resourceModel>
+            </watchlog>
+            <watchlog_mysql4>
+                <class>Wyomind_Watchlog_Model_Mysql4</class>
+                <entities>		  
+                    <watchlog>
+                        <table>watchlog</table>
+                    </watchlog>
+                </entities>
+            </watchlog_mysql4>
+        </models>
+        <resources>
+            <watchlog_setup>
+                <setup>
+                    <module>Wyomind_Watchlog</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </watchlog_setup>
+            <watchlog_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </watchlog_write>
+            <watchlog_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </watchlog_read>
+        </resources>
+        <events>
+            <admin_session_user_login_success>
+                <observers>
+                    <wyomind_watchlog_observer>
+                        <type>singleton</type>
+                        <class>watchlog/observer</class>
+                        <method>loginSuccess</method>
+                    </wyomind_watchlog_observer>
+                </observers>
+            </admin_session_user_login_success>
+            <admin_session_user_login_failed>
+                <observers>
+                    <wyomind_watchlog_observer>
+                        <type>singleton</type>
+                        <class>watchlog/observer</class>
+                        <method>loginFailed</method>
+                    </wyomind_watchlog_observer>
+                </observers>
+            </admin_session_user_login_failed>
+        </events>
+        <template>
+            <email>
+                <watchlog_report module="watchlog">
+                    <label>watchlog_report</label>
+                    <file>watchlog_report.html</file>
+                    <type>html</type>
+                </watchlog_report>
+            </email>
+        </template>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Wyomind_Watchlog after="Mage_Adminhtml">Wyomind_Watchlog_Adminhtml</Wyomind_Watchlog>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <system>
+                <children>
+                    <watchlog module="watchlog">
+                        <title>Watchlog</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/basic</action>
+                    </watchlog>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <watchlog translate="title" module="watchlog">
+                                    <title>Watchlog</title>
+                                </watchlog>
+                                <config>
+                                    <children>
+                                        <watchlogpro translate="title" module="watchlog">
+                                            <title>Watchlog</title>
+                                        </watchlogpro>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <watchlog>
+                    <file>watchlog.xml</file>
+                </watchlog>
+            </updates>
+        </layout>
+    </adminhtml>
+    <crontab>
+        <jobs>
+            <watchlog_purge>
+                <schedule>
+                    <cron_expr>*/30 * * * *</cron_expr>
+                </schedule>
+                <run> 
+                    <model>watchlog/observer::purgeData</model>
+                </run>
+            </watchlog_purge>
+        </jobs>
+        <jobs>
+            <watchlog_report>
+                <schedule>
+                    <cron_expr>*/30 * * * *</cron_expr>
+                </schedule>
+                <run> 
+                    <model>watchlog/observer::sendReport</model>
+                </run>
+            </watchlog_report>
+        </jobs>
+    </crontab>
+</config> 

@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+    <default>
+       
+        
+      
+        <reference name="notifications">
+            <block type="advancedinventory/adminhtml_notifications" name="notification_advancedinventory" />
+        </reference>
+       
+         
+    </default>
+    <adminhtml_log_index>
+        <reference name="content">
+            <block type="advancedinventory/adminhtml_log" name="log" />
+        </reference>
+    </adminhtml_log_index> 
+    
+    <adminhtml_stocks_index>
+
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>advancedinventory/css/styles.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/scripts.js</name>
+            </action>    
+        </reference>
+        <reference name="content">
+            <block type="advancedinventory/adminhtml_stocks" name="stocks">
+                <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm">
+                        <params>1</params>
+                    </action>
+                </block>    
+            </block>
+        </reference>
+    </adminhtml_stocks_index>
+
+    <adminhtml_catalog_product_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>advancedinventory/css/styles.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/scripts.js</name>
+            </action>    
+        </reference>
+    </adminhtml_catalog_product_edit>
+    
+    <adminhtml_catalog_product_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>advancedinventory/css/treeview.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/scripts.js</name>
+            </action>  
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/treeview.js</name>
+            </action>    
+        </reference>
+    </adminhtml_catalog_product_index>
+       
+    <adminhtml_sales_order_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>advancedinventory/css/styles.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/scripts.js</name>
+            </action>
+        </reference>
+    </adminhtml_sales_order_index>
+    
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>advancedinventory/css/styles.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/scripts.js</name>
+            </action>
+        </reference>
+      
+        <reference name="order_tab_info">
+            <block type='core/template' name="assignation" template="stocks/assignation.phtml"/>
+        </reference>
+    </adminhtml_sales_order_view>
+    
+    <adminhtml_permissions_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>advancedinventory/js/permissions.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="advancedinventory/adminhtml_pointofsale_permissions" name="permissions" />
+        </reference>
+    </adminhtml_permissions_index>
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name='order_items'>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>adminhtml/sales_items_renderer_default</block>
+                <template>sales/order/creditmemo/create/items/renderer/ai-default.phtml</template>
+            </action>
+                        
+            <action method='setTemplate'>
+                <tpl>sales/order/creditmemo/create/ai-items.phtml</tpl>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name='order_items'>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>adminhtml/sales_items_renderer_default</block>
+                <template>sales/order/creditmemo/create/items/renderer/ai-default.phtml</template>
+            </action>
+                        
+            <action method='setTemplate'>
+                <tpl>sales/order/creditmemo/create/ai-items.phtml</tpl>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+   
+    
+</layout>
