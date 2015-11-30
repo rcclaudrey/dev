@@ -1,0 +1,19 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<div id="co-shipping-method-form" action="">
+    <div id="checkout-shipping-method-load"><div class="amloading" id="amloading-checkout-shipping-method-load"><span class="amscheckout-processing-small">&nbsp;</span></div><div style="display: none;">:AM_REPLACE</div></div>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+        var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>");
+    //]]>
+    </script>
+    <div id="onepage-checkout-shipping-method-additional-load">
+        <?php echo $this->getChildHtml('additional') ?>
+    </div>
+</div>

@@ -1,0 +1,329 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+    $_order = $this->getOrder();
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('New Return for Order'); ?>&nbsp;<?php print $_order->getIncrementId();?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="fieldset">
+    <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data">
+        <div xclass="fieldset">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <div>
+                <ul class="form-list">
+                    <li>
+                        <label><?php echo $this->__('Order ID') ?></label>
+                        <h5 style="float:left;"><?php echo $_order->getIncrementId() ?></h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Customer Name') ?></label>
+                        <h5 style="float:left;"><?php echo $this->escapeHtml($_order->getCustomerName()) ?></h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Order Shipping Address') ?></label>
+                        <h5 style="float:left;"><?php echo $_order->getShippingAddress()->format('html') ?></h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Email Address') ?></label>
+                        <h5 style="float:left;"><?php echo $_order->getCustomerEmail()?></h5>
+                    </li>
+                </ul>
+            </div>
+            <?php
+                $_resolutions = $this->getResolutions();
+                $_conditions = $this->getConditions();
+                $_reasons = $this->getReasons();
+            ?>
+            <?php if ($this->getIsEnablePerItem()) {?>
+            <div id="template_container" style="display: none;">
+                <?php 
+                    $_items = $this->getItems();
+                    $_jsconfig = array();
+                ?>
+                <ul class="amrma form-list">
+                    <li class="fields">
+                        <div class="field">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Item') ?></label>
+                            <div class="input-box">
+                        <?php $bundleID     = 0; ?>
+                        <?php $firstId = $i = $productType = $availableQty = 0; ?>
+                        <?php $html         = array(); ?>
+                            <select name="items[_index_][order_item_id]" class="input-text required-entry" id="item">
+                        <?php foreach($_items as $_item): ?>
+                            <?php $_jsconfig[] = array(
+                                'id' => $_item->getId(),
+                                'type' => $_item->getProductType(),
+                                'qty' => $_item->getAvailableQty()
+                            );?>
+                            <?php if ($i == 0): ?>
+                                <?php
+                                    $firstId = $_item->getId();
+                                    $productType = $_item->getProductType();
+                                    $availableQty = $this->getAvailableQty($_item);
+                                    $i = 1;
+                                ?>
+                            <?php endif; ?>
+                            <?php if ($_item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                                <?php $bundleID = $_item->getId(); ?>
+                            <?php endif; ?>
+                            <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
+                                <option value="<?php echo $_item->getId()?>"><?php echo $this->escapeHtml($_item->getName())?></option>
+                            <?php endif; ?>
+                            <?php if ($_item->getParentItemId()!= null && $_item->getParentItemId() == $bundleID): ?>
+                                <?php if ($_item->getIsOrdered()): ?>
+                                    <?php
+                                        $html[$bundleID][] = array(
+                                            $_item->getId(),
+                                            $this->escapeHtml($_item->getName()),
+                                            $_item->getAvailableQty(),
+                                            1
+                                        );
+                                    ?>
+                                <?php else: ?>
+                                    <?php
+                                        $html[$bundleID][] = array(
+                                            $_item->getId(),
+                                            $this->escapeHtml($_item->getName()),
+                                            $_item->getAvailableQty(),
+                                            0
+                                        );
+                                    ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                            </select>
+                            </div>
+                            <?php if(!empty($html)): ?>
+                            <?php foreach($html as $bundleID=>$node): ?>
+                                <div class="field" id="bundle_items" style="display: none;">
+                                    <label class="required"></label>
+                                    <div class="input-box">
+                                        <div >
+                                            <table class="data-table" >
+                                                <colgroup>
+                                                    <col width="10" />
+                                                    <col width="143" />
+                                                    <col width="82" />
+                                                    <col width="65" />
+                                                </colgroup>
+                                                <thead>
+                                                    <th colspan="2"><?php echo $this->__('Sub-items:') ?></th>
+                                                    <th class="a-center"><?php echo $this->__('Remaining Qty:') ?></th>
+                                                    <th class="a-center"><?php echo $this->__('Qty:') ?></th>
+                                                </thead>
+                                                <tbody>
+                                            <?php foreach($node as $item): ?>
+                                                <tr>
+                                                    <td>
+                                                    <?php if ($item[3]): ?>
+                                                        <input type="checkbox" disabled />
+                                                    <?php else: ?>
+                                                        <input id="bundle_checkbox" rel="bundle_checkbox_<?php echo $bundleID ?>" type="checkbox" value="<?php echo $item[0]?>" class="checkbox validate-one-checkbox-<?php echo $bundleID ?>" />
+                                                    <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        <label for="items[_index_][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" style="float: none !important;padding:0;margin:0;width:0;<?php echo ($item[3]) ? 'color:#999999;' : ''?>display:inline;"><?php echo $item[1]?></label>
+                                                    </td>
+                                                    <td class="a-center"><?php echo $item[2] ?></td>
+                                                    <td width="65">
+                                                        <?php if (!$item[3]): ?>
+                                                            <input id="bundle_qty" name="items[_index_][items][<?php echo $item[0]?>]" size="7" class="validate-greater-than-zero required-entry" style="display:none;" disabled="disabled"/>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                            <script type="text/javascript">decorateTable('return-items-table-<?php echo $bundleID?>');</script>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        </div>
+                        <div class="field" id="qty_requested_block__index_">
+                            <label for="items:qty_requested_index_" class="amrma-required"><em>*</em><?php echo $this->__('Quantity To Return') ?></label>
+                            <div class="input-box">
+                                <input type="text" class="validate-digits-range input-text validate-greater-than-zero required-entry" value="" name="items[_index_][qty_requested]" id="items:qty_requested_index_">
+                            </div>
+                        </div>
+                        <div class="field" id="remaining_quantity_block__index_">
+                            <label class="required"></label>
+                            <div class="input-box">
+                                <?php echo $this->__('Remaining quantity');?>: <span id="remaining_quantity__index_"></span>
+                            </div>
+                        </div>
+                        <div class="field" id="">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Resolution') ?></label>
+                            <div class="input-box">
+                                <select name="items[_index_][resolution]" class="input-text required-entry" >
+                                <?php
+                                    foreach($_resolutions as $_label){
+                                        ?><option><?php echo $_label?></option><?php
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field" id="">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Item Condition') ?></label>
+                            <div class="input-box">
+                                <select name="items[_index_][condition]" class="input-text required-entry" >
+                                <?php
+                                    foreach($_conditions as $_label){
+                                        ?><option><?php echo $_label?></option><?php
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field" id="">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Reason to Return') ?></label>
+                            <div class="input-box">
+                                <select name="items[_index_][reason]" class="input-text required-entry" >
+                                <?php
+                                    foreach($_reasons as $_label){
+                                        ?><option><?php echo $_label?></option><?php
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                        </div>
+                        <div style="text-align:right">
+                            <a id="add_item" href="javascript:void(0)"><?php echo $this->__('Add Item To Return')?></a>&nbsp;|&nbsp;<a id="remove_item" href="javascript:void(0)"><?php echo $this->__('Remove')?></a>
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            <?php } else {?>
+                <ul class="form-list">
+                    <li>
+                        <label><?php echo $this->__('Resolution') ?></label>
+                        <h5 style="float:left;">
+                            <select name="resolution" class="input-text required-entry" >
+                            <?php
+                                foreach($_resolutions as $_label){
+                                    ?><option><?php echo $_label?></option><?php
+                                }
+                            ?>    
+                            </select>
+                        </h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Item Condition') ?></label>
+                        <h5 style="float:left;">
+                            <select name="condition" class="input-text required-entry" >
+                            <?php
+                                foreach($_conditions as $_label){
+                                    ?><option><?php echo $_label?></option><?php
+                                }
+                            ?>    
+                            </select>
+                        </h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Reason to Return') ?></label>
+                        <h5 style="float:left;">
+                            <select name="reason" class="input-text required-entry" >
+                            <?php
+                                foreach($_reasons as $_label){
+                                    ?><option><?php echo $_label?></option><?php
+                                }
+                            ?>    
+                            </select>
+                        </h5>
+                    </li>
+                </ul>
+            <?php }?>
+            
+        </div> 
+        <div id="products"></div>
+        <?php
+        if ($this->hasExtraFields()){
+        ?>
+            <h3><?php echo $this->__($this->getExtraTitle());?></h3>
+            <ul class="amrma form-list">
+                <li class="fields">
+                    <?php for ($field = 1; $field <= 5; $field++){
+                            $title = $this->getExtraField($field);
+                            if (!empty($title)) {
+                                ?>
+                                <div class="field" id="">
+                                    <label class="amrma-required"><em>*</em><?php echo $this->__($title);?></label>
+                                    <div class="input-box">
+                                        <input name="field_<?php echo $field;?>" class="input-text required-entry">
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                    }?>
+                    <div style="text-align:right">&nbsp;</div>
+                </li>
+            </ul>
+        <?php
+        }
+        ?>
+        <div>
+            <ul class="amrma form-list" style="border-bottom: 0px;">
+                <li class="fields">
+                    <div class="field">
+                        <label class="amrma-required"><?php echo $this->__('Comment') ?></label>
+                        <div class="input-box">
+                            <textarea name="comment"  style="height:6em;" cols="5" rows="3" class="input-text"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="amrma-required"><?php echo $this->__('File') ?></label>
+                        <div class="input-box">
+                            <input type="file" name="file"/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="buttons-set">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+        </div>
+    </form>
+</div>
+<script>
+var dataForm = new VarienForm('form-validate', true);
+
+<?php if(!empty($html)): ?>
+    <?php foreach($html as $key=>$value): ?>
+    Validation.add('validate-one-checkbox-<?php echo $key?>', '<?php echo $this->__('Please select one of the options.')?>', function(value, entity) {
+        var error = 1;
+        $$('[rel=bundle_checkbox_<?php echo $key?>').each(function(input) {
+            if(input.checked == true) {
+                error = 0;
+            }
+        });
+        if(error == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+    <?php endforeach; ?>
+<?php endif; ?>
+//]]>
+</script>
+
+</script>
+<script>
+    <?php if ($this->getIsEnablePerItem()) {?>
+    var amRmaCreateObject = new amRmaCreate(<?php
+        print Mage::helper('core')->jsonEncode($_jsconfig);
+    ?>);
+    <?php }?>
+</script>
+

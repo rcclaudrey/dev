@@ -1,0 +1,24 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php if ($this->showPrefix()): ?>
+<?php
+    $_field = $this->getField();
+    $hlr = $this->helper("amscheckout");
+    echo $hlr->getBeforeControlHtml($_field);
+?>
+<?php if ($this->getPrefixOptions() === false): ?>
+    <input type="text" id="<?php echo $this->getFieldId('prefix')?>" name="<?php echo $this->getFieldName('prefix')?>" value="<?php echo $this->escapeHtml($this->getObject()->getPrefix()) ?>" title="<?php echo $this->getStoreLabel('prefix') ?>" class="input-text <?php echo $_field['field_required'] ? $this->helper('customer/address')->getAttributeValidationClass('prefix') : "" ?>" <?php echo $this->getFieldParams() ?> />
+<?php else: ?>
+    <select id="<?php echo $this->getFieldId('prefix')?>" name="<?php echo $this->getFieldName('prefix')?>" title="<?php echo $this->getStoreLabel('prefix') ?>" class="<?php echo $_field['field_required'] ?  $this->helper('customer/address')->getAttributeValidationClass('prefix') : "" ?>" <?php echo $this->getFieldParams() ?>>
+    <?php foreach ($this->getPrefixOptions() as $_option): ?>
+        <option value="<?php echo $_option?>"<?php if ($this->getObject()->getPrefix()==$_option):?> selected="selected"<?php endif; ?>><?php echo $this->__($_option)?></option>
+    <?php endforeach; ?>
+    </select>
+<?php endif; ?>
+<?php echo $hlr->getAfterControlHtml($_field);?>
+<?php endif; ?>

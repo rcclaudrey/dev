@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Autoshipping
+ */
+-->
+<!--
+    Copyright (c) 2014 Amasty (http://www.amasty.com)
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amautoshipping translate="title" module="amautoshipping">
+                                        <title>Default Shipping Method</title>
+                                    </amautoshipping>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

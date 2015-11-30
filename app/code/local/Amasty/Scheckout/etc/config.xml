@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Scheckout>
+            <version>2.9.8</version>
+        </Amasty_Scheckout>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Amasty_Scheckout after="Mage_Adminhtml">Amasty_Scheckout_Adminhtml</Amasty_Scheckout>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+
+    </admin>
+    <frontend>
+        <routers>
+            <amscheckoutfront>
+                <use>standard</use>
+                <args>
+                    <module>Amasty_Scheckout</module>
+                    <frontName>amscheckoutfront</frontName>
+                </args>
+            </amscheckoutfront>
+        </routers>
+        <translate>
+            <modules>
+                <Amasty_Scheckout>
+                    <files>
+                        <default>Amasty_Scheckout.csv</default>
+                    </files>
+                </Amasty_Scheckout>
+            </modules>
+        </translate>
+    </frontend>    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Amasty_Scheckout>
+                    <files>
+                        <default>Amasty_Scheckout.csv</default>
+                    </files>
+                </Amasty_Scheckout>
+            </modules>
+        </translate>
+        <menu>
+            <system>
+                <children>
+                    <amscheckout_adminsetting translate="title">
+                        <title>Amasty One Step Checkout</title>
+                        <action>adminhtml/amscheckout_settings/index</action>
+                        <sort_order>300</sort_order>
+                    </amscheckout_adminsetting>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <amscheckout translate="title" module="amscheckout">
+                                            <title>One Step Checkout</title>
+                                        </amscheckout>
+                                    </children>
+                                </config>
+                                <amscheckout_adminsetting translate="title" module="amscheckout">
+                                    <title>Amasty One Step Checkout</title>
+                                </amscheckout_adminsetting>
+                            </children>
+                        </system> 
+                     </children>
+                </admin> 
+            </resources>
+        </acl>
+        
+        <layout>
+            <updates>
+                <amscheckout>
+                    <file>amscheckout.xml</file>
+                </amscheckout>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+        
+        <models>
+            <amscheckout>
+                <class>Amasty_Scheckout_Model</class>
+                <resourceModel>amscheckout_mysql4</resourceModel>
+            </amscheckout>
+            <amscheckout_mysql4>
+                <class>Amasty_Scheckout_Model_Mysql4</class>
+                <entities>
+                    <config>
+                        <table>am_scheckout_config</table>
+                    </config>
+                    <area>
+                        <table>am_scheckout_area</table>
+                    </area>
+                    <area_store>
+                        <table>am_scheckout_area_store</table>
+                    </area_store>
+                    <field>
+                        <table>am_scheckout_field</table>
+                    </field>
+                    <field_store>
+                        <table>am_scheckout_field_store</table>
+                    </field_store>
+                    
+                    <country>
+                        <table>am_scheckout_country</table>
+                    </country>
+                    <block>
+                        <table>am_scheckout_block</table>
+                    </block>
+                    <location>
+                        <table>am_scheckout_location</table>
+                    </location>
+                </entities>
+            </amscheckout_mysql4>
+        <checkout>
+                <rewrite>
+                    <type_onepage>Amasty_Scheckout_Model_Type_Onepage</type_onepage>
+                <cart>Amasty_Scheckout_Model_Cart</cart>
+                </rewrite>
+                                                </checkout>
+        </models>
+        <resources>
+             <amscheckout_setup>
+                <setup>
+                    <module>Amasty_Scheckout</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amscheckout_setup>
+            <amscheckout_write>
+                <connection><use>core_write</use></connection>
+            </amscheckout_write>
+            <amscheckout_read>
+                <connection><use>core_read</use></connection>
+            </amscheckout_read>
+        </resources>
+        <blocks>
+            <amscheckout>
+                <class>Amasty_Scheckout_Block</class>
+            </amscheckout>
+                                            <enterprise_giftcardaccount>
+                <rewrite>
+                    <checkout_cart_total>Amasty_Scheckout_Block_Checkout_Cart_Total</checkout_cart_total>
+                </rewrite>
+            </enterprise_giftcardaccount>
+        </blocks>
+        
+        <helpers>
+            <amscheckout>
+                <class>Amasty_Scheckout_Helper</class>
+            </amscheckout>
+        </helpers>
+        <events>
+                
+            <controller_action_predispatch>
+                <observers>
+                    <amscheckout>
+                        <class>amscheckout/observer</class>
+                        <method>onControllerActionPredispatch</method>
+                    </amscheckout>
+                </observers>
+            </controller_action_predispatch>
+           
+            <core_block_abstract_to_html_after>
+                                <observers>
+                    <amacart>
+                        <type>singleton</type>
+                        <class>amscheckout/observer</class>
+                        <method>handleBlockOutput</method>
+                    </amacart>
+                                </observers>
+            </core_block_abstract_to_html_after>
+        <controller_action_postdispatch_amscheckoutfront_onepage_checkout>
+                <observers>
+                    <hss_save_order_onepage>
+                        <class>paypal/observer</class>
+                        <method>setResponseAfterSaveOrder</method>
+                    </hss_save_order_onepage>
+                </observers>
+            </controller_action_postdispatch_amscheckoutfront_onepage_checkout>
+        <controller_action_predispatch_amscheckoutfront_onepage_checkout>
+                    <observers>
+                        <captcha_guest>
+                            <class>amscheckout/captcha_observer</class>
+                            <method>checkGuestCheckout</method>
+                        </captcha_guest>
+                        <captcha_register>
+                            <class>amscheckout/captcha_observer</class>
+                            <method>checkRegisterCheckout</method>
+                        </captcha_register>
+                    </observers>
+            </controller_action_predispatch_amscheckoutfront_onepage_checkout>
+        </events>
+    </global>
+    <frontend>
+        <layout>
+              <updates>
+                  <amscheckout>
+                      <file>amasty/amscheckout/main.xml</file>
+                  </amscheckout>
+              </updates>
+        </layout>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <!--<Amasty_Scheckout before="Mage_Checkout">Amasty_Scheckout_Checkout</Amasty_Scheckout>-->
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+    <default>
+        <amscheckout>
+            <shopping_cart>
+                <checkout>0</checkout>
+                <cart_to_checkout>0</cart_to_checkout>
+            </shopping_cart>
+            <update>
+                <shipping>postcode,country</shipping>
+                <shipping_methods>1</shipping_methods>
+                <payment_methods>1</payment_methods>
+                <quick_load>0</quick_load>
+            </update>
+            <default>
+                <ship_same_address>1</ship_same_address>
+                <create_account>0</create_account>
+                <newsletter>0</newsletter>
+            </default>
+            <sections>
+                <coupon>1</coupon>
+                <giftcard>0</giftcard>
+            </sections>
+            <visual>
+                <theme>48C27C</theme>
+                <text>000001</text>
+                <button>f26222</button>
+                <font></font>
+            <show_thumbnail>1</show_thumbnail>
+                <show_newsletter>1</show_newsletter>
+                <thumbnail_size>40</thumbnail_size>
+            </visual>
+        </amscheckout>
+    </default>
+    
+</config>

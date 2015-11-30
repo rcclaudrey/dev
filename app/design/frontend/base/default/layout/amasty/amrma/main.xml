@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */
+-->
+<layout>
+    <customer_account>
+        <!-- Mage_Review -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="amrma" ifconfig="amrma/general/enabled">
+                <name>amrma</name>
+                <path>amrmafront/customer/history</path>
+                <label>My Returns</label>
+            </action>
+        </reference>
+    </customer_account>
+    <amrmafront_customer_history>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="amrma/guest_history" name="amrmafront_guest_history" template="amasty/amrma/guest/history.phtml">
+                
+<action method="setCollection"><mode>customer</mode></action>
+            </block>
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+    </amrmafront_customer_history>
+    <amrmafront_customer_view>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="amrma/guest_view" name="amrma.guest.view">
+                
+            </block>
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+    </amrmafront_customer_view>
+    <amrmafront_guest_view>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="amrma/guest_view" name="amrma.guest.view">
+                
+            </block>
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+            
+        
+    </amrmafront_guest_view>
+    
+<amrmafront_guest_export>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="amrma/guest_export" name="guest_rma_export" template="amasty/amrma/guest/export.phtml">
+            </block>
+        </reference>
+    </amrmafront_guest_export>
+    <amrmafront_customer_export>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="amrma/guest_export" name="guest_rma_export" template="amasty/amrma/guest/export.phtml">
+            </block>
+        </reference>
+    </amrmafront_customer_export>
+    
+    <amrmafront_customer_form translate="label">
+        <label>Customer My Account Address Edit Form</label>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/amasty/amrma/edit.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>js/amasty/amrma/edit.js</name></action>
+        </reference>
+        <!-- Mage_Customer -->
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="amrma/rma_edit" name="customer_rma_edit" template="amasty/amrma/rma/edit.phtml">
+            </block>
+            
+</reference>
+    </amrmafront_customer_form>
+    <amrmafront_guest_login translate="label">
+        <label>Order Return Login Form</label>
+        <!-- Mage_Customer -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="amrma/guest_login" name="amrmafront_guest_login" template="amasty/amrma/guest/login.phtml" />
+        </reference>
+    </amrmafront_guest_login>
+    
+    <amrmafront_guest_history translate="label">
+        <label>RMA Order</label>
+        <!-- Mage_Customer -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="amrma/guest_history" name="amrmafront_guest_history" template="amasty/amrma/guest/history.phtml" />
+        </reference>
+    </amrmafront_guest_history>
+    
+    <amrmafront_guest_form translate="label">
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/amasty/amrma/edit.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>js/amasty/amrma/edit.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="amrma/rma_edit" name="customer_rma_edit" template="amasty/amrma/rma/edit.phtml">
+            </block>
+        </reference>
+    </amrmafront_guest_form>
+    
+    <default>
+        <reference name="footer_links">
+            <action method="addLink" translate="label title" module="catalog" ifconfig="amrma/general/enabled">
+                <label>Orders and Returns</label>
+                <url helper="amrma/data/getLoginUrl" />
+                <title>Orders and Returns</title>
+            </action>
+        </reference>
+    </default>
+    
+    <amrmafront_email_items>
+        <block type="amrma/items" name="amrmafront_items" template="amasty/amrma/email/items.phtml"/>
+    </amrmafront_email_items>
+    
+</layout>

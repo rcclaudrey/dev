@@ -1,0 +1,51 @@
+<?php 
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+?>
+<?php
+    $_items = $this->getRmaItems();
+?>
+<div class="grid">
+    <table id="rma-items" cellspacing="0" class="data">
+        <thead>
+            <tr class="headings">
+                <th><?php print $this->__("Product")?></th>
+                <th><?php print $this->__("SKU")?></th>
+                <th width="100"><?php print $this->__("Reason")?></th>
+                <th width="100"><?php print $this->__("Item Condition")?></th>
+                <th width="100"><?php print $this->__("Reason to Return")?></th>
+                <th width="40"><?php print $this->__("Qty")?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($_items as $_item){
+            ?>
+            <tr>
+                <td><?php print $this->htmlEscape($_item->getName());?></td>
+                <td><?php print $this->htmlEscape($_item->getSku());?></td>
+                <td><?php print $this->htmlEscape($_item->getReason());?></td>
+                <td><?php print $this->htmlEscape($_item->getCondition());?></td>
+                <td><?php print $this->htmlEscape($_item->getResolution());?></td>
+                <td>
+                    <input name="items[<?php
+                        print $_item->getId();
+                    ?>][qty]" class="validate-number input-text" type="text" value="<?php 
+                        print $this->htmlEscape($_item->getQty());
+                    ?>" />
+                    
+                </td>
+            </tr>
+            <?php
+                }
+            ?>
+        </tbody>
+    </table>
+    <script>
+        decorateTable("rma-items")
+    </script>
+</div>
+

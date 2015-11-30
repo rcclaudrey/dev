@@ -1,0 +1,80 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_requests = $this->getRequests(); ?>
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__('My Return Requests') ?></h1>
+<?php $_orders = $this->getAvailableOrders(); ?>
+<?php if($_orders) { ?>  
+    <select id="orders">
+        <?php
+            foreach ($_orders as $orderId => $incrementId){
+                ?><option url="<?php echo $this->getNewUrl($orderId) ?>"><?php echo $incrementId;?></option><?php
+            }
+        ?>
+    </select>
+    <button type="button" class="button" onclick="window.location=$(orders).options[$(orders).selectedIndex].getAttribute('url')">
+        <span><span><?php
+            print $this->__("Return")
+        ?></span></span>
+    </button><br/>
+    <div><?php echo $this->__("Recent orders. You can file return for an older order at 'My Orders' page.")?></div>
+<?php } ?>
+    
+</div>
+<div class="dashboard">
+    <div class="box-account box-recent">
+        <?php echo $this->getPagerHtml(); ?>
+        <?php if($_requests->getSize()): ?>
+        <table class="data-table" id="my-orders-table">
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col />
+            <col width="1" />
+            <thead>
+                <tr>
+                    <th><?php echo $this->__('ID') ?></th>
+                    <th><?php echo $this->__('Date') ?></th>
+                    <th><?php echo $this->__('Order #') ?></th>
+                    <th><span class="nobr"><?php echo $this->__('Status') ?></span></th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_requests as $_request): ?>
+                <tr>
+                    <td><?php echo $_request->getId() ?></td>
+                    <td><span class="nobr"><?php echo $this->formatDate($_request->getCreated()) ?></span></td>
+                    <td><?php echo $_request->getIncrementId() ?></td>
+                    
+
+                    <td><em><?php echo $_request->getStatusLabel() ?></em></td>
+                    <td class="a-center">
+                        <span class="nobr">
+                        <a href="<?php echo $this->getViewUrl($_request) ?>"><?php echo $this->__('View') ?></a> |
+                        <a onclick="if (!confirm('<?php print $this->__("Delete")?>?')) return false;" href="<?php echo $this->getDeleteUrl($_request) ?>"><?php echo $this->__('Delete') ?></a>
+                        </span>
+                    </td>
+                    
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php else: ?>
+            <p><?php echo $this->__('You have placed no return requests.'); ?></p>
+        <?php endif ?>
+        <script type="text/javascript">decorateTable('my-orders-table');</script>
+        <?php echo $this->getPagerHtml(); ?>
+    </div>
+</div>
+
+
+
+
+    

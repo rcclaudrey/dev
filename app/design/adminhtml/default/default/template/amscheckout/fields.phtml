@@ -1,0 +1,237 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+    $areas = $this->getAreas();
+    $fields = $this->getFields();
+    
+    $store_switcher = $this->getLayout()->createBlock("adminhtml/store_switcher")->toHtml();
+    
+    print $store_switcher;
+?>
+
+<ul class="am_tabs" id="scheckoutTabs" >
+
+<?php
+    foreach($areas as $order => $area){
+
+        $areaId = $area['area_id'];
+
+        if (isset($fields[$areaId])){
+?>
+    <li>
+        <a href="#" order="<?php print $order?>" id="tab">
+            <?php
+                print $this->htmlEscape($area['area_label']);
+            ?>
+        </a>
+
+    </li>
+<?php
+        }
+    }
+?>
+</ul>
+
+<div class="am_tabs_content" id="scheckoutContent">
+    <ul>
+        <?php
+            foreach($areas as $order => $area){
+                $areaId = $area['area_id'];
+                if (isset($fields[$areaId])){
+        ?>
+            <li id="tab_<?php print $order?>" >
+                <div area_id="<?php print $areaId;?>" id="area_content">
+                    <div class="am_fields" id="am_field_container">
+                        <div class="am_field_row" style="display: table-row;">
+                            <div class="am_field_cell am_cursor_move">
+                            </div>
+                            <div class="am_field_cell field_def_label">
+                                <?php print Mage::helper('amscheckout')->__('Field');?>
+                            </div>
+                            <div class="am_field_cell field_label">
+                                <?php print Mage::helper('amscheckout')->__('Label');?>
+                            </div>
+                            <div class="am_field_cell column_position">
+                                <?php print Mage::helper('amscheckout')->__('Placement');?>
+                            </div>
+                            <div class="am_field_cell a-center field_required">
+                                <?php print Mage::helper('amscheckout')->__('Required');?>
+                            </div>
+                            <div class="am_field_cell remove">
+                                
+                            </div>
+                            <div class="am_field_cell use_default">
+                                
+                            </div>
+                        </div>
+                        <?php
+                            if (isset($fields[$areaId])){
+                            foreach($fields[$areaId] as $field){
+                                $fieldId = $field['field_id'];
+                                
+                        ?>
+                        <div id="field_row" class="am_field_row" field_id="<?php print $fieldId;?>" style="<?php 
+                            print (intval($field["field_disabled"]) == 1 ? 'display:none;' : 'display: table-row;')
+                        ?>; ">
+                            <div class="am_field_cell am_cursor_move">
+                                <div class="am_cursor_move_bg">
+
+                                </div>
+                            </div>
+                            <div class="am_field_cell field_def_label">
+                                <?php print $field["default_field_label"];?>
+                            </div>
+                            <div class="am_field_cell field_label">
+                                <input class="input-text" type="text" id="field_label" value="<?php print $field["field_label"];?>"/>
+                            </div>
+                            <div class="am_field_cell column_position">
+                                <div id="field_track_<?php print $fieldId;?>" class="am_field_track">
+                                    <div id="field_handle_<?php print $fieldId;?>" class="am_field_handle"></div>
+                                </div>&nbsp;
+                                <input class="input-text" type="text" id="column_position"  value="<?php print $field["column_position"];?>"/>
+                            </div>
+                            <div class="am_field_cell a-center field_required">
+                                <input type="checkbox" id="field_required"  value="1" <?php print $field["field_required"] == TRUE ? 'checked' : '';?>/>
+                            </div>
+                            <div class="am_field_cell remove">
+                                <button type="button" class="delete" id="remove_btn">
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                            <div class="am_field_cell use_default">
+                                <?php
+                                    if ($this->getData("store_id") != NULL){
+                                ?>
+                                    <input type="checkbox" rel="use_default" id="use_default_<?php print $fieldId;?>" value="1" <?php print $field["field_store_id"] == NULL ? 'checked' : '';?>/>
+                                    <label for="use_default_<?php print $fieldId;?>"><?php print Mage::helper('amscheckout')->__('Use Default Value');?></label>
+                                <?php
+                                    }
+                                ?>
+                            </div>
+
+                            <input type="hidden" id="field_order" value="<?php print $field["field_order"];?>"/>
+                            <input type="hidden" id="field_key" value="<?php print $field["field_key"];?>"/>
+                            <input type="hidden" id="field_disabled" value="<?php print $field["field_disabled"];?>"/> 
+                            
+                            
+                        </div>
+                        <?php }?>
+                        
+                    </div>
+                    <div class="am_add_fields">
+                        <a id="add_fields" href="#">Add Fields</a>
+                    </div>
+                    
+                    
+                    <?php /*
+                    <table cellspacing="0" class="am_fields" >
+                        <colgroup>
+                             <col width="30">
+                             <col>
+                             <col>
+                             <col width="150">
+                             <col width="30">
+                             <col width="30">
+                             <col width="<?php print ($this->getData("store_id") != NULL ? "150" : "0")?>">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th class="field_def_label">
+                                    <?php print Mage::helper('amscheckout')->__('Field');?>
+                                </th>
+                                <th class="field_label">
+                                    <?php print Mage::helper('amscheckout')->__('Label');?>
+                                </th>
+                                <th>
+                                    <?php print Mage::helper('amscheckout')->__('Position');?>
+                                </th>
+                                <th>
+                                    <?php print Mage::helper('amscheckout')->__('Required');?>
+                                </th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable_table_<?php print $areaId?>">
+                    <?php
+
+                        if (isset($fields[$areaId])){
+                            foreach($fields[$areaId] as $field){
+                                $fieldId = $field['field_id'];
+                                ?>
+                                <tr id="field_row" field_id="<?php print $fieldId;?>" style="<?php 
+                                    print (intval($field["field_disabled"]) == 1 ? 'display:none;' : '')
+                                ?>">
+                                    <td class="am_cursor_move">
+                                        <div class="am_cursor_move_bg">
+                                            
+                                        </div>
+                                    </td>
+                                    <td class="field_def_label">
+                                        <?php print $field["default_field_label"];?>
+                                    </td>
+                                    <td class="field_label">
+                                        <input class="input-text" type="text" id="field_label" value="<?php print $field["field_label"];?>"/>
+                                    </td>
+                                    <td class="column_position">
+                                        <div id="field_track_<?php print $fieldId;?>" class="am_field_track">
+                                            <div id="field_handle_<?php print $fieldId;?>" class="am_field_handle"></div>
+                                        </div>&nbsp;
+                                        <input class="input-text" type="text" id="column_position"  value="<?php print $field["column_position"];?>"/>
+                                    </td>
+                                    <td class="a-center field_required">
+                                        <input type="checkbox" id="field_required"  value="1" <?php print $field["field_required"] == TRUE ? 'checked' : '';?>/>
+                                    </td>
+                                    <td class="remove">
+                                        <button type="button" class="delete" id="remove_btn">
+                                            <span><span><span>Delete</span></span></span>
+                                        </button>
+                                    </td>
+                                    <td class="use_default">
+                                        <?php
+                                            if ($this->getData("store_id") != NULL){
+                                        ?>
+                                            <input type="checkbox" rel="use_default" id="use_default_<?php print $fieldId;?>" value="1" <?php print $field["field_store_id"] == NULL ? 'checked' : '';?>/>
+                                            <label for="use_default_<?php print $fieldId;?>"><?php print Mage::helper('amscheckout')->__('Use Default Value');?></label>
+                                        <?php
+                                            }
+                                        ?>
+                                    </td>
+
+                                    <input type="hidden" id="field_order" value="<?php print $field["field_order"];?>"/>
+                                    <input type="hidden" id="field_key" value="<?php print $field["field_key"];?>"/>
+                                    <input type="hidden" id="field_disabled" value="<?php print $field["field_disabled"];?>"/>                                            
+                                </tr>
+                                <?php
+                            }
+                        }
+                    ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <center>
+                                        <a id="add_fields" href="#">Add Fields</a>
+                                    </center>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                     * 
+                     */
+                    ?>
+                </div>
+
+            </li>
+        <?php
+                }
+            }
+        }
+        ?>
+    </ul>
+</div>
+

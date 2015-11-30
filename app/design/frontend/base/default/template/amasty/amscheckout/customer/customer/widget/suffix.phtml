@@ -1,0 +1,25 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php if ($this->showSuffix()): ?>
+<?php
+    $_field = $this->getField();
+    $hlr = $this->helper("amscheckout");
+    echo $hlr->getBeforeControlHtml($_field);
+?>
+<?php if ($this->getSuffixOptions() === false): ?>
+    <input type="text" id="<?php echo $this->getFieldId('suffix')?>" name="<?php echo $this->getFieldName('suffix')?>" value="<?php echo $this->escapeHtml($this->getObject()->getSuffix()) ?>" title="<?php echo $this->getStoreLabel('suffix') ?>" class="input-text <?php echo $_field['field_required'] ? $this->helper('customer/address')->getAttributeValidationClass('suffix') : "" ?>" <?php echo $this->getFieldParams() ?> />
+<?php else: ?>
+    <select id="<?php echo $this->getFieldId('suffix')?>" name="<?php echo $this->getFieldName('suffix')?>" title="<?php echo $this->getStoreLabel('suffix') ?>" class="<?php echo $_field['field_required'] ? $this->helper('customer/address')->getAttributeValidationClass('suffix') : "" ?>" <?php echo $this->getFieldParams() ?>>
+    <?php foreach ($this->getSuffixOptions() as $_option): ?>
+        <option value="<?php echo $_option?>"<?php if ($this->getObject()->getSuffix()==$_option):?> selected="selected"<?php endif; ?>><?php echo $this->__($_option)?></option>
+    <?php endforeach; ?>
+    </select>
+<?php endif; ?>
+<?php echo $hlr->getAfterControlHtml($_field);?>
+    
+<?php endif; ?>

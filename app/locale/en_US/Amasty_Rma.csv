@@ -1,0 +1,81 @@
+Installed,Installed
+My extensions updates,My extensions updates
+Status Management,Status Management
+ID,ID
+Save and Continue Edit,Save and Continue Edit
+Information,Information
+Notes,Notes
+Request Configuration,Request Configuration
+Labels,Labels
+General,General
+Templates,Templates
+Status Configuration,Status Configuration
+Request Management,Request Management
+Value,Value
+Export,Export
+Order #%s - %s - %s,Order #%s - %s - %s
+RMA Login,RMA Login
+Status has been successfully deleted,Status has been successfully deleted
+Login and password are required.,Login and password are required.
+My RMA,My RMA
+Order expired,Order expired
+Return,Return
+Invalid email or order.,Invalid email or order.
+Active,Active
+Comments History,Comments History
+Product,Product
+Login,Login
+"Return request for order #%s, status: %s","Return request for order #%s, status: %s"
+My Return Requests,My Return Requests
+RMA Return Info,RMA Return Info
+New Return for Order,New Return for Order
+Order ID,Order ID
+Customer Name,Customer Name
+Order Shipping Address,Order Shipping Address
+Email Address,Email Address
+Sub-items:,Sub-items:
+Remaining Qty:,Remaining Qty:
+Qty:,Qty:
+Quantity To Return,Quantity To Return
+Remaining quantity,Remaining quantity
+Resolution,Resolution
+Remove,Remove
+Item,Item
+Item Condition,Item Condition
+Reason to Return,Reason to Return
+Add Item To Return,Add Item To Return
+Comment,Comment
+File,File
+* Required Fields,* Required Fields
+Submit,Submit
+Back,Back
+Please select one of the options.,Please select one of the options.
+Return request for order #%s, status: %s,Return request for order #%s, status: %s,
+Printing,Printing
+Print Label,Print Label
+Confirm Shipping,Confirm Shipping
+Request Information,Request Information
+Request ID,Request ID
+Date,Date
+Status,Status
+Is Shipped,Is Shipped
+Shipping Address,Shipping Address
+Items,Items
+SKU,SKU
+Reason,Reason
+Condition,Condition
+Qty,Qty
+Leave Comment,Leave Comment
+Submit Comment,Submit Comment
+Customer Service,Customer Service
+Please enter your email address and order #,Please enter your email address and order #
+Order #,Order #
+View,View
+Delete,Delete
+You have placed no return requests.,You have placed no return requests.
+Code,Code
+Customer Address,Customer Address
+Return Department Address,Return Department Address
+Product Name,Product Name
+Print,Print
+Close,Close

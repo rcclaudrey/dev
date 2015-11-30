@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_amscheckout_settings_index>
+        <reference name="head">
+            <action method="addCss"><name>amasty/amscheckout/main.css</name></action>   
+            <action method="addJs"><file>amasty/amscheckout/main.js</file></action>
+            <action method="addJs"><file>amasty/amscheckout/dragdrop.js</file></action>
+            
+            <!--<action method="addJs"><file>amasty/amscheckout/scriptaculous/scriptaculous.js</file></action>-->
+            
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
+    </adminhtml_amscheckout_settings_index>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addJs"><file>jscolor/jscolor.js</file></action>
+        </reference>
+    </adminhtml_system_config_edit>
+</layout>

@@ -1,0 +1,200 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+    $_request = $this->getRmaRequest();
+    $_order = $this->getRmaOrder();
+    $_shippingConfirmation = $this->getShippingConfirmation();
+?>
+
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__('Return request for order #%s, status: %s', $_request->getIncrementId(), $this->escapeHtml($_request->getStatusLabel())) ?></h1>
+    
+<?php 
+    if ($_request->allowPrintLabel()) {
+?>
+    <script>
+        function print (){
+            var params = "menubar=yes,location=yes,resizable=no,scrollbars=no,status=yes,width=500,height=500";
+            window.open('<?php print $this->getExportUrl()?>', "<?php print $this->__("Printing")?>", params);
+        }
+        
+        function confirmShipping(){
+            <?php if (!empty($_shippingConfirmation)) {?>
+                if (confirm(<?php print Mage::helper('core')->jsonEncode($_shippingConfirmation)?>)){
+                    document.location.href = '<?php print $this->getComfirmUrl()?>';
+                }
+            <?php } else { ?>
+                document.location.href = '<?php print $this->getComfirmUrl()?>';
+            <?php } ?>
+        }
+    </script>
+    
+    <?php if ($this->getIsAllowPrintLabel()) {?>
+    <button type="button" class="button" onclick="print();">
+        <span><span><?php print $this->__("Print Label")?></span></span>
+    </button>
+    <?php }?>
+    <button type="button" class="button" onclick="confirmShipping();">
+        <span><span><?php print $this->__("Confirm Shipping")?></span></span>
+    </button>
+<?php
+    }
+?>
+</div>
+
+<div class="col2-set">
+    <div class="box">
+        <div class="box-content">
+            <div class="col-1">
+                <div class="info-box">
+                    <h3 class="box-title"><?php echo $this->__('Request Information') ?></h3>
+                    <p class="box-content">
+                        <?php echo $this->__('Request ID') ?>: <?php echo $this->escapeHtml($_request->getId()) ?><br />
+                        <?php echo $this->__('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_request) ?>"><?php echo $this->escapeHtml($_request->getIncrementId()) ?></a><br />
+                        <?php echo $this->__('Date') ?>: <?php echo Mage::helper('core')->formatDate($_request->getCreated()) ?><br />
+                        <?php echo $this->__('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
+                        <?php echo $this->__('Status') ?>: <?php echo $this->escapeHtml($_request->getStatusLabel()) ?><br />
+                        <?php
+                            if ($_request->getAllowCreateLabel()){
+                                echo $this->__('Is Shipped') ?>: <?php echo $_request->getShippedLabel() ?><br /><?php
+                            }
+                        ?>
+                        
+                    </p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="info-box">
+                    <h3 class="box-title"><?php echo $this->__('Shipping Address') ?></h3>
+                    <address class="box-content">
+                        <?php echo $this->getAddress() ?>
+                    </address>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <?php
+    if ($this->hasExtraFields()){
+    ?>
+    <div style='clear: both;'></div>
+    <div class="box">
+        <div class="box-content">
+            <div class="col-1">
+                <div class="info-box">
+                    <h3 class="box-title"><?php echo $this->__($this->getExtraTitle());?></h3>
+                    <p class="box-content">
+                        <?php for ($field = 1; $field <= 5; $field++){
+                            $title = $this->getExtraField($field);
+                            if (!empty($title)) {
+                                echo $this->__($title) . ": ". $_request->getData("field_" . $field)."<br/>";
+                            }
+                        }
+                        ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php }?>
+</div>
+<div class="wrapper"></div>
+<h3 class="box-title"><?php echo $this->__('Items') ?></h3>
+<table class="data-table" id="my-returns-items-table">
+    <col width="200" />
+    <col width="200" />
+    <col />
+    <col />
+    <col />
+    <col />
+    <thead>
+        <tr>
+            <th><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            <th><?php echo $this->__('Reason') ?></th>
+            <th><?php echo $this->__('Condition') ?></th>
+            <th><?php echo $this->__('Resolution') ?></th>
+            <th><?php echo $this->__('Qty') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getItems() as $key=>$item): ?>
+        <tr>
+            <td>
+                <?php echo $this->escapeHtml($item->getName()) ?>
+            </td>
+            <td><?php echo $this->escapeHtml($item->getSku()) ?></span></td>
+            <td><?php echo $this->escapeHtml($item->getReason()) ?></td>
+            <td><?php echo $this->escapeHtml($item->getCondition()) ?></td>
+            <td><?php echo $this->escapeHtml($item->getResolution()) ?></td>
+            <td><?php echo $this->escapeHtml($item->getQty()); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript">
+//<![CDATA[
+    decorateTable('my-returns-items-table');
+</script>
+<div class="wrapper"></div>
+<form method="post" id="rma_comment" action="<?php echo $this->getSubmitUrl() ?>" enctype="multipart/form-data">
+    <div class="box">
+        <div class="box-content">
+            <div class="info-box">
+                <h3 class="box-title"><?php echo $this->__('Leave Comment') ?></h3>
+                <p class="box-content">
+                    <textarea id="rma_comment_text" style="height:6em;width:99%;" cols="5" rows="3" name="comment" class="required-entry"></textarea>
+                </p>
+                <div>
+                    <input type="file" name="file"/>
+                </div>
+                <div class="box-content buttons-set">
+                    <button type="submit" class="button" id="submit.save"><span><span><?php echo $this->__('Submit Comment')?></span></span></button>
+                </div>
+                <div class="clear"></div>
+                <div class="divider"></div>
+                <ul class="note-list box-content">
+                    <?php $_comments = $this->getComments(); ?>
+                    <?php if (!empty($_comments)): ?>
+                    <?php foreach($_comments as $_comment): ?>
+
+                        <li id="comment_<?php print $_comment->getId()?>">
+                            <strong><?php echo $this->formatDate($_comment->getCreated()) ?> <?php echo $this->formatTime($_comment->getCreated()) ?></strong>
+                            <span class="separator">|</span>
+                            <strong>
+                                <?php if ($_comment->getIsAdmin()): ?>
+                                    <?php echo $this->__('Customer Service')?>
+                                <?php else: ?>
+                                    <?php echo $this->escapeHtml($this->getCustomerName())?>
+                               <?php endif; ?>
+                            </strong>
+                            <br />
+                            <span>
+                                <?php echo $this->escapeHtml($_comment->getCommentText(), array('b','br','strong','i','u')); ?>
+                            </span>
+                            <?php
+                                $_files = $this->getFiles($_comment->getId());
+                                if ($_files && $_files->getSize() > 0){
+                                    foreach($_files as $_file){
+                            ?>
+                                <br/><a href="<?php print $_file->getHref();?>"><?php echo $this->escapeHtml($_file->getName())?></a>
+                            <?php
+                                    }
+                                }
+                            ?>
+                            <div class="divider"></div>
+                        </li>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('rma_comment', true);
+//]]>
+</script>

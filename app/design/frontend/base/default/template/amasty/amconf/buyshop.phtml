@@ -1,0 +1,139 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php
+    $widthSmall=62;
+    $heightSmall=62;
+    $widthMedium=460;
+    $heightMedium=440;
+    $_video = $this->getProduct()->getVideobox();
+
+    $_customtab = $this->getProduct()->getCustomtab();
+    $_customtabtitle = $this->getProduct()->getCustomtabtitle();
+    $image_size=Mage::getStoreConfig('buyshoplayout/product_info/product_info_image_size');
+
+
+    $main_image_popup='';
+    $popup_video='';
+    if(Mage::helper('lightboxes')->isActive())
+    {
+        /*popups*/
+        $helper				= Mage::helper('lightboxes');
+        $rel                = $helper->getLightboxRel($helper->getConfig('lightbox_type'));
+        $class              = $helper->getLightboxClass($helper->getConfig('lightbox_type'));
+        $main_image_popup='class="'.$class.'" rel="'.$rel.'"';
+        $popup_video='class="video '.$class.'" rel="'.$rel.'"';
+    }
+
+
+
+    switch($image_size)
+    {
+        case 'small':
+            if(Mage::helper('buyshopconfig')->getMediaCount($_product) or !empty($_video))
+            {
+                $span0=4;
+                $span1=1;
+                $span2=3;
+                $span3=8;
+
+            }
+            else
+            {
+                $span0=3;
+                $span1=1;
+                $span2=3;
+                $span3=9;
+            }
+            $height_thumbs=206;
+
+            break;
+
+        case 'medium':
+            if(Mage::helper('buyshopconfig')->getMediaCount($_product) or !empty($_video))
+            {
+                $span0=5;
+                $span1=1;
+                $span2=4;
+                $span3=7;
+            }
+            else
+            {
+                $span0=4;
+                $span1=1;
+                $span2=4;
+                $span3=8;
+            }
+            $height_thumbs=350;
+            break;
+
+        case 'big':
+
+            if(Mage::helper('buyshopconfig')->getMediaCount($_product) or !empty($_video))
+            {
+                $span0=6;
+                $span1=1;
+                $span2=5;
+                $span3=6;
+            }else
+            {
+                $span0=5;
+                $span1=1;
+                $span2=5;
+                $span3=7;
+            }
+            $height_thumbs=422;
+            break;
+    }
+?>
+
+<div class="row">
+                    <?php if(Mage::helper('buyshopconfig')->getMediaCount($_product) or !empty($_video)):?>
+                    <div class="span<?php echo $span1?>">
+                        <div class="more-views flexslider">
+                            <ul  class="slides">
+                                
+								<?php
+								$widthMedium=460;
+								$heightMedium=440;
+								?>
+								<?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
+
+									<?php if (count($this->getGalleryImages()) > 0): ?>
+									<?php foreach ($this->getGalleryImages() as $_image): ?>
+									<?php
+										$_img = '<li> <a class="cloud-zoom-gallery" href="' . $this->helper('catalog/image')->init($this->getProduct(), 'image', $_image->getFile()) . '"  data-rel="useZoom: \'zoom1\', smallImage: \'' . $this->helper('catalog/image')->init($this->getProduct(), 'image', $_image->getFile())->resize($widthMedium, $heightMedium) . '\'"> <img  src="' .$this->helper('catalog/image')->init($this->getProduct(), 'small_image', $_image->getFile())->resize(62) . '" alt="'.$this->escapeHtml($_image->getLabel()).'" title="'.$this->escapeHtml($_image->getLabel()).'"  /> </a> </li>';
+										echo $_helper->productAttribute($_product, $_img, 'image');
+									?>
+									<?php endforeach; ?>
+									<?php endif; ?>
+
+
+								<?php endif; ?>
+								
+								
+								
+                                <?php if(!empty($_video)):?>
+                                <li><a   class="video"  href="<?php echo Mage::helper('catalog/output')->productAttribute($this->getProduct(), $_video, 'video') ?>"><i class="icon-right-open-1"></i></a></li>
+                                <?php endif;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+
+                    <div class="span<?php echo $span2?>">
+                        <div class="product-image">
+                            <a <?php echo $main_image_popup;?> title="<?php echo $this->htmlEscape($_product->getImageLabel())?>" <?php if(!Mage::helper('lightboxes')->isActive()):?>class="cloud-zoom"<?php endif;?> href="<?php echo Mage::helper('catalog/image')->init($_product, 'image', $_product->getFile())?>" <?php if(!Mage::helper('lightboxes')->isActive()):?>id='zoom1' data-rel="position: 'right', adjustX: 10, adjustY: 0"<?php endif;?>>
+                                <img class="product-retina" data-image2x="<?php echo Mage::helper('catalog/image')->init($_product, 'image', $_product->getFile())->resize($widthMedium*2, $heightMedium*2)?>" src="<?php echo Mage::helper('catalog/image')->init($_product, 'image', $_product->getFile())->resize($widthMedium, $heightMedium)?>" alt=""  />
+                            </a>
+                        </div>
+                        <div class="pull-right hidden"><a href="#" class="fancybox fancy-zoom"><i class="icon-zoom-in"></i></a></div>
+                    </div>
+
+                </div>

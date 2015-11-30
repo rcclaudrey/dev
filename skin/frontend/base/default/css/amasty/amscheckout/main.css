@@ -1,0 +1,560 @@
+.amscheckout-main{
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    
+}
+
+.amscheckout>table{
+    width: 100%;
+    /*background-color: greenyellow;*/
+    table-layout: fixed;
+}
+
+.amscheckout table.amscheckout-data-table{
+    table-layout: auto;
+}
+.amscheckout table td{
+    vertical-align: top;
+}
+
+.amscheckout-row{
+    display: inline-table;
+    padding-top: 10px;
+}
+
+.amscheckout .three-columns .first-column,
+.amscheckout .three-columns .second-column,
+.amscheckout .three-columns .third-column
+{
+    width: 33%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.amscheckout .two-columns .first-column,
+.amscheckout .two-columns .second-column{
+    float: left;
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+.amscheckout .two-columns .first-column{
+    width: 49%;
+}
+
+.amscheckout .one-columns .first-column{
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.amscheckout-row>div{
+    padding: 0px 3px;
+}
+
+.amscheckout .billing,
+.amscheckout .shipping,
+.amscheckout .shipping-method,
+.amscheckout .payment-method,
+.amscheckout .coupon,
+.amscheckout .giftcards
+{
+    padding: 0px 10px;
+}
+
+.amscheckout .form-list label,
+.amscheckout .amscheckout-label{
+    /*font-size: 11px;*/
+    /*color: #000;*/
+    font-weight: normal;
+}
+
+.amscheckout .amscheckout-label-radio{
+    font-size: 12px;
+}
+
+.amscheckout .amscheckout-label em{
+    padding-left: 3px;
+}
+
+.amscheckout-login input.input-text,
+.amscheckout input.input-text,
+.amscheckout select{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.amscheckout-login input.input-text,
+.amscheckout input.input-text{
+    padding: 0;
+    width: 100%;
+    height: 25px;
+    border-radius: 4px;
+    text-indent: 3px;
+}
+
+.amscheckout select{
+    padding: 0;
+    width: 100%;
+    height: 27px;
+    border-radius: 4px;    
+}
+
+.amscheckout-control-checkbox,
+.amscheckout-control-radio{
+    display: inline;
+    float: left;
+}
+
+.amscheckout-control-checkbox{
+    padding-right: 3px;
+}
+
+.amscheckout .input-address{
+    margin-top: 3px;
+}
+
+.amscheckout .area-header{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.amscheckout .second-column{
+    border: 0px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-style: dashed;
+}
+
+.amscheckout{
+    padding: 20px 0px;
+}
+
+.amscheckout .shipping-method dt{
+    font-weight: bold;
+}
+
+.amscheckout .shipping-method dd,
+.amscheckout .shipping-method dt,
+.amscheckout .payment-method dt{
+    padding-top: 7px;
+}
+
+.amscheckout .btn-checkout{
+    width: 100%;
+}
+
+
+.amscheckout-header{
+    padding: 20px 15px;
+}
+
+.amscheckout-header .lane{
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.amscheckout-header .lane2{
+    font-size: 12px;
+}
+
+.separator{
+    padding: 0px 15px;
+    margin-left: -1px;
+}
+
+.separator div{
+    border: 0px;
+    border-top: 1px solid grey;
+    padding-top: 1px;
+    border-style: dashed;
+}
+
+.amscheckout-img{
+    
+    display: inline-block;
+    margin-right: 10px;
+    
+    color: white;
+    text-align: center;
+    
+    width: 35px;
+    padding: 2px 0px;
+    
+/*    background-color: #fff;
+    background-image: -webkit-linear-gradient(bottom, #5cc98b, #32955d);
+    background-image: -moz-linear-gradient(bottom, #5cc98b, #32955d);
+    background-image: -o-linear-gradient(bottom, #5cc98b, #32955d);
+    background-image: linear-gradient(to top, #5cc98b, #32955d);*/
+}
+
+.amscheckout-img-shadow{
+    display: inline-block;
+    
+    width: 38px;
+    
+    -webkit-border-radius: 0 3px 0 38px/0 26px 0 4px;
+    -moz-border-radius: 0 3px 0 38px/0 26px 0 4px;
+    border-radius: 0 3px 0 38px/0 26px 0 4px;
+    
+    padding-bottom: 3px;
+    padding-right: 1px;
+}
+
+.amscheckout-review{
+    background-image: url('../../../images/amasty/amscheckout/review-img.png');
+    background-repeat:no-repeat;
+    background-position:center; 
+    
+    width: 26px;
+    display: inline-block;
+}
+
+.amscheckout-shipping{
+    background-image: url('../../../images/amasty/amscheckout/shipping-img.png');
+    background-repeat:no-repeat;
+    background-position:center; 
+    
+    width: 26px;
+    display: inline-block;
+}
+
+/*.billing-img{
+    background-image: url('../../../images/amasty/amscheckout/billing.png');
+}
+
+.shipping-img{
+    background-image: url('../../../images/amasty/amscheckout/shipping.png');
+}
+
+.shipping-method-img{
+    background-image: url('../../../images/amasty/amscheckout/shipping_method.png');
+}
+
+.payment-method-img{
+    background-image: url('../../../images/amasty/amscheckout/payment_method.png');
+}
+
+.review-img{
+    background-image: url('../../../images/amasty/amscheckout/review.png');
+}
+
+.coupon-img{
+    background-image: url('../../../images/amasty/amscheckout/coupon.png');
+}*/
+
+.amscheckout select:focus,
+.amscheckout-login input[type="text"]:focus,
+.amscheckout input[type="text"]:focus{
+    outline: none;
+    
+    background: #FFF;
+}
+
+
+.amscheckout select:hover,
+.amscheckout-login input[type="text"]:hover,
+.amscheckout input[type="text"]:hover{
+    border: 1px solid #999;
+    background: #FFF;
+}
+
+.amscheckout select:focus:hover,
+.amscheckout-login input[type="text"]:focus:hover,
+.amscheckout input[type="text"]:focus:hover{
+    outline: none;
+    background: #FFF;
+}
+
+.amscheckout-dologin,
+.amscheckout-submit,
+.amscheckout-apply{
+    overflow: visible;
+    width: auto;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+.amscheckout-dologin span,
+.amscheckout-submit span,
+.amscheckout-apply span{
+    
+    text-align: center;
+    white-space: nowrap;
+    display: block;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+}
+
+.amscheckout-dologin span span,
+.amscheckout-submit span span,
+.amscheckout-apply span span {
+    font-weight: bold;
+    color: #FFF;
+    font-size: 12px;
+}
+
+.amscheckout-dologin span,
+.amscheckout-submit span{
+    line-height: 30px;
+}
+
+.amscheckout-dologin{
+    width: 100%;
+    
+}
+
+.amscheckout-apply span{
+    line-height: 20px;
+}
+
+.order-review-newsletter,
+.order-review-button{
+    clear: both;
+    padding: 0px 10px;
+}
+
+.order-review-newsletter{
+    padding-bottom: 10px;
+}
+
+.order-review-button button{
+    width: 100%;
+    
+}
+
+.coupon-buttons{
+    padding-top: 10px;
+    text-align: right;
+}
+
+.coupon-buttons button{
+    /*width: 70px;*/
+}
+
+.coupon-buttons button span span{
+    padding: 0px 10px;
+}
+
+.coupon-code{
+    padding: 5px 0px;
+    display: block;
+}
+
+.amscheckout-processing{
+    background-image: url('../../../images/amasty/amscheckout/processing.gif');
+    width: 66px;
+    height: 66px;
+    
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: -76px;
+    float: right;
+    top: 10px;
+    right: 10px;
+}
+
+.amscheckout-processing-small{
+    background-image: url('../../../images/amasty/amscheckout/processing-small.gif');
+    width: 16px;
+    height: 11px;
+    display: inline-block;    
+}
+
+.amloading{
+    text-align: center;
+}
+
+.amscheckout-loading{
+    cursor: wait;
+    margin-left: -10px;
+    z-index: 1000;
+    background-color: white;
+    /*background-color: #E9E9EC;*/
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    
+    -moz-opacity: 0.2;
+    -khtml-opacity: 0.2;
+    opacity: 0.2;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=20);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+    filter:alpha(opacity=20);
+}
+
+.amscheckout-data-table{
+    width: 100%;
+}
+
+.amscheckout .order-review{
+    padding: 0px 10px;
+}
+
+
+.amscheckout-data-table tr td,
+.amscheckout-data-table tr th{
+    border: 0px;
+    border-bottom: 1px solid grey;
+    border-style: dashed;
+    padding: 7px 0px;
+    vertical-align: middle;
+    
+}
+
+.amscheckout-data-table tr th{
+    font-weight: bold;
+    padding: 0px 3px;
+}
+
+.amscheckout-submit-button{
+    padding-top: 20px;
+}
+
+.amscheckout-item{
+    line-height: 30px;
+}
+
+.amscheckout .amscheckout-item .input-qty{
+    margin: 0 3px;
+    width: 35px;
+}
+
+.amscheckout-data-table tfoot td:first-child{
+    padding-right: 3px;
+}
+.checkout-onepage-index .col-main{
+    width: 100% !important;
+}
+.amscheckout textarea,
+.amscheckout select,
+.amscheckout-login input[type="text"],
+.amscheckout input[type="text"]{
+    border:1px solid #E8E8E8;
+}
+.grid-full .amscheckout-main,
+.grid-full .cart{
+    margin-right: 2%;
+}
+
+
+/*.amscheckout caption, 
+.amscheckout th, 
+.amscheckout td, 
+.amscheckout .data-table th, 
+.amscheckout .data-table td{
+    text-align: left;
+}*/
+
+.amscheckout-control>label[for="billing:month"]{
+    display: none;
+}
+
+#co-payment-form{
+    width: 100%;
+}
+.amscheckout .product-name img{
+    float: left;
+    padding-right: 5px;
+} 
+.amscheckout .product-name{
+    line-height: 16px;
+}
+
+.amscheckout-control .form-list .field{
+    width: auto;
+    float: none;
+}
+
+.amscheckout-control .form-list li{
+    margin: 0;
+    padding: 0;
+}
+
+.amscheckout .gift-messages-form .item{
+    display:  inline;
+}
+
+.amscheckout .gift-messages-form .item .details{
+    float: none;
+}
+
+.amscheckout .column-section
+{
+    overflow: hidden;
+    position: relative;
+}
+
+#amscheckout-onepage .cart-table{
+    width: 100%;
+    float: none;
+}
+
+@media only screen and (max-width: 1100px) {
+    .amscheckout .three-columns .first-column,
+    .amscheckout .three-columns .second-column
+    {
+        width: 50%;
+        border: 0px;
+    }
+    
+    .amscheckout .three-columns .third-column
+    {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    .amscheckout .two-columns .first-column,
+    .amscheckout .two-columns .second-column,
+    .amscheckout .three-columns .first-column,
+    .amscheckout .three-columns .second-column,
+    .amscheckout .three-columns .third-column
+    {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 599px){
+    #amscheckout-cart .cart .button{
+        float: none;
+        margin: 0;
+        width: 32%;
+        height: 70px;
+    }
+}
+
+#review-processing,
+#payment-method-processing,
+#shipping-method-processing{
+    line-height: 10px;
+}
+
+label.required:after, span.required:after{
+      content: ''  !important;
+}
+
+label.required em, span.required em{
+    display: inline !important;
+}
+
+.amscheckout-control [for='billing:gender']{
+    display: none;
+}
+.amscheckout-main ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.giftcard-code-check{
+    float: left;
+}

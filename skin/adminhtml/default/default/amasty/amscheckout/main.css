@@ -1,0 +1,184 @@
+/**
+* @author Amasty Team
+* @copyright Copyright
+* @package Amasty_Scheckout
+*/ 
+
+.am_tabs{
+    /*font-size:0.75em;*/
+    line-height:30px;
+    list-style:none;
+    overflow:hidden;
+    height:30px;     
+}
+
+.am_tabs li{
+    float:left;
+    border: 1px solid #BEBEBE;
+    border-width: 1px 0px 0px 1px;
+}
+
+.am_tabs li:last-child{
+    border-right-width: 1px;
+}
+
+.am_tabs a{
+    float:left;
+    background:#eee;
+    padding:0 15px;
+    text-decoration:none;
+    height:30px;   
+}
+
+.am_tabs a:hover{
+    background:#ddd
+}
+
+.am_tabs_content .area_label{
+    padding: 10px;
+    background-color: #E7EFEF;
+    border-bottom: 1px solid #BEBEBE;
+}
+
+.am_tabs_content{
+    border: 1px solid #BEBEBE;
+    max-width: 1000px;
+}
+
+.am_tabs_content ul{
+    list-style:none;
+}
+
+.am_tabs_content ul li{
+    display: none;
+    /*height:300px*/
+}
+
+.am_tabs a.selected {
+    background: #DDD;
+}
+
+.am_fields{
+    padding-top: 20px;
+    width: 100%;
+    background: #fafafa;
+    
+    display: table;
+}
+
+.am_field_cell{
+    display: table-cell;
+    padding: 10px 0px;
+}
+
+.am_fields .field_key{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.am_fields .column_position{
+    width: 145px;
+}
+
+
+.am_fields .field_label input{
+    width: 100%;
+}
+
+.am_fields .use_default{
+    padding: 0px 10px;
+}
+
+.am_fields .field_def_label{
+    padding-left: 10px;
+}
+
+.am_fields .field_label{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.am_fields .remove,
+.am_fields .field_required{
+    width: 60px;
+}
+
+.am_fields .am_cursor_move{
+    width: 30px;
+}
+
+.am_fields .column_position input{
+    width: 30px;
+}
+.am_areas tr td{
+    padding-bottom: 5px;
+}
+.am_areas .am_def_area_label{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.am_areas .am_area_use_default{
+    padding-left: 10px;
+}
+
+.am_hover_active{
+    background-color: red;
+}
+
+.am_hidden{
+    display: none;
+}
+
+.am_field_track{
+    margin-top: 5px;
+    float: left;
+    width:100px; 
+    background-color:#ccc; 
+    height:10px;
+}
+
+.am_field_handle{
+    width:10px; 
+    height:10px; 
+    background-color:#f00; 
+    cursor:move;
+}
+
+.am_cursor_move{
+    vertical-align: middle;
+    cursor: move;
+}
+
+.am_cursor_move_bg{
+    background: url(images/move.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+}
+
+
+div.column_position.disabled{
+    background-color: transparent !important;
+}
+
+.am_add_fields{
+    width: 100%;
+    text-align: center;
+    padding: 10px 0px;
+    background: #fafafa;
+}
+
+
+.am_processer_container{
+    border: 2px solid #f1af73;
+    
+    /*border-color: #ed6502 #a04300 #a04300 #ed6502;*/
+    margin-top: 10px;
+}
+
+.am_processer_container .am_processer{
+    padding: 2px;
+    background-color: #ffac47;
+    white-space: nowrap;
+}

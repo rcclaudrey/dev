@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+--> 
+<config>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amconf translate="title" module="amconf">
+                                        <title>Color Swatches Pro</title>
+                                    </amconf>
+                                </children>
+                            </config>
+                        </children>
+                    </system> 
+                 </children>
+            </admin> 
+		</resources>
+	</acl>
+    <translate>
+        <modules>
+            <Amasty_Conf>
+                <files>
+                    <default>Amasty_Conf.csv</default>
+                </files>
+            </Amasty_Conf>
+        </modules>
+    </translate>
+</config> 

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Rma>
+            <version>1.3.4</version>
+        </Amasty_Rma>
+    </modules>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Amasty_Rma after="Mage_Adminhtml">Amasty_Rma_Adminhtml</Amasty_Rma>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+<frontend>
+        <routers>
+            <amrmafront>
+                <use>standard</use>
+                <args>
+                    <module>Amasty_Rma</module>
+                    <frontName>amrmafront</frontName>
+                </args>
+            </amrmafront>
+        </routers>
+        <translate>
+            <modules>
+                <Amasty_Rma>
+                    <files>
+                        <default>Amasty_Rma.csv</default>
+                    </files>
+                </Amasty_Rma>
+            </modules>
+        </translate>
+    </frontend>    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Amasty_Rma>
+                    <files>
+                        <default>Amasty_Rma.csv</default>
+                    </files>
+                </Amasty_Rma>
+            </modules>
+        </translate>
+        <menu>
+            <sales>
+                <children>
+                    <amrma translate="title">
+                        <title>RMA</title>
+                        <sort_order>900</sort_order>
+                        <children>
+                            <amrma_request translate="title">
+                                <title>Requests</title>
+                                <sort_order>500</sort_order>
+                                <action>adminhtml/amrma_request</action>
+                            </amrma_request>
+                            <amrma_status translate="title">
+                                <title>Statuses</title>
+                                <sort_order>900</sort_order>
+                                <action>adminhtml/amrma_status</action>
+                            </amrma_status>
+                        </children>
+                    </amrma>
+                </children>
+            </sales>
+        </menu> 
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <amrma translate="title" module="amrma">
+                                    <title>Amasty RMA</title>
+                                    <children>
+                                        <amrma_request translate="title">
+                                            <title>Requests</title>
+                                        </amrma_request>
+                                        <amrma_status>
+                                            <title>Statuses</title>
+                                        </amrma_status>
+                                    </children>
+                                </amrma>
+                            </children>
+                        </sales>
+                     </children>
+                </admin> 
+            </resources>
+        </acl>
+        
+        <layout>
+            <updates>
+                <amrma>
+                    <file>amasty/amrma/main.xml</file>
+                </amrma>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <global>
+        <models>
+            <amrma>
+                <class>Amasty_Rma_Model</class>
+                <resourceModel>amrma_mysql4</resourceModel>
+            </amrma>
+            <amrma_mysql4>
+                <class>Amasty_Rma_Model_Mysql4</class>
+                <entities>
+                    <request>
+                        <table>amasty_amrma_request</table>
+                    </request>
+                    <item>
+                        <table>amasty_amrma_item</table>
+                    </item>
+                    <status>
+                        <table>amasty_amrma_status</table>
+                    </status>
+                    <label>
+                        <table>amasty_amrma_status_label</table>
+                    </label>
+                    <template>
+                        <table>amasty_amrma_status_template</table>
+                    </template>
+                    <comment>
+                        <table>amasty_amrma_comment</table>
+                    </comment>
+                    <file>
+                        <table>amasty_amrma_comment_file</table>
+                    </file>
+                </entities>
+            </amrma_mysql4>
+        </models>
+        <resources>
+             <amrma_setup>
+                <setup>
+                    <module>Amasty_Rma</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amrma_setup>
+            <amrma_write>
+                <connection><use>core_write</use></connection>
+            </amrma_write>
+            <amrma_read>
+                <connection><use>core_read</use></connection>
+            </amrma_read>
+        </resources>
+        <template>
+            <email>
+                <amrma_status translate="label" module="amrma">
+                    <label>Amasty RMA: Status</label>
+                    <file>amasty/amrma_status.html</file>
+                    <type>html</type>
+                </amrma_status>
+                <amrma_comment translate="label" module="amrma">
+                    <label>Amasty RMA: Comment</label>
+                    <file>amasty/amrma_comment.html</file>
+                    <type>html</type>
+                </amrma_comment>
+                <amrma_admin translate="label" module="amrma">
+                    <label>Amasty RMA: Admin</label>
+                    <file>amasty/amrma_admin.html</file>
+                    <type>html</type>
+                </amrma_admin>
+            <amrma_created translate="label" module="amrma">
+                    <label>Amasty RMA: RMA created</label>
+                    <file>amasty/amrma_created.html</file>
+                    <type>html</type>
+                </amrma_created>
+            </email>
+        </template>
+        <blocks>
+            <amrma>
+                <class>Amasty_Rma_Block</class>
+            </amrma>
+            <adminhtml>
+                <rewrite>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <amrma>
+                <class>Amasty_Rma_Helper</class>
+            </amrma>
+        </helpers>
+        <events>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <amorderattr>
+                        <type>singleton</type>
+                        <class>amrma/observer</class>
+                        <method>handleBlockOutput</method>
+                    </amorderattr>
+                </observers>
+            </core_block_abstract_to_html_after>    
+        </events>
+    </global>
+    <frontend>
+        <layout>
+              <updates>
+                  <amrma>
+                      <file>amasty/amrma/main.xml</file>
+                  </amrma>
+              </updates>
+        </layout>
+    </frontend>
+    <default>
+        <amrma>
+            <general>
+                <enabled>1</enabled>
+                <enable_per_item>1</enable_per_item>
+                <guest>1</guest>
+                <multiple_requests>0</multiple_requests>
+                <days></days>
+                <max_days></max_days>
+                <print_label>1</print_label>
+                        </general>
+            <shipping>
+                <default>1</default>
+                <confirmation>I confirm I've shipped the box with the printed label</confirmation>
+            </shipping>
+            <properties>
+                <reasons>
+                    <type>default</type>
+                    <values>
+                        <value_1>Not as expected</value_1>
+                    <value_2>Broken</value_2>
+                </values>
+                    
+                </reasons>
+                <conditions>
+                    <type>default</type>
+                    <values>
+                        <value_1>Damaged</value_1>
+                    <value_2>Open</value_2>
+                </values>
+                </conditions>
+                <resolutions>
+                    <type>default</type>
+                    <values>
+                        <value_1>Refund</value_1>
+                    <value_2>Replace</value_2>
+                </values>
+                </resolutions>
+            </properties>
+            <email>
+                <name>Owner</name>
+                <email>owner@example.com</email>
+                <notify_customer>1</notify_customer>
+                <notify_admin>1</notify_admin>
+            </email>
+        <extra>
+                <title>Bank Details</title>
+                <field_1></field_1>
+                <field_2></field_2>
+                <field_3></field_3>
+                <field_4></field_4>
+                <field_5></field_5>
+            </extra>
+        </amrma>
+        
+    </default>
+    <crontab>
+        <jobs>
+            
+        </jobs>
+    </crontab>
+</config>

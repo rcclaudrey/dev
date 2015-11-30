@@ -1,0 +1,27 @@
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */
+-->
+<layout>
+    <adminhtml_sales_order_view> 
+        
+        <reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>order_amrma</name>
+                <block>amrma/adminhtml_sales_order_view_tab_rma</block>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view> 
+    <adminhtml_customer_edit> 
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>order_amrma</name>
+                <!--<after>customer_info_tabs_tags</after>-->
+                <block>amrma/adminhtml_customer_edit_tab_rma</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

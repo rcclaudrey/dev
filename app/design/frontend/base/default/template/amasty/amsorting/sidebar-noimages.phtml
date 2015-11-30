@@ -1,0 +1,25 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Sorting
+ */
+ 
+$products = $this->getCollection();
+if ($products && $products->count() > 0) { ?>
+<div class="block block-review">
+    <div class="block-title">
+        <strong><span><?php echo $this->__($this->getHeader()) ?></span></strong>
+    </div>
+    <div class="block-content">
+        <ol id="amsorting-items-<?php echo md5($this->getHeader())?>">
+            <?php foreach ($products as $p){ ?>
+            <li class="item">
+                <p class="product-name"><a href="<?php echo $p->getProductUrl()?>"><?php echo $this->htmlEscape($p->getName())?></a></p>
+            </li>
+            <?php } ?>         
+        </ol>
+        <script type="text/javascript">decorateList('amsorting-items-<?php echo md5($this->getHeader())?>')</script>
+    </div>
+</div>
+<?php } ?>  

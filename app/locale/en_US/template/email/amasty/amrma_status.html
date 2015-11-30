@@ -1,0 +1,33 @@
+<!--@subject {{var request.getIncrementId()}}: Status has been changed  @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"var request.getId()":"RMA ID",
+"var request.getIncrementId()":"Order ID",
+"var request.getCustomerFirstname()":"First Name",
+"var request.getCustomerLastname()":"Last Name",
+"var request.getStatusLabel()":"Status",
+"var comment.getCommentText()":"Comment",
+"var comment.getCommentUrl()":"Comment URL",
+"var comment.getFirstFileUrl()":"File URL",
+"var comment.getFirstFileName()":"File",
+"layout handle=\"amrmafront_email_items\" request=$request":"Return Items Grid"
+}
+@-->
+
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <div>
+        Dear, {{var request.getCustomerFirstname()}} {{var request.getCustomerLastname()}}<br/>
+        Status has been changed to: {{var request.getStatusLabel()}}<br/><br/>
+        Comment here:<br/>
+        ----------------------------------------------------------------------<br/>
+        {{var comment.getCommentText()}}<br/>
+        ----------------------------------------------------------------------<br/>        
+        {{if comment.getFirstFileUrl()}} 
+            <a href="{{var comment.getFirstFileUrl()}}">{{var comment.getFirstFileName()}}</a>
+        {{else}} 
+            
+        {{/if}}
+    </div>
+</body>

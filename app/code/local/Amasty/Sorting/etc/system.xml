@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Sorting
+ */
+-->
+<config>
+    <sections>
+        <amsorting translate="label" module="amsorting">
+            <label>Improved Sorting</label>
+            <tab>amasty</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>91319</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <use_index translate="label comment">
+                            <label>Use Index</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Recommended for large catalogs.]]></comment>
+                        </use_index>
+                        <best_period translate="label comment">
+                            <label>Bestsellers Period (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Leave empty for life-time statistics.]]></comment>
+                        </best_period>
+                        <best_attr translate="label comment">
+                            <label>Custom Bestsellers Attribute Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Use to artificially move some products up in the real best sellers list. Leave empty to show real data.]]></comment>
+                        </best_attr>
+                        <exclude translate="label comment">
+                            <label>Exclude Products</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>amsorting/source_state</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Products from orders with selected states will not be used in the Bestsellers]]></comment>
+                        </exclude>
+                        <viewed_period translate="label comment">
+                            <label>Most Viewed Period (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Leave empty for life-time statistics.]]></comment>
+                        </viewed_period>
+                        <viewed_attr translate="label comment">
+                            <label>Custom Most Viewed Attribute Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Use to artificially move some products up in the real most viewed list. Leave empty to show real data.]]></comment>
+                        </viewed_attr>
+
+                        <new_attr translate="label comment">
+                            <label>Attribute Code for the Newest Sorting</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Leave empty to use product creation date. If you indicate a custom attribute, make sure `Used in Product Listing` for the attribute is set to `Yes`]]></comment>
+                        </new_attr>
+                        <saving translate="label">
+                            <label>Use Percentage for Biggest Saving Sorting</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </saving>
+                        <no_image_last translate="label comment">
+                            <label>Show Products without Images Last</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amsorting/source_stock</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[If it is not important, select `No` to optimize server resources usage.]]></comment>
+                        </no_image_last>
+                        <out_of_stock_last translate="label comment">
+                            <label>Show `Out of Stock` Products Last</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <source_model>amsorting/source_stock</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[If it is not important, select `No` to optimize server resources usage.]]></comment>
+                        </out_of_stock_last>
+                        <out_of_stock_qty translate="label comment">
+                            <label>Use qty to determine if the product is `Out of Stock`</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Products with the qty < 1 will be shown last regardless of the stock label. Make sure the previous setting is `Yes` also.]]></comment>
+                        </out_of_stock_qty>
+                        <hide_best_value translate="label">
+                            <label>Hide `Position` Sorting Option for Customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </hide_best_value>
+                        <desc_attributes translate="label comment">
+                            <label>Sort attributes descending by default</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Comma separated list of the attribute codes.]]></comment>
+                        </desc_attributes>
+                        <disable_methods translate="label comment">
+                            <label>Disable Sorting By</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>amsorting/source_methods</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Press CTRL+mouse to select multiple values.]]></comment>
+                        </disable_methods>
+                        <profit_price translate="label comment">
+                            <label><![CDATA[Price Type for Profit Sorting]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amsorting/source_price</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Profit is calculated as Price - Cost.]]></comment>
+                        </profit_price>
+                        <product_attribute translate="label comment">
+                            <label><![CDATA[Cost Attribute for Profit Sorting]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amsorting/source_productattribute</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Profit is calculated as Price - Cost.]]></comment>
+                        </product_attribute>
+                        <best_revenue_period translate="label comment">
+                            <label>Revenue Period (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Leave empty for life-time statistics.]]></comment>
+                        </best_revenue_period>
+                        <default_search>
+                            <label>Default Sorting on Search Pages</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amsorting/source_search</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Catalog search and advanced search.]]></comment>
+                        </default_search>
+                        <sort_by_id>
+                            <label>Sort Items by ID When Sorting Value is the Same</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Set to No to optimize performance. Can be useful for old php and MySql databases.]]></comment>
+                        </sort_by_id>
+                    </fields>
+                </general>
+            </groups>
+        </amsorting>
+    </sections>
+</config>

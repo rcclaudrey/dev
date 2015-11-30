@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+-->
+<config>
+    <sections>
+        <amscheckout translate="label" module="amscheckout">
+            <label>One Step Checkout</label>
+            <tab>amasty</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>151419</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <update>
+                    <label>Fields, Which Trigger Checkout Refresh</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <shipping translate="label">
+                            <label>Address Fields</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>amscheckout/system_config_source_shipping</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </shipping>
+                        <shipping_methods translate="label">
+                            <label>Shipping Methods</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </shipping_methods>
+                        <payment_methods translate="label">
+                            <label>Payment Methods</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payment_methods>  
+                    <quick_load translate="label">
+                            <label>Fast Page Load</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment> Customers will see address sections right away, while other sections (shipping, payment) will be loaded a bit later with AJAX.</comment>
+                        </quick_load>
+                    </fields>
+                </update>
+                <shopping_cart>
+                    <label>Shopping Cart Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>5</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <checkout translate="label">
+                            <label>Move checkout to cart page</label>
+                            <comment>
+                                <![CDATA[
+                                    <script>
+                                        function amOnCartToCheckoutChange(){
+                                        
+                                            var style = {
+                                                'display': this.value == 1 ? '' : 'none'
+                                            }
+                                            
+                                            $('row_amscheckout_shopping_cart_cart_to_checkout').setStyle(style);
+                                            
+                                            if (this.value == 0)
+                                                $('amscheckout_shopping_cart_cart_to_checkout').value = 0;
+                                            
+                                            amOnCartCartToCheckoutChange.call($('amscheckout_shopping_cart_cart_to_checkout'));
+                                        }
+                                        
+                                        $('amscheckout_shopping_cart_checkout').observe('change', function(){
+                                            
+                                            amOnCartToCheckoutChange.call(this);
+                                        });
+                                        
+                                    </script>
+                                ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </checkout>
+                        <cart_to_checkout translate="label">
+                            <label>Merge shopping cart with order review</label>
+                            <comment>
+                                <![CDATA[
+                                    <script>
+                                        function amOnCartCartToCheckoutChange(){
+  //                                          var style = {
+//                                                'display': this.value == 1 ? '' : 'none'
+                                            //}
+                                            
+                                            //$('row_amscheckout_shopping_cart_qty_updatable').setStyle(style);
+                                            //$('row_amscheckout_shopping_cart_editable').setStyle(style);
+                                            //$('row_amscheckout_shopping_cart_delitable').setStyle(style);
+                                        }
+                                        
+                                        $('amscheckout_shopping_cart_cart_to_checkout').observe('change', function(){
+                                            
+                                            amOnCartCartToCheckoutChange.call(this);
+                                        });
+                                        
+                                        amOnCartToCheckoutChange.call($('amscheckout_shopping_cart_checkout'));
+                                        amOnCartCartToCheckoutChange.call($('amscheckout_shopping_cart_cart_to_checkout'));    
+                                    </script>
+                                ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            
+                        </cart_to_checkout>
+                        
+                    </fields>
+                </shopping_cart>
+                <default>
+                    <label>Default Fields Data</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <payment_method translate="label">
+                            <label>Payment Method</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <source_model>amscheckout/system_config_source_payment_allowedmethods</source_model>
+                            <comment>
+
+                            </comment>
+                        </payment_method>
+                        <ship_same_address>
+                            <label>Ship to same address</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ship_same_address>
+                        <create_account>
+                            <label>Select "Create an account" checkbox</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </create_account>
+                        <newsletter>
+                            <label>Select "Sign Up for Newsletter" checkbox</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter>
+                    </fields>
+                </default>
+            <sections>
+                <label>Sections</label>
+                <frontend_type>text</frontend_type>
+                <sort_order>25</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+                <fields>
+                    <coupon translate="label">
+                        <label>Discount Codes</label>
+                        <comment></comment>
+                        <frontend_type>select</frontend_type>
+                        <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <sort_order>10</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                    </coupon>
+                    <giftcard translate="label">
+                        <label>Gift Card</label>
+                        <comment>Available only for magento enterprise version</comment>
+                        <frontend_type>select</frontend_type>
+                        <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <sort_order>20</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                    </giftcard>
+                </fields>
+            </sections>
+            <visual>
+                    <label>Visual Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <theme translate="label">
+                            <label>Theme Color</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </theme>
+                        <text translate="label">
+                            <label>Text Color</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </text>
+                        <button translate="label">
+                            <label>Button Color</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button>
+                        <font translate="label">
+                            <label>Font Family</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>400</sort_order>
+                            <show_in_default>10</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>for example: Georgia, 'Times New Roman', Times, serif</comment>
+                        </font>
+                    <show_thumbnail translate="label">
+                            <label>Show Thumbnail On Review</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_thumbnail>
+                        <show_newsletter translate="label">
+                            <label>Show Newsletter Subscription</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_newsletter>
+                        <thumbnail_size translate="label">
+                            <label>Thumbnail Size</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </thumbnail_size>
+                    </fields>
+                </visual>
+            </groups>
+        </amscheckout>
+    </sections>
+</config>

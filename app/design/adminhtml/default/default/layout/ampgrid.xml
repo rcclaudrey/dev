@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Pgrid
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_product_index>
+        <reference name="head">
+            <action method="addJs"><script>varien/form.js</script></action>
+            <action method="addJs"><file>amasty/ampgrid/attribute.js</file></action>
+            <action method="addJs"><file>amasty/ampgrid/grid.js</file></action>
+            <action method="addJs"><file>amasty/ampgrid/sortable.js</file></action>
+            <action method="addJs"><file>amasty/ampgrid/chosen/chosen.proto.js</file></action>
+            <action method="addJs"><file>amasty/ampgrid/event.simulate.js</file></action>
+
+            <action method="addJs"><file>scriptaculous/controls.js</file></action>
+            <action method="addCss"><name>amasty/ampgrid/grid.css</name></action>
+            <action method="addCss"><name>amasty/ampgrid/popup.css</name></action>
+
+            <action method="addItem"><type>js</type><name>mage/adminhtml/tabs.js</name></action>
+
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+
+            <action method="addJs"><stylesheet>amasty/ampgrid/lightbox/js/lightbox.js</stylesheet></action>
+            <action method="addItem"><type>js_css</type><name>amasty/ampgrid/lightbox/css/lightbox.css</name><params/></action>
+            <action method="addItem"><type>js_css</type><name>amasty/ampgrid/chosen/chosen.css</name><params/></action>
+        </reference>
+        <reference name="content">
+            <block type="ampgrid/adminhtml_catalog_product_grid_jsinit" name="ampgrid_jsinit"></block>
+        </reference>
+    </adminhtml_catalog_product_index>
+    <adminhtml_catalog_category_edit>
+        <reference name="head">
+            <action method="addJs"><script>varien/form.js</script></action>
+            <action method="addJs"><file>amasty/ampgrid/attribute.js</file></action>
+            <action method="addJs"><file>amasty/ampgrid/chosen/chosen.proto.js</file></action>
+            <action method="addJs"><file>amasty/ampgrid/event.simulate.js</file></action>
+            <action method="addCss"><name>amasty/ampgrid/popup.css</name></action>
+            <action method="addItem"><type>js_css</type><name>amasty/ampgrid/chosen/chosen.css</name><params/></action>
+        </reference>
+    </adminhtml_catalog_category_edit>
+</layout>

@@ -1,0 +1,37 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3 class="icon-head"><?php echo $this->getHeader() ?></h3></td>
+            <td class="form-buttons">
+                <?php echo $this->getSaveButtonHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="scheckoutTabsContainer">
+    <form id="checkoutFieldsForm" name="checkoutFieldsForm" action="<?php echo $this->getSaveFormAction() ?>" method="post">
+        <input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>" />
+        <input type="hidden" name="backurl" value="<?php echo $this->getBackUrl(); ?>" />
+        <input type="hidden" name="store" value="<?php echo $this->getData('store_id'); ?>" />
+        <input type="hidden" name="activeTab" id ="active_tab"/>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    varienCheckoutFieldsFormForm = new varienForm('checkoutFieldsForm');
+    var amScheckoutObj, amImportObj;
+    Event.observe(window, 'load', function(){
+        amScheckoutObj  = new amScheckout();
+        amImportObj = new amImport();
+    })
+    
+</script>

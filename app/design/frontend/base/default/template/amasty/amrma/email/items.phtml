@@ -1,0 +1,31 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */
+?>
+<table class="returns-items-table">
+    <thead>
+        <tr>
+            <th class="name"><?php echo $this->__('Product Name') ?></th>
+            <th class="sku"><?php echo $this->__('SKU') ?></th>
+            <th class="reason"><?php echo $this->__('Reason') ?></th>
+            <th class="condition"><?php echo $this->__('Condition') ?></th>
+            <th class="resolution"><?php echo $this->__('Resolution') ?></th>
+            <th class="qty"><?php echo $this->__('Qty') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getItems() as $key=>$item): ?>
+        <tr>
+            <td class="name"><?php echo $this->escapeHtml($item->getName()) ?></td>
+            <td class="sku"><?php echo $this->escapeHtml($item->getSku()) ?></td>
+            <td class="reason"><?php echo $this->escapeHtml($item->getReason()) ?></td>
+            <td class="condition"><?php echo $this->escapeHtml($item->getCondition()) ?></td>
+            <td class="resolution"><?php echo $this->escapeHtml($item->getResolution()) ?></td>
+            <td class="qty"><?php echo $this->escapeHtml($item->getQty()); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

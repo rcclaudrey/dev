@@ -1,0 +1,31 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<div>
+    <div>
+        <label class="coupon-code" for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label>
+        <input type="hidden" name="remove" id="remove-coupone" value="0" />
+        <div>
+            <input type="text" class="input-text" id="coupon_code" name="coupon_code" value="<?php echo $this->escapeHtml($this->getCouponCode()) ?>" />
+
+            <div class="coupon-buttons">
+                <button type="button" title="<?php echo $this->__('Apply') ?>" class="amscheckout-apply" onclick="discountForm.submit(false)" value="<?php echo $this->__('Apply') ?>"><span><span><?php echo $this->__('Apply') ?></span></span></button>
+                <?php if(strlen($this->getCouponCode())): ?>
+                    &nbsp; <button type="button" title="<?php echo $this->__('Cancel') ?>" class="amscheckout-apply" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel') ?>"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
+                <?php endif;?>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var discountForm = new VarienForm('discount-coupon-form');
+//]]>
+</script>

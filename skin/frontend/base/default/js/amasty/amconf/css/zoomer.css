@@ -1,0 +1,75 @@
+.cursor{
+	cursor: move;
+}
+
+.tint {
+    background-color: #EE4000;
+}
+
+.blur {
+    filter:url(#example-two);
+	-webkit-filter: blur(5px);
+    filter: progid:DXImageTransform.Microsoft.Blur(pixelRadius=5);	   
+}
+
+.shadow {
+    -moz-box-shadow: 5px 0px 10px rgba(0,0,0,0.3); 
+    -webkit-box-shadow: 5px 0px 10px rgba(0,0,0,0.3); 
+    box-shadow: 5px 0px 10px rgba(0,0,0,0.3);
+}
+
+.ieShadow{
+    z-index: 1;
+	zoom: 1;
+    background: #fff;
+	filter: progid:DXImageTransform.Microsoft.dropshadow(offX=0, offY=0, color=#cccccc);
+    filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='5', MakeShadow='true', ShadowOpacity='0.30');
+}
+
+.zoomerTitle{
+	background: #403f3f;
+	color: white;
+	font-size: 15px;
+    font-weight: bold;
+}
+
+.list_carousel {float: left;}
+.list_carousel.responsive { width: auto;	margin-left: 0; }
+.list_carousel ul  { margin: 0; padding: 0; }
+.list_carousel li  {
+	text-align: center;	
+	padding: 5px;
+	margin: 6px;
+	display: block;
+	float: left;
+}
+
+.MagicScrollArrows {
+	width: 24px;
+	height: 24px;
+	background: url("../images/arrows.png") repeat scroll 0 0 transparent;
+	cursor: pointer;
+}
+.MagicScrollArrowPrev { background-position: 0 24px;}
+
+.MagicScrollArrowsUpDown {
+	width: 24px;
+	height: 24px;
+	background: url("../images/arrows.png") repeat scroll 24px 24px transparent;
+	cursor: pointer;
+}
+.MagicScrollArrowUp { background-position: 24px 0; }
+
+#nextGallery.disabled, #prevGallery.disabled {
+	opacity: 0.4;
+	filter: alpha(opacity = 40);
+	cursor: default;
+}
+
+#gallery li a {
+    float: left;
+}
+
+
+
+

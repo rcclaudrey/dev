@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Autoshipping
+ */
+-->
+<!--
+    Copyright (c) 2014 Amasty (http://www.amasty.com)
+-->
+<config>
+    <modules>
+        <Amasty_Autoshipping>
+            <version>1.1.4</version>
+        </Amasty_Autoshipping>
+    </modules>
+
+    <global>
+        <helpers>
+            <amautoshipping>
+                <class>Amasty_Autoshipping_Helper</class>
+            </amautoshipping>
+        </helpers>
+        <models>
+            <amautoshipping>
+                <class>Amasty_Autoshipping_Model</class>
+            </amautoshipping>
+        </models>
+        <events>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <amasty_autoshipping>
+                        <type>singleton</type>
+                        <class>amautoshipping/observer</class>
+                        <method>handleCollect</method>
+                    </amasty_autoshipping>
+                </observers>
+            </sales_quote_collect_totals_before>
+            <admin_system_config_changed_section_amautoshipping>
+                <observers>
+                    <amasty_autoshipping>
+                        <type>singleton</type>
+                        <class>amautoshipping/observer</class>
+                        <method>beforeSaveSettings</method>
+                    </amasty_autoshipping>
+                </observers>
+            </admin_system_config_changed_section_amautoshipping>
+        </events>
+
+        <blocks>
+            <amautoshipping>
+                <class>Amasty_Autoshipping_Block</class>
+            </amautoshipping>
+        </blocks>
+    </global>
+
+    <default>
+        <amautoshipping>
+            <general>
+                <enable>1</enable>
+                <shipping_method></shipping_method>
+                <select_method>cheapest</select_method>
+            </general>
+
+            <address>
+                <country_id></country_id>
+                <region></region>
+                <city></city>
+                <postcode></postcode>
+            </address>
+
+        </amautoshipping>
+    </default>
+</config>  

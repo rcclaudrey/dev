@@ -1,0 +1,16 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php if ($this->showMiddlename()): ?>
+<?php
+    $_field = $this->getField();
+    $hlr = $this->helper("amscheckout");
+    echo $hlr->getBeforeControlHtml($_field);
+?>
+<input type="text" id="<?php echo $this->getFieldId('middlename')?>" name="<?php echo $this->getFieldName('middlename')?>" value="<?php echo $this->escapeHtml($this->getObject()->getMiddlename()) ?>" title="<?php echo $this->getStoreLabel('middlename') ?>" class="input-text <?php echo $_field['field_required'] ? "required-entry" : "" ?>" <?php echo $this->getFieldParams() ?> />
+<?php echo $hlr->getAfterControlHtml($_field);?>
+<?php endif; ?>

@@ -1,0 +1,301 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php
+    $hlr = $this->helper("amscheckout");
+    $hlr->initAddress($this);
+?>
+<div id="co-billing-form" action="">
+    <ul>
+    <?php if ($this->customerHasAddresses()): ?>
+        <li>
+            <label for="billing-address-select"><?php echo $this->__('Select a billing address from your address book or enter a new address.') ?></label>
+            <div>
+                <?php echo $this->getAddressesHtmlSelect('billing') ?>
+            </div>
+        </li>
+    <?php endif; ?>
+    <li id="billing-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?>><ul>
+    <li>
+        <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
+        
+        <?php if (!$this->isCustomerLoggedIn()) {?>
+        <input type="hidden" name="method" id="billing:method" value="<?php
+            print Mage_Checkout_Model_Type_Onepage::METHOD_GUEST
+        ?>" />
+        <?php }?>
+    </li>
+<?php
+    $_fields = $hlr->getFields("billing");
+    
+    foreach($_fields as $_field){
+        
+        $key = $_field['field_key'];        
+        $label = $_field['field_label'];
+        $position = $_field['column_position'];
+        $required = $_field['field_required'];
+        
+        
+//        if ($_field['field_disabled'] != 1){
+            switch($key){
+                case "billing:gender": ?>
+                    <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+                    <?php if ($_gender->isEnabled()): ?>
+                        <?php echo $hlr->getBeforeControlHtml($_field);?>
+                        <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                        <?php echo $hlr->getAfterControlHtml($_field);?>
+                    <?php endif ?><?php
+                break;
+                case "billing:prefix":
+                    print $hlr->getBillingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/prefix.phtml')
+                          ->setField($_field)
+                          ->toHtml();
+                    
+                break;
+                case "billing:firstname":
+                    print $hlr->getBillingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/firstname.phtml')
+                          ->setField($_field)
+                          ->toHtml();
+                break;
+                case "billing:middlename":
+                    print $hlr->getBillingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/middlename.phtml')
+                          ->setField($_field)
+                          ->toHtml();
+                break;
+                case "billing:lastname":
+                    print $hlr->getBillingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/lastname.phtml')
+                          ->setField($_field)
+                          ->toHtml();
+                break;
+                case "billing:suffix":
+                    print $hlr->getBillingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/suffix.phtml')
+                          ->setField($_field)
+                          ->toHtml();
+                break;
+                case "billing:company":
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('company', $required) ?>" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:email":
+                    if(!$this->isCustomerLoggedIn()) {
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text validate-email <?php echo $required ? "required-entry" : "" ?>" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                    }
+                break;
+                case "billing:street":
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><?php $_streetValidationClass = $hlr->getAttributeValidationClass('street', $required); ?>
+                    
+                    <input type="text" title="<?php echo $this->__('Street Address') ?>" name="billing[street][]" id="billing:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text <?php echo $_streetValidationClass ?> " />
+                    
+            <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+            <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                    <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?> input-address" />
+            <?php endfor; ?><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:taxvat":
+                    $address = $this->helper('customer/address');
+                    
+                    if (method_exists($address, "isVatAttributeVisible") && $address->isVatAttributeVisible()) :
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><input type="text" id="billing:vat_id" name="billing[vat_id]" value="<?php echo $this->escapeHtml($this->getAddress()->getVatId()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('vat_id', $required) ?>" />
+                    <?php 
+                    echo $hlr->getAfterControlHtml($_field);
+                    endif;
+                break;
+                case "billing:taxvat_number":
+                    if (method_exists($this, "isTaxvatEnabled") && $this->isTaxvatEnabled()){
+                        echo $hlr->getBeforeControlHtml($_field);
+                        ?>
+                    <input type="text" id="billing:taxvat" name="billing[taxvat]" value="<?php echo $this->getQuote()->getCustomerTaxvat();?>" class="input-text <?php echo $hlr->getAttributeValidationClass('taxvat_number', $required) ?>">
+                        <?php
+                        echo $hlr->getAfterControlHtml($_field);
+                        
+//                        $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat');
+//                        echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml();
+                    }
+                    break;
+                case "billing:city":
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><input type="text" title="<?php echo $this->escapeHtml($label) ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('city', $required) ?>" id="billing:city" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:region_id":
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->escapeHtml($label) ?>" class="validate-select" style="display:none;">
+                        <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                    </select>
+                    <script type="text/javascript">
+                    //<![CDATA[
+                        $('billing:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                    //]]>
+                    </script>
+                    <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('region', $required) ?>" style="display:none;" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:postcode":
+                    echo $hlr->getBeforeControlHtml($_field);
+                    ?><input type="text" title="<?php echo $this->escapeHtml($label) ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $hlr->getAttributeValidationClass('postcode', $required) ?>" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:country_id":
+                    echo $hlr->getBeforeControlHtml($_field);
+                    echo $this->getCountryHtmlSelect('billing');
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:telephone":
+                    echo $hlr->getBeforeControlHtml($_field);?><input type="text" name="billing[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('telephone', $required) ?>" id="billing:telephone" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:fax":
+                    echo $hlr->getBeforeControlHtml($_field);?><input type="text" name="billing[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('fax', $required) ?>" id="billing:fax" /><?php
+                    echo $hlr->getAfterControlHtml($_field);
+                break;
+                case "billing:save_in_address_book":
+                    if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()) {
+                        $repl = array(
+                            "amscheckout-control" => "amscheckout-control amscheckout-control-radio",
+                            "amscheckout-label" => "amscheckout-label amscheckout-label-radio"
+                        );
+
+                        echo $hlr->getBeforeControlHtml($_field, $repl);?><input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->escapeHtml($label) ?>" id="billing:save_in_address_book" onchange="if(window.shipping) shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><?php
+                        echo $hlr->getAfterControlHtml($_field);
+                    } else { ?><input type="hidden" name="billing[save_in_address_book]" value="1" /><?php }
+                break;
+                
+//                case "billing:create_account":
+//                    echo $hlr->getBeforeControlHtml($_field);?><?php
+//                    echo $hlr->getAfterControlHtml($_field);
+//                break;
+                case "billing:datebirth":
+                    $_dob = $this->getLayout()->createBlock('customer/widget_dob');
+                    if ($_dob->isEnabled()){
+                        echo $hlr->getBeforeControlHtml($_field);
+                        echo $_dob->setDate($this->getQuote()->getCustomerDob())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml();
+                        echo $hlr->getAfterControlHtml($_field);
+                    }
+                break;
+                default:
+                    echo $hlr->getExtraField($_field);
+                    break;
+            }
+//        }
+    }
+?>
+    </ul></li>
+    <?php $customerAttributes = $this->getChild('customer_form_customer_user_defined_attributes');?>
+    <?php if ($customerAttributes && !$this->isCustomerLoggedIn()): ?>
+        <?php $customerAttributes->setEntityModelClass('customer/customer')->setFieldIdFormat('billing:%1$s');?>
+        <?php $customerAttributes->setFieldNameFormat('billing[%1$s]')->setShowContainer(false);?>
+        <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
+    <?php endif;?>
+    <li><br/>
+        <?php
+        $passwordField = NULL;
+        $passwordRepeatField = NULL;
+        foreach($_fields as $_field){
+            $key = $_field['field_key'];        
+            $label = $_field['field_label'];
+            $position = $_field['column_position'];
+            $required = $_field['field_required'];
+
+
+//            if ($_field['field_disabled'] != 1){
+                switch($key){
+                    case "billing:use_for_shipping_yes":
+                        if ($this->canShip()){
+                            $repl = array(
+                                "amscheckout-control" => "amscheckout-control amscheckout-control-radio",
+                                "amscheckout-label" => "amscheckout-label amscheckout-label-radio"
+                            );
+                            echo $hlr->getBeforeControlHtml($_field, $repl);?><input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo  $this->escapeHtml($label) ?>" onclick="$('shipping:same_as_billing').checked = true;" class="radio" /><?php
+                            echo $hlr->getAfterControlHtml($_field);
+                        }
+                    break;
+                    case "billing:use_for_shipping_no":
+                        if ($this->canShip()){
+                            $repl = array(
+                                "amscheckout-control" => "amscheckout-control amscheckout-control-radio",
+                                "amscheckout-label" => "amscheckout-label amscheckout-label-radio"
+                            );
+                            echo $hlr->getBeforeControlHtml($_field, $repl);?><input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo  $this->escapeHtml($label) ?>" onclick="$('shipping:same_as_billing').checked = false;" class="radio" /><?php
+                            echo $hlr->getAfterControlHtml($_field);
+                        }
+                    break;
+                    case "billing:customer_password":
+                        $passwordField = $_field;
+                    break;
+                    case "billing:confirm_password":
+                        $passwordRepeatField = $_field;
+                    break;
+                }
+//            }
+        }
+        ?>
+    </li>
+<?php
+    echo $this->getChildHtml('checkout.onepage.billing.extra');
+?>
+<?php if (!$this->canShip()): ?>
+        <input type="hidden" name="billing[use_for_shipping]" value="1" />
+<?php endif; ?>
+        
+        
+        
+        <?php
+            if(!$this->isCustomerLoggedIn()) {
+                $repl = array(
+                    "amscheckout-control" => "amscheckout-control amscheckout-control-checkbox",
+                    "amscheckout-label" => "amscheckout-label amscheckout-label-radio"
+                );
+                $_createAccount = array(
+                    'field_key' => 'billing:create_account',
+                    'column_position' => '100',
+                    'field_required' => 0,
+                    'field_label' => $this->__("Create an account for later use")
+                );
+                echo $hlr->getBeforeControlHtml($_createAccount, $repl);?><input type="checkbox" id="billing:create_account" /><?php
+                echo $hlr->getAfterControlHtml($_createAccount);
+                
+                
+                $repl = array(
+                    "amscheckout-row" => "amscheckout-row amscheckout-password",
+                );
+                echo $hlr->getBeforeControlHtml($passwordField, $repl);?><input type="password" name="billing[customer_password]" title="<?php echo $this->escapeHtml($passwordField['field_label']) ?>" id="billing:customer_password" class="input-text validate-password <?php echo ($passwordField['field_required'] ? "required-entry" : "")?>" /><?php
+                echo $hlr->getAfterControlHtml($passwordField);
+                
+                $repl = array(
+                    "amscheckout-row" => "amscheckout-row amscheckout-password",
+                );
+                echo $hlr->getBeforeControlHtml($passwordRepeatField, $repl);?><input type="password" name="billing[confirm_password]" title="<?php echo $this->escapeHtml($passwordField['field_label']) ?>" id="billing:confirm_password" class="input-text validate-cpassword <?php echo ($passwordField['field_required'] ? "required-entry" : "")?>" /><?php
+                echo $hlr->getAfterControlHtml($passwordRepeatField);
+                    
+            }
+        
+        
+        ?>
+        
+        <?php echo $this->getChildHtml('form.additional.info'); ?>
+        
+    </ul>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var billing = new Billing('co-billing-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>');
+    var billingForm = new VarienForm('co-billing-form');
+
+    //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
+    $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
+
+    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
+//]]>
+</script>

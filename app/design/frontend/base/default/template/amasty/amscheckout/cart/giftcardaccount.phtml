@@ -1,0 +1,80 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php
+    $hlr = $this->helper("amscheckout");
+?>
+<div>
+    <div>
+        <label class="giftcard_code" for="giftcard_code"><?php echo $this->__('Enter the gift card code') ?></label>
+        <span id="gc-please-wait" class="please-wait" style="display:none;">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
+        </span>
+        <div>
+            <div id="giftcard_balance_lookup"></div>
+            <input type="text" class="input-text"  id="giftcard_code" name="giftcard_code" value="" />
+            <a href="#" class="giftcard-code-check" onclick="checkGiftCardStatus(); return false;"><?php echo $this->__('Check Gift Card status and balance') ?></a>
+            <div class="coupon-buttons">
+                <button class="amscheckout-apply" onclick="giftcardSubmit()" type="button" value="<?php echo $this->__('Apply') ?>"><span><span><?php echo $this->__('Apply') ?></span></span></button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    function giftcardSubmit(){
+        showLoading();
+        ajaxUpdate('<?php print $hlr->getGiftCartUrl();?>', function(config){
+            if (config.html && config.html.giftcard) {
+
+                if (config.html.giftcard.output) {
+                    $('checkout-giftcards').update(config.html.giftcard.output);
+                }
+
+                $('giftcard_balance_lookup').innerHTML = config.html.giftcard.message;
+            }
+
+            hideLoading();
+        });
+    }
+
+    function checkGiftCardStatus()
+    {
+        new Ajax.Updater(
+            'giftcard_balance_lookup',
+            '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
+            {
+                onCreate: function() { $('gc-please-wait').show(); },
+                onComplete: function() { $('gc-please-wait').hide(); },
+                parameters : {giftcard_code : $('giftcard_code').value}
+            }
+        );
+    }
+
+    function giftcardCancel(code){
+            showLoading();
+            ajaxUpdate('<?php print $hlr->getGiftCartCancelUrl();?>', function(config){
+                if (config.html && config.html.giftcard) {
+
+                    if (config.html.giftcard.output && $('checkout-giftcards')) {
+                        $('checkout-giftcards').update(config.html.giftcard.output);
+                    }
+
+                    if ($('giftcard_balance_lookup'))
+                        $('giftcard_balance_lookup').innerHTML = config.html.giftcard.message;
+                }
+
+                hideLoading();
+            }, {'code': code});
+    }
+
+    //]]>
+</script>

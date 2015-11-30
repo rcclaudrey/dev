@@ -1,0 +1,27 @@
+.colorpicker {
+	font-family: tahoma;
+	font-size: 10pt;
+	position: absolute;
+	background-color: #d6d6d6;
+	border: 1px solid #666666;
+}
+.colorpicker {
+	width: 412px;
+	height: 290px;
+}
+.colorpicker .window-mask {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top:0;
+	left:0;
+}
+
+.colorpicker table.colors {
+	position: absolute;
+	background: none;
+}
+.color-preview {
+    width: 50px;
+    height: 50px;
+}

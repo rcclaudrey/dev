@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprules
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Shiprules>
+            <version>1.1.5</version>
+        </Amasty_Shiprules>
+    </modules>
+
+    <global>
+        <models>
+            <amshiprules>
+                <class>Amasty_Shiprules_Model</class>
+                <resourceModel>amshiprules_mysql4</resourceModel>
+            </amshiprules>
+            <amshiprules_mysql4>
+                <class>Amasty_Shiprules_Model_Mysql4</class>
+                <entities>
+                    <rule>
+                        <table>am_shiprules_rule</table>
+                    </rule>
+                    <attribute>
+                        <table>am_shiprules_attribute</table>
+                    </attribute>
+                </entities>
+            </amshiprules_mysql4>
+            <shipping>
+                <rewrite>
+                    <shipping>Amasty_Shiprules_Model_Shipping_Shipping</shipping>
+                </rewrite>
+            </shipping>
+            <sales>
+                <rewrite>
+                    <quote_address_rate>Amasty_Shiprules_Model_Quote_Address_Rate</quote_address_rate>
+                </rewrite>
+            </sales>
+        </models>
+        <resources>
+            <amshiprules_setup>
+                <setup>
+                    <module>Amasty_Shiprules</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amshiprules_setup>
+
+            <amshiprules_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </amshiprules_write>
+
+            <amshiprules_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </amshiprules_read>
+        </resources>
+
+        <blocks>
+            <amshiprules>
+                <class>Amasty_Shiprules_Block</class>
+            </amshiprules>
+            <checkout>
+                <rewrite>
+                    <onepage_shipping_method_available>Amasty_Shiprules_Block_Onepage_Shipping_Method_Available</onepage_shipping_method_available>
+                </rewrite>
+                <rewrite>
+                    <cart_shipping>Amasty_Shiprules_Block_Cart_Shipping</cart_shipping>
+                </rewrite>
+            </checkout>
+        </blocks>
+
+        <helpers>
+            <amshiprules>
+                <class>Amasty_Shiprules_Helper</class>
+            </amshiprules>
+        </helpers>
+
+        <events>
+            <sales_quote_config_get_product_attributes>
+                <observers>
+                    <amshiprules>
+                        <class>amshiprules/observer</class>
+                        <method>addProductAttributes</method>
+                    </amshiprules>
+                </observers>
+            </sales_quote_config_get_product_attributes>
+        </events>
+
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Amasty_Shiprules after="Mage_Adminhtml">Amasty_Shiprules_Adminhtml</Amasty_Shiprules>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <menu>
+            <sales>
+                <children>
+                    <amshiprules translate="title" module="amshiprules">
+                        <title>Shipping Rules</title>
+                        <sort_order>750</sort_order>
+                        <action>adminhtml/amshiprules_rule</action>
+                    </amshiprules>
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <amshiprules>
+                                    <title>Shipping Rules</title>
+                                </amshiprules>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Amasty_Shiprules>
+                    <files>
+                        <default>Amasty_Shiprules.csv</default>
+                    </files>
+                </Amasty_Shiprules>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <default>
+        <amshiprules>
+            <discount>
+                <show_discount>0</show_discount>
+                <old_price_style>text-decoration:line-through</old_price_style>
+                <new_price_style>color:red</new_price_style>
+            </discount>
+        </amshiprules>
+    </default>
+</config>

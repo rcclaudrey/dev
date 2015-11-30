@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Conf>
+            <version>3.11.5</version>
+        </Amasty_Conf>
+    </modules>
+    
+    <frontend>
+        <translate>
+            <modules>
+                <Amasty_Conf>
+                    <files>
+                        <default>Amasty_Conf.csv</default>
+                    </files>
+                </Amasty_Conf>
+            </modules>
+        </translate>
+        
+        <layout>
+            <updates>
+                <amconf>
+                    <file>amasty/amconf.xml</file>
+                </amconf>
+            </updates>
+        </layout>
+        
+        <routers>
+            <amconf>
+                <use>standard</use>
+                <args>
+                    <module>Amasty_Conf</module>
+                    <frontName>amconf</frontName>
+                </args>
+            </amconf>
+        </routers>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <amconf>
+                    <file>amasty/amconf.xml</file>
+                </amconf>
+            </updates>
+        </layout>
+       
+        <translate>
+            <modules>
+                <Amasty_Conf>
+                    <files>
+                        <default>Amasty_Conf.csv</default>
+                    </files>
+                </Amasty_Conf>
+            </modules>
+        </translate>
+		<events>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <amconf_core_block_abstract_to_html_before>
+                        <class>amconf/observer</class>
+                        <method>onCoreBlockAbstractToHtmlBefore</method>
+                    </amconf_core_block_abstract_to_html_before>
+                </observers>
+            </core_block_abstract_to_html_before>
+       </events>
+    </adminhtml>
+    
+    <global>
+        <index>
+            <indexer>
+                <super>
+                    <model>amconf/indexer_super</model>
+                </super>
+            </indexer>
+        </index>
+        <models>
+            <amconf>
+                <class>Amasty_Conf_Model</class>
+                <resourceModel>amconf_mysql4</resourceModel>
+            </amconf>
+            
+            <amconf_mysql4>
+                <class>Amasty_Conf_Model_Mysql4</class>
+                <entities>
+                    <attribute>
+                        <table>amasty_amconf_attribute</table>
+                    </attribute>
+                    <product_attribute>
+                        <table>amasty_amconf_product_attribute</table>
+                    </product_attribute>
+                    <swatch>
+                        <table>amasty_amconf_swatch</table>
+                    </swatch>
+                </entities>
+            </amconf_mysql4>
+
+            <catalog>
+                <rewrite>
+                    <product_type_configurable_price>Amasty_Conf_Model_Catalog_Product_Type_Configurable_Price</product_type_configurable_price>
+                    <product_type_configurable>Amasty_Conf_Model_Catalog_Product_Type_Configurable</product_type_configurable>
+                </rewrite>
+            </catalog>
+            <catalog_resource>
+                <rewrite>
+                    <product_type_configurable_attribute_collection>Amasty_Conf_Model_Resource_Product_Type_Configurable_Attribute_Collection</product_type_configurable_attribute_collection>
+                </rewrite>
+            </catalog_resource>
+        </models>
+        
+        <resources>
+            <amconf_setup>
+                <setup>
+                    <module>Amasty_Conf</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amconf_setup>
+            <amconf_write>
+                <connection><use>core_write</use></connection>
+            </amconf_write>
+            <amconf_read>
+                <connection><use>core_read</use></connection>
+            </amconf_read>
+        </resources>
+        
+        <blocks>
+            <amconf>
+                <class>Amasty_Conf_Block</class>
+            </amconf>
+			
+            <catalog>
+                <rewrite>
+                    <product_view_type_configurable>Amasty_Conf_Block_Catalog_Product_View_Type_Configurable</product_view_type_configurable>
+                    <product_price>Amasty_Conf_Block_Catalog_Product_Price</product_price>
+                    <product_list>Amasty_Conf_Block_Catalog_Product_List</product_list>
+                </rewrite>
+            </catalog>
+        </blocks>
+        
+        <helpers>
+            <amconf>
+                <class>Amasty_Conf_Helper</class>
+            </amconf>
+        </helpers>
+        
+        <events>
+            <controller_action_postdispatch_adminhtml_catalog_product_attribute_save>
+                <observers>
+                    <catalogproductattributesave>
+                        <class>amconf/observer</class>
+                        <method>catalogProductAttributeSave</method>
+                    </catalogproductattributesave>                   
+                </observers>
+            </controller_action_postdispatch_adminhtml_catalog_product_attribute_save>    
+            
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <amconf>
+                        <class>amconf/observer</class>
+                        <method>onListBlockHtmlBefore</method>
+                    </amconf>
+                    <super_product_attributes_configuration>
+                        <class>amconf/observer</class>
+                        <method>onSuperProductAttributesConfigurationAfter</method>
+                    </super_product_attributes_configuration>
+                </observers>
+            </core_block_abstract_to_html_after>
+            <catalog_product_prepare_save>
+                <observers>
+                    <super_product_attributes_prepare_save>
+                        <class>amconf/observer</class>
+                        <method>onSuperProductAttributesPrepareSave</method>
+                    </super_product_attributes_prepare_save>
+                </observers>
+            </catalog_product_prepare_save>
+       </events>
+	
+	<sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <amconf_simple_price/>
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+    </global>
+    
+    <default>
+        <amconf>
+           <general>
+                <hide_dropdowns>0</hide_dropdowns>
+                <reload_content>name,description,image,short_description</reload_content>
+                <image_container>.product-img-box, .img-box </image_container>
+                <show_clear>1</show_clear>
+                <oneselect_reload>0</oneselect_reload>
+                <use_simple_price>1</use_simple_price>
+		        <out_of_stock>0</out_of_stock>
+		        <swatch_carou>0</swatch_carou>
+           </general>
+           <list>
+                <enable_list>0</enable_list>
+                <main_image_list_size_x>210</main_image_list_size_x>
+		        <main_image_list_size_y>210</main_image_list_size_y>
+           </list>
+          <size>
+                <thumb>72</thumb>
+                <preview_width>265</preview_width>
+                <preview_height>265</preview_height>
+           </size>
+           <zoom>
+                <enable>1</enable>
+                <type>lens</type>
+                <change_main_img_with>click</change_main_img_with>
+           </zoom>
+           <zoom_settings>
+                <viewer_position>1</viewer_position> 
+                <offset_x>10</offset_x> 
+                <offset_y>10</offset_y> 
+                <viewer_width>300</viewer_width>
+                <viewer_height>300</viewer_height>
+                <preloading>1</preloading>
+                <fadein>1</fadein>
+                <easing>1</easing>  
+                <scroll>1</scroll>  
+                <use_tint_effect>0</use_tint_effect> 
+                <tint_color>#F90</tint_color> 
+                <lens_size>200</lens_size> 
+           </zoom_settings>
+           <carousel>
+                <enable>1</enable>
+                <visible_items>3</visible_items>
+                <circular>1</circular>
+                <swipe>1</swipe>
+                <mousewheel>1</mousewheel>
+                <auto>0</auto>
+                <pagination>1</pagination>
+                <!--carousel_direction></carousel_direction-->
+           </carousel>
+           <lightbox>
+                <enable>1</enable>
+                <circular_lightbox>1</circular_lightbox>
+                <title_position>float</title_position>
+                <effect>fade</effect>
+                <thumbnail_helper>1</thumbnail_helper>
+                <thumbnail_lignhtbox>0</thumbnail_lignhtbox>
+           </lightbox>
+        </amconf>
+    </default>
+</config>

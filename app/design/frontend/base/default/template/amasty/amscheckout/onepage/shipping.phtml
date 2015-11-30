@@ -1,0 +1,166 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php
+    $hlr = $this->helper("amscheckout");
+    $hlr->initAddress($this);
+?>
+<div action="" id="co-shipping-form">
+    <ul>
+    <?php if ($this->customerHasAddresses()): ?>
+       <li>
+           <label for="shipping-address-select"><?php echo $this->__('Select a shipping address from your address book or enter a new address.') ?></label>
+           <div class="input-box">
+               <?php echo $this->getAddressesHtmlSelect('shipping') ?>
+           </div>
+       </li>
+    <?php endif ?>
+       <li id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif ?>><ul>
+           <input type="hidden" name="shipping[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="shipping:address_id" />
+           <?php
+                $_fields = $hlr->getFields("shipping");
+                foreach($_fields as $_field){
+                    $key = $_field['field_key'];        
+                    $label = $_field['field_label'];
+                    $position = $_field['column_position'];
+                    $required = $_field['field_required'];
+
+
+//                    if ($_field['field_disabled'] != 1){
+                        switch($key){
+                            case "shipping:prefix":
+                                print $hlr->getShippingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/prefix.phtml')
+                                      ->setField($_field)
+                                      ->toHtml();
+
+                            break;
+                            case "shipping:firstname":
+                                print $hlr->getShippingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/firstname.phtml')
+                                      ->setField($_field)
+                                      ->toHtml();
+                            break;
+                            case "shipping:middlename":
+                                print $hlr->getShippingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/middlename.phtml')
+                                      ->setField($_field)
+                                      ->toHtml();
+                            break;
+                            case "shipping:lastname":
+                                print $hlr->getShippingCustomerWidget($this, 'amasty/amscheckout/customer/customer/widget/lastname.phtml')
+                                      ->setField($_field)
+                                      ->toHtml();
+                            break;
+                            case "shipping:company":
+                                echo $hlr->getBeforeControlHtml($_field);?><input type="text" id="shipping:company" name="shipping[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('company', $required) ?>" onchange="shipping.setSameAsBilling(false);" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:street":
+                                
+                                echo $hlr->getBeforeControlHtml($_field);?><?php $_streetValidationClass = $hlr->getAttributeValidationClass('street', $required); ?>                    
+                                <input type="text" title="<?php echo $this->escapeHtml($label) ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text <?php echo $_streetValidationClass ?>" onchange="shipping.setSameAsBilling(false);" />
+
+                                <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                                <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+
+                                <input type="text" title="<?php echo $this->escapeHtml($label) ?>" name="shipping[street][]" id="shipping:street<?php echo $_i;?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?> input-address" onchange="shipping.setSameAsBilling(false);" />
+                                <?php endfor; ?><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:city":
+                                echo $hlr->getBeforeControlHtml($_field);?><input type="text" title="<?php echo $this->escapeHtml($label) ?>" name="shipping[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('city', $required) ?>" id="shipping:city" onchange="shipping.setSameAsBilling(false);" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:region_id":
+                                echo $hlr->getBeforeControlHtml($_field);?><select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->escapeHtml($label) ?>" class="validate-select" style="display:none;">
+                                    <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                                </select>
+                                <script type="text/javascript">
+                                //<![CDATA[
+                                    $('shipping:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                                //]]>
+                                </script>
+                                <input type="text" id="shipping:region" name="shipping[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('region', $required) ?>" style="display:none;" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:postcode":
+                                echo $hlr->getBeforeControlHtml($_field);?><input type="text" title="<?php echo $this->escapeHtml($label) ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $hlr->getAttributeValidationClass('postcode', $required) ?>" onchange="shipping.setSameAsBilling(false);" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:country_id":
+                                echo $hlr->getBeforeControlHtml($_field);
+                                echo $this->getCountryHtmlSelect('shipping');
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:telephone":
+                                echo $hlr->getBeforeControlHtml($_field);?><input type="text" name="shipping[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('telephone', $required) ?>" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:fax":
+                                echo $hlr->getBeforeControlHtml($_field);?><input type="text" name="shipping[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo $this->escapeHtml($label) ?>" class="input-text <?php echo $hlr->getAttributeValidationClass('fax', $required) ?>" id="shipping:fax" onchange="shipping.setSameAsBilling(false);" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            case "shipping:save_in_address_book":
+                                if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()){
+                                    $repl = array(
+                                        "amscheckout-control" => "amscheckout-control amscheckout-control-radio",
+                                        "amscheckout-label" => "amscheckout-label amscheckout-label-radio"
+                                    );
+                                    echo $hlr->getBeforeControlHtml($_field, $repl);?><input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?php echo $this->escapeHtml($label) ?>" id="shipping:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><?php
+                                    echo $hlr->getAfterControlHtml($_field);
+                                } else { ?><input type="hidden" name="shipping[save_in_address_book]" value="1" /><?php }
+                            break;
+                            case "shipping:same_as_billing":
+                                $repl = array(
+                                    "amscheckout-control" => "amscheckout-control amscheckout-control-radio",
+                                    "amscheckout-label" => "amscheckout-label amscheckout-label-radio"
+                                );
+                                echo $hlr->getBeforeControlHtml($_field, $repl);?><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if($this->getQuote()->getShippingAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> title="<?php echo $this->escapeHtml($label) ?>" onclick="shipping.setSameAsBilling(this.checked)" class="checkbox" /><?php
+                                echo $hlr->getAfterControlHtml($_field);
+                            break;
+                            default:
+                                echo $hlr->getExtraField($_field);
+                            break;
+                            
+                        }
+//                    }
+                }
+            ?>
+       </ul></li>
+       <?php $addressAttributes = $this->getChild('customer_form_shipping_address_user_defined_attributes');?>
+        <?php if ($addressAttributes): ?>
+            <?php $addressAttributes->setEntity($this->getAddress())->setEntityType('customer_address');?>
+            <?php $addressAttributes->setFieldIdFormat('shipping:%1$s')->setFieldNameFormat('shipping[%1$s]');?>
+            <?php echo $addressAttributes->setExcludeFileAttributes(true)->setShowContainer(false)->toHtml()?>
+        <?php endif;?>
+    </ul>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    var shipping = new Shipping('co-shipping-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>',
+        '<?php echo $this->getUrl('checkout/onepage/shippingMethod') ?>');
+    var shippingForm = new VarienForm('co-shipping-form');
+    shippingForm.extraChildParams = ' onchange="shipping.setSameAsBilling(false);"';
+    //shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
+    $('shipping-address-select') && shipping.newAddress(!$('shipping-address-select').value);
+
+    var shippingRegionUpdater = new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'shipping:postcode');
+        <?php
+        if ($this->getQuote()->getShippingAddress()->getSameAsBilling()){
+        ?>
+            $('shipping_area').hide();
+        <?php
+            } else {
+        ?>
+            $('shipping_area').show();
+        <?php
+            }
+        ?>
+//]]>
+
+
+        
+           
+</script>

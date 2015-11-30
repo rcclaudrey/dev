@@ -1,0 +1,136 @@
+.ampgrid-content-header {
+    margin-bottom: 18px;
+    border-bottom: 4px solid #dfdfdf;
+    padding-bottom: .25em;
+    height: 40px;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+div.ampgrid-side-col {
+    float: left;
+    width: 180px;
+    margin-right: -180px;
+    padding-bottom: 25px;
+}
+
+div.ampgrid-main-col {
+    margin-left: 180px;
+    min-height: 450px;
+    padding: 0 5px 25px 25px;
+}
+
+.ampgrid-content-buttons {
+    margin-bottom: 5px;
+    float: right;
+    display: inline;
+    white-space: nowrap;
+}
+
+.ampgrid-group-switcher {
+    margin-bottom: 10px;
+    border: 1px solid #cddddd;
+    background: #e7efef;
+    padding: 10px 18px;
+}
+
+.ampgrid-attribute-select {
+    width: 220px;
+}
+
+.ampgrid-column-table thead {
+}
+
+.ampgrid-autocomplete {
+    z-index: 10000;
+    position: absolute;
+    width: 250px;
+    max-height: 500px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #888;
+    margin: 0;
+    padding: 0;
+}
+
+.ampgrid-autocomplete li:hover {
+    background-color: #dcebf0;
+    cursor: default;
+}
+
+.columns-group
+{
+    margin: 15px 5px;
+}
+
+.uncheck-all {
+    margin-top: 10px;
+}
+
+.am-delete-attribute {
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: url(../../images/ampgrid/delete.gif) 100% 2px no-repeat;
+    opacity: 0.85;
+}
+
+.am-delete-attribute:hover {
+    opacity: 1.0;
+}
+
+#attributes-select {
+    display: none;
+}
+
+.custom-title {
+    height: 20px;
+}
+
+#ampgrid-delete-template_table_content {
+    background-color: whitesmoke;
+}
+
+.delete-group-popup-content {
+    margin: 15px 20px;
+    /*font-size: medium;*/
+    font-weight: 500;
+}
+
+#ampgrid-delete-template_content .delete-group-button {
+    margin: 0 25px;
+}
+
+.ampgrid-main-col td,th {
+    /*text-align: center;*/
+    vertical-align: middle;
+}
+
+.ampgrid-main-col input,div.chosen-container {
+    width: 96%;
+    margin: 0 2px;
+}
+
+.ampgrid-main-col {
+   font: 12px/1.5em Arial, Helvetica, sans-serif !important;
+}
+
+input {
+    font: 12px/1.5em Arial, Helvetica, sans-serif !important;
+}
+
+#ampgrid-group-select {
+    max-width: 145px;
+}
+
+.default-select-value{
+    color: #808080;
+}
+
+#ampgrid-group-select option{
+    color: #000000;
+}
+
+#ampgrid-group-select option:first-child{
+    color: #808080;
+}

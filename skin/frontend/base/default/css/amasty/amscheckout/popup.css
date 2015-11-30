@@ -1,0 +1,65 @@
+.amschekcout_close {
+    width: 23px;
+    height: 23px;
+    
+    background: transparent url('../../../images/amasty/amscheckout/button-close-focus.gif') no-repeat 0 0;			
+    position:absolute;
+    top:0px;
+    right:11px;
+    cursor:pointer;
+    z-index:1000;
+}
+
+.amschekcout_content{
+    /*background-color: #FFF;*/
+}
+
+.amschekcout_title{
+    float:left;
+    height:30px;
+    
+    width:100%;
+    
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.amscheckout-login-table {
+    width: 100%;
+    
+}
+
+.amscheckout-login-container{
+    margin: 20px;
+}
+
+.dialog table.table_window .amscheckout-login-table  td{
+    padding-top: 10px;
+}
+
+.amscheckout-login-table .cell-label{
+    width: 110px;
+}
+
+.login-buttons{
+    width: 100%;
+    text-align: center;
+}
+
+.amscheckout-forgot{
+    padding: 5px;
+    display: block;
+}
+
+.overlay_amschekcout {
+    background-color: #C9C9C9;
+    filter:alpha(opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
+}
+
+.login-button{
+    padding: 0px 40px;
+}

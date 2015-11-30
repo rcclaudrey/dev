@@ -1,0 +1,14 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php
+    $_field = $this->getField();
+    $hlr = $this->helper("amscheckout");
+    echo $hlr->getBeforeControlHtml($_field);
+?>
+<input type="text" id="<?php echo $this->getFieldId('firstname')?>" name="<?php echo $this->getFieldName('firstname')?>" value="<?php echo $this->escapeHtml($this->getObject()->getFirstname()) ?>" title="<?php echo $this->getStoreLabel('firstname') ?>" maxlength="255" class="input-text <?php echo $_field['field_required'] ? "required-entry" : "" ?>" <?php echo $this->getFieldParams() ?> />
+<?php echo $hlr->getAfterControlHtml($_field);?>

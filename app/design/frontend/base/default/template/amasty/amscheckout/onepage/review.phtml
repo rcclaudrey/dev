@@ -1,0 +1,22 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<?php echo $this->getParentBlock()->getChildHtml("review_before") ?>
+<div class="order-review" id="checkout-review-load"><div class="amloading" id="amloading-checkout-review-load"><span class="amscheckout-processing-small">&nbsp;</span></div><div style="display: none;">:AM_REPLACE</div></div>
+
+<?php if (Mage::helper("amscheckout")->showNewsletter() && !$this->isCustomerLoggedIn()) {?>
+<div class="order-review-newsletter">
+    <input type="checkbox" name="is_subscribed" title="<?php echo $this->__('Sign Up for Newsletter') ?>" value="1" id="is_subscribed" class="checkbox">
+    <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
+</div>
+<?php }?>
+<div class="order-review-button">
+    <button id="amscheckout-submit" type="button" title="<?php echo $this->__('Place Order') ?>" class="amscheckout-submit" onclick="completeCheckout();">
+        <span><span><?php echo $this->__('Place Order') ?></span></span>
+    </button>
+</div>
+

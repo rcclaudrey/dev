@@ -1,0 +1,533 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+-->
+<config>
+    <sections>
+        <amconf translate="label" module="amconf">
+            <label>Color Swatches Pro</label>
+            <tab>amasty</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>31519</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <hide_dropdowns translate="label">
+                            <label>Hide Configuration Drop-Downs</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </hide_dropdowns>
+                        <reload_content translate="label comment">
+                            <label>Reload Product Information</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>amconf/source_reload</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reload_content>
+                        <image_container translate="label comment">
+                            <label>Product Image Block CSS Selector</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </image_container>
+			            <use_simple_price translate="label comment">
+                            <label>Use Price of Simple Products</label>
+                            <comment>Individual products can be specified on a product edit page.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_price</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </use_simple_price>
+                        <show_clear translate="label comment">
+                            <label>Show "Reset Configuration" option</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_clear>
+                        <oneselect_reload translate="label comment">
+                            <label>Reload Images When The First Attribute Selected</label>
+                            <comment>If set to 'Yes', product images will get reloaded after the first attribute is selected (first values of the other attributes will be used).</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </oneselect_reload> 
+                        <auto_select_attribute translate="label comment">
+                            <label>Automatically Select Attributes That Have One Single Value</label>
+                            <comment>On the product view page, automatically select configurable attributes that have only 1 value available in the drop-down.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </auto_select_attribute>
+                         <out_of_stock translate="label comment">
+                            <label>Display Out Of Stock Options as Crossed Out</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </out_of_stock>
+                        <display_price translate="label">
+                            <label>Display Price</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_priceFrom</source_model>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_price>
+                        <swatch_carou translate="label">
+                            <label>Enable Slider for Swatches</label>
+                            <comment>On the product view page</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </swatch_carou>
+ 					</fields>
+                </general>
+                <list>
+                    <label>Category Grid Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable_list translate="label">
+                            <label>Display Color Swatches on Product List Pages</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_swatchesList</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_list>
+                        <list_index translate="label">
+                            <label>Use Indexes for Better Performance</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </list_index>
+                       
+						<main_image_list_size_x translate="label comment">
+                            <label>Product Thumbnail Width (px)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </main_image_list_size_x>
+                        <main_image_list_size_y translate="label comment">
+                            <label>Product Thumbnail Height (px)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </main_image_list_size_y>
+                    </fields>
+                </list>
+                <size>
+                    <label>Image Size Settings (System)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <thumb translate="label comment">
+                            <label>Size of The Thumbnail Image (px)</label>
+                            <comment>56 pixels by default. Do not modify this value until you really need to.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </thumb>
+                        <preview_width translate="label comment">
+                            <label>Width of The Preview Image (px)</label>
+                            <comment>265 pixels by default. Do not modify this value until you really need to.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </preview_width>
+                        <preview_height translate="label comment">
+                            <label>Height of The Preview Image (px)</label>
+                            <comment>265 pixels by default. Do not modify this value until you really need to.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </preview_height>
+                    </fields>
+                </size>
+				<zoom translate="label">
+                    <label>Zoomer for Main Image</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label">
+                            <label>Enable "Zoom" Feature</label>
+                            <comment><![CDATA[
+                                    <script type="text/javascript">
+                                        checkEnable = function() {
+                                            if ($('amconf_zoom_type').getValue() == "window") {
+                                                $('row_amconf_zoom_settings_viewer_position').show();
+                                                $('row_amconf_zoom_settings_offset_x').show();
+                                                $('row_amconf_zoom_settings_offset_y').show();
+                                                $('row_amconf_zoom_settings_viewer_width').show();
+                                                $('row_amconf_zoom_settings_viewer_height').show();
+                                                $('row_amconf_zoom_settings_use_tint_effect').show();
+                                                $('row_amconf_zoom_settings_tint_color').show();
+                                                $('row_amconf_zoom_settings_lens_size').hide();
+                                            }
+                                            else if($('amconf_zoom_type').getValue() == "inner") {
+                                                $('row_amconf_zoom_settings_viewer_position').hide();
+                                                $('row_amconf_zoom_settings_offset_x').hide();
+                                                $('row_amconf_zoom_settings_offset_y').hide();
+                                                $('row_amconf_zoom_settings_viewer_width').hide();
+                                                $('row_amconf_zoom_settings_viewer_height').hide();
+                                                $('row_amconf_zoom_settings_use_tint_effect').hide();
+                                                $('row_amconf_zoom_settings_tint_color').hide();
+                                                $('row_amconf_zoom_settings_lens_size').hide();
+                                            }
+                                             else if($('amconf_zoom_type').getValue() == "lens") {
+                                                $('row_amconf_zoom_settings_viewer_position').hide();
+                                                $('row_amconf_zoom_settings_offset_x').hide();
+                                                $('row_amconf_zoom_settings_offset_y').hide();
+                                                $('row_amconf_zoom_settings_viewer_width').hide();
+                                                $('row_amconf_zoom_settings_viewer_height').hide();
+                                                $('row_amconf_zoom_settings_use_tint_effect').hide();
+                                                $('row_amconf_zoom_settings_tint_color').hide();
+                                                $('row_amconf_zoom_settings_lens_size').show();
+                                            }
+                                        } 
+                                        Event.observe(window, 'load', function() {
+                                            Event.observe('amconf_zoom_type', 'change', checkEnable);
+                                            checkEnable();
+                                        })
+                                    </script>
+                                ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <type translate="label">
+                            <label>Type of Zoom</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_typeOfZoom</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type>
+                        <change_main_img_with translate="label">
+                            <label>Action for Main Image Change</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_changeMainImg</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </change_main_img_with>
+                    </fields>
+                </zoom>
+                
+                <zoom_settings translate="label">
+                    <label>Settings for Zoomer</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <viewer_position translate="label">
+                            <label>Zoom Window Position</label>
+                            <comment>Choose Zoom window position and insert corresponding  position number in this field
+                                <![CDATA[<div style="position: relative;"><img id="ampos_block" src="" alt="" border="0" /></div>&nbsp;<script>
+                                var n = SKIN_URL.indexOf("adminhtml");
+                                $('ampos_block').src = SKIN_URL.substring(0, n) + "adminhtml/default/default/amasty/amconf/window-positions.png";
+                                </script>]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_viewerPosition</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </viewer_position> 
+                        <offset_x translate="label">
+                            <label>Horisontal Offset, px</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </offset_x> 
+                        <offset_y translate="label">
+                            <label>Vertical Offset, px</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </offset_y> 
+                        <viewer_width translate="label">
+                            <label>Zoom Window Width, px</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </viewer_width>
+                        <viewer_height translate="label">
+                            <label>Zoom Window Height, px</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </viewer_height>
+                        <preloading translate="label">
+                            <label>Preloading Images</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </preloading>
+                        <fadein translate="label">
+                            <label>Use FadeIn Effect</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fadein>
+                        <easing translate="label">
+                            <label>Use Easing Effect</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </easing>  
+                        <scroll translate="label">
+                            <label>Use Scroll Zoom Effect</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </scroll>  
+                        <use_tint_effect translate="label">
+                            <label>Use Tint Effect</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_tint_effect> 
+                        <tint_color translate="label">
+                            <label>Tint Color</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </tint_color> 
+                        <lens_size translate="label">
+                            <label>Lens Size</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lens_size> 
+                    </fields>
+                </zoom_settings>
+                <lightbox translate="label">
+                    <label>Lightbox</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>80</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label">
+                            <label>Enable "Lightbox" Feature</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <thumbnail_lignhtbox translate="label">
+                            <label>Enable Thumbnail Lightbox</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </thumbnail_lignhtbox>
+                        <circular_lightbox translate="label">
+                            <label>Circular Lightbox</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </circular_lightbox>
+                        <title_position translate="label">
+                            <label>Title Position</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_titlePosition</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title_position>
+                        <effect translate="label">
+                            <label>Animation Effect</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_lightboxEffects</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </effect>
+                        <thumbnail_helper translate="label">
+                            <label>Enable Thumbnail Helper</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </thumbnail_helper>
+                    </fields>
+                </lightbox>
+                <carousel translate="label">
+                    <label>Carousel Feature for Thumbnails</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>90</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label">
+                            <label>Enable "Carousel" feature</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <visible_items translate="label">
+                            <label>Count of Visible Items in Carousel</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>amconf/source_countOfCarouselItems</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+			                </visible_items>
+                        <circular translate="label">
+                            <label>Circular Carousel</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </circular>
+                        <swipe translate="label">
+                            <label>Use Swipe Carousel</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </swipe>
+                        <auto translate="label">
+                            <label>Use Automatic Scrolling</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </auto>
+			            <pagination translate="label">
+			                <label>Use Pagination</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pagination>
+                    </fields>
+                </carousel>
+            </groups>
+        </amconf>
+    </sections>
+</config>

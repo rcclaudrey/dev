@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */
+-->
+<config>
+    <translate>
+        <modules>
+            <Amasty_Rma>
+                <files>
+                    <default>Amasty_Rma.csv</default>
+                </files>
+            </Amasty_Rma>
+        </modules>
+    </translate>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amrma translate="title" module="amrma">
+                                        <title>RMA</title>
+                                    </amrma>
+                                </children>
+                            </config>
+                            <rma_adminsetting translate="title" module="amrma">
+                                <title>RMA</title>
+                            </rma_adminsetting>
+                        </children>
+                    </system> 
+                 </children>
+            </admin> 
+        </resources>
+    </acl>
+</config>

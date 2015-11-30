@@ -1,0 +1,64 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Scheckout
+ */
+?>
+<div id="amscheckout-login" class="amscheckout-login">
+    <div>
+        <?php echo $this->getChildHtml('login_before')?>
+        <div>
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+            <form id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
+                <input type="hidden" name="form_key" value="<?php print Mage::getSingleton('core/session')->getFormKey();?>"/>
+                <div class="amscheckout-login-container">
+                    <table class="amscheckout-login-table">
+                        <tr>
+                            <td class="cell-label"><label for="login-email" class="required"><?php echo $this->__('Email Address') ?></label></td>
+                            <td><input type="text" class="input-text required-entry validate-email" id="login-email" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cell-label"><label for="login-password" class="required"><?php echo $this->__('Password') ?></label></td>
+                            <td><input type="password" class="input-text required-entry" id="login-password" name="login[password]" /></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div>
+                    <?php echo $this->getChildHtml('form.additional.info'); ?>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="login-buttons">
+        <div class="login-button">
+            <button type="submit" class="amscheckout-dologin" onclick="onepageLogin(this)"><span><span><?php echo $this->__('Log in') ?></span></span></button>
+        </div>
+        <a class="amscheckout-forgot" href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
+    </div>
+</div>
+<?php echo $this->getChildHtml('checkout.onepage.login.extra')?>
+
+    
+
+<script type="text/javascript">
+//<![CDATA[
+    var loginForm = new VarienForm('login-form', true);
+    $('login-email').observe('keypress', bindLoginPost);
+    $('login-password').observe('keypress', bindLoginPost);
+    function bindLoginPost(evt){
+        if (evt.keyCode == Event.KEY_RETURN) {
+            loginForm.submit();
+        }
+    }
+    function onepageLogin(button)
+    {
+        if(loginForm.validator && loginForm.validator.validate()){
+            button.disabled = true;
+            loginForm.submit();
+        }
+    }
+//]]>
+</script>

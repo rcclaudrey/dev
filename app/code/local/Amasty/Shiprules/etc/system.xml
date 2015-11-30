@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprules
+ */
+-->
+<config>
+    <sections>
+        <amshiprules translate="label" module="amshiprules">
+            <label>Shipping Rules</label>
+            <tab>amasty</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>190818</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <discount translate="label">
+                    <label>Discount Display</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <show_discount translate="label comment">
+                            <label>Enabled</label>
+                            <comment>Show both old and new rates</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_discount>
+                        <old_price_style translate="label comment">
+                            <label>Old Price Style</label>
+                            <comment>For example: "text-decoration:line-through" without quotes.</comment>
+                            <depends>show_discount</depends>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </old_price_style>
+                        <new_price_style translate="label comment">
+                            <label>New Price Style</label>
+                            <comment>For example: "color:red" without quotes.</comment>
+                            <depends>show_discount</depends>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </new_price_style>
+                    </fields>
+                </discount>
+            </groups>
+        </amshiprules>
+    </sections>
+</config>

@@ -1,0 +1,74 @@
+<?php 
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+?>
+<div class="box-left">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4><?php print $this->__("Comments History")?></h4>
+        </div>
+        <fieldset>
+            <div id="history_form" class="order-history-form">
+                <span class="field-row">
+                    <label class="normal" for="status_id"><?php echo $this->__('Status') ?></label><br/>
+                    <select name="status_id" class="select" id="status_id">
+                        <?php foreach($this->getStatuses() as $key => $val){
+                        ?>
+                        <option <?php print $this->getRequest()->getStatusId() ==  $key ? "selected" : ""
+                            ?> value="<?php print $key;?>"><?php print $this->escapeHtml($val);?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </span>
+                <span class="field-row">
+                    <label class="normal" for="comment"><?php echo $this->__('Comment') ?></label>
+                    <textarea name="comment" rows="3" cols="5" style="height:6em; width:99%;" id="comment"></textarea>
+                </span>
+                <div class="f-left">
+                    <input  type="file" name="file"/>
+                </div>
+                <div class="f-right">
+                    <button type="button" class="scalable save" onclick="editForm.submit($('edit_form').action + 'continue/edit/comment_submit/1')">
+                        <span><span><span><?php print $this->__("Submit")?></span></span></span>
+                    </button>
+                </div>
+                
+                <div class="clear"></div>
+                <div class="field-row" style="padding-top: 3px;">
+                    <input <?php print $this->getIsNotifyCustomer() ? "checked" : ""?> name="is_customer_notified" type="checkbox" id="is_customer_notified" value="1" />
+                    <label class="normal" for="is_customer_notified"> <?php echo $this->__('Notify Customer by Email') ?></label>
+                </div>
+            </div>
+            <ul class="note-list">
+                <?php
+                    foreach($this->getComments() as $_item){
+                ?>
+                <li>
+                    <strong><?php echo $this->helper('core')->formatDate($_item->getCreated(), 'medium') ?></strong>
+                    <?php echo $this->helper('core')->formatTime($_item->getCreated(), 'medium') ?><br/>
+                    <small><?php echo $this->__($_item->getIsAdmin() == 1 ? 'Admin' : 'Customer') ?></small>
+                    <?php if ($_item->getCommentValue()): ?>
+                        <br/><?php echo $this->escapeHtml($_item->getCommentText(), array('b','br','strong','i','u')) ?>
+                    <?php endif; ?>
+                    <?php
+                        $_files = $this->getFiles($_item->getId());
+                        if ($_files && $_files->getSize() > 0){
+                            foreach($_files as $_file){
+                    ?>
+                        <br/><a href="<?php print $_file->getHref();?>"><?php echo $this->escapeHtml($_file->getName())?></a>
+                    <?php
+                            }
+                        }
+                    ?>
+                </li>
+                <?php
+                    }
+                ?>
+            </ul>
+        </fieldset>        
+    </div>        
+</div>

@@ -1,0 +1,39 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Sorting
+ */
+ 
+$products = $this->getCollection();
+if ($products && $products->count() > 0) { ?>
+<div class="block block-related block-sorting-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->__($this->getHeader()) ?></span></strong>
+    </div>
+    <div class="block-content">
+        <ol id="block-sorting-sidebar" class="mini-products-list">
+             <?php foreach ($products as $p){ ?>
+                    <li class="item">
+                    <div class="product" style="margin-left: 0px !important;">
+                    <a href="<?php echo $p->getProductUrl() ?>" title="<?php echo $this->htmlEscape($p->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($p, 'thumbnail')->resize(50) ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($p->getName()) ?>" /></a>
+                    <div class="product-details">
+                        <p class="product-name"><a href="<?php echo $p->getProductUrl() ?>"><?php echo $this->htmlEscape($p->getName()) ?></a></p>                        
+
+        
+                        <div class="price-box">
+                            <?php echo $this->getPriceHtml($p, true); ?>
+                        </div>
+
+                        <?php if($p->isSaleable()): ?>
+                            <a href="<?php echo $this->getAddToCartUrl($p); ?>" class="link-wishlist"><?php echo $this->__('Add to Cart'); ?></a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </li>
+           <?php } ?>  
+        </ol>
+        <script type="text/javascript">decorateList('block-sorting-sidebar', 'none-recursive')</script>
+    </div>
+</div>
+<?php } ?>

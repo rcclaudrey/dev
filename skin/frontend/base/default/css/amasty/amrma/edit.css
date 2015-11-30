@@ -1,0 +1,51 @@
+/**
+ * @copyright   Copyright (c) 2009-2014 Amasty (http://www.amasty.com)
+ */ 
+.form-list li.fields .field {
+    clear: left;
+    padding: 0 0 9px;
+    float: none;
+    width: auto;
+}
+
+.form-list label {
+    float: left;
+    width: 225px;
+    padding: 2px 15px 0 0;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444;
+    text-align: right;
+}
+
+.form-list .input-box {
+    float: left;
+    width: auto;
+    clear: none;
+}
+
+.form-list select {
+    float: left;
+    width: 380px;
+    vertical-align: top;
+}
+
+.amrma-required em {
+    color: #F15C22;
+    margin-right: 4px;
+}
+
+.form-list input.input-text, .form-list textarea {
+    float: left;
+    width: 374px;
+    vertical-align: top;
+}
+
+.form-list{
+    border-bottom: 1px solid #E4E4E4;
+    margin-bottom: 20px;
+}
+
+.form-list .data-table{
+    width: 380px;
+}

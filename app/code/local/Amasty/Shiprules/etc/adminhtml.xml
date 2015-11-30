@@ -1,0 +1,59 @@
+<?xml version="1.0"?> 
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprules
+ */
+-->
+<config>
+        <menu>
+            <sales>
+                <children>
+                    <amshiprules translate="title" module="amshiprules">
+                        <title>>Shipping Rules</title>
+                        <sort_order>750</sort_order>
+                        <action>amshiprules/adminhtml_rule</action>
+                    </amshiprules>
+                </children>
+            </sales>
+        </menu>      
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <amshiprules>
+                                    <title>Shipping Rules</title>
+                                </amshiprules>
+                            </children>
+                        </sales>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <amshiprules translate="title" module="amshiprules">
+                                            <title>Shipping Rules</title>
+                                        </amshiprules>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin> 
+			</resources>
+		</acl>
+        <translate>
+            <modules>
+                <Amasty_Shiprules>
+                    <files>
+                        <default>Amasty_Shiprules.csv</default>
+                    </files>
+                </Amasty_Shiprules>
+            </modules>
+        </translate> 			
+</config> 

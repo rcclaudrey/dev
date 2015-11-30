@@ -1,0 +1,52 @@
+<?xml version="1.0"?> 
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Sorting
+ */
+-->
+<config>
+    <translate>
+        <modules>
+            <Amasty_Sorting>
+                <files>
+                    <default>Amasty_Sorting.csv</default>
+                </files>
+            </Amasty_Sorting>
+        </modules>
+    </translate>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amsorting>
+                                        <title>Improved Sorting</title>
+                                    </amsorting>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                 </children>
+            </admin>
+        </resources>
+    </acl>
+    <events>
+        <model_config_data_save_before>
+            <observers>
+                <amsorting>
+                    <type>singleton</type>
+                    <class>amsorting/observer</class>
+                    <method>settingsChanged</method>
+                </amsorting>
+            </observers>
+        </model_config_data_save_before>
+    </events>
+</config>

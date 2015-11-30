@@ -1,0 +1,249 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Pgrid
+ */
+
+/**
+ * @var Amasty_Pgrid_Block_Adminhtml_Catalog_Product_Grid_Attributes $this
+ */
+?>
+<div id="attributes-select">
+    <select data-placeholder="Choose a Attribute..." class="ampgrid-attribute-select chosen-select" >
+        <?php
+        /**
+         * @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+         */
+        ?>
+        <option value="0"></option>
+        <?php foreach ($this->getAttributes() as $attribute): ?>
+            <option
+                data-attribute="<?php echo $attribute->getAttributeCode(); ?>"
+                value="<?php echo $attribute->getAttributeId() ?>">
+                <?php echo $attribute->getFrontendLabel(); ?>
+                (<?php echo $attribute->getAttributeCode(); ?>)
+            </option>
+        <?php endforeach;?>
+    </select>
+</div>
+<div class="ampgrid-side-col" id="page::left">
+    <div id="delete-group-popup" style="display: none;">
+        <div class="delete-group-popup-content">
+            <label><?php echo $this->__('Are you sure you want to delete this template?')?></label>
+        </div>
+    </div>
+    <form id="apmgrid-group" name="apmgrid-group" action="<?php echo $this->getChangeGroupUrl(); ?>" method="post">
+        <input type="hidden" name="attributesKey" id="attributesKey" value="<?php echo $this->getAttributesKey();?>"/>
+        <input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>" />
+        <p class="ampgrid-group-switcher">
+            <label for="ampgrid-group-select"><?php echo $this->__('Template');?>:</label>
+            <select id="ampgrid-group-select" name="group_id" onchange="pAttribute.changeTemplate();">
+                <?php /**
+                 * @var Amasty_Pgrid_Model_Group $group
+                 */?>
+                <option value="0"><span><?php echo $this->__('Choose a Template...');?></span></option>
+                <?php foreach($this->getGroups() as $group):?>
+                    <option
+                        value="<?php echo $group->getId()?>"
+                        <?php echo $group->getId() == $this->getGroupId() ? 'selected="selected"' : '';?>>
+                        <?php echo $this->__($this->escapeHtml($group->getTitle()))?>
+                    </option>
+                <?php endforeach;?>
+            </select>
+        </p>
+    </form>
+
+    <ul class="tabs" id="ampgrid-columns-tab">
+        <li class="first"><a href="#" class="tab-item-link" id="column_tabs_standard"><span>Standard Columns</span></a></li>
+        <li><a href="#" class="tab-item-link" id="column_tabs_attribute"><span>Attribute Columns</span></a></li>
+        <li><a href="#" class="tab-item-link" id="column_tabs_extra"><span>Extra Columns</span></a></li>
+    </ul>
+</div>
+<div class="ampgrid-main-col" id="content">
+
+    <div class="ampgrid-content-header">
+        <div class="content-buttons-placeholder">
+            <p class="ampgrid-content-buttons form-buttons">
+                    <button style="" class="scalable save" id="save-group" type="submit" onclick="pAttribute.disableSave();pAttributeForm.submit()"><span><?php echo $this->__('Save Template'); ?></span></button>
+                <button style="" class="scalable" type="button" id="save-new-group" onclick="pAttribute.saveNewTemplate();"><span><?php echo $this->__('Save as New Template'); ?></span></button>
+                <button style="" class="scalable cancel" type="button" onclick="javascript: pAttribute.closeConfig();"><span><?php echo $this->__('Cancel'); ?></span></button>
+                <button style="" class="scalable delete" id="delete-group" type="submit" onclick="pAttribute.deleteTemplate(pAttributeForm)"><span><?php echo $this->__('Delete Template'); ?></span></button>
+            </p>
+        </div>
+    </div>
+
+    <form id="form-pattribute" name="form-pattribute" action="<?php echo $this->getSaveUrl(); ?>" method="post">
+        <div id="new-group-popup" style="display: none;">
+            <div class="new-group-popup-content">
+                <div style="float: left;">
+                    <div>
+                        <label style="display: block;" for="new-group-name">New Template Name:
+                    </div>
+                    <input id="new-group-name" class="validate-new-group" onchange="$('group-name').value = this.value;"
+                           placeholder="New Template Name" /></label>
+                </div>
+                <div style="float: left;margin:17px 5px;">
+                    <button class="scalable save" id="save-new-group-submit" onclick="pAttributeForm.submit()" type="submit"><span><?php echo $this->__('Save Template'); ?></span></button>
+                </div>
+                <div style="clear: both;"></div>
+
+            </div>
+        </div>
+        <input type="hidden" id="group-name" name="group-name" />
+        <input type="hidden" value="0" name="preset" id="preset"/>
+        <input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>" />
+        <input type="hidden" id="is-new-group" name="is-new-group" />
+        <input type="hidden" name="attributesKey" id="attributesKey" value="<?php echo $this->getAttributesKey();?>"/>
+        <input type="hidden" name="delete_group" id="delete_group" value="0"/>
+
+        <div id="column_tabs_standard_content" class="grid">
+            <table id="standard-columns-table" cellspacing="3px">
+                <thead>
+                <tr>
+                    <th width="60px"><?php echo $this->__('Visible');?></th>
+                    <th width="100px"><?php echo $this->__('Column');?></th>
+                    <th width="200px"><?php echo $this->__('Title');?></th>
+                    <th width="60px"><?php echo $this->__('Editable');?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($this->getStandardColumns() as $column):?>
+                <?php /**
+                 * @var Amasty_Pgrid_Model_Column $column
+                 */ ?>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="column[<?php echo $column->getId()?>][group_column_id]" value="<?php echo $column->getGroupColumnId()?>" />
+
+                            <input type="hidden" name="column[<?php echo $column->getId()?>][is_visible]" value="0" />
+                            <input type="checkbox" name="column[<?php echo $column->getId()?>][is_visible]" value="1"
+                            <?php echo $column->isVisible() ? "checked='checked'" : '';?> />
+                        </td>
+                        <td>
+                            <span class="label"><?php echo $column->getTitle();?></span>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   class="custom-title"
+                                   name="column[<?php echo $column->getId()?>][custom_title]"
+                                   value="<?php echo $column->getCustomTitle()
+                                       ? $column->getCustomTitle()
+                                       : $column->getTitle();?>"
+                                />
+                        </td>
+                        <td>
+                            <input type="hidden" name="column[<?php echo $column->getId()?>][is_editable]" value="0" />
+                            <input type="checkbox"
+                                   value="1"
+                                   name="column[<?php echo $column->getId()?>][is_editable]"
+                                   class="is-editable"
+                                <?php echo $column->getEditable() ? '' : 'disabled="disabled"';?>
+                            <?php echo $column->isEditable() ? "checked='checked'" : '';?> />
+                        </td>
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+        <div id="column_tabs_attribute_content" class="grid" style="display: none;">
+            <div id="attributes-select">
+                <select data-placeholder="Choose a Attribute..." class="ampgrid-attribute-select chosen-select" >
+                    <?php
+                    /**
+                     * @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+                     */
+                    ?>
+                    <option value="0"></option>
+                    <?php foreach ($this->getAttributes() as $attribute): ?>
+                        <option value="<?php echo $attribute->getAttributeId()?>"><?php echo $attribute->getFrontendLabel(); ?>(<?php echo $attribute->getAttributeCode(); ?>)</option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <table id="attribute-columns-table" cellspacing="3px">
+                <thead>
+                    <tr>
+                        <th width="250px"><?php echo $this->__('Attribute');?></th>
+                        <th width="200px"><?php echo $this->__('Title');?></th>
+                        <th width="60px"><?php echo $this->__('Editable');?></th>
+                    </tr>
+                </thead>
+                <tbody>
+<!--                    Adding attributes with js-->
+                </tbody>
+            </table>
+        </div>
+        <div id="column_tabs_extra_content" class="grid" style="display: none;">
+            <table id="extra-columns-table" cellspacing="3px">
+                <thead>
+                <tr>
+                    <th width="60px"><?php echo $this->__('Visible');?></th>
+                    <th width="100px"><?php echo $this->__('Column');?></th>
+                    <th width="200px"><?php echo $this->__('Title');?></th>
+                    <th width="60px"><?php echo $this->__('Editable');?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($this->getExtraColumns() as $column):?>
+                    <?php /**
+                     * @var Amasty_Pgrid_Model_Column $column
+                     */ ?>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="column[<?php echo $column->getId()?>][group_column_id]" value="<?php echo $column->getGroupColumnId()?>" />
+
+                            <input type="hidden" name="column[<?php echo $column->getId()?>][is_visible]" value="0" />
+                            <input type="checkbox" name="column[<?php echo $column->getId()?>][is_visible]" value="1"
+                                <?php echo $column->isVisible() ? "checked='checked'" : '';?> />
+                        </td>
+                        <td>
+                            <span class="label"><?php echo $column->getTitle();?></span>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   class="custom-title"
+                                   name="column[<?php echo $column->getId()?>][custom_title]"
+                                   value="<?php echo $column->getCustomTitle()
+                                       ? $column->getCustomTitle()
+                                       : $column->getTitle();?>"
+                                />
+                        </td>
+                        <td>
+                            <input type="hidden" name="column[<?php echo $column->getId()?>][is_editable]" value="0" />
+                            <input type="checkbox"
+                                   value="1"
+                                   name="column[<?php echo $column->getId()?>][is_editable]"
+                                   class="is-editable"
+                                  <?php echo $column->getEditable() ? '' : 'disabled="disabled"';?>
+                                <?php echo $column->isEditable() ? "checked='checked'" : '';?> />
+                        </td>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+    decorateTable('standard-columns-table');
+    decorateTable('extra-columns-table');
+    var tabs = new varienTabs('ampgrid-columns-tab', 'form-pattribute', 'column_tabs_attribute', []);
+    tabs.showTabContent($('column_tabs_standard'));
+    pAttributeForm = new VarienForm('form-pattribute');
+    Validation.add('validate-new-group','This is a required field.',function(){
+        if (!$('group-name').value && $('is-new-group').value == 1) {
+            alert('New group Name is a required field.');
+            return false;
+        }
+        $('save-new-group-submit').setAttribute('disabled', 'disabled');
+        $('save-new-group-submit').addClassName('disabled');
+        return true;
+    });
+    var attributeColumns = <?php echo json_encode($this->getAttributeColumns()->getData())?>;
+    pAttribute.initializeTrGrid(attributeColumns);
+    if($('ampgrid-group-select').value == 0) {
+        pAttribute.disableSave(true);
+        $('ampgrid-group-select').addClassName('default-select-value');
+    }
+</script>
