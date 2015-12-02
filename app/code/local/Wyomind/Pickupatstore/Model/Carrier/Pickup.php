@@ -98,7 +98,7 @@ class Wyomind_Pickupatstore_Model_Carrier_Pickup extends Mage_Shipping_Model_Car
                         $address.=" " . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($quote->getPickupDatetime()) . " ";
 
                     elseif (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date'))
-                        $address.=" " . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($quote->getPickupDatetime()) . " ";
+                        $address.=" " . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($quote->getPickupDate()) . " ";
                 }
 
                 $method->setMethodTitle($address);

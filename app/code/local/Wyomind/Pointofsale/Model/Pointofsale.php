@@ -8,7 +8,7 @@ class Wyomind_Pointofsale_Model_Pointofsale extends Mage_Core_Model_Abstract {
     }
 
     public function getPlaces() {
-        $collection = $this->getCollection();
+        $collection = $this->getCollection()->setOrder('position','ASC');
        
 
         return $collection;
