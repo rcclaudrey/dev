@@ -1,0 +1,6 @@
+<layout version="0.1.0">    
+    <cms_page_view_26  translate="label">        
+        <remove name="head" />        
+        <label>Quick Order Check</label>
+    </cms_page_view_26>                              
+</layout>

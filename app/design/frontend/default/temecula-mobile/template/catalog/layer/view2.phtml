@@ -1,0 +1,9 @@
+<?php
+$category = Mage::getSingleton('catalog/layer')->getCurrentCategory();
+$category_level = $category->getLevel();
+?>
+<?php if ($category_level == 2): ?>
+    <div class="oem-banner-ads-wrap">
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('oem-banner-ads')->toHtml(); ?>
+    </div>
+<?php endif; ?>

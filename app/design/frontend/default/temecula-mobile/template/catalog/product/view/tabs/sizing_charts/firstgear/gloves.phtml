@@ -1,0 +1,52 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'firstgear';
+$default = false;
+?>
+<div class="fox-gloves">
+	<h1>Firstgear Gloves Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.png' ?>" alt="Firstgear" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/glove_size.png' ?>" alt="Glove Sizes" />
+	</div>
+
+	<h1>Hand Length</h1>
+
+	<p>Measure around the hand at the fullest point excluding the thumb. Use chart to determine size.</p>
+
+	<div class='fox-gloves-table-header'>Glove Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">MEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">GLOVE SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+		</tr>
+		<tr>
+			<td class="title3">HAND SIZE</td>
+			<td>6 1/2-7</td>
+			<td>7 1/2-8</td>
+			<td>8 1/2-9</td>
+			<td>9 1/2-10</td>
+			<td>10-12</td>
+		</tr>
+	</table>
+	
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit. Please use this chart as a guide only.</p>
+
+</div>

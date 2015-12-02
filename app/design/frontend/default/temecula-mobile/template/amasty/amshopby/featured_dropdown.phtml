@@ -1,0 +1,25 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Shopby
+ */
+
+$counter = 0;
+$limit = '';
+
+?>
+<?php foreach ($this->getItems() as $key=> $item): ?>
+    <?php $counter++; ?>
+<?php $title = @unserialize($item->getTitle()); ?>
+    <li class="featured-brand-dropdown">
+        <a href="<?php echo $item->getUrl() ?>">
+            <?php if(is_array($title)): ?>
+            <?php echo $this->htmlEscape($title[0]); ?>
+            <?php else: ?>
+            <?php echo $this->htmlEscape($item->getTitle()); ?>
+            <?php endif; ?>
+        </a>
+    </li>
+    <?php if($counter >= 16){ break; }?>
+<?php endforeach ?>

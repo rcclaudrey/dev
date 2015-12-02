@@ -1,0 +1,79 @@
+<?php
+
+$coreHelper = Mage::helper('core');
+$products = $this->getProducts();
+$viewMode = static::getViewMode();
+$rideIsRequired = static::rideIsRequired();
+
+?>
+<div class="fitment-list">
+	<ul class="fitment-viewmode-<?php echo $viewMode ?> fitment-items clearer">
+		<?php if(!count($products)): ?>
+			<?php if($rideIsRequired): ?>
+				<li class="fitment-list-noitems"><?php echo $this->__('Please select your ride to view products') ?></li>
+			<?php else: ?>
+				<li class="fitment-list-noitems"><?php echo $this->__('Sorry, there are no products meeting your criteria') ?></li>
+			<?php endif ?>
+		<?php endif ?>
+
+		<?php foreach($products as $counter => $product): ?>
+			<li>
+				<?php if('grid' == $viewMode): ?>
+
+					<div class="fitment-list-item-<?php echo ($counter % 3) ?> fitment-list-item-wrapper" ariProductId="<?php echo $product['Id'] ?>" cacheIndex="<?php echo (int)$counter ?>">
+						<a class="fitment-quick-view-link" onclick="fitment.viewProduct(this)">
+							<img src="<?php echo Vikont_Fitment_Helper_Data::processImageUrl($product['ImageUrl'], 220) ?>" alt="Product Image" />
+							<div class="fitment-list-img-viewpopup">
+								<div class="fitment-list-img-viewpopup-overlay">&nbsp;</div>
+								<span><?php echo $this->__('View Details') ?></span>
+							</div>
+						</a>
+						<span class="fitment-list-item-brand"><?php echo htmlspecialchars($product['Brand']) ?></span>
+						<span class="fitment-list-item-name" title="<?php echo htmlspecialchars($product['Name']) ?>"><?php echo htmlspecialchars($product['Name']) ?></span>
+						<div class="fitment-quick-view-price-container">
+							<?php if($product['HasPriceRange']): ?>
+								<span class="fitment-list-item-price-from"><?php echo $this->__('From') ?></span>
+							<?php endif ?>
+							<span class="fitment-list-item-price-value"><?php echo $coreHelper->formatPrice($product['StartPrice'], false) ?></span>
+						</div>
+						<div class="fitment-item-button-container">
+							<button class="fitment-item-view" type="button" onclick="fitment.viewProduct(this)"><?php echo $this->__('View') ?></button>
+						</div>
+						<?php if($product['IsOnSale']): ?>
+							<span class="fitment-item-onsale"><?php echo $this->__('On Sale') ?></span>
+						<?php endif ?>
+					</div>
+
+				<?php elseif('list' == $viewMode): ?>
+
+					<div class="fitment-list-item-wrapper clearer" ariProductId="<?php echo $product['Id'] ?>" cacheIndex="<?php echo (int)$counter ?>">
+						<a class="fitment-quick-view-link" onclick="fitment.viewProduct(this)">
+							<img src="<?php echo Vikont_Fitment_Helper_Data::processImageUrl($product['ImageUrl'], 220) ?>" alt="Product Image" />
+							<div class="fitment-list-img-viewpopup">
+								<div class="fitment-list-img-viewpopup-overlay">&nbsp;</div>
+								<span><?php echo $this->__('View Details') ?></span>
+							</div>
+						</a>
+						<div class="fitment-list-item-prop-container">
+							<span class="fitment-list-item-brand"><?php echo htmlspecialchars($product['Brand']) ?></span>
+							<span class="fitment-list-item-name"><?php echo htmlspecialchars($product['Name']) ?></span>
+							<div class="fitment-quick-view-price-container">
+								<?php if($product['HasPriceRange']): ?>
+									<span class="fitment-list-item-price-from"><?php echo $this->__('From') ?></span>
+								<?php endif ?>
+								<span class="fitment-list-item-price-value"><?php echo $coreHelper->formatPrice($product['StartPrice'], false) ?></span>
+							</div>
+							<div class="fitment-item-button-container">
+								<button class="fitment-item-view" type="button" onclick="fitment.viewProduct(this)"><?php echo $this->__('View') ?></button>
+							</div>
+							<?php if($product['IsOnSale']): ?>
+								<span class="fitment-item-onsale"><?php echo $this->__('On Sale') ?></span>
+							<?php endif ?>
+						</div>
+					</div>
+
+				<?php endif ?>
+			</li>
+		<?php endforeach ?>
+	</ul>
+</div>

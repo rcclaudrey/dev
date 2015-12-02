@@ -1,0 +1,40 @@
+<?php
+
+$address = $this->getAddress();
+
+?>
+<dl class="clearer">
+	<dt><?php echo $this->__('Company Parts Representative') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getName()) ?></dd>
+
+	<dt><?php echo $this->__('Company') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getCompany()) ?></dd>
+
+	<dt><?php echo $this->__('Address') ?></dt>
+	<dd><?php echo htmlspecialchars(implode(' ', $address->getStreet())) ?></dd>
+
+	<dt><?php echo $this->__('City') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getCity()) ?></dd>
+
+	<dt><?php echo $this->__('State/Province') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getRegion()) ?></dd>
+
+	<dt><?php echo $this->__('Zip/Postal Code') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getPostcode()) ?></dd>
+
+	<dt><?php echo $this->__('Country') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getCountryModel()->getName()) ?></dd>
+
+	<dt><?php echo $this->__('Telephone Number') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getTelephone()) ?></dd>
+
+	<dt><?php echo $this->__('Fax Number') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getFax()) ?></dd>
+
+	<dt><?php echo $this->__('Email') ?></dt>
+	<dd><?php echo htmlspecialchars($address->getEmail()) ?></dd>
+</dl>
+<div class="wsap-button-container">
+	<a class="wsap-button" href="<?php echo $this->getUrl('customer/address/edit', array('id' => $address->getId())) ?>" target="_blank" title="<?php echo $this->__('In a new window') ?>"><?php echo $this->__('Edit address') ?></a>
+	<a class="wsap-button" href="#" onclick="dealerApplicationForm.onAddressSelectChanged(document.querySelector('#wsap-address-source-exists-content select')); return false"><?php echo $this->__('Refresh') ?></a>
+</div>

@@ -1,0 +1,93 @@
+<?php
+
+$_product = $this->getProduct();
+$_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product);
+$buttonTitle = $this->__('Add to Cart');
+$category = Mage::registry('current_category');
+if ($category) {
+    $categoryId = $category->getId();
+} else {
+    $categoryId = 2;
+}
+
+$_helper = $this->helper('catalog/output');
+$_prebook = $_product->getResource()->getAttribute('tms_prebook');
+$prebookActive = (
+	!	(	$_product->isAvailable()
+		&&	$_product->isSaleable()
+		)
+	&&	(null !== $_product->getData($_prebook->getAttributeCode()))
+	&&	$prebookActive == strtolower(
+			$_helper->productAttribute(
+					$_product,
+					$_prebook->getFrontend()->getValue($_product),
+					$_prebook->getAttributeCode()
+			)
+		)
+);
+
+?>
+<div class="add-to-cart">
+    <?php if ($_product->isSaleable()): ?>
+        <?php if (!$_product->isGrouped()): ?>
+            <label for="qty"><?php echo $this->__('QUANTITY:') ?></label>
+            <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+        <?php endif; ?>
+    <?php endif; ?>
+
+    <?php
+    $_groupedProductIsAvailable = false;
+    if ($_product->getTypeId() == 'grouped') {
+        $associatedProducts = $_product->getTypeInstance(true)->getAssociatedProducts($_product);
+        foreach ($associatedProducts as $associatedProduct) {
+            if ($associatedProduct->isAvailable() && $associatedProduct->isSaleable()) {
+                $_groupedProductIsAvailable = true;
+				break;
+            }
+        }
+        /* if ($_groupedProductIsAvailable) {
+          ?>
+          <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+          <?php
+          } else {
+          ?>
+          <p class="availability out-of-stock"><span><?php echo $this->__('Out Of stock') ?></span></p>
+          <?php
+          } */
+    } else {
+        ?>
+        <?php
+        if ($prebookActive): ?>
+            <p class="availability pre-book"><span><?php echo $this->__('Pre-book') ?></span></p>
+        <?php elseif ($_product->isAvailable() && $_product->isSaleable()):
+            ?>
+            <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+            <?php
+        else: /* ?>
+          <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+          <?php */
+        endif;
+        ?>
+        <?php
+    }
+    ?>
+
+    <div class="crystal"></div>
+    <?php if ($_product->isSaleable()): ?>
+        <div class="buttons-prod">
+            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href);
+                                return false;" class="button link-wishlist"><span><?php echo $this->__('Add to Wishlist') ?></span></a>
+               <?php endif; ?>
+
+            <?php if ($prebookActive): ?>
+                <button type="button" title="<?php echo $buttonTitle ?>" id="product-btn-cart" class="button  btn-pre-book" onclick="popupcart.addToCart('<?php echo $this->getUrl('ajaxcheckout/cart/add', array('pid' => $_product->getId(), 'catid' => $categoryId)); ?>', 'product');"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <?php else: ?>
+                <button type="button" title="<?php echo $buttonTitle ?>" id="product-btn-cart" class="button  btn-cart" onclick="popupcart.addToCart('<?php echo $this->getUrl('ajaxcheckout/cart/add', array('pid' => $_product->getId(), 'catid' => $categoryId)); ?>', 'product');"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <?php endif; ?>
+            <?php //echo $this->getChildHtml('', true, true)    ?>
+            <div class="crystal"></div>
+        </div>
+    <?php endif; ?>
+</div>
+<p class="share"><img src="<?php echo $this->getSkinUrl('images/buttons/share.gif'); ?>" alt=""/></p>

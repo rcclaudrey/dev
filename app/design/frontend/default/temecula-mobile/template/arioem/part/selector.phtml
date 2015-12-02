@@ -1,0 +1,88 @@
+<?php
+
+$helper = Mage::helper('arioem');
+
+$brandName = $helper->getCurrentBrandName();
+$brandCode = $helper->brandName2Code($brandName);
+if(!$brandCode) {
+	Mage::log('ERROR: ARI OEM: selector.phtml: no brand code found for name='.$brandName);
+	return;
+}
+
+$vehicles = $helper->getAssemblyData(array(
+	'arib' => $brandCode
+));
+
+$nameFixJS = '{' . trim(Mage::getStoreConfig('arioem/ari/fix_names'), " {},\n\r\l\t") . '}';
+$nameFix = json_decode($nameFixJS, true);
+$cssPath = dirname($this->getSkinUrl('arioem/oem-part.css'));
+
+?>
+<div id="arioem_containter">
+	<div id="arioem_statusbar" class="arioem-statusbar clearer">
+		<span class="arioem-statusbar-label"></span>
+		<div class="arioem-statusbar-container">
+			<span class="arioem-statusbar-vehicle"><span class="arioem-statusbar-placeholder"><?php echo $this->__('Vehicle') ?></span></span>
+			<span class="arioem-statusbar-year"><span class="arioem-statusbar-placeholder"><?php echo $this->__('Year') ?></span></span>
+			<span class="arioem-statusbar-model"><span><span><span class="arioem-statusbar-placeholder"><?php echo $this->__('Model') ?></span></span></span></span>
+		</div>
+		<span class="arioem-statusbar-reset">
+			<button><?php echo $this->__('Reset Your Selection') ?></button>
+		</span>
+	</div>
+
+	<div id="arioem_vehicle" class="active arioem-step">
+		<div class="arioem-step-header">
+			<span class="arioem-step-header-caption"><?php echo $this->__('Vehicle') ?></span>
+		</div>
+		<div class="arioem-step-content clearer">
+			<ul>
+				<?php foreach($vehicles as $vehicle): ?>
+					<?php $vehicleName = htmlspecialchars(isset($nameFix[$vehicle[1]]) ? $nameFix[$vehicle[1]] : $vehicle[1]) ?>
+					<li ari_vehicle_hash="<?php echo $vehicle[0] ?>" style="background-image: url('<?php echo $this->getSkinUrl('arioem/vehicles/'.Vikont_ARIOEM_Helper_Data::convertVehicleNameToImageName($vehicleName).'.png') ?>')" title="<?php echo $vehicleName ?>">
+						<span><?php echo $vehicleName ?></span>
+					</li>
+				<?php endforeach ?>
+			</ul>
+			<?php if(count($vehicles) > 7): ?>
+				<style> #arioem_vehicle .arioem-step-content li {margin-left: 1px; margin-right: 1px;} </style>
+			<?php endif ?>
+		</div>
+	</div>
+
+	<div id="arioem_year" class="arioem-step">
+		<div class="arioem-step-header">
+			<span class="arioem-step-header-caption"><?php echo $this->__('Year') ?></span>
+		</div>
+		<div class="arioem-step-content clearer"></div>
+	</div>
+
+	<div id="arioem_model" class="arioem-step">
+		<div class="arioem-step-header">
+			<span class="arioem-step-header-caption"><?php echo $this->__('Model') ?></span>
+		</div>
+		<div class="arioem-step-content clearer"></div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+arioem.init({
+	gateURL: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php')) ?>',
+	partAssemblyURL: '<?php echo $this->getUrl('', array('_direct' => 'oem-part.html')) ?>',
+	appKey: '<?php echo Mage::getStoreConfig('arioem/api/app_key') ?>',
+	brand: {
+		code: '<?php echo $brandCode ?>',
+		name: '<?php echo $brandName ?>'
+	},
+	errorMessage: '<?php echo $this->__('Server error, please try again later. If the problem persists, call site support.') ?>',
+	cssPath: '<?php echo $cssPath ?>'
+});
+
+jQuery(document).ready(function() {
+	jQuery('#arioem_statusbar .arioem-statusbar-reset').click(arioem.onChangeLinkClick.bind(arioem));
+	jQuery('#arioem_vehicle li').click(arioem.vehicleClick.bind(arioem));
+});
+
+</script>

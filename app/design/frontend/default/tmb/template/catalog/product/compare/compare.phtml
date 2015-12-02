@@ -1,0 +1,93 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Catalog_Block_Product_Compare_Sidebar */
+?>
+<?php
+$_helper = $this->helper('catalog/product_compare');
+$_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
+$_cProductsCounter = 0;
+?>
+<?php if ($_helper->getItemCount() > 0): ?>
+    <div class="block block-list block-compare">
+        <div class="block-title">
+            <span class="compare-products-title"><?php echo $this->__('Compare Products') ?>
+                <?php if ($_helper->getItemCount() > 0): ?> 
+                    <small><?php echo $this->__('(%d)', $_helper->getItemCount()) ?></small>
+                <?php endif; ?>
+            </span>
+        </div>
+        <div class="block-content">
+            <table id="compare-items">
+                <tr>
+                    <?php foreach ($_items as $_index => $_item): ?>
+                        <?php
+                        if ($_cProductsCounter > 2) {
+                            echo '</tr>';
+                            echo '<tr>';
+
+                            $_cProductsCounter = 0;
+                        }
+                        ?>
+                        <?php $comparedItem = Mage::getModel('catalog/product')->load($_item->getId()); ?>
+                        <td class="item">
+                            <input type="hidden" class="compare-item-id" value="<?php echo $_item->getId() ?>" />
+                            <a href="<?php echo $_helper->getRemoveUrl($_item) ?>" title="<?php echo $this->__('Remove This Item') ?>" class="btn-remove remove-compare-product-button removeComparedProduct-<?php echo $_item->getId() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>');"><?php echo $this->__('Remove This Item') ?></a>
+                            <p class="product-name">
+                                <img src="<?php echo $this->helper('catalog/image')->init($comparedItem, 'small_image')->resize(175, 50); ?>" width="175" height="50" alt="<?php echo $this->stripTags($this->getImageLabel($comparedItem, 'small_image'), null, true) ?>" />
+                                <a href="<?php echo $this->getProductUrl($_item) ?>"><?php echo $this->helper('catalog/output')->productAttribute($_item, $_item->getName(), 'name') . $_index; ?></a>
+                            </p>
+                        </td>
+                        <?php $_cProductsCounter++; ?>
+                    <?php endforeach; ?>
+                </tr>
+            </table>
+            <script type="text/javascript">decorateList('compare-items')</script>
+            <div class="actions">
+                <a class="clear-all-compare" href="<?php echo $_helper->getClearListUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove all products from your comparison?') ?>');"><?php echo $this->__('Clear All') ?></a>
+                <button type="button" title="<?php echo $this->__('Compare') ?>" class="button" onclick="popWin('<?php echo $_helper->getListUrl() ?>', 'compare', 'top:0,left:0,width=820,height=600,resizable=yes,scrollbars=yes')"><span><span><?php echo $this->__('Compare') ?></span></span></button>
+            </div>        
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(window).load(function () {
+            jQuery(".remove-compare-product-button").each(function () {
+                var compareClasses = jQuery(this).attr('class').split(' ');
+                var aCompareLink = jQuery(this).attr('href');
+                for (var x = 0; x < compareClasses.length; x++) {
+                    var removeCompareClass = compareClasses[x].split('-');
+                    if (removeCompareClass.length > 0 && removeCompareClass[0] === 'removeComparedProduct') {
+                        if (!jQuery('.compare-product-' + removeCompareClass[1]).hasClass('btn-compared')) {
+                            jQuery('.compare-product-' + removeCompareClass[1]).addClass('btn-compared');
+                            jQuery('.compare-product-' + removeCompareClass[1]).attr('href', aCompareLink);
+                            jQuery('.compare-product-' + removeCompareClass[1]).children('span').text('-Remove');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+<?php endif; ?>

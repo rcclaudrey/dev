@@ -1,0 +1,16 @@
+<?php
+
+$searchTerm = $this->getSearchTerm();
+
+?>
+<div class="fitment-search">
+	<span class="fitment-search-header"><?php echo $this->__('Search by text') ?></span>
+	<div class="fitment-search-body  clearer">
+		<label for="fitment-search-term"><?php echo $this->__('Search phrase') ?></label>
+		<input id="fitment-search-term" name="term" value="<?php echo htmlspecialchars($searchTerm) ?>" placeholder="Search by text here..." />
+		<ul class="fitment-search-autocomplete">
+			<li><?php echo $this->__('No results found') ?></li>
+		</ul>
+		<button type="button" onclick="fitment.onFilterSearchKeypress({keyCode: 13})"><?php echo $this->__('Search') ?></button>
+	</div>
+</div>

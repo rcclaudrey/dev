@@ -1,0 +1,93 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+$brand = 'sea_doo'; // folder name
+$default = true;
+?>
+
+<div class="fox-gloves">
+  <h1>Sea-Doo Casual Shorts Sizing Chart</h1>
+  <div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Sea-Doo" /></div>
+  <div style="text-align:center;"> <img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/shorts.jpg' ?>" alt="Shorts Sizes" /> </div>
+  
+  <h1>WAIST</h1>
+  
+  <p>Measure about 1 inch below top of pelvic bone.</p>
+  
+  <h1>INSEAM</h1>
+  
+  <p>Measure down from the crotch to the top of the ankle bone.</p>
+  
+  <div class='fox-gloves-table-header'>Casual Shorts Sizing Chart</div>
+  <table class="sizing_chart">
+    <tr class="title1">
+		<td class="title2">MENS</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+    </tr>
+    <tr>
+		<td class="title3">SIZE</td>
+		<td>28</td>
+		<td>30</td>
+		<td>32</td>
+		<td>34</td>
+		<td>36</td>
+		<td>38</td>
+    </tr>
+    <tr>
+      <td class="title3">WAIST</td>
+		<td>27-29</td>
+		<td>29-31</td>
+		<td>31-33</td>
+		<td>33-35</td>
+		<td>35-37</td>
+		<td>37-39</td>
+    </tr>
+	<tr>
+		<td class="title3">INSEAM</td>
+		<td>14.75</td>
+		<td>14.75</td>
+		<td>14.75</td>
+		<td>14.75</td>
+		<td>14.75</td>
+		<td>14.75</td>
+    </tr>
+  </table>
+  
+  <table class="sizing_chart">
+    <tr class="title1">
+		<td class="title2">WOMENS</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+    </tr>
+    <tr>
+		<td class="title3">SIZE</td>
+		<td>S    3/4</td>
+		<td>M      5/6</td>
+		<td>L    7/8</td>
+		<td>XL 9/10</td>
+    </tr>
+    <tr>
+		<td class="title3">WAIST</td>
+		<td>29-31</td>
+		<td>31-33</td>
+		<td>33-35</td>
+		<td>35-37</td>
+    </tr>
+	<tr>
+		<td class="title3">INSEAM</td>
+		<td>10</td>
+		<td>10.5</td>
+		<td>10.6</td>
+		<td>11</td>
+    </tr>
+  </table>
+  
+  <p>** Sizing information is provided by the manufacturer and does not guarantee a perfect fit. Please use this chart as a guide only.</p>
+</div>

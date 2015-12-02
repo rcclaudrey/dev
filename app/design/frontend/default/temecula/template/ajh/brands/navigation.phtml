@@ -1,0 +1,40 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Camille
+ * Date: 12/31/14
+ * Time: 7:45 PM
+ */
+echo "pass here";
+?>
+<?php $brands = $this->getBrands(); ?>
+
+<?php if ( count($brands) != 0 ) : ?>
+    <div class="block block-layered-nav">
+        <div class="block-title">
+            <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+        </div>
+        <div class="block-content">
+            <dl id="narrow-by-list2">
+                <dt><?php echo $this->__('Brands') ?></dt>
+                <dd>
+                    <ol>
+                        <?php $currentBrandId = Mage::registry('current_brand_id'); ?>
+                        <?php $i=0; foreach ( $brands as $brand ) : ?>
+                            <li>
+                                <?php if (isset($brand["value"]) && $brand["value"] == $currentBrandId): ?>
+                                    <?php echo $this->htmlEscape($brand["label"]) ?>
+                                <?php else: ?>
+                                <a class="image" href="<?php echo Mage::helper('ajh_brands')->getUrl($brand["value"]); ?>" title="<?php echo $brand["label"]; ?>">
+                                    <?php echo $this->htmlEscape($brand["label"]) ?>
+                                </a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach ?>
+                    </ol>
+                </dd>
+            </dl>
+            <script type="text/javascript">decorateDataList('narrow-by-list2')</script>
+        </div>
+    </div>
+<?php endif; ?>

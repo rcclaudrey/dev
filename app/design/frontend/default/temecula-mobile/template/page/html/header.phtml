@@ -1,0 +1,61 @@
+<?php
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div class="prehead clearer">
+    <div class="f-left get-free-shipping"><a href="<?php echo $this->getUrl('shipping-policy'); ?>">GET <span class="free-shipping-text">FREE SHIPPING</span> ON ORDERS OVER $89.00!</a></div>	
+</div>
+<div class="head header-container header">
+	<a class="logo" href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">&nbsp;</a>
+
+	<div class="mobile-menu-header">
+		<a href="#" class="mobile-menu-link" onclick="tmsmobile.showMenu(this)"></a>
+		<span class="menu-separator">&nbsp;</span>
+		<a href="#" class="mobile-search-link"></a>
+		<span class="menu-separator">&nbsp;</span>
+		<a href="tel:877-698-4123" class="mobile-call-link"></a>
+		<span class="menu-separator">&nbsp;</span>
+
+		<div class="header-minicart" id="minicart">
+			<?php echo $this->getChildHtml('topCart'); ?>
+		</div>
+
+		<div class="mobile-search-form">
+			<?php echo $this->getChildHtml('topSearch') ?>
+		</div>
+	</div>
+
+	<?php echo $this->getChildHtml('topMenu') ?>
+
+	<div class="crystal"></div>
+	<div class="quick-access">
+		<p class="welcome-msg">
+			<?php echo $this->getAdditionalHtml() ?>
+		</p>
+		<?php echo $this->getChildHtml('topLinks') ?>
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('link-contact')->toHtml(); ?>
+		<div class="crystal"></div>
+	</div>
+	<?php echo $this->getChildHtml('topContainer'); ?>
+</div>
+
+<div id="add-to-cart-success" style="display:none">
+    <p><span id='add-to-cart-error-msg' class="error-msg">&nbsp;</span></p>
+    <div style="clear:both"></div>
+</div>
+<input type="hidden" value="" name="current_page_items" id="current_page_items" />
+<input type="hidden" value="" name="cart_items" id="cartItems" />
+<?php Mage::getSingleton('core/session')->setPageUrl(null); ?>
+<?php
+	$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+	$urlKey = str_replace(Mage::getBaseUrl(), '', $currentUrl);
+	Mage::getSingleton('core/session')->setPageUrl($urlKey);
+?>
+
+<a href="#" class="scrollToTop">&nbsp;</a>
+
+<script src="/js/scrollTop/scrolltotop.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/scrollTop/scrolltotop.css" />
+
+<div class="chatbox"></div>

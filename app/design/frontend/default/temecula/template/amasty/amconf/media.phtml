@@ -1,0 +1,74 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+    $_product = $this->getProduct();
+    $_helper = $this->helper('catalog/output');
+    $imageWidth = (int)Mage::getStoreConfig('amconf/size/preview_width');
+    $imageHeight = (int)Mage::getStoreConfig('amconf/size/preview_height');
+    $smallImageSize = (int)Mage::getStoreConfig('amconf/size/thumb');
+    $itemCount = (int)Mage::getStoreConfig('amconf/carousel/visible_items');
+?>
+<?php if((Mage::getStoreConfig('amconf/zoom/enable') || Mage::getStoreConfig('amconf/lightbox/enable'))) : ?>
+    <script type="text/javascript" src="<?php echo Mage::getDesign()->getSkinUrl('js/amasty/amconf/zoomer.js', array()) ?>"></script>
+<?php endif;?>
+<?php if ('true' == (string) Mage::getConfig()->getNode('modules/Amasty_Label/active')): ?>
+                <div class="amlabel-div">
+                <?php echo Mage::helper('amlabel')->getLabels($_product, 'product') ?>
+ <?php endif; ?>
+<?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
+<div class="product-image">
+    <?php
+        $_img = '<img id="amasty_zoom" 
+					width="'. $imageWidth .'"
+					data-zoom-image="'.$this->helper('catalog/image')->init($_product, 'image').'" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($imageWidth, $imageHeight).'" 
+					alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'"
+				/>';
+        echo $_helper->productAttribute($_product, $_img, 'image');
+    ?>
+</div>
+
+<?php else: ?>
+<div class="product-image">
+    <?php
+        $_img = '<img id="amasty_zoom" data-zoom-image="'.$this->helper('catalog/image')->init($_product, 'image').'" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($imageWidth, $imageHeight).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
+        echo $_helper->productAttribute($_product, $_img, 'image');
+    ?>
+</div>
+
+<?php endif; ?>
+<?php if ('true' == (string)Mage::getConfig()->getNode('modules/Amasty_Label/active')): ?>
+                </div>
+            <?php endif; ?>
+
+<?php if (count($this->getGalleryImages()) > 0): ?>
+<div class="more-views">
+    <label><?php echo $this->__('More Views') ?></label>
+    <div style="position: relative;">
+        <div id="amasty_gallery">
+             <?php foreach ($this->getGalleryImages() as $_image): ?>
+                <a rel="group" <?php echo Mage::getStoreConfig('amconf/lightbox/thumbnail_lignhtbox')?  ' class="fancybox" href="' . $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()) . '"':""; ?> data-image="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize($imageWidth, $imageHeight); ?>" data-zoom-image="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()); ?>"  >
+                    <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize($smallImageSize); ?>" width="<?php echo $smallImageSize;?>" height="<?php echo $smallImageSize;?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"  title="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
+                </a>
+             <?php endforeach; ?>
+             
+        </div> 
+        <?php if (count($this->getGalleryImages()) > $itemCount && Mage::getStoreConfig('amconf/carousel/enable')): ?>
+            <div id="prevGallery" style="top:<?php echo $smallImageSize/2 - 17;?>px" class="MagicScrollArrows MagicScrollArrowPrev"></div>
+            <div id="nextGallery" style="top:<?php echo $smallImageSize/2 - 17;?>px" class="MagicScrollArrows MagicScrollArrowNext"></div>
+             <?php if (Mage::getStoreConfig('amconf/carousel/pagination')): ?>
+                <div id="ampagination" style="margin-top: 10px;"></div>
+             <?php endif; ?>
+        <?php endif; ?>
+     </div>
+</div>
+<?php endif;?>
+<script type="text/javascript" >
+    try {
+        AmZoomerObj = new AmZoomer(<?php echo Mage::helper('amconf/zoom')->jsParam()?>);
+        AmZoomerObj.loadCarousel();
+    }
+    catch(ex){console.debug(ex);}
+</script>

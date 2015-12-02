@@ -1,0 +1,80 @@
+<div class="footer-container">
+    <div class="footer">
+        <div class="foot-top clearer">
+            <h1 class="foot-logo sh"><a href="<?php echo $this->getUrl('') ?>"><span>Temecula</span></a></h1>
+        </div>
+
+        <div class="foot-level2">
+            <div class="crystal"></div>
+            <div class="footer-distributor-list-wrapper">
+                <ul class="footer-distributor-list">
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/can-am.html">can-am parts</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/honda.html">honda parts</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/kawasaki.html">kawasaki parts</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/polaris.html">polaris parts</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/sea-doo.html">sea-doo parts</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/victory.html">victory parts</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/yamaha.html">yamaha parts</a></li>
+                    <li class="last"><a href="<?php echo Mage::getBaseUrl() ?>oem-parts/suzuki.html">suzuki parts</a></li>
+                </ul>
+            </div>
+            <div class="crystal"></div>
+            <div class="cols-con clearer">
+                <div class="col01">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('links-footer-col1')->toHtml(); ?>
+                    <?php echo $this->getChildHtml('rma_footer_links') ?>
+                </div>
+                <div class="col02">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('links-footer-col2')->toHtml(); ?>
+                </div>
+                <div class="col03">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('links-footer-col3')->toHtml(); ?>
+                </div>
+			</div>
+
+			<div class=" clearer">
+                <div class="col05 col05-footer-banners">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('links-footer-col5')->toHtml(); ?>
+                    <div class="crystal"></div>
+                </div>
+
+                <div class="footer-payment-method-wrap">
+                    <div class="footer-payment-method-title">Payment Methods</div>
+                    <div class="footer-payment-method-icons">
+                        <img src="<?php echo $this->getSkinUrl('images/payment-methods/visa.jpg'); ?>" alt="Visa" />
+                        <img src="<?php echo $this->getSkinUrl('images/payment-methods/master-card.jpg'); ?>" alt="MasterCard" />
+                        <img src="<?php echo $this->getSkinUrl('images/payment-methods/discover.jpg'); ?>" alt="Discover" />
+                        <img src="<?php echo $this->getSkinUrl('images/payment-methods/american-express.jpg'); ?>" alt="American Express" />
+                        <img src="<?php echo $this->getSkinUrl('images/payment-methods/paypal.jpg'); ?>" alt="Paypal" />
+                        <img src="<?php echo $this->getSkinUrl('images/payment-methods/paypal-credit.jpg'); ?>" alt="Paypal Credit" />
+                    </div>
+                    
+                    
+                    <div class="footer-payment-norton-wrap">
+                        <table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications.">
+                            <tr>
+                                <td width="135" align="center" valign="top">
+                                    <script type="text/javascript" src="https://seal.websecurity.norton.com/getseal?host_name=www.tmsparts.com&amp;size=L&amp;use_flash=YES&amp;use_transparent=YES&amp;lang=en"></script>
+                                    <?php /* <br />
+                                      <a href="http://www.symantec.com/ssl-certificates" target="_blank"  style="color:#000000; text-decoration:none; font:bold 7px verdana,sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">ABOUT SSL CERTIFICATES</a>
+                                     */ ?>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="crystal"></div>
+                </div>
+                <div class="socials-container"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('socials')->toHtml(); ?><div class="crystal"></div></div>
+                <script type="text/javascript">decorateGeneric($$('.col05 ul li'), ['first', 'last'])</script>
+
+            </div>
+
+            <div class="absolute-footer-wrap">
+                <div class="copyw"><?php echo preg_replace('/\d{4}/i', date('Y'), $this->getCopyright()) ?></div>
+                <div class="footer-policy-links"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('links-footer-copy')->toHtml(); ?></div>
+            </div>
+        </div>
+
+    </div>
+</div>

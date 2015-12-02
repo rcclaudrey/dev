@@ -1,0 +1,2 @@
+[27-Mar-2015 10:58:01 America/Chicago] PHP Fatal error:  Class 'Mage_Core_Controller_Front_Action' not found in /home/tms/public_html/app/code/local/Vikont/EVOConnector/controllers/TestController.php on line 4
+[27-Mar-2015 10:58:23 America/Chicago] PHP Fatal error:  Class 'Mage_Core_Helper_Abstract' not found in /home/tms/public_html/app/code/local/Vikont/ARIOEM/Helper/OEM.php on line 4

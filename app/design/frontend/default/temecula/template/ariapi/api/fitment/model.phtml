@@ -1,0 +1,10 @@
+<?php
+
+$models = $this->getModels();
+
+
+foreach($models as $model){
+    ?>
+<option value="<?php echo $model->FitmentId; ?>"><?php echo $model->Name; ?></option>
+<?php
+}

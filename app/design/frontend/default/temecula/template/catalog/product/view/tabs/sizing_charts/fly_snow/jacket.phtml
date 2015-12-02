@@ -1,0 +1,72 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'fly_snow'; // folder name
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>Fly Snow Jacket Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Fly Snow" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/jersey.jpg' ?>" alt="Glove Sizes" />
+	</div>
+	
+	<h1>Sleeve</h1>
+
+	<p>Measure from center of the spine at the base of the neck, around the shoulder, over the elbow and down to the wrist.</p>
+	
+	<h1>Chest</h1>
+
+	<p>Measure around the broadest part of the chest 1-2 below the arm pits.</p>
+
+	<div class='fox-gloves-table-header'>Jacket Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">SNOW</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">JACKET SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+			<td>3XL</td>
+			<td>4XL</td>
+		</tr>
+		<tr>
+			<td class="title3">SLEEVE</td>
+			<td>31-32</td>
+			<td>32-33</td>
+			<td>33-34</td>
+			<td>34-35</td>
+			<td>37</td>
+			<td>37</td>
+			<td>37</td>
+		</tr>
+		<tr>
+			<td class="title3">CHEST</td>
+			<td>34-35</td>
+			<td>36-38</td>
+			<td>40-42</td>
+			<td>44-46</td>
+			<td>48-50</td>
+			<td>52-54</td>
+			<td>56-58</td>
+		 </tr>
+	</table>
+	
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit.</p>
+
+</div>

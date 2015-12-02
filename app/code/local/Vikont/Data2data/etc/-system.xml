@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<vikont translate="label" module="pulliver">
+			<label>Vikont</label>
+			<sort_order>150</sort_order>
+		</vikont>
+	</tabs>
+
+	<sections>
+		<pulliver translate="label" module="pulliver">
+			<label>Pulliver</label>
+			<tab>vikont</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>10</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>0</show_in_website>
+			<show_in_store>0</show_in_store>
+			<groups>
+
+				<general translate="label">
+					<label>General</label>
+					<sort_order>100</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<enabled translate="label">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</enabled>
+						<keeplog translate="label">
+							<label>Enable logging</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</keeplog>
+
+						<h2 translate="label">
+							<label>Import</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h2>
+						<import_location translate="label">
+							<label>Directory</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>120</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Should be relative to Magento root</comment>
+						</import_location>
+					</fields>
+				</general>
+
+			</groups>
+		</pulliver>
+	</sections>
+</config>

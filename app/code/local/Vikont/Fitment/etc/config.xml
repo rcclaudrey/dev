@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_Fitment>
+			<version>1.0.4</version>
+		</Vikont_Fitment>
+	</modules>
+
+
+	<admin>
+	</admin>
+
+
+	<frontend>
+
+		<routers>
+			<fitment>
+				<use>standard</use>
+				<args>
+					<module>Vikont_Fitment</module>
+					<frontName>fitment</frontName>
+				</args>
+			</fitment>
+		</routers>
+
+		<layout>
+			<updates>
+				<fitment>
+					<file>vk_fitment.xml</file>
+				</fitment>
+			</updates>
+		</layout>
+
+		<translate>
+			<modules>
+				<Vikont_Fitment>
+					<files>
+						<default>Vikont_Fitment.csv</default>
+					</files>
+				</Vikont_Fitment>
+			</modules>
+		</translate>
+
+	</frontend>
+
+
+	<adminhtml>
+
+		<translate>
+			<modules>
+				<Vikont_Fitment>
+					<files>
+						<default>Vikont_Fitment.csv</default>
+					</files>
+				</Vikont_Fitment>
+			</modules>
+		</translate>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<fitment module="fitment" translate="title">
+											<title>Fitment</title>
+											<sort_order>1000</sort_order>
+										</fitment>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+	</adminhtml>
+
+
+	<global>
+
+		<blocks>
+			<fitment>
+				<class>Vikont_Fitment_Block</class>
+			</fitment>
+		</blocks>
+
+		<helpers>
+			<fitment>
+				<class>Vikont_Fitment_Helper</class>
+			</fitment>
+			<catalog>
+				<rewrite>
+					<product>Vikont_Fitment_Helper_Catalog_Product</product>
+				</rewrite>
+			</catalog>
+		</helpers>
+
+		<models>
+			<fitment>
+				<class>Vikont_Fitment_Model</class>
+				<resourceModel>fitment_mysql4</resourceModel>
+			</fitment>
+		</models>
+
+		<resources>
+			<fitment_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</fitment_read>
+			<fitment_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</fitment_write>
+			<fitment_setup>
+				<setup>
+					<module>Vikont_Fitment</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</fitment_setup>
+        </resources>
+
+	</global>
+
+	<default>
+		<fitment>
+			<general>
+				<enabled>1</enabled>
+				<!--<keeplog>1</keeplog>-->
+			</general>
+			<api>
+				<base_url>http://accessorystream.arinet.com/</base_url>
+				<app_key>N8SZjBuVQoU6EhkxtCi2</app_key>
+			</api>
+			<interface>
+				<facet_value_qty_limit>8</facet_value_qty_limit>
+			</interface>
+			<tireshop>
+				<tires_n_wheels_category_name><![CDATA[Tires & Wheels]]></tires_n_wheels_category_name>
+				<tiresize_attr_name><![CDATA[Tire Size]]></tiresize_attr_name>
+				<tiresize_attr_type><![CDATA[Type]]]]></tiresize_attr_type>
+				<tiresize_attr_tireapplication><![CDATA[Tire Application]]></tiresize_attr_tireapplication>
+				<tiresize_attr_tiretype><![CDATA[Tire Type]]></tiresize_attr_tiretype>
+			</tireshop>
+		</fitment>
+	</default>
+
+</config>

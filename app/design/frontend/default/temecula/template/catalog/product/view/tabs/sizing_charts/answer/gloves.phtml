@@ -1,0 +1,106 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'answer'; // folder name
+$default = false;
+?>
+<div class="fox-gloves">
+	<h1>Answer Offroad Men's, Women's, and Youth's Gloves Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Answer" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/glove_size.jpg' ?>" alt="Glove Sizes" />
+	</div>
+
+	<h1>Hand Length</h1>
+
+	<p>Measure the width of your palm "A" about 1" below the base of your fingers (about 3/4" for kids) and the length from the tip of your index finger to the base of your thumb "B" and match measurements to sizes listed on the chart. This is for reference only. Glove fit can be a personal preference as you may prefer a tighter or looser fit.</p>
+
+	<div class='fox-gloves-table-header'>Glove Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">MEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">GLOVE SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+		</tr>
+		<tr>
+			<td class="title3">HAND SIZE</td>
+			<td>3 5/8-4 3/8</td>
+			<td>3 3/4-4 1/2</td>
+			<td>3 7/8-4 5/8</td>
+			<td>4-4 3/4</td>
+			<td>4 1/8-4 7/8</td>
+		</tr>
+	</table>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">WOMEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">GLOVE SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+		</tr>
+		<tr>
+			<td class="title3">HAND SIZE</td>
+			<td>3 1/8-4</td>
+			<td>3 1/4-4 1/8</td>
+			<td>3 3/8-4 1/4</td>
+			<td>3 1/2-4 3/8</td>
+		</tr>
+	</table>
+	
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">YOUTH'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">GLOVE SIZE</td>
+			<td>Y2XS</td>
+			<td>YXS</td>
+			<td>YS</td>
+			<td>YM</td>
+			<td>YL</td>
+			<td>YXL</td>
+		</tr>
+		<tr>
+			<td class="title3">HAND SIZE</td>
+			<td>2 3/8-2 3/4</td>
+			<td>2 1/2-2 7/8</td>
+			<td>2 5/8-3</td>
+			<td>2 3/4-3 1/8</td>
+			<td>2 7/8-3 1/7</td>
+			<td>3-3 3/8</td>
+		</tr>
+	</table>
+	
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit. Please use this chart as a guide only.</p>
+
+</div>

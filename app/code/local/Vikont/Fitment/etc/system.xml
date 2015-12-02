@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<vikont translate="label" module="pulliver">
+			<label>Vikont</label>
+			<sort_order>150</sort_order>
+		</vikont>
+	</tabs>
+
+	<sections>
+		<fitment translate="label" module="pulliver">
+			<label>Fitment</label>
+			<tab>vikont</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>40</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>0</show_in_website>
+			<show_in_store>0</show_in_store>
+			<groups>
+
+				<general translate="label">
+					<label>General</label>
+					<sort_order>100</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<enabled translate="label">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</enabled>
+<!--						<keeplog translate="label">
+							<label>Enable logging</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</keeplog>-->
+					</fields>
+				</general>
+
+				<api>
+					<label>PartStream API</label>
+					<sort_order>200</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<base_url translate="label">
+							<label>Base URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</base_url>
+						<app_key translate="label">
+							<label>Application key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</app_key>
+
+					</fields>
+				</api>
+
+				<interface>
+					<label>Interface</label>
+					<sort_order>300</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<facet_value_qty_limit translate="label">
+							<label>Filter values quantity limit</label>
+							<comment><![CDATA[Number of items to be displayed without "Show more"/"Show Less" switcher]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</facet_value_qty_limit>
+					</fields>
+				</interface>
+
+				<tireshop>
+					<label>Tireshop</label>
+					<sort_order>400</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<tires_n_wheels_category_name translate="label">
+							<label><![CDATA[Tires & Wheels category TMS name]]></label>
+							<comment><![CDATA[The name of the Tires & Wheels category to retrieve tires data from ARI]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</tires_n_wheels_category_name>
+						<tiresize_attr_name translate="label">
+							<label>Tire Size attribute TMS name</label>
+							<comment><![CDATA[The name of the Tire Size attribute to retrieve filter values from ARI]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</tiresize_attr_name>
+						<tiresize_attr_type translate="label">
+							<label>Type attribute TMS name</label>
+							<comment><![CDATA[The name of the Type attribute to retrieve filter values from ARI]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</tiresize_attr_type>
+						<tiresize_attr_tireapplication translate="label">
+							<label>Tire Application attribute TMS name</label>
+							<comment><![CDATA[The name of the Tire Application attribute to retrieve filter values from ARI]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</tiresize_attr_tireapplication>
+						<tiresize_attr_tiretype translate="label">
+							<label>Tire Type attribute TMS name</label>
+							<comment><![CDATA[The name of the Tire Type attribute to retrieve filter values from ARI]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</tiresize_attr_tiretype>
+					</fields>
+				</tireshop>
+
+			</groups>
+		</fitment>
+	</sections>
+</config>

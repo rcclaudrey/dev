@@ -1,0 +1,13 @@
+<?php
+$helper = Mage::helper('wholesale');
+?>
+<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('vk_wholesale/home/banner-top.phtml')->toHtml() ?>
+
+<ul class="wholesale-home-top-buttons clearer">
+	<li class="wholesale-home-top-button-partsLookup wholesale-home-top-button"><a href="<?php echo $this->getUrl('wholesale/partslookup') ?>" title="<?php echo $helper->__('Quick part lookup') ?>"><?php echo $helper->__('Quick part lookup') ?></a></li>
+	<li class="wholesale-home-top-button-oemPartsFinder wholesale-home-top-button-right wholesale-home-top-button"><a href="<?php echo $this->getUrl('', array('_direct' => 'oem-parts.html')) ?>" title="<?php echo $helper->__('OEM parts finder') ?>"><?php echo $helper->__('OEM parts finder') ?></a></li>
+	<li class="wholesale-home-top-button-quickOrder wholesale-home-top-button"><a href="<?php echo $this->getUrl('wholesale/quickorder') ?>" title="<?php echo $helper->__('Quick order form') ?>"><?php echo $helper->__('Quick order form') ?></a></li>
+<?php /*
+	<!--<li class="wholesale-home-top-button-vinLookup wholesale-home-top-button"><a href="<?php echo $this->getUrl('vinlookup') ?>" title="<?php echo $helper->__('VIN lookup') ?>"><?php echo $helper->__('VIN lookup') ?></a></li> <?php /**/ ?>
+	<li class="wholesale-home-top-button-contactUs wholesale-home-top-button-right wholesale-home-top-button" title="<?php echo $helper->__('Contact us') ?>"><a href="<?php echo $this->getUrl('', array('_direct' => 'dealer-corner-contact-us.html')) ?>"><?php echo $helper->__('Contact us') ?></a></li>
+</ul>

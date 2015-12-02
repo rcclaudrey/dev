@@ -1,0 +1,60 @@
+<?php
+?>
+<div class="tireshop-criteria tireshop-selector">
+	<ul>
+		<li class="tireshop-grouplabel"><?php echo $this->__('Search By') ?></li>
+		<li class="tireshop-active">
+			<select id="tireshop-criteria-size">
+				<option value=""><?php echo $this->__('-- Select size --') ?></option>
+			</select>
+		</li>
+		<li>
+			<select id="tireshop-criteria-brand">
+				<option><?php echo $this->__('-- Select brand --') ?></option>
+			</select>
+		</li>
+		<li>
+			<select id="tireshop-criteria-price">
+				<!--<option><?php // echo $this->__('-- Select price --') ?></option>-->
+				<option value="0-0" selected="selected"><?php echo $this->__('Any price') ?></option>
+			</select>
+		</li>
+		<li class="tireshop-selector-last">
+			<button id="tireshop-criteria-goSearch" class="tireshop-goSearch" type="button" disabled="disabled"><?php echo $this->__('Search') ?></button>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function() {
+		tyreSelector = new TyreSelector();
+		tyreSelector.init({
+			requestURL: '<?php echo rtrim($this->getUrl('fitment/tireshop/request'), '/') ?>'.replace('http:', location.protocol),
+			goSearchURL: '<?php echo $this->getUrl('fitment') ?>'.replace('http:', location.protocol),
+			activity: <?php echo (int) $this->getTmsActivityId() ?>,
+			tiresCategoryId: <?php echo (int)$this->getTiresCategoryId() ?>,
+			tyreFilter: {
+				size: {
+					code: '<?php echo Mage::helper('fitment')->getTireSizeAttributeCode() ?>',
+					id: null
+				},
+				brand: null,
+				price: {
+					from: null,
+					to: null
+				}
+			},
+			emptyText: {
+				size: '<?php echo $this->__('-- Select size --') ?>',
+				brand: '<?php echo $this->__('-- Select brand --') ?>',
+				price: '<?php echo $this->__('-- Select price --') ?>',
+				noResultMessage: '<?php echo $this->__('Sorry, no tire options are available for this configuration') ?>'
+			},
+			errorMessage: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+		});
+
+		jQuery('#tireshop-criteria-price').val('0-0');
+	});
+
+</script>

@@ -1,0 +1,454 @@
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+$_helper = $this->helper('catalog/output');
+$_productCollection = $this->getLoadedProductCollection();
+//Mage::helper('common')->addInStockSortingToProductCollection($_productCollection);
+
+$category = Mage::getSingleton('catalog/layer')->getCurrentCategory();
+
+$_comparedProductIds = array();
+$comparisonList = Mage::helper('catalog/product_compare')->getItemCollection();
+
+
+foreach ($comparisonList as $_cproduct) {
+    array_push($_comparedProductIds, $_cproduct->getId());
+}
+
+$_prebook = Mage::getResourceModel('catalog/product')->getAttribute('tms_prebook');
+
+
+//$_taxHelper = $this->helper('tax');
+//
+//$_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="category-products">
+        <div class="toolbar">
+            <div class="sorter">
+                <div class="sort-by">
+                    <label>Sort By</label>
+                    <select></select>
+                </div>
+                <p class="view-mode"></p>
+
+            </div>
+
+            <div class="pager">
+                <div class="limiter">
+                    <label>Show</label>
+                    <select>
+                        <option value="" selected="selected">
+                            12 per page 
+                        </option>
+                        <option value="">
+                            24 per page
+                        </option>
+                        <option value="">
+                            36 per page
+                        </option>
+                    </select>
+                </div>
+                <p class="amount"><strong>0 Item</strong></p>                
+            </div>
+            <div class="crystal"></div>
+        </div>
+
+        <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+    </div>    
+<?php else: ?>
+
+    <div class="category-products">
+        <?php echo $this->getToolbarHtml() ?>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <div class="compared-products">
+            <?php echo $this->getChildHtml('catalog_compare_items'); ?>
+        </div>
+
+        <?php if ($category->getId() == '12483'): ?>
+            <div class="category-list-banner">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fox-category-banner')->toHtml(); ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($category->getId() == '12643'): ?>
+            <div class="category-list-banner">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fox-le-union-gear-banner')->toHtml(); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php // List mode   ?>
+        <?php if ($this->getMode() != 'grid'): ?>
+            <?php $_iterator = 0; ?>
+            <ol class="products-list" id="products-list">
+                <?php foreach ($_productCollection as $_product): ?>
+                    <li class="item<?php if (++$_iterator == sizeof($_productCollection)): ?> last<?php endif; ?>">
+                        <?php /*
+                          if ($_product->getTmsCloseout() || Mage::getSingleton('catalog/product')->load($_product->getId())->getData('tms_closeout')) :
+                          $tagCount = 1;
+                          ?>
+                          <div class="tags closeout_tag"><img src="<?php echo $this->getSkinUrl('images/catalog/closeout.png'); ?>" alt=""/></div>
+                          <?php endif; ?>
+                          <?php
+                          if ($commonHelper->isSale($_product)) :
+                          $class = 'second';
+                          if ($tagCount == 0): $class = "first";
+                          $tagCount = 1;
+                          else: $tagCount = 2;
+                          endif;
+                          ?>
+                          <div class="tags sale_tag <?php echo $class ?>"><img src="<?php echo $this->getSkinUrl('images/catalog/sale.png'); ?>" alt=""/></div>
+                          <?php endif; ?>
+                          <?php
+                          if ($commonHelper->isNew($_product)):
+                          $class = 'last';
+                          if ($tagCount == 0): $class = "first";
+                          endif;
+                          if ($tagCount == 1): $class = "second";
+                          endif;
+                          ?>
+                          <div class="tags new_tag <?php echo $class ?>"><img src="<?php echo $this->getSkinUrl('images/catalog/new.png'); ?>" alt=""/></div>
+                          <?php endif; */ ?>
+
+                        <?php /* if (!$_product->isSaleable()): ?>
+                          <div class="tags closeout_tag">
+                          <p class="availability out-of-stock-list"><span><?php echo $this->__('Out of stock') ?></span></p>
+                          </div>
+                          <?php endif; */ ?>
+                        <?php if (!is_null($_product->getData($_prebook->getAttributeCode())) && strtolower($_helper->productAttribute($_product, $_prebook->getFrontend()->getValue($_product), $_prebook->getAttributeCode())) == 'yes'): ?>
+                            <div class="tags pre_book">
+                                <img src="<?php echo $this->getSkinUrl('images/catalog/pre-book.png'); ?>" alt="Pre-Book" />
+                            </div>
+                        <?php endif; ?>
+
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>" class="product-image"  style="height: 220px;">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(220); ?>" width="220" height="220" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        </a>
+                        <?php // Product description     ?>
+                        <div class="product-shop">
+                            <div class="f-fix">
+                                <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                                <h2 class="product-name">
+                                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>">
+                                        <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></a>
+                                </h2>
+                                <?php $this->getChildHmtl('amshopby.navtop'); ?>
+                                <div class="rateme">
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                    <?php /* <div class="play"><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/buttons/btn-video.gif'); ?>" alt=""/></a></div> */ ?>
+                                    <div class="crystal"></div>
+                                </div>
+                                <div class="desc std">
+                                    <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                                </div>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <div class="addcom">
+                                    <?php if ($_product->isSaleable()): ?>
+                                        <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
+                                            <?php
+                                            if (in_array($_product->getId(), $_comparedProductIds)) {
+                                                $_compareUrl = str_replace('product_compare/add/', 'product_compare/remove/', $_compareUrl);
+                                            }
+                                            ?>
+                                            <a class="button btn-compare compare-link compare-product-<?php echo $_product->getId(); ?> <?php echo in_array($_product->getId(), $_comparedProductIds) ? 'btn-compared' : ''; ?>" href="<?php echo $_compareUrl ?>">
+                                                <?php if (in_array($_product->getId(), $_comparedProductIds)): ?>
+                                                    <span><?php echo $this->__('-Remove') ?></span>
+                                                <?php else: ?>
+                                                    <span><?php echo $this->__('+Compare') ?></span>
+                                                <?php endif; ?>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if (Mage::helper('core')->isModuleEnabled('Ajh_AjaxCheckout') && (strtolower($_product->getTypeID()) !== 'configurable') && (strtolower($_product->getTypeID()) !== 'grouped')): ?>
+                                            <a title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart btn-cart product-type-<?php echo strtolower($_product->getTypeID()); ?>" href="<?php echo Mage::getBaseUrl() . 'ajaxcheckout/cart/add/pid/' . $_product->getId() . '/qty/1/' ?>"><span><?php echo $this->__('Add to Cart') ?></span></a>
+                                        <?php else : ?>
+                                            <a title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart btn-cart product-type-<?php echo strtolower($_product->getTypeID()); ?>" href="<?php echo $_product->getProductUrl() ?>"><span><?php echo $this->__('Add to Cart') ?></span></a>
+                                        <?php endif; ?>
+
+                                    <?php else: ?>
+                                        <?php /* <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> */ ?>
+                                        <div class="add-comp">
+                                            <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
+
+                                                <?php
+                                                if (in_array($_product->getId(), $_comparedProductIds)) {
+                                                    $_compareUrl = str_replace('product_compare/add/', 'product_compare/remove/', $_compareUrl);
+                                                }
+                                                ?>
+
+                                                <a class="button btn-compare compare-link  compare-product-<?php echo $_product->getId(); ?> <?php echo in_array($_product->getId(), $_comparedProductIds) ? 'btn-compared' : ''; ?>" href="<?php echo $_compareUrl ?>">
+                                                    <?php if (in_array($_product->getId(), $_comparedProductIds)): ?>
+                                                        <span><?php echo $this->__('-Remove') ?></span>
+                                                    <?php else: ?>
+                                                        <span><?php echo $this->__('+Compare') ?></span>
+                                                    <?php endif; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if ($this->helper('wishlist')->isAllow()): ?>
+                                                <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="button btn-wishlist">
+                                                    <span><?php echo $this->__('+ Wishlist') ?></span>
+                                                </a>
+                                            <?php endif; ?>
+                                            <div class="break"></div>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="crystal"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+        <?php else: ?>
+
+            <?php // Grid Mode     ?>
+
+            <?php $_collectionSize = $_productCollection->count() ?>
+            <?php $_columnCount = $this->getColumnCount(); ?>
+            <?php
+            $i = 0;
+
+            foreach ($_productCollection as $_product):
+                $isOnSale = false;
+                $_prebook = $_product->getResource()->getAttribute('tms_prebook');
+                $prebookActive = (
+                        !( $_product->isAvailable() && $_product->isSaleable()
+                        ) && (null !== $_product->getData($_prebook->getAttributeCode())) && $prebookActive == strtolower(
+                                $_helper->productAttribute(
+                                        $_product, $_prebook->getFrontend()->getValue($_product), $_prebook->getAttributeCode()
+                                )
+                        )
+                        );
+                ?>
+                <?php if ($i++ % $_columnCount == 0): ?>
+                    <ul class="products-grid">
+                    <?php endif ?>
+                    <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                        <div class="bordwrap">                            
+
+                            <?php if ($prebookActive && strtolower($_helper->productAttribute($_product, $_prebook->getFrontend()->getValue($_product), $_prebook->getAttributeCode())) == 'yes'): ?>
+                                <div class="tags pre_book">
+                                    <img src="<?php echo $this->getSkinUrl('images/catalog/pre-book.png'); ?>" alt="Pre-Book" />
+                                </div>
+                            <?php endif; ?>                                                                                   
+
+                            <?php
+                            if ($_product->isConfigurable()):
+                                $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $_product);
+
+                                foreach ($childProducts as $product) {
+                                    if ($product->getPrice() > $product->getFinalPrice()):
+                                        $isOnSale = true;
+                                    endif;
+                                }
+
+                            else:
+                                if ($_product->getPrice() > $_product->getFinalPrice()):
+                                    $isOnSale = true;
+                                endif;
+                            endif;
+                            ?>   
+
+                            <?php if ($isOnSale): ?>
+                                <div class="tags sale_tag"><img src="<?php echo $this->getSkinUrl('images/catalog/sale.png'); ?>" alt=""/></div>
+                            <?php endif; ?>
+
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>" class="product-image"  style="height: 220px;">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(220); ?>" width="220" height="220" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                            </a>
+
+                            <div class="inwrap">
+                                <div class="brand-logo">
+                                    <span class="brand-name">                                        
+                                        <?php $_brand = $_product->getResource()->getAttribute('ari_brands'); ?>
+                                        <?php if (!is_null($_product->getData($_brand->getAttributeCode())) && ((string) $_brand->getFrontend()->getValue($_product) != '')) { ?>
+                                            <?php // echo $brand;   ?><?php echo $_helper->productAttribute($_product, $_brand->getFrontend()->getValue($_product), $_brand->getAttributeCode()) ?>
+                                        <?php } ?>
+                                    </span>
+                                </div>
+                                <div class="rateme">
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                    <?php //this part will be for the video feature    ?>
+                                    <?php /* <div class="play"><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/buttons/btn-video.gif'); ?>" alt=""/></a></div> */ ?>
+                                    <div class="crystal"></div>
+                                </div>
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                                <?php if ($_product->getRatingSummary()): ?>
+
+                                <?php endif; ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                            </div>
+                            <div class="addcom">
+                                <?php if ($_product->isSaleable()): ?>
+                                    <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
+                                        <?php
+                                        if (in_array($_product->getId(), $_comparedProductIds)) {
+                                            $_compareUrl = str_replace('product_compare/add/', 'product_compare/remove/', $_compareUrl);
+                                        }
+                                        ?>
+                                        <a class="button btn-compare compare-link compare-product-<?php echo $_product->getId(); ?> <?php echo in_array($_product->getId(), $_comparedProductIds) ? 'btn-compared' : ''; ?>" href="<?php echo $_compareUrl ?>">
+                                            <?php if (in_array($_product->getId(), $_comparedProductIds)): ?>
+                                                <span><?php echo $this->__('-Remove') ?></span>
+                                            <?php else: ?>
+                                                <span><?php echo $this->__('+Compare') ?></span>
+                                            <?php endif; ?>
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <?php if (Mage::helper('core')->isModuleEnabled('Ajh_AjaxCheckout') && (strtolower($_product->getTypeID()) !== 'configurable') && (strtolower($_product->getTypeID()) !== 'grouped')): ?>
+                                        <a title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart product-type-<?php echo strtolower($_product->getTypeID()); ?>" onclick="popupcart.addToCart(this, 'catalog');
+                                                                            return false;" href="<?php echo Mage::getBaseUrl() . 'ajaxcheckout/cart/add/pid/' . $_product->getId() . '/qty/1/' ?>"><span><?php echo $this->__('Add to Cart') ?></span></a>
+                                       <?php else : ?>
+                                        <a title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart btn-cart product-type-<?php echo strtolower($_product->getTypeID()); ?>" href="<?php echo $_product->getProductUrl() ?>"><span><?php echo $this->__('Add to Cart') ?></span></a>
+                                    <?php endif; ?>
+
+                                <?php else: ?>
+
+                                    <div class="add-comp">
+                                        <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
+
+                                            <?php
+                                            if (in_array($_product->getId(), $_comparedProductIds)) {
+                                                $_compareUrl = str_replace('product_compare/add/', 'product_compare/remove/', $_compareUrl);
+                                            }
+                                            ?>
+                                            <a class="button btn-compare compare-product-<?php echo $_product->getId(); ?> <?php echo in_array($_product->getId(), $_comparedProductIds) ? 'btn-compared' : ''; ?>" href="<?php echo $_compareUrl ?>">
+                                                <?php if (in_array($_product->getId(), $_comparedProductIds)): ?>
+                                                    <span><?php echo $this->__('-Remove') ?></span>
+                                                <?php else: ?>
+                                                    <span><?php echo $this->__('+Compare') ?></span>
+                                                <?php endif; ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($this->helper('wishlist')->isAllow()): ?>
+                                            <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="button btn-wishlist">
+                                                <span><?php echo $this->__('+ Wishlist') ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                        <div class="break"></div>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="crystal"></diV>
+                            </div>
+                        </div>
+                    </li>
+
+                    <?php if ($i % $_columnCount == 0 || $i == $_collectionSize): ?>
+                    </ul>
+                <?php endif ?>
+            <?php endforeach ?>
+            <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
+        <?php endif; ?>
+
+        <div class="toolbar-bottom">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+    </div>
+<?php endif; ?>
+<div class="side-cat">
+    <?php
+    $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+    $url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+    $path = $url->getPath();
+    ?>
+    <ul class="tms-product-filter">
+        <li><a onclick="tmsProduct.all(event)" class="sc-all" href="#">All</a></li>
+        <li><a onclick="tmsProduct.isnew(event)" class="sc-new" href="#">New</a></li>
+        <li><a onclick="tmsProduct.onsale(event)" class="sc-sale sc-on-sale" href="#">Sale</a></li>
+        <li><a onclick="tmsProduct.closeout(event)" class="sc-closeout" href="#">Close Out</a></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        equalHeight(jQuery("li.item .inwrap"));
+        jQuery(".products-grid").each(function () {
+            var highiest = 0;
+            jQuery(this).find('.inwrap').each(function () {
+                if (jQuery(this).outerHeight() > highiest) {
+                    highiest = jQuery(this).outerHeight();
+                }
+            });
+
+            jQuery(".products-grid").find('.inwrap').css({
+                height: highiest + 'px'
+            });
+        });
+
+
+        tmsProduct = {
+            isnew: function (evnt) {
+                evnt.preventDefault();
+
+                var qStrings = tmsProduct.getUrlParameter('tms_products');
+
+
+                qStrings += '&tms_products=11313';
+
+                window.location = '<?php echo $path; ?>?' + qStrings;
+            },
+            onsale: function (evnt) {
+                evnt.preventDefault();
+
+                var qStrings = tmsProduct.getUrlParameter('tms_products');
+                qStrings += '&tms_products=11314';
+
+                window.location = '<?php echo $path; ?>?' + qStrings;
+            },
+            closeout: function (evnt) {
+                evnt.preventDefault();
+
+                var qStrings = tmsProduct.getUrlParameter('tms_products');
+                qStrings += '&tms_products=11312';
+
+                window.location = '<?php echo $path; ?>?' + qStrings;
+            },
+            all: function (evnt) {
+                evnt.preventDefault();
+
+                var qStrings = tmsProduct.getUrlParameter('tms_products');
+
+                window.location = '<?php echo $path; ?>?' + qStrings;
+            },
+            check: function () {
+                if (jQuery("ol.amasty-product-is").length > 0) {
+                    jQuery("ol.amasty-product-is").children("li").each(function () {
+                        jQuery('.sc-' + jQuery(this).attr('data-text').toLowerCase()).addClass('has-product_filter');
+                    });
+
+                    jQuery("ul.tms-product-filter").children("li").each(function () {
+                        if (!jQuery(this).children('a').hasClass('has-product_filter')) {
+                            jQuery(this).remove();
+                        }
+                    });
+                }
+            },
+            getUrlParameter: function (sParam) {
+                var sPageURL = window.location.search.substring(1);
+                var qString = '';
+                var separator = '';
+
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] != sParam) {
+                        qString += separator + sURLVariables[i];
+                        separator = '&';
+                    }
+                }
+
+                return qString;
+            }
+        }
+
+//        tmsProduct.check();
+
+    });
+</script>

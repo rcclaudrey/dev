@@ -1,0 +1,72 @@
+<?php
+
+$rating = $this->getRatingInfo();
+
+if(!is_array($rating)) return;
+/**/
+$rating['Total'] = 123;
+$rating['AverageRating'] = 4.5;
+$rating['NoRating'] = 4;
+$rating['OneStar'] = 9;
+$rating['TwoStar'] = 1;
+$rating['ThreeStar'] = 5;
+$rating['FourStar'] = 20;
+$rating['FiveStar'] = 70;
+/**/
+
+$votesTotal = $rating['Total'] ? $rating['Total'] : 1;
+$positiveRatingValue = ($rating['FiveStar'] + $rating['FourStar']) / $votesTotal;
+$negativeRatingValue = ($rating['TwoStar'] + $rating['OneStar']) / $votesTotal;
+
+?>
+<div class="fitment-popup-rating">
+	<div class="fitment-popup-rating-average clearer">
+		<div class="fitment-popup-rating-average-gauge"><span style="width:<?php echo $this->__('%.1f', $rating['AverageRating'] / 5) ?>">&nbsp;</span></div>
+		<span class="fitment-popup-rating-average-label"><?php echo $this->__('Average Star Rating:') ?></span>
+		<span class="fitment-popup-rating-average-details"><?php echo $this->__('%.1f out of 5 (%d ratings)', $rating['AverageRating'], $rating['Total']) ?></span>
+	</div>
+
+	<span class="fitment-popup-rating-details-header"><?php echo $this->__('Feedback rating details:') ?></span>
+	<table>
+		<tr>
+			<th rowspan="2"><?php echo $this->__('Positive (%.1f%%)', $positiveRatingValue) ?></th>
+			<td>
+				<span class="fitment-popup-rating-votelabel"><?php echo $this->__('5 stars (%d)', $rating['FiveStar']) ?></span>
+				<span class="fitment-popup-rating-votebar"><span style="width:<?php echo $this->__('%.2f%%', 100 * $rating['FiveStar']/$votesTotal) ?>">&nbsp;</span></span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="fitment-popup-rating-votelabel"><?php echo $this->__('4 stars (%d)', $rating['FourStar']) ?></span>
+				<span class="fitment-popup-rating-votebar"><span style="width:<?php echo $this->__('%.2f%%', 100 * $rating['FourStar']/$votesTotal) ?>">&nbsp;</span></span>
+			</td>
+		</tr>
+		<tr>
+			<th><?php echo $this->__('Neutral (%.1f%%)', $rating['ThreeStar'] / $votesTotal) ?></th>
+			<td>
+				<span class="fitment-popup-rating-votelabel"><?php echo $this->__('3 stars (%d)', $rating['ThreeStar']) ?></span>
+				<span class="fitment-popup-rating-votebar"><span style="width:<?php echo $this->__('%.2f%%', 100 * $rating['ThreeStar']/$votesTotal) ?>">&nbsp;</span></span>
+			</td>
+		</tr>
+		<tr>
+			<th rowspan="2"><?php echo $this->__('Negative (%.1f%%)', $negativeRatingValue) ?></th>
+			<td>
+				<span class="fitment-popup-rating-votelabel"><?php echo $this->__('2 stars (%d)', $rating['TwoStar']) ?></span>
+				<span class="fitment-popup-rating-votebar"><span style="width:<?php echo $this->__('%.2f%%', 100 * $rating['TwoStar']/$votesTotal) ?>">&nbsp;</span></span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="fitment-popup-rating-votelabel"><?php echo $this->__('1 star (%d)', $rating['OneStar']) ?></span>
+				<span class="fitment-popup-rating-votebar"><span style="width:<?php echo $this->__('%.2f%%', 100 * $rating['OneStar']/$votesTotal) ?>">&nbsp;</span></span>
+			</td>
+		</tr>
+		<tr>
+			<th><?php echo $this->__('No votes (%.1f%%)', $rating['NoRating'] / $votesTotal) ?></th>
+			<td>
+				<span class="fitment-popup-rating-votelabel"><?php echo $this->__('No votes (%d)', $rating['NoRating']) ?></span>
+				<span class="fitment-popup-rating-votebar"><span style="width:<?php echo $this->__('%.2f%%', 100 * $rating['NoRating']/$votesTotal) ?>">&nbsp;</span></span>
+			</td>
+		</tr>
+	</table>
+</div>

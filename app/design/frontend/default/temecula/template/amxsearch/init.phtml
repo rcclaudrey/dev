@@ -1,0 +1,84 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+
+
+$searchUrl = Mage::getUrl('amxsearchfront/ajax/index', array('_secure'=> Mage::app()->getStore()->isCurrentlySecure()));
+//$searchUrl = Mage::getUrl('amxsearch/ajax/index', array('_secure'=> true));
+?>
+<style>
+    
+    .am_search_popup{
+        border: 4px solid #<?php print Mage::getStoreConfig('amxsearch/theme/border');?>;
+        border-top-width: 6px;
+        background-color: #<?php print Mage::getStoreConfig('amxsearch/theme/border');?>;
+        width: <?php print Mage::getStoreConfig('amxsearch/autocomplete/width');?>px;
+    }
+    
+    .am_search_popup_triangle{
+        background-color: #<?php print Mage::getStoreConfig('amxsearch/theme/border');?>;
+    }
+
+    .am_search_popup div.am_element:hover,
+    .am_search_popup div.am_element.active
+    {
+        background: #<?php print Mage::getStoreConfig('amxsearch/theme/hover');?>; 
+    }
+    
+    .amhighlight{
+        background: #<?php print Mage::getStoreConfig('amxsearch/theme/highlight');?>;
+    }
+    
+    
+    .am_search_popup div.am_element .am_title,
+    .am_search_popup div.am_element .regular-price .price,
+    .am_search_popup div.am_element,
+    .am_search_popup div.am_element a
+    {
+        color: #<?php print Mage::getStoreConfig('amxsearch/theme/color');?>; 
+    }
+    
+    .am_search_popup div.am_element:hover .am_title,
+    .am_search_popup div.am_element:hover .regular-price .price,
+    .am_search_popup div.am_element:hover,
+    .am_search_popup div.am_element:hover a,
+    .am_search_popup div.am_element.active .am_title,
+    .am_search_popup div.am_element.active .regular-price .price,
+    .am_search_popup div.am_element.active,
+    .am_search_popup div.am_element.active a
+    {
+        color: #<?php print Mage::getStoreConfig('amxsearch/theme/hover_color');?>; 
+    }
+    
+    .am_search_popup div.am_element:hover .amhighlight,
+    .am_search_popup div.am_element.active .amhighlight
+    {
+        background-color: #<?php print Mage::getStoreConfig('amxsearch/theme/border');?>;
+    }
+    
+</style>
+
+<!--[if IE 8]>
+<style>
+.am_search_popup_triangle{
+    display: none;
+}
+.am_search_popup{
+    margin-top: -10px;
+}
+</style>
+<![endif]-->
+<script type="text/javascript">
+//<![CDATA[    
+    $('search').stopObserving();
+
+    var xsearchObj = new Xsearch({
+        url: '<?php print $searchUrl;?>',
+        minChars: '<?php print Mage::getStoreConfig('amxsearch/autocomplete/min_chars');?>',
+    });
+    
+
+</script>

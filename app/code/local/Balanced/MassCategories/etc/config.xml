@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Balanced_MassCategories>
+		  <version>1.0.1</version>
+		</Balanced_MassCategories>
+	</modules>
+	
+	<admin>
+        <routers>
+            <masscategories>
+                <use>admin</use>
+                <args>
+                    <module>Balanced_MassCategories</module>
+                    <frontName>masscategories</frontName>
+                </args>
+            </masscategories>
+        </routers>
+    </admin>
+	
+	<global>
+		<blocks>
+			<masscategories>
+				<class>Balanced_MassCategories_Block</class>
+			</masscategories>				
+		</blocks>
+		
+		<helpers>
+            <masscategories>
+                <class>Balanced_MassCategories_Helper</class>
+            </masscategories>
+        </helpers>		
+		
+		 <blocks>
+          <adminhtml>
+            <rewrite>
+			  <!--<catalog_product_edit_action_attribute_tabs>Balanced_MassCategories_Block_Catalog_Product_Edit_Action_Attribute_Tabs</catalog_product_edit_action_attribute_tabs>-->
+            </rewrite>
+			<masscategories>
+				<class>Balanced_MassCategories_Block_Catalog_Product_Edit_Action_Attribute_Tab_Categories</class>
+				<class>Balanced_MassCategories_Block_Catalog_Product_Edit_Action_Attribute_Tabs</class>
+				<class>Balanced_MassCategories_Block_Catalog_Product_Edit_Tab_Categories</class>
+				<class>Balanced_MassCategories_Block_Catalog_Category_Edit</class>
+			</masscategories>	
+          </adminhtml>
+        </blocks>
+	</global>
+	
+	<adminhtml>
+        <acl>
+          <resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+            <admin>
+              <children>
+            	  <catalog>
+            		<children>
+    					<masscategories>
+                              <title>Mass Categories</title>
+    					</masscategories>
+    				</children>
+            	  </catalog>
+                  <system>
+                      <children>
+                        <config>
+                          <children>
+                            <masscategories>
+                              <title>Mass Categories</title>
+                            </masscategories>
+                          </children>
+                        </config>
+                      </children>
+                  </system>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+    </adminhtml>
+
+	<adminhtml>
+		<layout>
+            <updates>
+                <masscategories>
+                    <file>balanced_masscategories.xml</file>
+                </masscategories>
+            </updates>
+        </layout>
+	</adminhtml>
+	
+
+<!-- overriding a core admin controller -->
+   <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <balanced_MassCategories before="Mage_Adminhtml">Balanced_MassCategories</balanced_MassCategories>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+
+</config>

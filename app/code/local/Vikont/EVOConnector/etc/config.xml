@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_EVOConnector>
+			<version>1.0.1</version>
+		</Vikont_EVOConnector>
+	</modules>
+
+
+<!--	<frontend>
+		<translate>
+			<modules>
+				<Vikont_EVOConnector>
+					<files>
+						<default>Vikont_EVOConnector.csv</default>
+					</files>
+				</Vikont_EVOConnector>
+			</modules>
+		</translate>
+	</frontend>-->
+
+
+	<admin>
+		<routers>
+			<evoc>
+				<use>admin</use>
+				<args>
+					<module>Vikont_EVOConnector</module>
+					<frontName>evoc</frontName>
+				</args>
+			</evoc>
+		</routers>
+	</admin>
+
+
+	<adminhtml>
+
+		<translate>
+			<modules>
+				<Vikont_EVOConnector>
+					<files>
+						<default>Vikont_EVOConnector.csv</default>
+					</files>
+				</Vikont_EVOConnector>
+			</modules>
+		</translate>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<evoc module="evoc" translate="title">
+											<title>EVO Connector</title>
+											<sort_order>99</sort_order>
+										</evoc>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+<!--		<layout>
+			<updates>
+				<evoc>
+					<file>Vikont_EVOConnector.xml</file>
+				</evoc>
+			</updates>
+		</layout>-->
+
+	</adminhtml>
+
+
+	<global>
+
+		<helpers>
+			<evoc>
+				<class>Vikont_EVOConnector_Helper</class>
+			</evoc>
+		</helpers>
+
+		<models>
+			<evoc>
+				<class>Vikont_EVOConnector_Model</class>
+				<resourceModel>evoc_mysql4</resourceModel>
+			</evoc>
+		</models>
+
+		<resources>
+			<evoc_setup>
+				<setup>
+					<module>Vikont_EVOConnector</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</evoc_setup>
+			<evoc_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</evoc_write>
+			<evoc_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</evoc_read>
+		</resources>
+
+<!--		<events>
+			<sales_order_place_after>
+				<observers>
+					<auto_invoice_order>
+						<type>singleton</type>
+						<class>Vikont_EVOConnector_Model_Observer</class>
+						<method>sales_order_place_after</method>
+					</auto_invoice_order>
+				</observers>
+			</sales_order_place_after>
+		</events>-->
+
+	</global>
+
+	<default>
+		<evoc>
+			<general>
+				<enabled>1</enabled>
+				<keeplog>1</keeplog>
+			</general>
+			<auth>
+				<username>evo</username>
+				<password></password>
+			</auth>
+		</evoc>
+	</default>
+
+</config>

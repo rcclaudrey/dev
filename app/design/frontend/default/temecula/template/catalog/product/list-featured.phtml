@@ -1,0 +1,276 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+
+<div class="home-cont">
+    <div id="slider1_container"  class="sshow" style="position: relative; top: 0px; left: 0px; width: 598px;
+         height: 320px;">
+
+        <!-- Slides Container -->
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 598px; height: 320px;
+             overflow: hidden;">
+            <div><a u=image class="banner-slider-image" href="<?php echo Mage::getBaseUrl(); ?>dirt/parts/control/handlebars-accessories.html?ari_brands=7093"><img src="<?php echo $this->getSkinUrl('images/home/slides/RenthalHomePageBanner1.jpg'); ?>" alt=""/></a></div>
+            <div><a u=image class="banner-slider-image" href="<?php echo Mage::getBaseUrl(); ?>fox-le-union-gear.html"><img src="<?php echo $this->getSkinUrl('images/home/slides/flexairunionbanner.jpg'); ?>" alt=""/></a></div>
+            <div><a u=image class="banner-slider-image" href="<?php echo Mage::getBaseUrl(); ?>fox-le-gear.html"><img src="<?php echo $this->getSkinUrl('images/home/slides/foxflexbanner.jpg'); ?>" alt=""/></a></div>
+            <div><a u=image class="banner-slider-image" href="<?php echo Mage::getBaseUrl(); ?>oem-parts.html"><img src="<?php echo $this->getSkinUrl('images/home/slides/banner-1.jpg'); ?>" alt=""/></a></div>
+            <div><a u=image class="banner-slider-image" href="<?php echo Mage::getBaseUrl(); ?>tireshop.html"><img src="<?php echo $this->getSkinUrl('images/home/slides/banner-2.jpg'); ?>" alt=""/></a></div>
+            <div><a u=image class="banner-slider-image" href="<?php echo Mage::getBaseUrl(); ?>oem-parts.html"><img src="<?php echo $this->getSkinUrl('images/home/slides/banner-3.jpg'); ?>" alt=""/></a></div>                             
+        </div>  
+
+        <!-- Bullet Navigator Skin Begin -->
+        <style>
+            /* jssor slider bullet navigator skin 03 css */
+            /*
+            .jssorb03 div           (normal)
+            .jssorb03 div:hover     (normal mouseover)
+            .jssorb03 .av           (active)
+            .jssorb03 .av:hover     (active mouseover)
+            .jssorb03 .dn           (mousedown)
+            */
+            .jssorb03 div, .jssorb03 div:hover, .jssorb03 .av
+            {
+                /* background: url(../img/b03.png) no-repeat; */
+                background: url(<?php echo $this->getSkinUrl('images/home/bullets.png'); ?>) no-repeat;
+                overflow:hidden;
+                cursor: pointer;
+            }
+            .jssorb03 div { background-position: 5px 6px; }
+            .jssorb03 div:hover, .jssorb03 .av:hover { background-position: 5px -11px; }
+            .jssorb03 .av { background-position: 5px -11px; }
+            .jssorb03 .dn, .jssorb03 .dn:hover { background-position: 5px 6px; }
+        </style>
+        <!-- bullet navigator container -->
+        <div u="navigator" class="jssorb03" style="position: absolute; bottom: 4px; left: 0; right: 0; margin: 0 auto;">
+            <!-- bullet navigator item prototype -->
+            <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:white; font-size:12px;"></div>
+        </div>
+        <!-- Bullet Navigator Skin End -->  
+    </div>
+
+    <ul class="mini-banners">
+        <li><a href="<?php echo Mage::getBaseUrl(); ?>tireshop.html"><img src="<?php echo $this->getSkinUrl('images/home/link02-bg.jpg'); ?>" alt=""/></a></li>
+        <li><a href="<?php echo Mage::getBaseUrl(); ?>dirt.html"><img src="<?php echo $this->getSkinUrl('images/home/link03-bg.jpg'); ?>" alt=""/></a></li>
+        <li><a href="<?php echo Mage::getBaseUrl(); ?>fitment/"><img src="<?php echo $this->getSkinUrl('images/home/link04-bg.jpg'); ?>" alt=""/></a></li>
+        <li><a href="<?php echo Mage::getBaseUrl(); ?>oem-parts.html"><img src="<?php echo $this->getSkinUrl('images/home/link01-bg.jpg'); ?>" alt=""/></a></li>
+
+    </ul>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        var options = {$AutoPlay: true, $BulletNavigatorOptions: {
+                $Class: $JssorBulletNavigator$,
+                $ChanceToShow: 2
+            }};
+        var jssor_slider1 = new $JssorSlider$('slider1_container', options);
+
+        //]]
+
+    </script>
+    <div class="crystal"></div>
+    <?php /*
+      <div class="banner-center summer-sale">
+      <p class="expand-button"><img src="<?php echo $this->getSkinUrl('images/buttons/expand.png'); ?>"/></p>
+      <a href="#"><img src="<?php echo $this->getSkinUrl('images/home/banner-expand.jpg'); ?>" alt=""/></a>
+      <div class="dropme" style="display:none">
+      <p class="closeme"><img src="<?php echo $this->getSkinUrl('images/buttons/close-home.png'); ?>"/></p>
+      <img usemap="#shopnow" src="<?php echo $this->getSkinUrl('images/home/banner-expanded.jpg'); ?>" alt=""/>
+      <map name="shopnow" id="shopnow">
+      <area shape="rect" coords="660,159,848,205" href="#" />
+      </map>
+      </div>
+      <script type="text/javascript">
+      //<![CDATA[
+      var options = {$AutoPlay: true};
+      var jssor_slider1 = new $JssorSlider$('slider1_container', options);
+      jQuery(document).ready(function () {
+      jQuery('.expand-button').click(function () {
+      jQuery('.dropme').slideDown();
+      jQuery(this).hide();
+      });
+      jQuery('.closeme').click(function () {
+      jQuery('.dropme').slideUp();
+      jQuery('.expand-button').show();
+      });
+
+      });
+
+      //]]
+
+      </script>
+      </div>
+    <div class="banner-center summer-sale">
+        <img src="<?php echo $this->getSkinUrl('images/home/get-most.jpg'); ?>" alt=""/>
+    </div>
+     */ ?>
+
+</div>
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$this->setData('column_count', 4);
+?>
+<?php if (!$_productCollection->count()): ?>    
+    <?php /* <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p> */ ?>
+<?php else: ?>
+    <h2 class="hdr-under">Featured Products</h2>
+    <div class="liquid carouseled" id="featured-products">    
+        <span class="previous carrow-left"></span>
+        <div class="wrapper">
+            <ul class="products-grid">
+                <?php //echo $this->getToolbarHtml()   ?>
+                <?php $_collectionSize = $_productCollection->count() ?>
+                <?php $_columnCount = $this->getColumnCount(); ?>
+                <?php
+                $i = 0;
+                $indx = 1;
+                $row_num = 1;
+                foreach ($_productCollection as $_product):
+                    $isOnSale = false;
+                    ?>
+                    <?php if ($i++ % $_columnCount == 0): ?>                        
+                    <?php endif; ?>
+                    <li class="featured-row featured-row-<?php echo $row_num; ?> item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+
+                        <div class="product-grid-mainwrap featured-item featured-item-<?php echo $indx % 4; ?>">
+
+                            <?php
+                            if ($_product->isConfigurable()):
+                                $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $_product);
+
+                                foreach ($childProducts as $product) {
+                                    if ($product->getPrice() > $product->getFinalPrice()):
+                                        $isOnSale = true;
+                                    endif;
+                                }
+
+                            else:
+                                if ($_product->getPrice() > $_product->getFinalPrice()):
+                                    $isOnSale = true;
+                                endif;
+                            endif;
+                            ?> 
+
+                            <?php if ($isOnSale): ?>
+                                <div class="tags sale_tag"><img src="<?php echo $this->getSkinUrl('images/catalog/sale.png'); ?>" alt=""/></div>
+                            <?php else: /* ?>
+                                <div class="tags new_tag"><img src="<?php echo $this->getSkinUrl('images/catalog/new.png'); ?>" alt=""/></div>                            
+                            <?php */ endif; ?>
+
+
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>" class="product-image"  style="height: 200px;">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(200); ?>" width="200" height="200" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />                                
+                            </a>                        
+
+                            <div class="inwrap">
+                                <div class="rateme">
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>                                    
+                                    <div class="crystal"></div>
+                                </div>
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                                <?php if ($_product->getRatingSummary()): ?>
+
+                                <?php endif; ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>                                
+                            </div>
+                            <div style="clear: both; height: 1px;"></div>
+                        </div>                        
+                    </li>                    
+                    <?php
+                    $i++;
+
+                    if ($indx % 4 == 0) {
+                        $row_num++;
+                    }
+
+                    $indx++;
+                    ?>
+                <?php endforeach ?>
+            </ul>
+        </div>
+        <span class="next carrow-right"></span>
+    </div>
+    <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
+<?php endif; ?>
+
+<h2 class="hdr-under">Featured Brands</h2>
+<div class="carouseled" id="slider2_container">
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('featured-brands')->toHtml(); ?> 
+    <div class="crystal"></div>
+</div>
+
+<script type="text/javascript">
+    jQuery(window).load(function () {
+
+        var highest = 0;
+        var highest_name = 0;
+        var highest2 = 0;
+        var highest2_name = 0;
+
+        jQuery(".featured-row-1 .featured-item").each(function () {
+
+            if (parseInt(jQuery(this).outerHeight()) > parseInt(highest)) {
+                highest = jQuery(this).outerHeight();
+            }
+
+            if (jQuery(this).find(".product-name").outerHeight() > highest_name) {
+                highest_name = jQuery(this).find(".product-name").outerHeight();
+            }
+        });
+
+        jQuery(".featured-row-1 .featured-item").css({
+            height: highest + "px"
+        });
+        jQuery(".featured-row-1 .featured-item").find(".product-name").css({
+            height: highest_name + "px"
+        });
+
+        jQuery(".featured-row-2 .featured-item").each(function () {
+
+            if (parseInt(jQuery(this).outerHeight()) > parseInt(highest2)) {
+                highest2 = jQuery(this).outerHeight();
+            }
+
+            if (jQuery(this).find(".product-name").outerHeight() > highest2_name) {
+                highest2_name = jQuery(this).find(".product-name").outerHeight();
+            }
+        });
+
+        jQuery(".featured-row-2 .featured-item").css({
+            height: highest2 + "px"
+        });
+
+        jQuery(".featured-row-2 .featured-item").find(".product-name").css({
+            height: highest2_name + "px"
+        });
+    });
+</script>

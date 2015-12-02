@@ -1,0 +1,131 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'icon'; // folder name
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>Icon Jacket Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.png' ?>" alt="Icon" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/jersey.jpg' ?>" alt="Jacket Sizes" />
+	</div>
+	
+	<h1>Sleeve</h1>
+
+	<p>Measure from the center of spine at the base of the neck, around the shoulder, over the elbow and down to the wrist.</p>
+	
+	<h1>Chest</h1>
+
+	<p>Measure around the broadest part of the chest, 1-2  inches below the arm pits.</p>
+
+	<div class='fox-gloves-table-header'>Jacket Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">MEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">JACKET SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+			<td>3XL</td>
+			<td>4XL</td>
+		</tr>
+		<tr>
+			<td class="title3">CHEST SIZE</td>
+			<td>34-36</td>
+			<td>38-40</td>
+			<td>42-44</td>
+			<td>46-48</td>
+			<td>50-52</td>
+			<td>54-56</td>
+			<td>58-60</td>
+		</tr>
+		<tr>
+			<td class="title3">WAIST SIZE</td>
+			<td>28-30</td>
+			<td>32-34</td>
+			<td>36-38</td>
+			<td>40-42</td>
+			<td>44-46</td>
+			<td>48-50</td>
+			<td>52-54</td>
+		</tr>
+		<tr>
+			<td class="title3">REG. SLEEVE SIZE</td>
+			<td>32.5-33</td>
+			<td>33.5-34</td>
+			<td>34.5-35</td>
+			<td>35.5-36</td>
+			<td>36.5-37</td>
+			<td>37-37.5</td>
+			<td>37.5-38</td>
+		</tr>
+		<tr>
+			<td class="title3">TALL SLEEVE SIZE</td>
+			<td>n/a</td>
+			<td>35-35.5</td>
+			<td>36-36.5</td>
+			<td>37-37.5</td>
+			<td>38-38.5</td>
+			<td>38.5-39</td>
+			<td>39-39.5</td>
+		</tr>
+	</table>
+	
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">WOMEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">JACKET SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+			<td>3XL</td>
+		</tr>
+		<tr>
+			<td class="title3">BUST SIZE</td>
+			<td>32-34</td>
+			<td>34-36.5</td>
+			<td>37-39.5</td>
+			<td>40.5-43.5</td>
+			<td>44-46.5</td>
+			<td>47-49.5</td>
+		</tr>
+		<tr>
+			<td class="title3">HIP SIZE</td>
+			<td>34.5-36.5</td>
+			<td>37-39</td>
+			<td>39.5-42</td>
+			<td>42.5-45</td>
+			<td>45.5-48</td>
+			<td>48.5-51</td>
+		</tr>
+	</table>	
+	
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit.</p>
+
+</div>

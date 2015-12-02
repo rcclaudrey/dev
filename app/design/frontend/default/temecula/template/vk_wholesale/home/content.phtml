@@ -1,0 +1,24 @@
+<?php
+$helper = Mage::helper('wholesale');
+?>
+<div class="wholesale-home wholesale">
+	<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('vk_wholesale/home/banner-top.phtml')->toHtml() ?>
+
+	<ul class="wholesale-home-top-buttons clearer">
+		<li class="wholesale-home-top-button-partsLookup wholesale-home-top-button"><a href="<?php echo $this->getUrl('wholesale/partslookup') ?>" title="<?php echo $helper->__('Quick part lookup') ?>"><?php echo $helper->__('Quick part lookup') ?></a></li>
+		<li class="wholesale-home-top-button-oemPartsFinder wholesale-home-top-button-right wholesale-home-top-button"><a href="<?php echo $this->getUrl('', array('_direct' => 'oem-parts.html')) ?>" title="<?php echo $helper->__('OEM parts finder') ?>"><?php echo $helper->__('OEM parts finder') ?></a></li>
+		<li class="wholesale-home-top-button-quickOrder wholesale-home-top-button"><a href="<?php echo $this->getUrl('wholesale/quickorder') ?>" title="<?php echo $helper->__('Quick order form') ?>"><?php echo $helper->__('Quick order form') ?></a></li>
+<?php /*
+		<!--<li class="wholesale-home-top-button-vinLookup wholesale-home-top-button"><a href="<?php echo $this->getUrl('vinlookup') ?>" title="<?php echo $helper->__('VIN lookup') ?>"><?php echo $helper->__('VIN lookup') ?></a></li> <?php /**/ ?>
+		<li class="wholesale-home-top-button-contactUs wholesale-home-top-button-right wholesale-home-top-button" title="<?php echo $helper->__('Contact us') ?>"><a href="<?php echo $this->getUrl('', array('_direct' => 'contact-us.html')) ?>"><?php echo $helper->__('Contact us') ?></a></li>
+	</ul>
+
+	<h1>Welcome to tmsparts.com Dealer Corner</h1>
+
+	<p>We are large multi-line OEM dealership located in sunny southern California. We specialize in Honda, Yamaha, Kawasaki, Suzuki, and Polaris OEM parts and accessories. We also carry a full line of aftermarket parts and accessories,  we can offer additional specialty products as well,  such as Fox Racing Shox, JE pistons, and many, many more. If you need it, we can supply it, please don't hesitate to inquire today. If you are a new customer please fill out our dealer application. We will contact you once the dealer application is received to begin account set up. If you are located in California and would like to purchase from us tax exempt. Please fill out the <a href="http://www.boe.ca.gov/pdf/boe230.pdf">CA resale certificate</a> as well. We order parts daily, and ship out daily, we will be the best partner you have on your team! We have been making a difference in the Powersports business for many years now and look forward to many years to come as the industry leader.</p>
+	<p>Thank you for your interest in doing business with Temecula Motorsports.</p>
+
+	<p>Sincerely,<br/>
+	JD Dominick<br/>
+	<i>(Dealer Account Manager)</i></p>
+</div>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Balanced_MassCategories>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Balanced_MassCategories>
+    </modules>
+</config> 

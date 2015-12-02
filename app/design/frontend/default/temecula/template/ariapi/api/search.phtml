@@ -1,0 +1,33 @@
+<?php
+$_columnCount = 3;
+$activityId = 1;
+
+$ari_products = Mage::getModel("ariapi/ari")->searchProducts($activityId, Mage::app()->getRequest()->getPost());
+?>
+
+<?php $ii = 0; ?>
+<?php foreach ($ari_products->Products as $product): ?>
+    <?php if ($ii++ % $_columnCount == 0): ?>
+        <ul class="products-grid">
+        <?php endif ?>
+        <?php $product_info = Mage::getModel("ariapi/ari")->getProductInfo($product->Id); ?>
+        <li class="item">
+            <a href="" title="" class="product-image"><img src="<?php echo $product->ImageUrl; ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+            <div class="product-shop">
+                <div class="f-fix">                                
+                    <h2 class="product-name"><a href="" title="<?php echo $product->Name; ?>"><?php echo $product->Name; ?></a></h2>
+                    <div class="price-box">
+                        <span class="regular-price" id="product-price-6">
+                            <span class="price">$<?php echo $product->StartPrice; ?></span>
+                        </span>
+                    </div>                                
+                    <div class="desc std">
+                        <?php echo $product_info->Description; ?>                                    
+                    </div>                                
+                </div>
+            </div>
+        </li>
+        <?php if ($ii % $_columnCount == 0 || $ii == count($ari_products->Products)): ?>
+        </ul>
+    <?php endif ?>
+<?php endforeach; ?> 

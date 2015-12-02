@@ -1,0 +1,12 @@
+<?php
+
+$orderIncrementId = $this->getOrder()->getIncrementId();
+
+?>
+<h1><?php echo $this->__('Quick Order') ?></h1>
+<div class="wsqo-ordersuccess">
+	<h2><?php echo $this->__('Congratuations! Your order has been created.') ?></h2>
+	<p><?php echo $this->__('Order number:') ?><span class="wsqo-incrementId"><?php echo $orderIncrementId ?></span></p>
+	<p><?php echo $this->__('You can track the order') ?> <a class="" href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('at My Account - My Orders') ?></a></p>
+	<p class="wsqo-ordersuccess-another"><a href="<?php echo $this->getUrl('wholesale/quickorder') ?>" onclick="location.reload()"><?php echo $this->__('Send another order') ?></a></p>
+</div>

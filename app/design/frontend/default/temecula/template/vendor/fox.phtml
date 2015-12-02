@@ -1,0 +1,67 @@
+
+<div class="oem-finder">
+<h1 class="hdr-oem"><span>OEM Parts Finder</span></h1>
+<div class="select-ride">
+<h2 class=""><span>Select your Ride</span></h2>
+<div class="selects">
+<select name="" class="smake">
+  <option>Select Make</option>
+  <option>option2</option>
+  <option>option3</option>
+  <option>option4</option>
+</select>
+<select name="" class="scategory">
+  <option>Select Category</option>
+  <option>option2</option>
+  <option>option3</option>
+  <option>option4</option>
+</select>
+<select name="" class="syear">
+  <option>Select Year</option>
+  <option>option2</option>
+  <option>option3</option>
+  <option>option4</option>
+</select>
+<select name="" class="smodel">>
+  <option>Select Model</option>
+  <option>option2</option>
+  <option>option3</option>
+  <option>option4</option>
+</select>
+</div>
+</div>
+<div class="page-title">
+<h1>Factory OEM Accessories</h1>
+</div>
+<ul>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-victory.jpg');?>" width="164" height="89" />
+</a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-honda.jpg');?>" width="130" height="91" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-se.jpg');?>" width="184" height="49" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-spyder.jpg');?>" width="191" height="48" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-kawasaki.jpg');?>" width="140" height="36" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-yamaha.jpg');?>" width="135" height="46" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-can-am.jpg');?>" width="145" height="106" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-suzuki.jpg');?>" width="166" height="48" /></a></li>
+<li><a href="#"><img src="<?php echo $this->getSkinUrl('images/cms/logo-polaris.jpg');?>" width="175" height="58" /></a></li>
+</ul>
+<p class="oem-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function() {  
+  
+    // when hover over any div inside div with class=photos, find the grey image and change its opacity to 0  
+    // opacity = 0 - invisible, opacity = 1 - completely opaque    
+      jQuery('.oem-finder ul li	img').css('opacity',0.4);
+      jQuery('.oem-finder ul li').hover(  
+         function() {  
+          jQuery(this).find('img').stop().animate({ 'opacity': '1' }, 500);  
+      },  
+         function() {  
+          jQuery(this).find('img').stop().animate({ 'opacity': '0.4' }, 500);  
+      });  
+  
+});  //]]
+</script>
+</div>

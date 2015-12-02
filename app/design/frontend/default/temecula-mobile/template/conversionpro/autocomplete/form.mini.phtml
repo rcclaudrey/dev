@@ -1,0 +1,22 @@
+<?php
+/* @var $this Mage_Core_Block_Template */
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch');
+?>
+<div class="search-mini-form-container">
+	<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+	<div class="form-search">
+		<label for="search"><?php echo $this->__('Search site:') ?></label><input autocomplete="off" id="search" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>"/>
+		<button id="search_button" type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+		<div id="search_autocomplete" class="search-autocomplete" autocomplete="off"></div>
+		<?php if(!$this->helper('conversionpro')->isAutoComplete()): ?>
+			<script type="text/javascript">
+			//<![CDATA[
+				var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Enter search keyword') ?>');
+				searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+			//]]>
+			</script>
+		<?php endif; ?>
+	</div>
+	</form>
+</div>

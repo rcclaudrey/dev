@@ -1,0 +1,131 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Shopby
+ */
+?>
+<div id="slider_featured_brands">
+    <?php if (count($this->getItems()) > 4): ?>
+        <span class="arrowleft feat feat-left"></span>
+        <span  class="arrowright feat feat-right"></span>
+        <!--<div class="crystal"></div>-->
+    <?php endif; ?>
+    <div class="brands-grid-featured">                        
+        <div class="brand-grid-inner-wrap">
+            <?php foreach ($this->getItems() as $item): ?>
+                <?php $title = @unserialize($item->getTitle()); ?>
+                <?php
+                $largeImage = Mage::getBaseDir('media') . DS . 'amshopby' . DS . basename($item->getImgBig());
+                $resizedImage = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'brands' . DS . 'featured-brands' . DS . basename($item->getImgBig());
+
+                if (!file_exists($resizedImage) && file_exists($largeImage)) :
+                    $imageObj = new Varien_Image($largeImage);
+                    $imageObj->constrainOnly(TRUE);
+                    $imageObj->keepAspectRatio(TRUE);
+                    $imageObj->keepFrame(FALSE);
+                    $imageObj->resize(175, 60);
+                    $imageObj->save($resizedImage);
+                endif;
+                ?>
+
+                <div class="featured-brand-list">                    
+                    <a href="<?php echo $item->getUrl() ?>" class="brand-image-a">
+                        <?php if ($item->getImgBig()) : ?>
+                            <?php if (is_array($title)): ?>
+                                <img title="<?php echo $this->htmlEscape($title[0]) ?>" alt="<?php echo $this->htmlEscape($title[0]) ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/brands/featured-brands/' . basename($item->getImgBig()) ?>" />
+                            <?php else: ?>
+                                <img title="<?php echo $this->htmlEscape($title) ?>" alt="<?php echo $this->htmlEscape($title) ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/brands/featured-brands/' . basename($item->getImgBig()) ?>" />
+                            <?php endif ?>
+                        <?php else: ?>
+                            <?php if (is_array($title)): ?>
+                                <?php echo $this->htmlEscape($title[0]) ?>
+                            <?php else: ?>
+                                <?php echo $this->htmlEscape($title) ?>
+                            <?php endif ?>
+                        <?php endif ?>
+                    </a>                    
+                </div>
+            <?php endforeach ?>
+            <div class="crystal"></div>
+        </div>        
+    </div>    
+</div>
+<script type="text/javascript">
+    jQuery(window).load(function() {
+        jQuery(".featured-brand-list").each(function() {
+            jQuery(this).css({
+                paddingTop: ((jQuery(this).parent().outerHeight() - jQuery(this).outerHeight()) / 2) + 'px'
+            });
+        });
+    });
+
+    jQuery(document).ready(function() {
+        var _totalSlides = jQuery(".brand-grid-inner-wrap").children(".featured-brand-list").length;
+
+        var _wrapperWidth = (_totalSlides * jQuery(".featured-brand-list").outerWidth(true));
+
+        jQuery(".brand-grid-inner-wrap").css({
+            width: _wrapperWidth + "px"
+        });
+
+        var slideDistance = jQuery(".featured-brand-list").outerWidth(true) * 4;
+        var _curPosition = 0;
+        var _nextPosition = 0;
+        var _processing = false;
+        var _parentWidth = jQuery(".brand-grid-inner-wrap").parent().innerWidth();
+        var _speed = 200;
+
+
+        jQuery(".feat-right").click(function() {
+
+            var _slideDistance = 0;
+
+            if (!_processing) {
+                _processing = true;
+
+                jQuery(".feat-right").attr('disabled', 'disabled');
+                _curPosition = parseInt(jQuery(".brand-grid-inner-wrap").css('marginLeft'));
+
+                if ((_wrapperWidth + _curPosition) <= _parentWidth) {
+                    _processing = false;
+                    return false;
+                }
+
+                _nextPosition = _curPosition + slideDistance;
+
+
+                if ((_wrapperWidth + _curPosition - slideDistance) < _parentWidth) {
+                    _slideDistance = _wrapperWidth - Math.abs(_curPosition) - _parentWidth;
+                }
+
+
+                jQuery(".brand-grid-inner-wrap").animate({
+                    marginLeft: "-=" + (_slideDistance > 0 ? _slideDistance : slideDistance)
+                }, _speed, function() {
+                    jQuery(".feat-left").removeAttr('disabled');
+                    _processing = false;
+                });
+            }
+        });
+
+        jQuery(".feat-left").click(function() {
+
+            if (!_processing) {
+                _processing = true;
+
+                jQuery(".feat-left").attr('disabled', 'disabled');
+
+                _curPosition = parseInt(jQuery(".brand-grid-inner-wrap").css('marginLeft'));
+                _nextPosition = _curPosition + slideDistance;
+
+                jQuery(".brand-grid-inner-wrap").animate({
+                    marginLeft: "+=" + (_nextPosition > 0 ? (0 - _curPosition) : slideDistance)
+                }, _speed, function() {
+                    jQuery(".feat-right").removeAttr('disabled');
+                    _processing = false;
+                });
+            }
+        });
+    });
+</script>

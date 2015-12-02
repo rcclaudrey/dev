@@ -1,0 +1,221 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+ ?>
+<style type="text/css">
+	.folder {
+		background-image: url('<?php  echo $this->getSkinUrl('images/masscategories/folder.jpg'); ?>');
+		background-position: center;
+		background-repeat: no-repeat;
+		width: 16px; 
+		height: 18px;
+		float:left;
+		padding-right: 2px;
+	}
+	
+	.linkItem {
+		float:left;	
+	}
+	
+	.opener {
+		background-image: url('<?php  echo $this->getSkinUrl('images/masscategories/minus.gif'); ?>');
+		background-position: center;
+		background-repeat: no-repeat;
+		float:left;	
+		width: 16px; 
+		height: 18px;
+	}
+	
+	.child {
+		background-image: url('<?php  echo $this->getSkinUrl('images/masscategories/child.gif'); ?>');
+		background-position: center;
+		background-repeat: no-repeat;
+		float:left;	
+		width: 16px; 
+		height: 18px;
+	}
+	
+	.inputcb {
+		width: 16px; 
+		height: 18px;
+	}
+
+</style>
+
+<script type="text/javascript">
+	function OpenMe(el) {
+		itemID = el.id;
+		itemID = itemID.replace("opener", "");
+		itemHandle = document.getElementById("ToOpen" + itemID);
+		
+		if(itemHandle.style.display == "none") {
+			itemHandle.style.display = "";
+			el.style.backgroundImage = "url('<?php  echo $this->getSkinUrl('images/masscategories/minus.gif'); ?>')";
+		}
+		else
+		{
+			el.style.backgroundImage = "url('<?php  echo $this->getSkinUrl('images/masscategories/plus.gif'); ?>')";
+			itemHandle.style.display = "none";
+		}
+		
+	}
+	
+	function Decide(el) {
+		number = el.id.replace("inputcb", "");
+		
+		if(el.checked == true) {
+			PutMeIn(number);
+		}
+		else {
+			TakeMeOut(number);
+		}
+	}
+	
+	function PutMeIn(num) {
+		add = " " + num + ",";
+		hiddenGuy = document.getElementById('product_categories');
+		hiddenGuy.value = hiddenGuy.value + add;	
+	}
+	
+	function TakeMeOut(num) {
+		subtract = " " + num + ",";
+		hiddenGuy = document.getElementById('product_categories');
+		hiddenGuy.value = hiddenGuy.value.replace(subtract, "");	
+	}
+	
+	function enableAllCBs() {
+		
+	}
+	
+	function disableAllCBs() {
+		
+	}
+	
+	function ChangeCats(cb) {
+		if(cb.checked == true) {
+			document.getElementById('product-categories').style.display = '';
+		}
+		else {
+			document.getElementById('product-categories').style.display = 'none';
+		}
+	}
+</script>
+
+<div class="AssignedOuter" style="width: 800px; border: 3pt groove black;">
+    <h3>Current Assigned Categories</h3>
+    <div class="AssignedInner">
+		<?php
+         
+		 $productIDs = '';
+		 
+        //for each product, get the categories and list them at the top
+        $totalCount = 1;
+        $maxToShow = $this->getShowCount(); //only show a limited amount... someone might mass select 10,000 products - that would be bad.
+        foreach($this->getProducts() as $product) {
+            //echo the product name
+            echo "<div style=\"float:left\"> " . Mage::getModel('catalog/product')->load($product->getId())->getName() .  " </div><br/>";
+            
+			//save the ID to the ID string
+			$productIDs .= $product->getId() . ',';
+			
+            //now get the categories and echo those
+             $categoryIds = $product->getCategoryIds();	 
+             
+			 $i = 1;
+             foreach($categoryIds as $category) {
+				if($i != 1) {
+					echo ' <span class="child"> </span> ';
+				}
+				else {
+					echo ' <div style="width: 20px; float:left; height:1px;"> </div> ';
+				}
+               
+                echo  "<div style=\"float:left\"> | " . Mage::getModel('catalog/category')->load($category)->getName() . " | </div>";
+				$i++;
+             }
+             
+             echo "<br /><br />";
+             
+             //only show a certain amount - spam protection
+             if($totalCount = $maxToShow) {
+                 break;
+             }
+             else {
+                $totalCount += 1;	
+             }
+         }
+        ?>
+        <input type="hidden" value="<?php echo $productIDs; ?>" name="productToChange" />
+    </div>
+</div>
+
+<br />
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Categories') ?></h4>
+    </div>
+    
+    <fieldset id="group_fields">
+    	<input type="checkbox" name="changeCats" onchange="ChangeCats(this)"/> Change Product Categories
+   		<br/>
+    	<br/>
+        <input type="textbox" name="category_ids" id="product_categories" value="" style="display:none;">
+        <div id="product-categories" class="tree" style="display:none">
+       
+        <?php 
+		
+		 //wtf($this->getTree());
+		echo $this->getTree();
+		?>
+       
+        </div>
+    </fieldset>
+</div>
+
+<?php
+
+function wtf($var, $arrayOfObjectsToHide=null, $fontSize=11)
+{
+    $text = print_r($var, true);
+
+    if (is_array($arrayOfObjectsToHide)) {
+   
+        foreach ($arrayOfObjectsToHide as $objectName) {
+   
+            $searchPattern = '#('.$objectName.' Object\n(\s+)\().*?\n\2\)\n#s';
+            $replace = "$1<span style=\"color: #FF9900;\">--&gt; HIDDEN - courtesy of wtf() &lt;--</span>)";
+            $text = preg_replace($searchPattern, $replace, $text);
+        }
+    }
+
+    // color code objects
+    $text = preg_replace('#(\w+)(\s+Object\s+\()#s', '<span style="color: #079700;">$1</span>$2', $text);
+    // color code object properties
+    $text = preg_replace('#\[(\w+)\:(public|private|protected)\]#', '[<span style="color: #000099;">$1</span>:<span style="color: #009999;">$2</span>]', $text);
+   
+    echo '<pre style="font-size: '.$fontSize.'px; line-height: '.$fontSize.'px;">'.$text.'</pre>';
+}
+?>

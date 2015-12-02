@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<catalog_product_view> 
+		<reference name="head">
+			<action method="addJs" ifconfig="smdesign_smdzoom/zoom/enabled"><script>smdzoom/smdzoom.js</script></action>
+			<action method="addJs" ifconfig="smdesign_smdzoom/zoom/enabled"><script>smdzoom/smdzoom-preloader.js</script></action>
+		</reference>
+		<reference name="product.info.media">
+			<action method="changeTemplate" ifconfig="smdesign_smdzoom/zoom/enabled"><template>smdzoom/media.phtml</template></action>
+		</reference>
+	</catalog_product_view>
+</layout>

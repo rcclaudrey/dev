@@ -1,0 +1,80 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'gears_canada'; // folder name
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>Gears Canada Jacket Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.png' ?>" alt="Gears Canada" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/jersey.jpg' ?>" alt="Jacket Sizes" />
+	</div>
+	
+	<h1>Description</h1>
+
+	<p>Jacket size is same as shirt size.</p>
+
+	<div class='fox-gloves-table-header'>Jacket Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">MEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">JACKET SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+			<td>3XL</td>
+		</tr>
+		<tr>
+			<td class="title3">SHIRT SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+			<td>3XL</td>
+		</tr>
+	</table>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">WOMEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">JACKET SIZE</td>
+			<td>XS</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+		</tr>
+		<tr>
+			<td class="title3">SHIRT SIZE</td>
+			<td>XS</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+		</tr>
+	</table>
+	
+	
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit.</p>
+
+</div>

@@ -1,0 +1,180 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+$category = Mage::registry('current_category');
+
+if ($category->getLevel() == 2) {
+    $_productCollection = Mage::getModel('catalog/product')->getCollection();
+    $_productCollection->addAttributeToSelect('*');
+
+//filter for products who name is equal (eq) to Widget A, or equal (eq) to Widget B
+    $_productCollection->addFieldToFilter(array(
+        array('attribute' => 'is_featured', 'eq' => '1')
+    ));
+
+    $_productCollection->addAttributeToFilter('category_id', array(
+        array('finset' => $category->getId())
+    ));
+
+    $_helper = $this->helper('catalog/output');
+    ?>
+    <?php if (!$_productCollection->count()): ?>
+        <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+    <?php else: ?>
+
+        <div class="category-products">
+            <h2 class="hdr-under">Featured Products</h2>
+            <div class="featured-wrap">
+                <?php // Grid Mode     ?>
+                <?php $_collectionSize = $_productCollection->count() ?>
+                <?php $_columnCount = $this->getColumnCount(); ?>
+
+                <div id="slider_featured_prod">
+                    <div class="products-grid featured">
+                        <div class="products-grid-inner-wrap">
+                            <?php
+                            $i = 0;
+                            foreach ($_productCollection as $_product):
+                                ?>
+                                <div class="featured_prod-list item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                                    <div class="bordwrap">
+                                        <?php //tags here    ?>
+                                        <?php /* <div style="position:absolute; top:3px; left:1px"><img src="<?php echo $this->getSkinUrl('images/catalog/new.png');?>" alt=""/></div> */ ?>
+
+                                        <?php /* <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(200); ?>" width="200" height="200" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a> */ ?>
+
+                                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">                                                                    
+                                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(165); ?>" width="165" height="165" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                                        </a>
+
+                                        <div class="inwrap">
+                                            <div class="rateme">
+                                                <?php /* <div class="play"><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/buttons/btn-video.gif');?>" alt=""/></a></div> */ ?>
+                                                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                                <div class="crystal"></div>
+                                            </div>
+                                            <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>                                       
+
+                                            <?php echo $this->getPriceHtml($_product, true) ?>                                        
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            <?php endforeach ?>
+                            <div class="crystal"></div>
+                        </div>
+                        <?php if ($_productCollection->count() > 4): ?>
+                            <span u="arrowleft" class="feat feat-left jssora03l"></span>
+                            <span  u="arrowright" class="feat feat-right jssora03r"></span>
+                            <!--<div class="crystal"></div>-->
+                        <?php endif; ?>
+                    </div>
+
+                </div>
+                <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
+
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var _totalSlides = jQuery(".products-grid-inner-wrap").children(".featured_prod-list").length;
+
+            var _wrapperWidth = (_totalSlides * jQuery(".featured_prod-list").outerWidth(true));
+
+            jQuery(".products-grid-inner-wrap").css({
+                width: _wrapperWidth + "px"
+            });
+
+            var slideDistance = jQuery(".featured_prod-list").outerWidth(true) * 4;
+            var _curPosition = 0;
+            var _nextPosition = 0;
+            var _processing = false;
+            var _parentWidth = jQuery(".products-grid-inner-wrap").parent().innerWidth();
+            var _speed = 200;
+
+
+            jQuery(".feat-left").click(function () {
+
+                var _slideDistance = 0;
+
+                if (!_processing) {
+                    _processing = true;
+
+                    jQuery(".feat-left").attr('disabled', 'disabled');
+                    _curPosition = parseInt(jQuery(".products-grid-inner-wrap").css('marginLeft'));
+
+                    if ((_wrapperWidth + _curPosition) <= _parentWidth) {
+                        _processing = false;
+                        return false;
+                    }
+
+                    _nextPosition = _curPosition + slideDistance;
+
+
+                    if ((_wrapperWidth + _curPosition - slideDistance) < _parentWidth) {
+                        _slideDistance = _wrapperWidth - Math.abs(_curPosition) - _parentWidth;
+                    }
+
+
+                    jQuery(".products-grid-inner-wrap").animate({
+                        marginLeft: "-=" + (_slideDistance > 0 ? _slideDistance : slideDistance)
+                    }, _speed, function () {
+                        jQuery(".feat-left").removeAttr('disabled');
+                        _processing = false;
+                    });
+                }
+            });
+
+            jQuery(".feat-right").click(function () {
+
+                if (!_processing) {
+                    _processing = true;
+
+                    jQuery(".feat-right").attr('disabled', 'disabled');
+
+                    _curPosition = parseInt(jQuery(".products-grid-inner-wrap").css('marginLeft'));
+                    _nextPosition = _curPosition + slideDistance;
+
+                    jQuery(".products-grid-inner-wrap").animate({
+                        marginLeft: "+=" + (_nextPosition > 0 ? (0 - _curPosition) : slideDistance)
+                    }, _speed, function () {
+                        jQuery(".feat-right").removeAttr('disabled');
+                        _processing = false;
+                    });
+                }
+            });
+        });
+    </script>
+<?php } ?>

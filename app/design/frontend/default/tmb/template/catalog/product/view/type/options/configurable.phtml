@@ -1,0 +1,90 @@
+<?php
+$_product = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+
+usort($array, function($a,$b){ return $a['optionNumber']-$b['optionNumber'];} );
+?>
+<?php if ($_product->isSaleable() && count($_attributes)): ?>
+    <dl>
+        <?php // foreach ($_attributes as $_attribute): ?>
+        <?php $configs = $this->getRegularConfig(); ?>
+        <?php foreach ($configs['attributes'] as $attr_id => $config): ?>
+            <dt><label class="required"><em>*</em><?php echo $config['label'] ?></label></dt>
+
+            <div class="input-box">
+                <dd class="<?php echo $config['code']; ?>">
+                    <?php if (strtolower($config['code']) == 'tms_size'): ?>
+                        <?php $options = $config['options']; ?>
+                        <?php // usort($options, function($a,$b){ return $a['label']-$b['label'];} ); ?>                        
+                        <?php foreach ($options as $value): ?>
+                            <div class="configurable-attr-wrap">
+                                <label class="label-radio-configurable" id="<?php echo (float) $value['price'] + (float) $_product->getPrice(); ?>">
+                                    <input type="radio" name="super_attribute[<?php echo $attr_id ?>]"
+                                           id="attribute<?php echo $attr_id ?>"
+                                           class="validate-custom-configurable"
+                                           value="<?php echo $value['id'] ?>"/>
+                                           <?php echo $value['label']; ?>
+                                </label>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="input-box">                            
+                            <?php if (count($config['options']) < 2): ?>
+                                <?php foreach ($config['options'] as $value): ?>
+                                    <input type="hidden" name="super_attribute[<?php echo $attr_id ?>]" value="<?php echo $value['id'] ?>" />
+                                    <span class="attrib-lable"><?php echo $value['label']; ?></span>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <select name="super_attribute[<?php echo $attr_id ?>]" id="attribute<?php echo $attr_id ?>" class="required-entry super-attribute-select">
+                                    <option><?php echo $this->__('Choose an Option...') ?></option>
+                                    <?php foreach ($config['options'] as $value): ?>
+                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['label']; ?></option>                                    
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                </dd>
+            </div>
+        <?php endforeach; ?>
+
+        <?php // endforeach; ?>
+    </dl>
+<?php endif; ?>
+<script type="text/javascript">
+//    var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+    document.observe("dom:loaded", function () {
+        var customValidation = false;
+        var priceFormat = <?php echo $this->helper('tax')->getPriceFormat(); ?>;
+        $$('.validate-custom-configurable').each(function (el) {
+            el.observe('click', function (event) {
+                //console.log(el.parentNode);
+                $$('span .price').each(function (elmn) {
+                    elmn.update(formatCurrency(parseFloat(el.parentNode.id), priceFormat)).innerHTML;
+                });
+            });
+        });
+        Validation.addAllThese([
+            ['validate-custom-configurable', 'This is a required field.', function (v) {
+                    $$('.validate-custom-configurable').each(function (el) {
+                        if (el.checked) {
+                            customValidation = true;
+                        }
+                    });
+                    return customValidation;
+                }]
+        ]);
+    });
+
+    jQuery(document).ready(function () {
+        jQuery(".label-radio-configurable").click(function () {
+            jQuery(".label-radio-configurable").each(function () {
+                if (!jQuery(this).children('input[type=radio]').is(":checked")) {
+                    jQuery(this).parent().removeClass('active');
+                }
+            });
+            jQuery(this).parent().addClass('active');
+        });
+    });
+
+</script>

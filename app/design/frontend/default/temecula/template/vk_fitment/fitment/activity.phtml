@@ -1,0 +1,18 @@
+<?php
+
+$currentActivity = $this->getActivityId();
+$activities = Vikont_Fitment_Helper_Data::getTmsActivities();
+
+?>
+<div class="fitment-activity">
+	<span class="fitment-activity-header"><?php echo $this->__('Activity') ?></span>
+	<div class="fitment-activity-body">
+		<label for="fitment-activity"><?php echo $this->__('Select your activity') ?></label>
+		<select id="fitment-activity" onchange="fitment.onActivityChanged(this)">
+			<?php foreach($activities as $activityIndex => $activity): ?>
+				<option value="<?php echo $activityIndex ?>" <?php echo ($currentActivity == $activityIndex) ? 'selected="selected"' : '' ?>><?php echo htmlspecialchars($activity['name']) ?></option>
+			<?php endforeach ?>
+		</select>
+		<button type="button" onclick="fitment.onActivityChanged(document.getElementById('fitment-activity'))"><?php echo $this->__('Apply') ?></button>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl>
+    <?php foreach($_attributes as $_attribute): ?>
+		<dt id="label-<?php echo $_attribute->getAttributeId() ?>-<?php echo $_product->getEntityId() ?>"><label class="required"><em>*</em> <?php echo $_attribute->getLabel() ?></label></dt>
+        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+            <div class="input-box" style="margin: 2px;">
+                <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>-<?php echo $_product->getEntityId() ?>" class="required-entry super-attribute-select-<?php echo $_product->getEntityId() ?>">
+                    <option><?php echo $this->__('Choose an Option...') ?></option>
+                </select>
+              </div>
+              <div id="requared-attribute<?php echo $_attribute->getAttributeId() ?>-<?php echo $_product->getEntityId() ?>" style="color:red"></div>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
+    <script type="text/javascript">
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+        optionsPrice['<?php echo $_product->getId();?>'] = new Product.OptionsPrice(<?php echo $this->getPriceJsonConfig();?>);
+    </script>
+<?php endif;?>

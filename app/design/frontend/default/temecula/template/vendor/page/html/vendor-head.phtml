@@ -1,0 +1,214 @@
+<?php
+/*
+  <div class="ven-prehead striped">
+  <div class="site-width">
+  <h1>Call Us <span>951 698-4123</span></h1> | <a class="sign-in toacctlink">Sign In</a>
+  </div>
+  </div>
+  <div class="ven-head">
+  <div class="site-width">
+  <h1 class="ven-logo"><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>"><img src="<?php echo $this->getSkinUrl('images/header/logo-temecula.png'); ?>" alt=""/></a></h1>
+  <div class="rightvh">
+  <select name="" class="activity-sort">
+  <option>Shop by Activity</option>
+  <option>Street</option>
+  <option>Cruiser</option>
+  <option>Dirt</option>
+  <option>Adventure</option>
+  <option>ATV</option>
+  <option>UTV</option>
+  <option>Scooter</option>
+  <option>Snow</option>
+  <option>H2O</option>
+  <option>Casual</option>
+  </select>
+
+  <div class="corner">
+  <?php echo $this->getChildHtml('topCart'); ?>
+  <div class="crystal"></div>
+  </div>
+  <?php // echo $this->getChildHtml('topSearch') ?>
+  <div class="crystal"></div>
+  </div>
+  <div class="crystal"></div>
+  </div>
+
+
+
+  </div>
+  <div class="ven-headlinks striped">
+  <div class="site-width">
+  </div>
+  <div class="vendor-links">
+  <script type="text/javascript">
+  //<![CDATA[
+  decorateGeneric($$('.vendor-links li'), ['first', 'last'])
+  //]]
+  </script>
+  <div class="crystal"></div>
+  </div>
+
+  </div>
+  </div>
+ *
+ *
+ */
+
+$id = 9;
+$catagory_model = Mage::getModel('catalog/category');
+$categories = $catagory_model->load($id);
+if (!empty($categories)) {
+    $cats = explode(",", $categories->getChildren());
+    foreach ($cats AS $c) {
+        $cat = $catagory_model->load(trim($c));
+        echo '<a href="/' . $cat->getUrlKey() . '">' . $cat->getName() . '</a>';
+    }
+}
+?>
+
+<?php
+$pageId = Mage::app()->getRequest()->getParam('page_id', Mage::app()->getRequest()->getParam('id', false));
+//$page = Mage::getModel('cms/page')->load($pageId);
+
+switch ($pageId):
+    case 26:
+        ?>
+        <div class="slider-main-container">
+            <div id="vendor_banner" class="vendor-banner sshow" style="position: relative; top: 0px; left: 0px; width: 1903px; height: 470px; overflow: hidden;">
+                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; height: 470px;  width: 1903px; overflow: hidden; z-index: 0;">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-fox-banner')->toHtml(); ?>
+                </div>
+
+                <!-- bullet navigator container -->
+                <div u="navigator" class="jssorb03" style="position: absolute; bottom: 4px; left: 0; right: 0; margin: 0 auto;">
+                    <!-- bullet navigator item prototype -->
+                    <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:white; font-size:12px;"></div>
+                </div>
+                <!-- Bullet Navigator Skin End -->  
+            </div>
+
+        </div>        
+
+        </div>        
+        <div class="crystal"></div>
+        <div class="ven-extracat">
+            <div class="vendor-banner-wrap">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-fox-banner-ad')->toHtml(); ?>
+            </div>
+        </div>
+        <?php
+        break;
+    case 33:
+        ?>
+        <div class="slider-main-container">
+            <div id="vendor_banner" class="vendor-banner sshow" style="position: relative; top: 0px; left: 0px; width: 1903px; height: 470px; overflow: hidden;">
+                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; height: 470px;  width: 1903px; overflow: hidden; z-index: 0;">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-shift-banner')->toHtml(); ?>
+                </div>
+
+                <!-- bullet navigator container -->
+                <div u="navigator" class="jssorb03" style="position: absolute; bottom: 4px; left: 0; right: 0; margin: 0 auto;">
+                    <!-- bullet navigator item prototype -->
+                    <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:white; font-size:12px;"></div>
+                </div>
+                <!-- Bullet Navigator Skin End -->  
+            </div>
+
+
+        </div>
+        <div class="crystal"></div>
+        <div class="ven-extracat">
+            <div class="vendor-banner-wrap">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-shift-banner-ad')->toHtml(); ?>
+            </div>
+        </div>
+        <?php
+        break;
+    default:
+        ?>
+        <div class="slider-main-container">
+            <div id="vendor_banner" class="vendor-banner sshow" style="position: relative; top: 0px; left: 0px; width: 1903px; height: 470px; overflow: hidden;">
+                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; height: 470px;  width: 1903px; overflow: hidden; z-index: 0;">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-fox-banner')->toHtml(); ?>
+                </div>
+
+                <!-- bullet navigator container -->
+                <div u="navigator" class="jssorb03" style="position: absolute; bottom: 4px; left: 0; right: 0; margin: 0 auto;">
+                    <!-- bullet navigator item prototype -->
+                    <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:white; font-size:12px;"></div>
+                </div>
+                <!-- Bullet Navigator Skin End -->  
+            </div>
+
+        </div>
+        <div class="crystal"></div>       
+        <div class="ven-extracat">
+            <div class="vendor-banner-wrap">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-fox-banner-ad')->toHtml(); ?>
+            </div>
+        </div>
+    <?php
+endswitch;
+?>
+
+<style>
+    /* jssor slider bullet navigator skin 03 css */
+    /*
+    .jssorb03 div           (normal)
+    .jssorb03 div:hover     (normal mouseover)
+    .jssorb03 .av           (active)
+    .jssorb03 .av:hover     (active mouseover)
+    .jssorb03 .dn           (mousedown)
+    */
+    .jssorb03 div, .jssorb03 div:hover, .jssorb03 .av
+    {
+        /* background: url(../img/b03.png) no-repeat; */
+        background: url(<?php echo $this->getSkinUrl('images/home/bullets.png'); ?>) no-repeat;
+        overflow:hidden;
+        cursor: pointer;
+    }
+    .jssorb03 div { background-position: 5px 6px; }
+    .jssorb03 div:hover, .jssorb03 .av:hover { background-position: 5px -11px; }
+    .jssorb03 .av { background-position: 5px -11px; }
+    .jssorb03 .dn, .jssorb03 .dn:hover { background-position: 5px 6px; }
+</style>
+
+<script type="text/javascript">
+    //<![CDATA[
+    //            var options = {$AutoPlay: true, $BulletNavigatorOptions: {
+    //                    $Class: $JssorBulletNavigator$,
+    //                    $ChanceToShow: 2
+    //                }};
+    //            var vendorSlider = new $JssorSlider$('vendor_banner', options);
+
+    jQuery(window).load(function () {
+        jQuery("#vendor_banner").css({
+            visibility: 'visible'
+        });
+        var options = {$AutoPlay: true, $BulletNavigatorOptions: {
+                $Class: $JssorBulletNavigator$,
+                $ChanceToShow: 2
+            }};
+        var jssor_slider1 = new $JssorSlider$('vendor_banner', options);
+
+        function ScaleSlider() {
+            var parentWidth = jQuery('#vendor_banner').parent().width();
+
+            if (parentWidth) {
+                jssor_slider1.$ScaleWidth(parentWidth);
+            }
+            else {
+                window.setTimeout(ScaleSlider, 30);
+            }
+        }
+        //Scale slider after document ready
+        ScaleSlider();
+
+        //Scale slider while window load/resize/orientationchange.
+        jQuery(window).bind("load", ScaleSlider);
+        jQuery(window).bind("resize", ScaleSlider);
+        jQuery(window).bind("orientationchange", ScaleSlider);
+    });
+
+    //]]
+</script>

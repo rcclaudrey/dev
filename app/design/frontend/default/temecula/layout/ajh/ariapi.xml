@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <ariapi_index_search>             
+        <block type="ariapi/api_search" name="root" output="toHtml" template="ariapi/api/search.phtml"/>                        
+    </ariapi_index_search>
+    <ariapi_fitment_year>             
+        
+        <block type="ariapi/api_fitment_year" name="root" output="toHtml" template="ariapi/api/fitment/year.phtml"/>                        
+    </ariapi_fitment_year>
+    <ariapi_fitment_model>
+        <block type="ariapi/api_fitment_model" name="root" output="toHtml" template="ariapi/api/fitment/model.phtml"/>                        
+    </ariapi_fitment_model>
+    <ariapi_fitment_fitment>
+        <block type="ariapi/api_fitment_fitment" name="root" output="toHtml" template="ariapi/api/fitment/fitment.phtml"/>   
+        <!--<block type="ariapi/api_fitment_fitment" name="root" output="toHtml" template="ariapi/api/fitment/fitment.phtml"/>-->                    
+<!--        <remove name="right"/>
+        <remove name="left"/>
+        <block type="catalog/product_view_type_grouped" name="root" output="toHtml" template="ariapi/api/fitment/fitment.phtml" />
+            <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
+            <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
+        </block>-->
+        
+        <!--<block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml" />-->        
+    </ariapi_fitment_fitment>
+</layout>

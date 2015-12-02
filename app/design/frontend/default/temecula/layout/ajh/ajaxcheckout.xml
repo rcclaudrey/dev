@@ -1,0 +1,88 @@
+<layout version="0.1.0">
+    <default>
+<!--        <reference name="header">
+            <block ifconfig="ajh_ajaxcheckout/settings/enabled" type="ajh_ajaxcheckout/cart_minicart" name="minicart_head" template="ajh/ajaxcheckout/minicart.phtml"
+                   before="-">
+                <block type="checkout/cart_sidebar" name="cart_sidebar"
+                       template="ajh/ajaxcheckout/minicart/items.phtml">
+                    <action method="addItemRender">
+                        <type>default</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>ajh/ajaxcheckout/minicart/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>simple</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>ajh/ajaxcheckout/minicart/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>grouped</type>
+                        <block>checkout/cart_item_renderer_grouped</block>
+                        <template>ajh/ajaxcheckout/minicart/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>configurable</type>
+                        <block>checkout/cart_item_renderer_configurable</block>
+                        <template>ajh/ajaxcheckout/minicart/default.phtml</template>
+                    </action>
+
+                    <block type="core/text_list" name="cart_sidebar.cart_promotion" as="cart_promotion"
+                           translate="label" module="checkout">
+                        <label>Mini-cart promotion block</label>
+                    </block>
+                    <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label"
+                           module="checkout">
+                        <label>Shopping Cart Sidebar Extra Actions</label>
+                    </block>
+                </block>
+            </block>
+        </reference>-->
+
+        <reference name="right">
+            <block type="checkout/cart_sidebar" name="floatingcart" template="checkout/cart/floatingcart.phtml" before="-">
+                <action method="addItemRender">
+                    <type>simple</type>
+                    <block>checkout/cart_item_renderer</block>
+                    <template>checkout/cart/floatingcart/default.phtml</template>
+                </action>
+                <action method="addItemRender">
+                    <type>grouped</type>
+                    <block>checkout/cart_item_renderer_grouped</block>
+                    <template>checkout/cart/floatingcart/default.phtml</template>
+                </action>
+                <action method="addItemRender">
+                    <type>configurable</type>
+                    <block>checkout/cart_item_renderer_configurable</block>
+                    <template>checkout/cart/floatingcart/default.phtml</template>
+                </action>
+                <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+                    <label>Shopping Cart Sidebar Extra Actions</label>
+                </block>
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="addItem" ifconfig="ajh_ajaxcheckout/settings/enabled">
+                <type>skin_css</type>
+                <name>ajh/ajaxcheckout/css/style.css</name>
+            </action>
+        </reference>
+    </default>
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addJs" ifconfig="ajh_ajaxcheckout/settings/enabled">
+                <script>prototype/window.js</script>
+            </action>
+            <action method="addItem" ifconfig="ajh_ajaxcheckout/settings/enabled">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss" ifconfig="ajh_ajaxcheckout/settings/enabled">
+                <name>lib/prototype/windows/themes/magento.css</name>
+            </action>
+<!--            <action method="addItem" ifconfig="ajh_ajaxcheckout/settings/enabled">
+                <type>skin_js</type>
+                <name>ajh/ajaxcheckout/js/ajaxadd.js</name>
+            </action>-->
+        </reference>
+    </catalog_product_view>
+</layout>

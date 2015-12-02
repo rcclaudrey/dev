@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<config>
+   <sections>
+        <masscategories translate="label">
+            <groups>
+                <masscategories translate="label" module="masscategories">
+                    <label>Mass Categories</label>
+                    <sort_order>500</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <isenabled translate="label">
+                            <label>Enable Mass Categories</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </isenabled>
+                    </fields>
+                </masscategories>
+            </groups>
+        </masscategories>
+    </sections>
+</config>

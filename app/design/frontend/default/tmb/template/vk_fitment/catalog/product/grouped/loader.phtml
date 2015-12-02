@@ -1,0 +1,33 @@
+<?php
+
+$product = $this->getProduct();
+$tmsProductId = $product ? $product->getId() : $this->getProductId();
+$categoryId = $this->getCurrentCategoryId();
+
+?>
+<div class="fitment-grouped-container"></div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	if(window.hasOwnProperty('loader')) {
+		window.loader.show('.fitment-grouped-container');
+	}
+	jQuery.ajax({
+		url: '<?php echo $this->getUrl('fitment/grouped/init', array('product' => $tmsProductId, 'category' => $categoryId)) ?>'.replace('http:', document.location.protocol),
+		dataType: 'json',
+		cache: false,
+		success: function(response) {
+			if(response.errorMessage) {
+				alert(response.errorMessage);
+				return;
+			}
+			jQuery('.fitment-grouped-container').html(response.html);
+			window.groupedFitmentSelector = new GroupedFitmentSelector();
+			window.groupedFitmentSelector.init(response.config);
+		},
+		complete: function() {	if(window.hasOwnProperty('loader')) window.loader.hide('.fitment-grouped-container');	}
+	});
+});
+
+</script>

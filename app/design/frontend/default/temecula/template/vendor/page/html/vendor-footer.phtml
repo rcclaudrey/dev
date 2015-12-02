@@ -1,0 +1,68 @@
+<?php
+$pageId = Mage::app()->getRequest()->getParam('page_id', Mage::app()->getRequest()->getParam('id', false));
+?>
+
+<div class="vendor-footer-container">
+    <div class="site-width">
+        <div class="vendor-news">
+            <div class="left">
+                <div class="ventitle">
+                    <h1>Latest News</h1><a href="#">view all</a>
+                </div>
+                <ul class="newsfeed">
+
+                    <?php
+                    switch ($pageId):
+                        case 26:
+                            echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-fox-feed')->toHtml();
+                            break;
+                        case 33:
+                            echo $this->getLayout()->createBlock('cms/block')->setBlockId('vendor-shift-feed')->toHtml();
+                            break;
+                        default :
+
+                    endswitch;
+                    ?>
+
+                </ul>
+
+            </div>
+
+            <div class = "right">
+                <div class = "ventitle">
+                    <h1>Featured Video</h1><a href = "#">view all</a>
+                </div>
+                <div class = "video-place">
+                    <?php
+                    switch ($pageId):
+                        case 26:
+                            ?>
+                            <iframe width = "443" height = "269" src = "https://www.youtube.com/embed/EWFRBB59DPM" frameborder = "0" allowfullscreen></iframe>
+
+                            <?php
+                            break;
+                        case 33:
+                            ?>
+                            <iframe width = "443" height = "269" src = "https://www.youtube.com/embed/jPBMOC1l3IA" frameborder = "0" allowfullscreen></iframe>
+
+                            <?php
+                            break;
+                        default :
+
+                    endswitch;
+                    ?>
+                </div>
+            </div>
+            <div class = "crystal"></div>
+
+        </div>
+
+    </div>
+</div>
+<div class = "ven-socials">
+    <div class = "site-width dasher">
+        <p>
+            <span>Follow <?php echo Mage::getModel('cms/page')->load($pageId)->getTitle();
+                    ?></span> <a href="#"><img src="<?php echo $this->getSkinUrl('images/vendor/ico-fb.gif'); ?>" alt=""/></a> <a href="#"><img src="<?php echo $this->getSkinUrl('images/vendor/ico-tw.gif'); ?>" alt=""/></a> <a href="#"><img src="<?php echo $this->getSkinUrl('images/vendor/ico-ig.gif'); ?>" alt=""/></a> <a href="#"><img src="<?php echo $this->getSkinUrl('images/vendor/ico-yt.gif'); ?>" alt=""/></a></p>
+    </div>
+</div>

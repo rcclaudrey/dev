@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_ARIOEM>
+			<version>1.1</version>
+		</Vikont_ARIOEM>
+	</modules>
+
+
+	<frontend>
+		<layout>
+			<updates>
+				<arioem>
+					<file>arioem.xml</file>
+				</arioem>
+			</updates>
+		</layout>
+
+		<translate>
+			<modules>
+				<Vikont_ARIOEM>
+					<files>
+						<default>Vikont_ARIOEM.csv</default>
+					</files>
+				</Vikont_ARIOEM>
+			</modules>
+		</translate>
+
+		<routers>
+			<arioem>
+				<use>standard</use>
+				<args>
+					<module>Vikont_ARIOEM</module>
+					<frontName>arioem</frontName>
+				</args>
+			</arioem>
+		</routers>
+
+	</frontend>
+
+
+	<admin>
+		<routers>
+			<arioem_admin>
+				<use>admin</use>
+				<args>
+					<module>Vikont_ARIOEM</module>
+					<frontName>arioem_admin</frontName>
+				</args>
+			</arioem_admin>
+		</routers>
+	</admin>
+
+
+	<adminhtml>
+		<translate>
+			<modules>
+				<Vikont_ARIOEM>
+					<files>
+						<default>Vikont_ARIOEM.csv</default>
+					</files>
+				</Vikont_ARIOEM>
+			</modules>
+		</translate>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<arioem module="arioem" translate="title">
+											<title>ARIOEM</title>
+											<sort_order>1000</sort_order>
+										</arioem>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+<!--		<layout>
+			<updates>
+				<arioem>
+					<file>Vikont_ARIOEM.xml</file>
+				</arioem>
+			</updates>
+		</layout>-->
+
+	</adminhtml>
+
+
+	<global>
+
+		<blocks>
+			<arioem>
+				<class>Vikont_ARIOEM_Block</class>
+			</arioem>
+		</blocks>
+
+		<helpers>
+			<arioem>
+				<class>Vikont_ARIOEM_Helper</class>
+			</arioem>
+		</helpers>
+
+		<models>
+			<arioem>
+				<class>Vikont_ARIOEM_Model</class>
+				<resourceModel>arioem_mysql4</resourceModel>
+			</arioem>
+			<oemdb>
+				<class>Vikont_ARIOEM_Model</class>
+				<resourceModel>oemdb_mysql4</resourceModel>
+			</oemdb>
+			<oemdb_mysql4>
+                <class>Vikont_ARIOEM_Model_Mysql4</class>
+                <entities>
+                    <cost>
+                        <table>oem_cost</table>
+                    </cost>
+                    <sku>
+                        <table>sku</table>
+                    </sku>
+                </entities>
+            </oemdb_mysql4>
+			<sales>
+				<rewrite>
+					<quote_item>Vikont_ARIOEM_Model_Sales_Quote_Item</quote_item>
+				</rewrite>
+			</sales>
+			<catalogsearch_resource>
+				<rewrite>
+					<fulltext_engine>Vikont_ARIOEM_Model_Catalogsearch_Resource_Fulltext_Engine</fulltext_engine>
+				</rewrite>
+			</catalogsearch_resource>
+		</models>
+
+		<resources>
+			<arioem_setup>
+				<setup>
+					<module>Vikont_ARIOEM</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</arioem_setup>
+			<arioem_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</arioem_write>
+			<arioem_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</arioem_read>
+
+			<oemdb_read>
+				<connection>
+					<use>oemdb_database</use>
+				</connection>
+			</oemdb_read>
+<!--			<oemdb_write>
+                <connection>
+                    <use>oemdb_database</use>
+                </connection>
+            </oemdb_write>
+            <oemdb_setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </oemdb_setup>-->
+        </resources>
+
+		<events>
+			<controller_action_layout_render_before_adminhtml_customer_group_new>
+				<observers>
+					<Vikont_ARIOEM>
+						<type>singleton</type>
+						<class>Vikont_ARIOEM_Model_Observer</class>
+						<method>controller_action_layout_render_before_adminhtml_customer_group_new</method>
+					</Vikont_ARIOEM>
+				</observers>
+			</controller_action_layout_render_before_adminhtml_customer_group_new>
+		</events>
+	</global>
+
+	<default>
+		<arioem>
+			<general>
+				<enabled>1</enabled>
+				<keeplog>1</keeplog>
+			</general>
+			<api>
+				<api_url>https://services.arinet.com/PartStream/</api_url>
+				<app_key>9oiOWqDlvNLyUXT4Qtun</app_key>
+				<stream_endpoint>https://partstreamstg.arinet.com</stream_endpoint>
+				<referer_url>http://www.tmsparts.com</referer_url>
+				<parts_manufacturer>Parts/Script</parts_manufacturer>
+				<parts_assembly>Parts/GetAssembly</parts_assembly>
+				<parts_autocomplete>Parts/GetAutocomplete</parts_autocomplete>
+				<parts_details>Parts/GetDetails</parts_details>
+			</api>
+			<ari>
+				<ari_brands_codes><![CDATA[can-am=BRP,
+honda=HOM,
+spyder=HONPE,
+kawasaki=KUS,
+polaris=POL,
+seadoo=BRP_SEA,
+suzuki=SUZ,
+victory=VIC,
+yamaha=YAM]]></ari_brands_codes>
+				<fix_names><![CDATA["VIC": "Santa's sleigh"]]></fix_names>
+			</ari>
+			<add_to_cart>
+				<dummy_product>oem-dummy</dummy_product>
+			</add_to_cart>
+		</arioem>
+	</default>
+
+</config>

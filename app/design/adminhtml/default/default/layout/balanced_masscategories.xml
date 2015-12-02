@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_catalog_product_action_attribute_edit>
+		<reference name="left">
+            <block type="masscategories/catalog_product_edit_action_attribute_tabs" name="categories_tab">
+                <block type="masscategories/catalog_product_edit_action_attribute_tab_categories" name="tab_categories" template="masscategories/categories.phtml" />
+                <action method="addTab"><name>categories</name><block>tab_categories</block></action>
+            </block>
+        </reference>
+    </adminhtml_catalog_product_action_attribute_edit>
+</layout>

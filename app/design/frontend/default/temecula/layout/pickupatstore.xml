@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+      
+    <checkout_onepage_index translate="label">
+       
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>pointofsale/css/pointofsale.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>pointofsale/js/pointofsale.js</name>
+            </action>	
+             <action method="addItem">
+                <type>skin_js</type>
+                <name>pickupatstore/js/script.js</name>
+            </action>	
+            <block type="core/text" name="googlemap">
+                <action method="setText">
+                    <text>
+           <![CDATA[<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>]]>
+                    </text>
+                </action>
+            </block>			
+        </reference>
+        
+    </checkout_onepage_index>
+    
+</layout> 

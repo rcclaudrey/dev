@@ -1,0 +1,87 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_items = $this->getReviewsCollection()->getItems(); ?>
+<?php if (count($_items) <= 0): ?>
+    <div class="revfirstbox">
+        <div class="revfirst">
+            <?php /*
+            <div class="rating-box">
+                <div style="width:%" class="rating"></div>
+            </div>
+             */ ?>             
+            <p>Be the first to review this product</p> 
+        </div>
+        <?php /* <a class="button large" href="#review-form"><span>Write a Review</span></a> */ ?>
+    </div>
+<?php endif; ?>
+
+<div class="box-collateral box-reviews" id="customer-reviews">
+    <?php if (count($_items)): ?>
+        <?php echo $this->getChildHtml('toolbar') ?>
+
+        <?php foreach ($_items as $_review): ?>
+            <div class="ratings-boxes">                
+                <div class="rev-pic"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'profile/avatar.jpg'; ?>" alt="" /></div>
+                <div class="rev-desc"><div><span class="rev-name"><?php echo $this->escapeHtml($_review->getNickname()) ?></span> 
+                        <small class="date"> - <?php echo $this->formatDate($_review->getCreatedAt(), 'short') ?></small></div>
+                    <h2><?php echo $this->escapeHtml($_review->getTitle()) ?></h2> 
+
+                    <div class="rev-con"><?php echo nl2br($this->escapeHtml($_review->getDetail())) ?></div>
+                </div>
+                <div class="rev-ratings">
+                    <?php $_votes = $_review->getRatingVotes(); ?>
+                    <?php if (count($_votes)): ?>
+                        <ul class="ratings-table">
+                            <?php foreach ($_votes as $_vote): ?>
+                                <li>
+                                    <div class="rate-code"><?php echo $this->escapeHtml($_vote->getRatingCode()) ?></div>
+                                    <div class="rating-box">
+                                        <div class="rating" style="width:<?php echo $_vote->getPercent() ?>%;"></div>
+                                    </div>
+
+                                </li>
+                            <?php endforeach; ?>
+
+                        </ul>
+                        <script type="text/javascript">decorateGeneric($$('.ratings-table li'), ['first', 'last'])</script>
+                    <?php endif; ?>
+                </div>
+                <div class="crystal"></div>
+            </div>                
+
+        <?php endforeach; ?>
+        <script type="text/javascript">decorateGeneric($$('.ratings-boxes'), ['first', 'last'])</script>
+        <?php echo $this->getChildHtml('toolbar') ?>
+    <?php endif; ?>
+
+    <?php // echo $this->getChildHtml('review_form') ?>
+    <?php
+    $layout = Mage::getSingleton('core/layout');
+    echo $layout->getBlock('content')->getChild('product.info')->getChild('info_tabs')->getChild('review_form')->toHtml();
+    ?>
+
+</div>

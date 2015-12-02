@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<vikont>
+			<label>Vikont</label>
+			<sort_order>150</sort_order>
+		</vikont>
+	</tabs>
+
+	<sections>
+		<arioem translate="label" module="arioem">
+			<label>ARI OEM Parts Selector</label>
+			<tab>vikont</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>10</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>0</show_in_website>
+			<show_in_store>0</show_in_store>
+			<groups>
+
+				<general translate="label">
+					<label>General</label>
+					<sort_order>100</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<enabled translate="label">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</enabled>
+						<keeplog translate="label">
+							<label>Enable logging</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</keeplog>
+					</fields>
+				</general>
+
+
+				<api translate="label">
+					<label>OEM products API</label>
+					<sort_order>200</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<api_url translate="label">
+							<label>PartStream API URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>5</sort_order>
+							<comment><![CDATA[This URL is used at OEM Assembly page for loading asembly stuff]]></comment>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</api_url>
+						<app_key translate="label">
+							<label>Application Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</app_key>
+						<stream_endpoint translate="label">
+							<label>Stream Endpoint</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</stream_endpoint>
+						<referer_url translate="label">
+							<label>Referer Domain</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>15</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</referer_url>
+<!--						<language_code translate="label">
+							<label>Language Code</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</language_code>-->
+						<parts_manufacturer translate="label">
+							<label>Manufacturer Request URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</parts_manufacturer>
+						<parts_assembly translate="label">
+							<label>Assembly Request URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</parts_assembly>
+						<parts_autocomplete translate="label">
+							<label>Autocomplete Request URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</parts_autocomplete>
+						<parts_details translate="label">
+							<label>Part Detail Request URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</parts_details>
+					</fields>
+				</api>
+
+
+				<ari translate="label">
+					<label>ARI Notation</label>
+					<sort_order>300</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<ari_brands_codes translate="label">
+							<label>Brand Code to Category URL map</label>
+							<frontend_type>textarea</frontend_type>
+							<comment><![CDATA[Use {brand}={code} format pairs separated with commas, e.g. yamaha=YAM. Brands must correspond to URL keys of appropriate brand subcategories, brands' codes must correspond to ARI brands' codes]]></comment>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</ari_brands_codes>
+						<fix_names translate="label">
+							<label>Fix Names</label>
+							<frontend_type>textarea</frontend_type>
+							<comment><![CDATA[
+<style>
+.js-keyword {color:#007878;font-weight:bold}
+.js-value {color:#AE1D23}
+</style>
+A JavaScript object field declaration syntax having ARI names as keys and desired names as their values, e.g.: <br/><span class="js-keyword">"Weird Name"</span>: <span class="js-value">"Common Name"</span>,<br/><span class="js-keyword">"Unknown vehicle"</span>: <span class="js-value">"Known vehicle"</span>]]></comment>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</fix_names>
+					</fields>
+				</ari>
+
+
+				<add_to_cart translate="label">
+					<label>Add to Cart</label>
+					<sort_order>400</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<dummy_product translate="label">
+							<label>OEM dummy product SKU</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</dummy_product>
+					</fields>
+				</add_to_cart>
+
+
+				<check translate="label">
+					<label>API Check</label>
+					<sort_order>10000</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<api_endpoint_url translate="label">
+							<label>API Endpoint request URL</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<comment><![CDATA[To get the active API endpoint for the application key]]></comment>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</api_endpoint_url>
+						<stream_endpoint translate="label">
+							<label>API Endpoint URL gotten</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>3</sort_order>
+							<comment><![CDATA[API end point URL gotten]]></comment>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</stream_endpoint>
+						<app_key translate="label">
+							<label>Application Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</app_key>
+					</fields>
+				</check>
+
+			</groups>
+		</arioem>
+	</sections>
+</config>

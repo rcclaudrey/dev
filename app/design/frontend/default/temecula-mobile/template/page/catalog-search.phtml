@@ -1,0 +1,118 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+    <head>
+        <?php echo $this->getChildHtml('head') ?>        
+
+        <script type="text/javascript">
+            jQuery(window).load(function () {
+
+                var highest = 0;
+                var highest_name = 0;
+                var highest2 = 0;
+                var highest2_name = 0;
+
+                jQuery(".featured-row-1 .featured-item").each(function () {
+
+                    if (parseInt(jQuery(this).outerHeight()) > parseInt(highest)) {
+                        highest = jQuery(this).outerHeight();
+                    }
+
+                    if (jQuery(this).find(".product-name").outerHeight() > highest_name) {
+                        highest_name = jQuery(this).find(".product-name").outerHeight();
+                    }
+                });
+
+                jQuery(".featured-row-1 .featured-item").css({
+                    height: highest + "px"
+                });
+                jQuery(".featured-row-1 .featured-item").find(".product-name").css({
+                    height: highest_name + "px"
+                });
+
+                jQuery(".featured-row-2 .featured-item").each(function () {
+
+                    if (parseInt(jQuery(this).outerHeight()) > parseInt(highest2)) {
+                        highest2 = jQuery(this).outerHeight();
+                    }
+
+                    if (jQuery(this).find(".product-name").outerHeight() > highest2_name) {
+                        highest2_name = jQuery(this).find(".product-name").outerHeight();
+                    }
+                });
+
+                jQuery(".featured-row-2 .featured-item").css({
+                    height: highest2 + "px"
+                });
+
+                jQuery(".featured-row-2 .featured-item").find(".product-name").css({
+                    height: highest2_name + "px"
+                });
+            });
+        </script>
+    </head>
+    <body<?php echo $this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : '' ?> id="catalog">
+        <?php echo $this->getChildHtml('after_body_start') ?>
+        <?php echo $this->getChildHtml('global_notices') ?>
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="wrapper">
+            <div class="page site-width">
+                <div class="main-container col2-left-layout">
+                    <div class="main">
+                        <?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <?php echo $this->getChildHtml('global_messages') ?>    
+                        <h1 class="category-title"><span class="catalog-search-title"><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogsearch')->getEscapedQueryText()) ?></span></h1>
+                        <div class="col-main">
+                            <?php echo $this->getChildHtml('content') ?>
+                        </div><!-- marion -->   
+                        <div class="col-left sidebar"><?php echo $this->getChildHtml('left')     ?></div>
+                        <div class="crystal"></div>         <!-- marion -->       
+                        <?php // echo $this->getLayout()->createBlock('cms/block')->setBlockId('featured_block')->toHtml(); 
+                        ?> 
+
+                        <h2 class="hdr-under">Featured Brands</h2>
+                        <div class="carouseled" id="slider2_container">
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('featured-brands')->toHtml(); ?> 
+                            <div class="crystal"></div>
+                        </div>                        
+                        <!-- End of Featured Brands Carousel Feature -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+        <?php echo $this->getAbsoluteFooter() ?>
+    </body>
+</html>

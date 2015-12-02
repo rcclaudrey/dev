@@ -1,0 +1,113 @@
+<?php
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div class="prehead prehead12">
+    <div class="prehead-content site-width">
+        <div class="prehead-left get-free-shipping">
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-banner')->toHtml(); ?>
+        </div>
+
+        <div class="prehead-right">
+            <?php echo $this->getChildHtml('topSearch') ?>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('socials')->toHtml(); ?>
+            <div class="crystal"></div>
+        </div>
+        <div class="crystal"></div>
+    </div>
+</div>
+<div class="head">
+    <div class="header-container site-width">
+
+        <div class="header">
+            <?php if ($this->getIsHomePage()): ?>
+                <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+            <?php else: ?>
+                <a class="logo" href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+            <?php endif ?>
+            <div class="call-for">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('call-support')->toHtml(); ?>
+
+            </div>
+            <div class="corner">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('link-dealer-contact')->toHtml(); ?>
+
+                <div class="header-minicart" id="minicart">
+                    <?php echo $this->getChildHtml('topCart'); ?>
+                </div>
+
+            </div>
+            <div class="crystal"></div>
+            <div class="nav-links">
+                <div class="li-first"></div>
+                <div class="li-last"></div>
+
+                <?php echo $this->getChildHtml('topMenu') ?>
+
+                <?php //appends to dropdown
+                ?>
+                <li class="featured-brands-menu" style="display: none;">
+                    <div id="dd-banner"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dropdown-banner')->toHtml(); ?></div>
+                    <ul>
+                        <li class="headrmenu"><h3>featured brands:</h3></li>
+                        <?php echo strip_tags($this->getLayout()->createBlock('cms/block')->setBlockId('featured-brands-dropdown')->toHtml(), '<li><a>'); ?>
+                    </ul>
+                    <div class="crystal"></div>
+                </li>
+                <script type="text/javascript">decorateGeneric($$('.nav-ul li'), ['first', 'last'])</script>
+                <div class="crystal"></div>
+                <script type="text/javascript">
+                    //<![CDATA[
+                    decorateGeneric($$('.nav-ul-sub li'), ['first', 'last'])
+                    function equalHeight(group) {
+                        tallest = 0;
+                        group.each(function () {
+                            thisHeight = jQuery(this).outerHeight();
+                            if (thisHeight > tallest) {
+                                tallest = thisHeight;
+                            }
+                        });
+                        group.outerHeight(tallest);
+                    }
+                    //]]
+                </script>
+                <div class="crystal"></div>
+            </div>
+            <div class="crystal"></div>
+            <div class="quick-access">
+
+                <p class="welcome-msg">
+                    <?php echo $this->getAdditionalHtml() ?></p>
+                <?php echo $this->getChildHtml('topLinks') ?>
+                <?php //echo $this->getChildHtml('store_language')  ?>
+            </div>
+            <?php echo $this->getChildHtml('topContainer'); ?>
+        </div>
+    </div>
+</div>
+
+
+<!--start pop up cart-->
+<div id="add-to-cart-success" style="display:none">
+    <p><span id='add-to-cart-error-msg' class="error-msg">&nbsp;</span></p>
+    <div style="clear:both"></div>
+</div>
+<input type="hidden" value="" name="current_page_items" id="current_page_items" />
+<input type="hidden" value="" name="cart_items" id="cartItems" />
+<?php Mage::getSingleton('core/session')->setPageUrl(null); ?>
+<?php
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+$urlKey = str_replace(Mage::getBaseUrl(), '', $currentUrl);
+Mage::getSingleton('core/session')->setPageUrl($urlKey);
+?>
+<!--end pop up cart-->
+
+<a href="#" class="scrollToTop">&nbsp;</a>
+
+<script src="/js/scrollTop/scrolltotop.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/scrollTop/scrolltotop.css" />
+
+<div class="chatbox">
+    
+</div>

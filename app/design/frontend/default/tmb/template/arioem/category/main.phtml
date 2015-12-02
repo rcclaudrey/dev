@@ -1,0 +1,55 @@
+<?php
+
+$_helper    = $this->helper('catalog/output');
+$_category  = $this->getCurrentCategory();
+$_subcategories = $_category->getChildrenCategories();
+$_categoryHelper = Mage::helper('catalog/category');
+
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<div class="arioem">
+
+	<div class="page-title category-title">
+		<h1><?php echo $this->__('OEM Parts Finder') ?></h1>
+	</div>
+
+	<?php if($this->isContentMode()): ?>
+		<?php echo $this->getCmsBlockHtml() ?>
+	<?php endif; ?>
+
+	<div class="arioem-brand-list">
+		<?php if ($_category->getData('children_count') > 0): ?>
+			<div class="arioem-subcategory-header" ><?php echo $this->__('Please select a brand:') ?></div>
+			<?php if (count($_subcategories)): ?>
+				<ul class="arioem-brand-list">
+					<?php foreach($_subcategories as $_subcategoryItem): ?>
+						<?php
+							$_subcategory = Mage::getModel('catalog/category')->load($_subcategoryItem->getId());
+							$subCategoryName = $this->escapeHtml($_subcategory->getName());
+							$subCategoryImgUrl = Mage::getBaseUrl('media').'catalog/category/'.$_subcategory->getThumbnail()
+						?>
+						<li>
+							<a href="<?php echo $_categoryHelper->getCategoryUrl($_subcategory) ?>">
+								<?php if($subCategoryImgUrl): ?>
+									<img src="<?php echo $subCategoryImgUrl ?>" alt="<?php echo $subCategoryName ?>" title="<?php echo $subCategoryName ?>" />
+								<?php else: ?>
+									<span class="sub-category-name"><?php echo $subCategoryName ?></span>
+								<?php endif ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+		<?php endif; ?>
+
+		 <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+			<div class="category-description std" style="margin-top: 27px;">
+				<?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+			</div>
+		<?php endif; ?>
+
+	</div>
+
+</div>

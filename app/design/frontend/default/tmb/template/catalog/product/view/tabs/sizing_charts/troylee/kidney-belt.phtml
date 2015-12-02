@@ -1,0 +1,47 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'troylee'; // folder name
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>Troy Lee Kidney Belt Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Troy Lee" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/pants.jpg' ?>" alt=" Kidney Belt Sizes" />
+	</div>
+
+	<h1>DESCRIPTION</h1>
+	<p>Measure about 1 inch below top of pelvic bone.</p>
+	<div class='fox-gloves-table-header'>Pants Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">MEN'S</td>
+			<td></td>
+			<td></td>	
+		</tr>
+		
+		<tr>
+			<td class="title3">SIZE</td>
+			<td>S/M</td>
+			<td>L/XL</td>
+		</tr>
+	</table>
+	
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">YOUTH'S</td>
+			<td></td>
+			<td></td>	
+		</tr>
+		
+		<tr>
+			<td class="title3">SIZE</td>
+			<td>L/XL</td>
+		</tr>
+	</table>
+</div>

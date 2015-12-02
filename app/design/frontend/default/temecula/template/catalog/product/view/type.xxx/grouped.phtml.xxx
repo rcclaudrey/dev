@@ -1,0 +1,286 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_associatedProducts = $this->getAssociatedProducts(); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php
+$attribute = $_product->getResource()->getAttribute('ari_product_id');
+if ($attribute) {
+    $ari_product_id = $attribute->getFrontend()->getValue($_product);
+}
+
+$_product_info = Mage::getModel("ariapi/ari")->getProductInfo($ari_product_id);
+$makes = Mage::getModel("ariapi/ari")->getFitmentMakes(1, array("ProductID" => $_product->getAttributeText('ari_product_id')));
+
+//print_r($_product_info);
+?>
+
+<?php if ($this->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
+        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+    <?php else: ?>
+        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+    <?php endif; ?>
+<?php endif; ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<?php
+if ($_product_info->HasFitments):
+    echo 'hasFitment = true';
+    ?>
+    <select id="fitment-make" onchange="fitment.getYear(this.value)">
+        <option>- Select Make -</option>
+        <?php foreach ($makes as $make): ?>
+            <option value="<?php echo $make->Id; ?>"><?php echo $make->Name; ?></option>
+        <?php endforeach; ?>
+    </select>
+    <select id="fitment-year" onchange="fitment.getModel(this.value)">
+        <option>- Select Year -</option>
+    </select>
+
+    <select id="fitment-model" onchange="fitment.getFitment(this.value)">
+        <option>- Select Model -</option>
+    </select>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            fitment = {
+                getYear: function(MakeId) {
+                    jQuery.ajax({
+                        url: "<?php echo Mage::getBaseUrl(); ?>ariapi/fitment/year/",
+                        data: "ActivityId=1&MakeId=" + MakeId + "&Sku=<?php echo $_product->getSku(); ?>",
+                        type: "post",
+                        success: function(resp) {
+                            jQuery("#fitment-year").html('<option>- Select Year -</option>');
+                            ;
+                            jQuery("#fitment-year").append(resp);
+                            ;
+                        }
+                    });
+                },
+                getModel: function(YearId) {
+                    jQuery.ajax({
+                        url: "<?php echo Mage::getBaseUrl(); ?>ariapi/fitment/model/",
+                        data: "MakeId=" + jQuery("#fitment-make").val() + "&YearId=" + YearId + "&Sku=<?php echo $_product->getSku(); ?>",
+                        type: "post",
+                        success: function(resp) {
+                            jQuery("#fitment-model").html('<option>- Select Model -</option>');
+                            ;
+                            jQuery("#fitment-model").append(resp);
+                        }
+                    });
+                },
+                getFitment: function(FitmentId) {
+                    jQuery.ajax({
+                        url: "<?php echo Mage::getBaseUrl(); ?>ariapi/fitment/fitment/",
+                        data: "productId=<?php echo $_product->getId(); ?>&Sku=<?php echo $_product->getSku(); ?>&FitmentId=" + FitmentId,
+                        type: "post",
+                        success: function(resp) {
+                            jQuery("#fitment-container").html(resp);
+                        },
+                        error: function(x, y, z) {
+
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+<?php elseif ($_product_info->HasAttributes): ?>
+    <?php
+    $_product_attrs = Mage::getModel("ariapi/ari")->getProductAttributes($ari_product_id);
+//    print_r($_product_attrs);
+    echo 'hasAttributes = true';
+    ?>
+    <table class="data-table grouped-items-table" id="super-product-table">
+        <col />
+        <col />
+        <col width="1" />
+        <thead>
+            <tr>
+                <th><?php echo $this->__('Product Name') ?></th>
+                <?php if ($this->getCanShowProductPrice($_product)): ?>
+                    <th class="a-right"><?php echo $this->__('Price') ?></th>
+                <?php endif; ?>
+                <?php if ($_product->isSaleable()): ?>
+                    <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                <?php endif; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ($_hasAssociatedProducts): ?>
+                <?php $_assoc_images = array(); ?>
+                <?php foreach ($_associatedProducts as $_item): ?>
+                    <?php
+                    $_sku_attr = $_item->getResource()->getAttribute('ari_product_sku');
+                    $_img_attr = $_item->getResource()->getAttribute('ari_product_image');
+                    if ($_sku_attr) {
+                        $_ari_sku = $_sku_attr->getFrontend()->getValue($_item);
+                    }
+                    if ($_img_attr) {
+                        $_ari_img = $_img_attr->getFrontend()->getValue($_item);
+                    }
+                    ?>
+                    <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>   
+                    <?php $_assoc_images[$_ari_sku] = preg_replace('/\?.*/', '?width=52', $_ari_img); ?>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($_item->getName()) ?></td>
+                        <?php if ($this->getCanShowProductPrice($_product)): ?>
+                            <td class="a-right">                                
+                                <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                    <?php echo $this->getPriceHtml($_item, true) ?>
+                                    <?php echo $this->getTierPriceHtml($_item) ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php endif; ?>
+                        <?php if ($_product->isSaleable()): ?>
+                            <td class="a-center">
+                                <?php if ($_item->isSaleable()) : ?>
+                                    <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                <?php else: ?>
+                                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                <?php endif; ?>
+                            </td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+    <div class="config-options">
+        <?php
+        foreach ($_product_attrs as $attr):
+            ?>
+            <div class="opts chart-color"><label><em>*</em><?php echo $attr->Description; ?>:</label> <span class="slected-opt">Black/Gray</span>
+                <div class="crystal"></div>
+                <ul>
+                    <?php foreach ($attr->Attributes as $_attr): ?>
+                        <?php foreach ($_attr->SkuIds as $sku): ?>
+                            <?php $_product_sku = Mage::getModel("ariapi/ari")->getSku($sku); ?>
+                            <?php if ($_assoc_images[$sku]): ?>
+                                <li>                                
+                                    <img src="<?php echo $_assoc_images[$sku]; ?>" title="<?php echo $_product_sku->Name; ?>" alt="<?php echo $_product_sku->Name; ?>"/>
+                                </li>                
+                            <?php endif; ?>
+                        <?php endforeach; ?>                    
+                    <?php endforeach; ?>                    
+                </ul><div class="crystal"></div>
+            </div>
+        <?php endforeach; ?>
+        <div class="opts sizes"><label><em>*</em>Size:</label> <span class="slected-opt">Medium</span><div class="crystal"></div>
+            <ul>
+                <li class="sze unavail XS"><a href="#"><span></span></a></li>
+                <li class="sze S"><a href="#"><span></span></a></li>
+                <li class="sze sel M"><a href="#"><span></span></a></li>
+                <li class="sze L"><a href="#"><span></span></a></li>
+                <li class="sze unavail XL"><a href="#"><span></span></a></li>              
+                <li class="sze XXL"><a href="#"><span></span></a></li>
+            </ul>
+            <div class="crystal"></div>
+            <script type="text/javascript">
+                //<![CDATA[
+                jQuery('.sze.unavail').mouseenter(function() {
+                    jQuery(this).append('<div class="unavhover"></div>');
+                }).mouseleave(function() {
+                    jQuery(".unavhover").hide(0);
+                });
+
+                //]]
+            </script>                            
+
+        </div>  
+
+    </div>
+
+    <script type="text/javascript">decorateTable('super-product-table')</script>
+
+
+<?php else: ?>    
+    <?php echo 'hasFitment = false && hasAttributes = false'; ?>
+    <?php if ($_hasAssociatedProducts): ?>                
+        <select name="">
+            <?php foreach ($_associatedProducts as $_item): ?>
+                <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>                       
+            <option value="<?php echo $_item->getId() ?>">
+                    <?php echo $this->escapeHtml($_item->getName()) ?></td>
+                </option>
+                <?php /* if ($this->getCanShowProductPrice($_product)): ?>
+                  <td class="a-right">
+                  <?php if ($this->getCanShowProductPrice($_item)): ?>
+                  <?php echo $this->getPriceHtml($_item, true) ?>
+                  <?php echo $this->getTierPriceHtml($_item) ?>
+                  <?php endif; ?>
+                  </td>
+                  <?php endif; */ ?>                  
+            <?php endforeach; ?>
+        </select>
+
+        <?php foreach ($_associatedProducts as $_item): ?>            
+            <?php if ($_product->isSaleable()): ?>                            
+                <?php if ($_item->isSaleable()) : ?>
+                    <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />                
+                <?php endif; ?>                            
+            <?php endif; ?>                    
+        <?php endforeach; ?>
+    <?php else: ?>                
+        <?php echo $this->__('No options of this product are available.') ?>
+    <?php endif; ?>         
+
+    <?php if ($_hasAssociatedProducts): ?> 
+        <ul>
+            <?php foreach ($_associatedProducts as $_item): ?>
+                <?php
+                $_sku_attr = $_item->getResource()->getAttribute('ari_product_sku');
+                $_img_attr = $_item->getResource()->getAttribute('ari_product_image');
+                if ($_sku_attr) {
+                    $_ari_sku = $_sku_attr->getFrontend()->getValue($_item);
+                }
+                if ($_img_attr) {
+                    $_ari_img = $_img_attr->getFrontend()->getValue($_item);
+                }
+                $_product_sku = Mage::getModel("ariapi/ari")->getSku($_ari_sku);
+                ?>
+                <li>                                
+                    <img src="<?php echo $_product_sku->ImageUrl; ?>" title="<?php echo $_item->getName(); ?>" alt="<?php echo $_item->getName(); ?>"/>
+                </li> 
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <script type="text/javascript">decorateTable('super-product-table')</script>
+
+<?php endif; ?>

@@ -1,0 +1,28 @@
+<?php
+/**
+ * Magento
+ *
+ * @category   design_default
+ * @package    Flagbit_FeedReader
+ * @copyright  Copyright (c) 2010 Flagbit GmbH & Co. KG (http://www.flagbit.de)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if ($this->getItemCount() > 0): ?>
+
+    <?php
+    $itemCount = 0;
+    foreach ($this->getItems() as $item):
+        preg_match('/<img.+src=[\'"](?P<src>.+)[\'"].*>/i', $item->description(), $image);
+        ?>
+        <li>
+            <?php echo strip_tags($image[0], "<img>"); ?>            
+            <div class="toright">
+                <p><?php echo strip_tags($item->description(), '<span>'); ?><a target="_blank" href="<?php echo $this->htmlEscape($item->link()); ?>">MORE</a></p>
+            </div>
+            <div class="crystal"></div>
+            <p class="date"><?php echo Mage::getModel('core/date')->date('F d, Y', strtotime($item->pubDate())); ?></p>
+        </li>        
+    <?php endforeach; ?>
+
+<?php endif; ?>

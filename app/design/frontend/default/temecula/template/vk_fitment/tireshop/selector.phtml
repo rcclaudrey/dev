@@ -1,0 +1,58 @@
+<?php
+
+$tmsActivityId = $this->getTmsActivityId();
+$ride = Mage::helper('fitment')->getCurrentRide($tmsActivityId);
+
+?>
+<div class="tireshop-fitment tireshop-selector">
+	<ul>
+		<li class="tireshop-grouplabel"><?php echo $this->__('Search by Machine') ?></li>
+		<li class="tireshop-active">
+			<select id="fitment-make">
+				<option value=""><?php echo $this->__('Select Make') ?></option>
+			</select>
+		</li>
+		<li>
+			<select id="fitment-year">
+				<option><?php echo $this->__('Select year') ?></option>
+			</select>
+		</li>
+		<li>
+			<select id="fitment-model">
+				<option><?php echo $this->__('Select Model') ?></option>
+			</select>
+		</li>
+		<li class="tireshop-selector-last">
+			<button id="tireshop-fitment-goSearch" class="tireshop-goSearch" type="button" disabled="disabled"><?php echo $this->__('Search') ?></button>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	machineSelector = new MachineSelector();
+	machineSelector.init({
+		baseURL: '<?php echo rtrim($this->getUrl('fitment/index/fitment'), '/') ?>'.replace(/\/+$/gm, ''),
+		searchByRideURL: '<?php echo $this->getUrl('fitment') ?>',
+		activity: <?php echo (int)$tmsActivityId ?>,
+		product: null,
+		tiresCategoryId: <?php echo (int)Mage::helper('fitment')->getTiresCategoryId($tmsActivityId) ?>,
+		emptyText: {
+			makeSelect: '<?php echo $this->__('-- Select make --') ?>',
+			yearSelect: '<?php echo $this->__('-- Select year --') ?>',
+			modelSelect: '<?php echo $this->__('-- Select model --') ?>',
+			rideName: '<?php echo $this->__('Not selected') ?>',
+			noResultMessage: '<?php echo $this->__('Sorry, no machine options are available for this configuration') ?>'
+		},
+		<?php if($ride['id']): ?>
+			fitment: {
+				id: <?php echo (int)$ride['id'] ?>,
+				name: '<?php echo addslashes($ride['name']) ?>'
+			},
+		<?php endif ?>
+		errorMessage: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+	});
+});
+
+</script>

@@ -1,0 +1,52 @@
+<?php $message = trim($this->getMessagesBlock()->getGroupedHtml());?>
+<?php if(!empty($message)): ?>
+<div id="failed-sku-products" class="notEmpty">
+<?php else: ?>
+<div id="failed-sku-products" class="empty">
+<?php endif;?>
+	<div class="buttons-set">
+	<button class="button back-link" type="button" onclick="window.location='<?php echo $this->escapeUrl($this->getBackUrl()) ?>';">
+				<span>
+					<span>&laquo; <?php echo $this->__('Back to Quick Order') ?></span>
+				</span>
+		</button>
+<!--	            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small></a></p>-->
+	</div>
+<?php $items = $this->getItems(); ?>	
+<?php if($items):?>
+	<div class="failed-products">
+	    <h2 class="sub-title"><?php echo $this->__('Products Requiring Attention') ?></h2>
+
+	   	
+	   	<table id="failed-sku-table" class="data-table cart-table shopping-cart-table">
+	   	<col width="1" />
+	   	<col />
+	    <col width="1" />
+	    <col />
+	    <col width="1" />
+	   	<thead>
+		    <tr>
+		    <th>&nbsp;</th>
+		    <th><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+		    <th class="a-center"><?php echo $this->__('Qty') ?></th>
+		    <th>&nbsp;</th>
+		    </tr>
+	    </thead>
+	   	<?php foreach ($items as $sku => $item):?>
+	   	<tr>
+	   	<td class="a-center">
+	   		<img src="<?php echo $this->getProductImageThumb($sku)->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($this->getProductNameSku($sku)) ?>" />
+	   	</td><td>
+	   		<h2 class="product-name"><?php echo $this->getProductNameSku($sku); ?></h2>
+	   		<a class="failed-product-url" href="<?php echo $this->getLink($sku, $item) ;?>">Please specify option</a>
+	   	</td><td class="a-center">
+	   		<input name="cart[][qty]" value="<?php echo $item['orig_qty'] ?>" size="4" title="<?php echo $this->__('Qty') ?>" disabled="disabled" class="input-text qty" maxlength="12" />
+	   	</td>
+	   	<td class="a-center last"><a href="<?php echo $this->getDeleteUrl($sku)?>" title="<?php echo $this->__('Remove item')?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove item')?></a></td>
+	   	</tr>
+	   	<?php endforeach;?>
+	   	</table>
+	   	<script type="text/javascript">decorateTable('failed-sku-table')</script>
+	    </div>
+<?php endif;?>
+</div>

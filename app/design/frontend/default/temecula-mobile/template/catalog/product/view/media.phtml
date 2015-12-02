@@ -1,0 +1,161 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+?>
+<?php
+$_product = $this->getProduct();
+$_helper = $this->helper('catalog/output');
+?>
+
+<div class="product-image">
+    <?php
+    $_img = '<img width="530" id="image" src="' . $this->helper('catalog/image')->init($_product, 'image')->resize(530) . '" alt="' . $this->escapeHtml($this->getImageLabel()) . '" title="' . $this->escapeHtml($this->getImageLabel()) . '" />';
+    echo $_helper->productAttribute($_product, $_img, 'image');
+    ?>    
+</div>
+<div class="hover-note">Hover over part to enlarge</div>
+
+<?php $img_arr = array(); ?>
+<div class="more-views">
+    <!--<div class="image-thumbs">-->
+    <label>Images (<span class="img-counter"><?php echo 1; ?></span>)</label>
+    <ul class="product-images-thumbs">
+        <?php $_imageStorage = array(); ?>
+        <?php foreach ($this->getGalleryImages() as $key => $_image): ?>
+            <?php /*
+            if (!in_array($_image->getFile(), $_imageStorage)) {
+                array_push($_imageStorage, $_image->getFile());
+                ?>
+                <li class="product-thumbs-imgs thumb-img-<?php echo $key; ?>">
+                    <a href="#" onclick="product_gallery.setMainImage('<?php echo $this->helper('catalog/image')->init($assocProduct, 'image', $_image->getFile())->resize(530); ?>');
+                            return false;" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>">
+                        <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(60); ?>" width="60" height="60" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a>
+                </li>
+            <?php } */ ?>
+        <?php endforeach; ?>            
+    </ul>   
+    <ul class="product-images-thumbs">            
+        <?php
+        //<associated product all images>
+        if ($_product->getTypeId() == "configurable") {
+            $associated_products = $_product->loadByAttribute('sku', $_product->getSku())->getTypeInstance()->getUsedProducts();
+            foreach ($associated_products as $assoc) {
+                $assocProduct = Mage::getModel('catalog/product')->load($assoc->getId());
+                $i = 0;
+                if (count($assocProduct->getMediaGalleryImages()) > 0) {
+                    foreach ($assocProduct->getMediaGalleryImages() as $_image) {
+                        if (!in_array($_image->getFile(), $_imageStorage)) {
+                            array_push($_imageStorage, $_image->getFile());
+                            ?>
+
+                            <li class="product-thumbs-imgs">
+                                <a href="#" onclick="product_gallery.setMainImage('<?php echo $this->helper('catalog/image')->init($assocProduct, 'image', $_image->getFile())->resize(530); ?>');
+                                        return false;" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>">                                           
+                                    <img src="<?php echo $this->helper('catalog/image')->init($assocProduct, 'thumbnail', $_image->getFile())->resize(60); ?>"  width="60" height="60" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" />
+                                </a>
+                            </li>
+                            <?php
+                        }
+                    }
+                }
+            }
+        }
+        //</associated product all images>   
+        ?>
+    </ul>  
+    <!--</div>-->
+    <div class="crystal"></div>
+</div>
+
+<?php $img_arr2 = array(); ?>
+<div class="more-views popup-thumbs" style="display:none">
+    <div class="image-thumbs">
+        <label>Images</label>(<span class="img-counter"><?php echo count($this->getGalleryImages()); ?></span>)
+        <ul>
+            <?php foreach ($this->getGalleryImages() as $key => $_image): ?>
+                <li class="product-thumbs-imgs thumb-img-<?php echo 0; ?>">
+                    <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes');
+                            return false;" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" width="56" height="56" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a>
+                </li>
+                <li class="product-thumbs-imgs thumb-img-<?php echo $key; ?>">
+                    <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes');
+                            return false;" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" width="56" height="56" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a>
+                </li>
+            <?php endforeach; ?>            
+
+        </ul>
+    </div>
+    <div class="crystal"></div>
+</div>
+
+<div class="popup-header" id="popup-header" style="display:none; text-align:left; padding: 10px">
+    <div class="product-name">
+        <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+    </div>
+    <p class="sku"><span>SKU#</span> <?php echo strtoupper(nl2br($_product->getSku())); ?></p>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        jQuery(".img-counter").text(jQuery(".product-images-thumbs li").length);
+        jQuery(".thumb-carousel img").click(function () {
+            product_gallery.popup();
+        });
+
+        product_gallery = {
+            popup: function (mainImg) {
+                if (jQuery(".overlay-wrap").length < 1) {
+                    jQuery("body").append("<div class=\"overlay-wrap\" />");
+                    jQuery(".overlay-wrap").css({
+                        height: jQuery(window).height() + 'px',
+                        opacity: '0.5'
+                    });
+                }
+
+                jQuery(".overlay-wrap").fadeIn("slow", function () {
+                    jQuery("body").append("<div class=\"overlay-content\" />");
+                    jQuery(".overlay-content").append("<div class=\"overlay-close-wrap\" />");
+                    jQuery(".overlay-content").append("<div class=\"overlay-main-image-wrap\" />");
+                    jQuery(".overlay-main-image-wrap").html(jQuery("#popup-header").html());
+                    jQuery(".overlay-main-image-wrap").append("<div class=\"overlay-main-image\" />");
+                    jQuery(".overlay-main-image").html("<img src=\"" + mainImg + "\" alt=\"\" />");
+
+                    jQuery(".overlay-content").css({
+                        left: ((jQuery(window).width() / 2) - (jQuery(".overlay-content").width() / 2)) + 'px'
+                    });
+                });
+            },
+            setMainImage: function (source) {
+                jQuery("#image").attr('src', source);
+            }
+        }
+    });
+</script>

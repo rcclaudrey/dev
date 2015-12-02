@@ -1,0 +1,393 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+$activityId = Mage::getModel('catalog/layer')->getCurrentCategory()->getData('activity_id');
+$categoryId = Mage::getModel('catalog/layer')->getCurrentCategory()->getData('category_id');
+$subcategoryId = Mage::getModel('catalog/layer')->getCurrentCategory()->getData('subcategory_id');
+
+$params = $this->getRequest()->getParams();
+$filter_arr = array();
+foreach ($params as $key => $param) {
+    if ($key == 'brandId' || $key == 'att_67' || $key == 'att_17') {
+        $filter_arr[$key] = $param;
+    }
+}
+
+if ($categoryId && $subcategoryId) {
+    $filter_arr["categoryID"] = $categoryId;
+    $filter_arr["subcategoryID"] = $subcategoryId;
+    $_ari_layered_filters = Mage::getModel("ariapi/ari")->searchProducts($activityId, $filter_arr);
+} else if ($categoryId && !$subcategoryId) {
+    $filter_arr["categoryID"] = $categoryId;
+    $_ari_layered_filters = Mage::getModel("ariapi/ari")->searchProducts($activityId, $filter_arr);
+} else {
+    $_ari_layered_filters = Mage::getModel("ariapi/ari")->searchProducts($activityId);
+}
+
+$navLimit = 6;
+
+//$brandId = $this->getRequest()->getParam('brandId');
+//
+//if ($brandId) {
+//    $_ari_layered_filtered_products = Mage::getModel("ariapi/ari")->searchProducts($activityId, array("categoryID" => $categoryId, "brandID" => $brandId));
+//}
+?>
+<?php if ($this->canShowBlock()): ?>
+    <div class="block block-layered-nav">
+        <div class="block-title">
+            <?php $_category = Mage::registry('current_category'); ?>        
+            <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+        </div>
+        <div class="block-content">
+            <?php if ($this->getLayer()->getState()->getFilters()): ?>
+                <div class="currently">
+                    <?php echo $this->getStateHtml() ?>
+                    <div class="actions"><a class="button" href="<?php echo $this->getClearUrl() ?>"><span><?php echo $this->__('Clear All') ?></a></span></div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($this->canShowOptions()): ?>
+                <?php /*
+                  <p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p>
+                 */ ?>
+                <?php
+                //select your ride array
+                $_select_ride = array(5504, 5503, 146, 5508, 5506, 122, 5549, 5550, 5552, 5554, 5555, 5557, 5520, 5518, 77, 5501, 5499, 33, 5559, 5560, 5562, 5516, 5514, 180, 5512, 5510, 2492);
+                ?>
+                <dl id="narrow-by-list"> 
+                    <?php if (in_array($_category->getId(), $_select_ride)): ?>
+                        <dt class="dt-layered-nav-fitment"><?php echo $this->__('Select your ride') ?></dt>
+                        <dd class="dd-layered-nav-fitment">
+                            <select class="fitment-year-select">
+                                <option>Choose Year</option>
+                            </select>
+                            <select class="fitment-make-select">
+                                <option>Choose Make</option>
+                            </select>
+                            <select class="fitment-model-select">
+                                <option>Choose Model</option>
+                            </select>
+                        </dd>
+                    <?php endif; ?>
+                    <?php $_filters = $this->getFilters(); ?>
+                    <?php $params = $this->getRequest()->getParams(); ?>
+                    <?php $params2 = array(); ?>
+                    <?php $params3 = array(); ?>
+                    <?php $params4 = array(); ?>
+                    <?php $params5 = array(); ?>
+                    <?php $params6 = array(); ?>
+                    <?php $params7 = array(); ?>
+                    <?php $params8 = array(); ?>
+                    <?php
+                    $categoryid = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
+                    $categoryUrl = Mage::getModel('catalog/category')->load($categoryid)->getUrl();
+                    ?>
+
+                    <?php foreach ($_filters as $_filter): ?>
+                        <?php if ($_filter->getItemsCount()): ?>
+
+                            <?php
+                            if ($_category->getLevel() == 2 && strtolower($_filter->getName()) == 'price') :
+                                continue;
+                            endif;
+                            ?>
+
+                            <dt class="<?php echo $_category->getLevel() == 2 && strtolower($_filter->getName()) == 'category' && !isset($params['cat']) ? 'dt-layered-nav-department' : '' ?>">
+                            <?php if ($_category->getLevel() == 2 && strtolower($_filter->getName()) == 'category' && !isset($params['cat'])): ?>
+                                <?php echo $this->__('Department') ?>
+                            <?php else: ?>
+                                <?php echo $this->__($_filter->getName()) ?>
+                            <?php endif; ?>
+                            </dt>
+                            <dd class="<?php echo $_category->getLevel() == 2 && strtolower($_filter->getName()) == 'category' && !isset($params['cat']) ? 'dd-layered-nav-department' : '' ?>">
+                                <?php if ($_category->getLevel() == 2 && strtolower($_filter->getName()) == 'category' && !isset($params['cat'])): ?>
+                                    <select class="layered-nav-select" onchange="window.location = this.value">
+                                        <option value="">Select Department</option>
+                                        <?php echo $_filter->getHtml() ?>
+                                    </select>
+                                <?php else: ?>
+                                    <ol><?php echo $_filter->getHtml() ?></ol>
+                                <?php endif; ?>
+                            </dd>
+
+
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <?php if ($_category->getLevel() == 2) : ?>
+                        <dt class="">Shop By Type</dt>
+                        <dd>
+                            <ol>
+                                <li>
+                                    <a href="#"><span class="filbar"><span>Sports Bike Helmet</span></span></a>(2)
+                                </li>
+                            </ol>
+                        </dd>
+                    <?php endif; ?>
+                        
+                        <?php foreach ($_ari_layered_filters->Facets as $filter): ?>
+                            <?php if ($filter->Name == 'Type'): ?>
+                                <dt class="last even">Shop by Type</dt>
+                                <dd class="last even">
+                                    <ol class="color-ol">
+                                        <?php $countee = 0; ?>
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+//                                        $params['ari_attr'] = $filter->Field;
+                                            if (count($params) > 0) {
+                                                $params2['typeId'] = $value->Value;
+                                                $param = '?' . http_build_query($params2);
+                                            }
+                                            ?>
+                                        
+                                            <?php if(trim($value->Name) != ''): ?>
+                                            <li <?php echo $countee >= $navLimit ? 'class="color-li"' : ''; ?> style="display: <?php echo $countee >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>          
+                                            <?php $countee++; ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.color-li', '.color-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                        <?php endforeach; ?>  
+
+                    <?php //do not show on activities ?>
+                    <?php if ($_category->getLevel() != 2) : ?>
+                        <?php foreach ($_ari_layered_filters->Facets as $filter): ?>
+                            <?php if ($filter->Name == 'Brand'): ?>
+                                <dt class="last even">Brands</dt>
+                                <dd class="last even">
+                                    <ol class="brands-ol">
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+                                            $params3['brandId'] = $value->Value;
+                                            $params3['ari_attr'] = $filter->Field;
+                                            if (count($params) > 0) {
+                                                $param = '?' . http_build_query($params3);
+                                            }
+                                            ?>
+                                            <li <?php echo $key >= $navLimit ? 'class="brand-li"' : ''; ?> style="display: <?php echo $key >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.brand-li', '.brands-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+
+
+
+                        <?php foreach ($_ari_layered_filters->Facets as $filter): ?>                            
+                            <?php if ($filter->Name == 'Size'): ?>
+                                <dt class="last even">Size</dt>
+                                <dd class="last even">
+                                    <ol class="size-ol">
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+                                            $params4['att_17'] = $value->Value;
+                                            if (count($params) > 0) {
+                                                $param = '?' . http_build_query($params4);
+                                            }
+                                            ?>
+                                            <li <?php echo $key >= $navLimit ? 'class="size-li"' : ''; ?> style="display: <?php echo $key >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>                                        
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.size-li', '.size-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                        <?php endforeach; ?> 
+                                
+                        <?php foreach ($_ari_layered_filters->Facets as $filter): ?>
+                            <?php if ($filter->Name == 'Primary Color'): ?>
+                                <dt class="last even">Color</dt>
+                                <dd class="last even">
+                                    <ol class="color-ol">
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+                                            $params5['att_67'] = $value->Value;
+                                            if (count($params) > 0) {
+                                                $param = '?' . http_build_query($params5);
+                                            }
+                                            ?>
+                                            <li <?php echo $key >= $navLimit ? 'class="color-li"' : ''; ?> style="display: <?php echo $key >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>                                        
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.color-li', '.color-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                                
+                                <?php if ($filter->Name == 'Gender'): ?>
+                                <dt class="last even">Gender</dt>
+                                <dd class="last even">
+                                    <ol class="color-ol">
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+                                            $params6['att_12'] = $value->Value;
+                                            if (count($params) > 0) {
+                                                $param = '?' . http_build_query($params6);
+                                            }
+                                            ?>
+                                            <li <?php echo $key >= $navLimit ? 'class="color-li"' : ''; ?> style="display: <?php echo $key >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>                                        
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.color-li', '.color-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                                
+                                <?php if ($filter->Name == 'Apparel Material'): ?>
+                                <dt class="last even">Apparel Material</dt>
+                                <dd class="last even">
+                                    <ol class="color-ol">
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+                                            $params7['att_65'] = $value->Value;
+                                            if (count($params) > 0) {
+                                                $param = '?' . http_build_query($params7);
+                                            }
+                                            ?>
+                                            <li <?php echo $key >= $navLimit ? 'class="color-li"' : ''; ?> style="display: <?php echo $key >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>                                        
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.color-li', '.color-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                                
+                                <?php if ($filter->Name == 'Size Segment'): ?>
+                                <dt class="last even">Size Segment</dt>
+                                <dd class="last even">
+                                    <ol class="color-ol">
+                                        <?php foreach ($filter->Values as $key => $value): ?>
+                                            <?php
+                                            $params8['att_18'] = $value->Value;
+                                            if (count($params) > 0) {
+                                                $param = '?' . http_build_query($params8);
+                                            }
+                                            ?>
+                                            <li <?php echo $key >= $navLimit ? 'class="color-li"' : ''; ?> style="display: <?php echo $key >= $navLimit ? 'none' : 'block'; ?>">
+                                                <a href="<?php echo $categoryUrl . $param; ?>">
+                                                    <span class="filbar">
+                                                        <span class="brands"><?php echo $value->Name; ?></span>
+                                                    </span>
+                                                </a>
+                                                (<?php echo $value->Count; ?>)
+                                            </li>                                        
+                                        <?php endforeach; ?>
+                                        <li class="show-more-less-li"><a class="show-more" href="#" onclick="nav.toggle(this, '.color-li', '.color-ol');
+                                                return false;">Show More</a></li>
+                                    </ol>
+                                </dd>
+                            <?php endif; ?>
+                                
+                                
+                        <?php endforeach; ?>  
+                                
+                                
+                    <?php endif; ?>
+
+                </dl>
+                <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        nav = {
+            toggle: function(ths, el, el_parent) {
+                jQuery(el).each(function() {
+                    jQuery(this).toggle('slow');
+                });
+
+                if (jQuery(ths).text() === "Show More") {
+                    jQuery(ths).text("Show Less");
+                    jQuery(ths).removeClass("show-more");
+                    jQuery(ths).addClass("show-less");
+                } else {
+                    jQuery(ths).text("Show More");
+                    jQuery(ths).removeClass("show-less");
+                    jQuery(ths).addClass("show-more");
+                }
+
+                jQuery('html, body').animate({
+                    scrollTop: jQuery(el_parent).offset().top - 45
+                }, 2000);
+            }
+        }
+    });
+</script>

@@ -1,0 +1,94 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for filter items block
+ *
+ * @see Mage_Catalog_Block_Layer_Filter
+ */
+?>
+
+<?php $_category = Mage::registry('current_category'); ?>
+
+<?php if ($_category->getLevel() == 2 && strtolower($this->getName()) == 'category'): ?>
+    <select class="layered-nav-select" onchange="window.location = this.value">
+    <?php else: ?>
+        <ol>
+        <?php endif; ?>
+
+        <?php foreach ($this->getItems() as $key => $_item): ?>
+            <?php if ($_category->getLevel() == 2 && strtolower($this->getName()) == 'category' && $_item->getCount() > 0): ?>
+                <option value="<?php echo $this->urlEscape($_item->getUrl()) ?>">                    
+                    <?php echo $_item->getLabel() ?>                                            
+                </option>
+            <?php else: ?>
+                <li class="filter-li-<?php echo $key > 9 ? 'overflow' : 'nonoverflow'; ?>">
+                    <?php if ($_item->getCount() > 0): ?>
+                        <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><span class="filbar"><?php echo $_item->getLabel() ?></span></a>
+                    <?php else: echo $_item->getLabel() ?>
+                    <?php endif; ?>
+                    <?php if ($this->shouldDisplayProductCount()): ?>
+                        (<?php echo $_item->getCount() ?>)
+                    <?php endif; ?>
+                </li>
+            <?php endif; ?>
+        <?php endforeach ?>
+
+        <?php if ($_category->getLevel() == 2 && strtolower($this->getName()) == 'category'): ?>
+    </select>
+<?php else: ?>
+
+    <?php if (count($this->getItems()) > 10) { ?>
+        <li class="show-more-less-li"><a class="show-more" href="#" onclick="layered.show(this)">Show More</a></li>
+        <?php } ?>
+    </ol>
+<?php endif; ?>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        layered = {
+            show: function (ths) {
+                jQuery(ths).parent().parent('ol').children(".filter-li-overflow").each(function () {
+                    jQuery(this).slideToggle("fast", function () {
+                    });
+                });
+
+                if (jQuery(ths).hasClass("show-more")) {
+                    jQuery(ths).addClass("show-less");
+                    jQuery(ths).removeClass("show-more");
+                } else {
+                    jQuery(ths).addClass("show-more");
+                    jQuery(ths).removeClass("show-less");
+                }
+
+                event.preventDefault();
+
+            }
+        };
+    });
+</script>

@@ -1,0 +1,65 @@
+<?php
+	$_attribute = $this->getAttributeObject();
+	$_attributeId = $this->getAttributeObject()->getAttributeId();
+	$_formValue = '';
+?>
+
+
+<?php 
+$LIElements = '';
+$selectedSwatch = null;
+$selectedOption = null;
+foreach ($this->getAttributeOptions() as $_option) :
+	$_optionId = $_option->getData('option_id');
+	$_colorswatch = $this->getColorSwatch($_attributeId, $_optionId);
+if (is_object($_colorswatch)) {
+	if ($this->isSelected($_colorswatch)) {
+		$selectedSwatch = $_colorswatch;
+		$selectedOption = $_option;
+	}
+	
+	if ($this->isSelected($_colorswatch)) {
+		$_formValue = $_optionId;
+	}
+	
+	$classNotClickable = $_colorswatch->getIsDisabled() ? 'not_clickable' : '';
+	$classNotAllowed = ($this->isSelectionDisabled($_colorswatch) || $_colorswatch->getIsDisabled() || ($_colorswatch->getSortPosition() > 0 && !$this->getPreviewSwatchSelected())) ? 'not_allowed' : '';
+	$classActive = $this->isSelected($_colorswatch) ? 'active' : '';
+
+	$LIElements .= "<li class=\"colorswatch-{$_attributeId}-{$_optionId} colorswatch-swatch-container {$classNotClickable} {$classNotAllowed} {$classActive}\">";
+	if ($_colorswatch->getImage()->getSwatchImage()->isImageExsist()) {
+		$LIElements .= "<span class=\"swatch\" style=\"width:{$this->getSwatchWidth()}px;height:{$this->getSwatchHeight()}px;\" > {$_option->getData('value')} </span>";
+	} else {
+		$LIElements .= "<span class=\"swatch\" style=\"width:{$this->getSwatchWidth()}px;height:{$this->getSwatchHeight()}px;\" >{$_option->getData('value')}</span>";
+	}
+	$LIElements .= "<span class=\"status\" >&nbsp;</span>";
+	$LIElements .= "</li>";
+}
+endforeach;
+?>
+
+<label class="colorswatch-attribute-label colorswatch-attribute-label-<?php echo $_attributeId?>"><?php echo $_attribute->getProductAttribute()->getStoreLabel()?> <span class="seleted-option"> <?php echo  is_object($selectedSwatch) ? ($selectedOption->getValue() . " " . ($selectedSwatch->getData('swatch_price') != 0 ? ( ($selectedSwatch->getData('swatch_price') > 0 ? '+' : '') . str_pad(sprintf("%01.2f", $selectedSwatch->getData('swatch_price')), 2, "0", STR_PAD_LEFT) ) : '' )) : '&nbsp;' ?> </span></label>
+
+<?php  if (Mage::getModel('colorswatch/attribute_settings')->getConfig($_attributeId, 'enable_colorswatch')) :  ?>
+
+	<ul class="colorswatch-attribute colorswatch-attribute-<?php echo $_attributeId?>">
+		<?php echo $LIElements?>
+	</ul>
+	<input type="hidden" id="colorswatch-<?php echo $_attributeId?>" name="super_attribute[<?php echo $_attributeId?>]" class="super-attribute-select required-entry" value="<?php echo $_formValue?>" />
+<?php else : ?>
+
+	<select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="colorswatch-attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select colorswatch-swatch-select">
+	  <option class="colorswatch-<?php echo $_attributeId?>-0" value=""><?php echo $this->__('Choose an Option...') ?></option>
+	  <?php foreach ($this->getAttributeOptions() as $_option) : 
+			$_optionId = $_option->getData('option_id');
+			$_colorswatch = $this->getColorSwatch($_attributeId, $_optionId);
+			
+			if ($this->isSelected($_colorswatch)) {
+				$_formValue = $_optionId;
+			}
+	  ?>
+	  	<option class="colorswatch-<?php echo $_attributeId?>-<?php echo $_optionId?> colorswatch-swatch-container <?php echo ($_colorswatch->getIsDisabled() ? 'not_clickable' : '')?> <?php echo  (($this->isSelectionDisabled($_colorswatch) || $_colorswatch->getIsDisabled() || ($_colorswatch->getSortPosition() > 0 && !$this->getPreviewSwatchSelected())) ? 'not_allowed' : '') ?> <?php echo  $this->isSelected($_colorswatch) ? 'active' : '' ?>" <?php echo  $this->isSelected($_colorswatch) ? 'selected="selected"' : '' ?> value="<?php echo  $_option->getOptionId() ?>"><?php echo $_option->getData('value')?></option>
+	  <?php endforeach; ?>
+	</select>
+
+<?php endif;  ?>

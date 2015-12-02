@@ -1,0 +1,133 @@
+<?php
+$protocol = "http://";
+if (Mage::app()->getStore()->isCurrentlySecure()) { //secure mode your current URL is HTTPS
+    $protocol = "https://";
+}
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<meta name="msvalidate.01" content="F311D8C056193B4719DB96E5B739D1C7" />
+
+<meta name="google-site-verification" content="kVT9xPR0A0cjuebAs2hqzO8W-2w96JaBGwhvNIHoat0" />
+
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+
+<?php /** ?>
+
+  <script type ="text/javascript" src="<?php echo $protocol; ?>quickchat.powersportsmarketing.com/QuickChat/MasterServer/Public/ScriptProvider.php" ></script>
+  <script type='text/javascript'>
+  function PCJSF_PositionFixedElement(element, alignementX, alignmentY, offsetX, offsetY, width, height) {
+  var elementSize = (width > 0) ? [width, height] : null;
+  var windowSize = null;
+
+  if (element.nodeName == 'DIV' && element.firstChild.nodeName == 'IMG') {
+  element.className = "live-chat-button";
+  element.firstChild.src = "<?php echo $this->getSkinUrl('images/chatbox/live-chat.jpg') ?>";
+  }
+
+  if (!elementSize)
+  elementSize = PCJSF_MeasureElement(element);
+  if (!windowSize)
+  windowSize = PCJSF_GetWindowSize();
+  if (alignementX == 0) {
+  if (windowSize.width - elementSize[0] - offsetX < 0)
+  offsetX = windowSize.width - elementSize[0];
+  if (offsetX < 0)
+  offsetX = offsetX;
+  element.style.left = offsetX + "px";
+  element.style.right = "";
+  }
+  else if (alignementX == 1) {
+  var offset = (Math.floor((windowSize.width - elementSize[0]) / 2) + offsetX);
+  if (offset + elementSize[0] > windowSize.width)
+  offset = windowSize.width - elementSize[0];
+  if (offset < 0)
+  offset = 0;
+  element.style.left = (Math.floor((windowSize.width - elementSize[0]) / 2) + offsetX) + "px";
+  element.style.right = "";
+  }
+  else {
+  if (windowSize.width - elementSize[0] - offsetX < 0)
+  offsetX = windowSize.width - elementSize[0];
+  if (offsetX < 0)
+  offsetX = 0;
+  element.style.left = "";
+  element.style.right = offsetX + "px";
+  }
+  if (alignmentY == 0) {
+  if (windowSize.height - elementSize[1] - offsetY < 0)
+  offsetY = windowSize.height - elementSize[1];
+  if (offsetY < 0)
+  offsetY = offsetY;
+  element.style.top = offsetY + "px";
+  element.style.bottom = "";
+  }
+  else if (alignmentY == 1) {
+  var offset = (Math.floor((windowSize.height - elementSize[1]) / 2) + offsetY);
+  if (offset + elementSize[1] > windowSize.height)
+  offset = windowSize.height - elementSize[1];
+  if (offset < 0)
+  offset = 0;
+  element.style.top = (Math.floor((windowSize.height - elementSize[1]) / 2) + offsetY) + "px";
+  element.style.bottom = "";
+  }
+  else {
+  if (windowSize.height - elementSize[1] - offsetY < 0)
+  offsetY = windowSize.height - elementSize[1];
+  if (offsetY < 0)
+  offsetY = 0;
+  element.style.top = "";
+  element.style.bottom = offsetY + "px";
+  }
+  }
+
+  jQuery(document).ready(function () {
+  // chatbox js - start
+  chatbox = {	checkVisibility: function () {  return jQuery("div.live-chat-button").css('visibility') == 'visible' ? true : false;  }  };
+
+  jQuery("a.live-chat").click(function (event) {
+	event.preventDefault();
+	jQuery("a:contains('Powered by QuickChat')").parent().parent().css({display: 'none'});
+	jQuery("img[src*='quickchat.powersportsmarketing.com']").parent("div").addClass('live-chat-button').css({marginBottom: "-30px"});
+
+	if (chatbox.checkVisibility()) {
+	jQuery("div.live-chat-button img").click();
+	} else {
+	jQuery("#PCJSF_ButtonDiv1").trigger('mousedown');
+	}
+  });
+
+  // chatbox js - end
+  });
+
+  jQuery(window).load(function () {
+  // chatbox js - start
+  jQuery("a:contains('Powered by QuickChat')").parent().parent().css({
+  display: 'none'
+  });
+  // chatbox js - end
+  });
+  </script>
+
+<style type="text/css">
+    .live-chat-button{
+        margin-bottom: -30px;
+    }
+</style>
+<?php /**/ ?>

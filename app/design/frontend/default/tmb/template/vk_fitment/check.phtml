@@ -1,0 +1,537 @@
+<?php
+
+$tabs = array(
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'activities' => array(
+		'name' => 'Browse Activities',
+		'description' => <<<'DESCR'
+Browse the data hierarchy of activities.
+DESCR
+		,
+		'mandatory_fields' => array(),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'makes' => array(
+		'name' => 'Browse Fitment Makes',
+		'description' => <<<'DESCR1'
+Returns a list of Makes for a given activity.
+Parameters:
+- {ActivityID} - ID for the activity to be queried. (int)
+- {ProductID} - ID used to filter fitments by product (int)
+- {SkuID} - ID used to filter fitments by SKU (int)
+DESCR1
+		,
+		'mandatory_fields' => array('ActivityID'),
+		'optional_fields' => array('ProductID',  'SkuID'),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'years' => array(
+		'name' => 'Browse Fitment Years',
+		'description' => <<<'DESCR2'
+Returns a list of Years for a given activity and make.
+Parameters:
+- {ActivityID} - ID for the activity to be queried. (int)
+- {MakeID} - ID for the make to be queried (int)
+- {ProductID} - ID used to filter fitments by product (int)
+- {SkuID} - ID used to filter fitments by SKU (int)
+DESCR2
+		,
+		'mandatory_fields' => array('ActivityID', 'MakeID'),
+		'optional_fields' => array('ProductID',  'SkuID'),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'models' => array(
+		'name' => 'Browse Fitment Models',
+		'description' => <<<'DESCR3'
+Returns a list of Models for a given activity, make, and year.
+Parameters:
+- {ActivityID} - ID for the activity to be queried. (int)
+- {MakeID} - ID for the make to be queried (int)
+- {YearID} - ID for the year to be queried (int)
+- {ProductID} - ID used to filter fitments by product (int)
+- {SkuID} - ID used to filter fitments by SKU (int)
+DESCR3
+		,
+		'mandatory_fields' => array('ActivityID', 'MakeID', 'YearID'),
+		'optional_fields' => array('ProductID',  'SkuID'),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'fitment' => array(
+		'name' => 'Browse Fitments',
+		'description' => <<<'DESCR4'
+Returns fitment details.
+Parameters:
+- {FitmentID} - ID for the fitment to be queried. (int)
+DESCR4
+		,
+		'mandatory_fields' => array('FitmentID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'fitmentnotes' => array(
+		'name' => 'Fitment Notes',
+		'description' => <<<'DESCR5'
+Returns fitment notes for a given product and fitment.
+Parameters:
+- {productID} - The product ID. (int)
+- {FitmentID} - The fitment ID. (int)
+DESCR5
+		,
+		'mandatory_fields' => array('productID', 'FitmentID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'search' => array(
+		'name' => 'Search Products',
+		'description' => <<<'DESCR6'
+Returns a list of products in an activity based on given criteria.
+Parameters:
+- {ActivityID} - Activity ID to search within (int)
+- {term} - Text to search (string)
+- {skip} - Number of results to skip over. Optional, defaults to zero (int)
+- {take} - Number of matches to return. Optional, defaults to 20. If set to zero and
+includeFacets is set to True, only Facet information will be returned (int)
+- {fitmentID} - the fitment filter (int)
+- {includeFacets} - specify whether facet counts are included in results (boolean)
+- {brandID} - filter to specify results by brand, can be used multiple times (int)
+- {categoryID} - filter to specify results by category, can be used multiple times
+(int)
+- {subCategoryID} - filter to specify results by subcategory, can be used multiple
+times (int)
+- {typeID} - filter to specify results by type, can be used multiple times (int)
+- {minPrice} - minimum price filter (float)
+- {maxPrice} - maximum price filter (float)
+- {att_n} - Other attribute filters, where n represents an attribute ID. Can be
+specified multiple times. To specify these parameters accurately, they should be
+taken from Facet results.
+- {sort} - specify the order of results returned, may use any of the following:
+* Relevancy - sorts by relevancy based on {term}
+* Rating - sort by highest rating
+* priceASC - sort by price ascending
+* priceDESC - sort by price descending
+* nameASC - sort by name ascending
+* nameDESC - sort by name descending
+DESCR6
+		,
+		'mandatory_fields' => array('ActivityID'),
+		'optional_fields' => array('term', 'skip', 'take', 'fitmentID', 'includeFacets', 'brandID',
+			'categoryID',  'subCategoryID',  'typeID',  'minPrice',  'maxPrice',  'sort'),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'categories' => array(
+		'name' => 'Browse Categories',
+		'description' => <<<'DESCR7'
+Returns a list of categories for a given activity.
+Parameters:
+- {ActivityID} - The ID for the activity to be queried. (integer)
+DESCR7
+		,
+		'mandatory_fields' => array('ActivityID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'subcategories' => array(
+		'name' => 'Browse SubCategories',
+		'description' => <<<'DESCR8'
+Returns a list of Subcategories for a given activity and category.
+Parameters:
+- {ActivityID} - The ID for the activity to be queried. (integer)
+- {categoryID} - The ID for the category to be queried
+DESCR8
+		,
+		'mandatory_fields' => array('ActivityID', 'categoryID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'product' => array(
+		'name' => 'Product Info',
+		'description' => <<<'DESCR9'
+Returns information on the specified product.
+Parameters:
+- {ProductID} - ID for the product to be returned. (int)
+Result Data - Object Array<Product>
+- Brand - Brand name for this product (string)
+- Description - Description for the product (string)
+- HasAttributes - Returns True if this product has Attributes (boolean)
+- HasFitments - Returns True if this product has associated Fitments (Boolean)
+- ID - The product ID for this item (int)
+- ImageURL - URL for the default image for this item
+- MetaDescription - Description information for meta tags on page (string)
+- MetaKeywords - Keywords for meta tags on page (string)
+- Name - Name for this product (string)
+DESCR9
+		,
+		'mandatory_fields' => array('ProductID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'productattributes' => array(
+		'name' => 'Product Attributes',
+		'description' => <<<'DESCR'
+Returns attribute information for the specified product.
+Parameters:
+- {ProductID} - ID for the product to be queried. (int)
+Result Data - Object Array with Results as Array<ArrayOfProductAttributeGroup>
+- ID - ID for this product attribute group. (int)
+- Description - Description for this attribute group. (string)
+- SkuIds - Array of Sku IDs for this attribute group.
+DESCR
+		,
+		'mandatory_fields' => array('ProductID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'skuinfo' => array(
+		'name' => 'SKU information',
+		'description' => <<<'DESCR'
+Returns a list of SKUs for a given activity and product.
+URL - /RestAPI/Skus/{activityID}/{productID}
+Parameters:
+- {activityID} - ID for the activity to be queried. (int)
+- {productID} - ID for the product to be queried. (int)
+- {fitmentID} - ID for fitment used to filter results. Optional. (int)
+Result Data - Object array with Results as array<ArrayOfSku>
+- ID - ID for this SKU. (int)
+- Brand - Brand for this SKU. (string)
+- Name - Name for this SKU. (string)
+- MfgSku - The manufacturer’s SKU code for this item. (string)
+- MSRP - MSRP price for this item
+- ImageURL - URL for the default image for this item.
+DESCR
+		,
+		'mandatory_fields' => array('activityID', 'productID'),
+		'optional_fields' => array('fitmentID'),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'skudetails' => array(
+		'name' => 'SKU Detail',
+		'description' => <<<'DESCR'
+Returns details for a given SKU.
+URL - /RestAPI/Skus/{SkuID}
+Parameters:
+- {SkuID} - ID for the SKU to be queried. (int)
+Result Data - Object array with Results as array<ArrayOfSku>
+- ID - ID for this SKU. (int)
+- Brand - Brand for this SKU. (string)
+- Name - Name for this SKU. (string)
+- MfgSku - The manufacturer’s SKU code for this item. (string)
+- MSRP - MSRP price for this item
+- ImageURL - URL for the default image for this item.
+- Description - Description information for this SKU. (string)
+DESCR
+		,
+		'mandatory_fields' => array('SkuID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'reviewlist' => array(
+		'name' => 'Product Reviews',
+		'description' => <<<'DESCR'
+Returns a list of reviews for a given product.
+URL - /RestAPI/Reviews/Product/{productID}
+Parameters:
+- {ProductID} - ID for the product to be queried. (int)
+- {rating} - Used to filter by rating, where rating is scaled from 1 to 5. (int)
+- {skip} - Skip the top N reviews. (int)
+- {take} - Retrieve the top N reviews, value must be between 1 and 100. (int)
+- {Sort} - Filters to sort returned ratings. Must be one of the following:
+* ratingDESC - rating descending. (default)
+* ratingASC - rating ascending
+* createdASC - created time ascending
+* createdDESC - created time descending
+- {reviewStatus} - Filters to sort ratings by status. Must be one of the following:
+* Approved - retrieve only Approved reviews
+* Pending - retrieve only Pending reviews
+* Rejected - retrieve only Rejected reviews
+DESCR
+		,
+		'mandatory_fields' => array('productID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	'reviewsummary' => array(
+		'name' => 'Review Summaries',
+		'description' => <<<'DESCR'
+Returns a review summary for a given product.
+URL - /RestAPI/Reviews/Summary/{productID}
+Parameters:
+- {productID} - The product ID. (int)
+Result Data - Object array with Results as array<ArrayOfReviewSummary>
+- Total - Total number of reviews for this product. (int)
+- None - Number of zero-star reviews for this product (int)
+- OneStar - Number of one-star reviews for this product (int)
+- TwoStar - Number of two-star reviews for this product (int)
+- ThreeStar - Number of three-star reviews for this product (int)
+- FourStar - Number of four-star reviews for this product (int)
+- FiveStar - Number of five-star reviews for this product (int)
+- AverageRating - Average rating for this product (int)
+DESCR
+		,
+		'mandatory_fields' => array('productID'),
+		'optional_fields' => array(),
+	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+);
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>ARI API checker</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	</head>
+<body>
+
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		font-family: Arial,Helvetica,sans-serif;
+		font-size: 14px;
+	}
+	ul, ol {
+		list-style: outside none none;
+	}
+	button {}
+
+	.clearer::after {
+		clear: both;
+		font-size: 0;
+		height: 0;
+		line-height: 0;
+		text-indent: -10000px;
+		content: '.';
+	}
+
+	h1 {
+		margin: 20px 40px;
+		font-size: 20px;
+	}
+	.check-container {
+		margin: 20px;
+		overflow: auto;
+		border: 1px solid #aaa;
+	}
+	.tabs {
+		float: left;
+		width: 300px;
+	}
+	.tabs ul {
+		margin: 20px;
+		padding: 0;
+		border-top: 1px solid #aaa;
+	}
+	.tabs li {
+		padding: 10px;
+		border-bottom: 1px solid #aaa;
+		cursor: pointer;
+	}
+	.tabs li.active {
+		background-color: lightgrey;
+		font-weight: bold;
+	}
+	.content {
+		float: left;
+		width: 700px;
+	}
+	.content > ul {
+		margin: 20px;
+	}
+	.content > ul > li {
+		display: none
+	}
+	.content > ul > li.active {
+		display: block;
+	}
+	.content h2 {
+		border-bottom: 1px solid #aaa;
+		font-size: 16px;
+		margin: 20px 0;
+		padding: 10px 0;
+	}
+	.description {
+		line-height: 22px;
+	}
+	.field-list {
+		margin: 20px 0;
+	}
+	.field-list li {
+		margin: 10px 0;
+	}
+	.mandatory {}
+	.optional {}
+	.field-list label {
+		display: inline-block;
+		min-width: 140px;
+		vertical-align: middle;
+	}
+	.field-list input {
+		width: 250px;
+		padding: 3px 10px;
+	}
+	.content .buttons {
+		margin: 40px 20px 20px;
+		padding: 20px 0;
+		border-top: 1px solid #aaa;
+	}
+	.buttons button {
+		padding: 10px 20px;
+		border: 1px solid darkgrey;
+		background: lightgrey;
+		font-size: 14px;
+		font-weight: bold;
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+	#results {
+		margin: 20px;
+		padding: 20px 0;
+		font-size: 20px;
+		line-height: 20px;
+		color: red;
+		text-align: center;
+	}
+	.fitment-time {
+		margin: 20px 0;
+		font-size: 14px;
+		text-align: left;
+		color: #000;
+	}
+</style>
+
+<h1>ARI API Checker</h1>
+<div class="clearer check-container">
+	<div class="tabs">
+		<ul>
+			<?php foreach($tabs as $tabid => $tab): ?>
+				<li id="<?php echo $tabid ?>"><?php echo htmlspecialchars($tab['name']) ?></li>
+			<?php endforeach ?>
+		</ul>
+	</div>
+	<div class="content">
+		<ul>
+			<?php foreach($tabs as $tabid => $tab): ?>
+				<li id="<?php echo $tabid ?>_content" class="tab-content">
+					<h2>Description</h2>
+					<p class="description"><?php echo nl2br(htmlspecialchars($tab['description'])) ?></p>
+
+					<h2>Mandatory fields</h2>
+					<ul class="mandatory field-list">
+						<?php if(count($tab['mandatory_fields'])): ?>
+							<?php foreach($tab['mandatory_fields'] as $fieldName): ?>
+								<li>
+									<label for="<?php echo $tabid.'_'.$fieldName ?>"><?php echo $fieldName ?></label>
+									<input id="<?php echo $tabid.'_'.$fieldName ?>" name="<?php echo $fieldName ?>" value="<?php echo isset($params[$fieldName]) ? htmlspecialchars($params[$fieldName]) : '' ?>"/>
+								</li>
+							<?php endforeach ?>
+						<?php else: ?>
+							<li>This request doesn't have mandatory parameters</li>
+						<?php endif ?>
+					</ul>
+
+					<h2>Optional fields</h2>
+					<ul class="optional field-list">
+						<?php if(count($tab['optional_fields'])): ?>
+							<?php foreach($tab['optional_fields'] as $fieldName): ?>
+								<li>
+									<label for="<?php echo $tabid.'_'.$fieldName ?>"><?php echo $fieldName ?></label>
+									<input id="<?php echo $tabid.'_'.$fieldName ?>" name="<?php echo $fieldName ?>" value="<?php echo isset($params[$fieldName]) ? htmlspecialchars($params[$fieldName]) : '' ?>"/>
+								</li>
+							<?php endforeach ?>
+						<?php else: ?>
+							<li>This request doesn't have optional parameters</li>
+						<?php endif ?>
+					</ul>
+				</li>
+			<?php endforeach ?>
+		</ul>
+		<div class="buttons">
+			<button type="button" onclick="sendRequest()">Send</button>
+		</div>
+	</div>
+</div>
+
+<div id="results"></div>
+
+<script type="text/javascript">
+
+	var ari_checker_time = null;
+
+	function getTime() {
+		var d = new Date();
+		return (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds())*1000 + d.getMilliseconds();
+	}
+
+	function gatherParams(selector) {
+		var arr = jQuery('.content .tab-content.active .' + selector + ' input').serializeArray();
+		result = {};
+		for(var i=0; i<arr.length; i++) {
+			result[arr[i].name] = arr[i].value;
+		}
+		return result;
+	};
+
+	function sendRequest() {
+		document.getElementById('results').innerHTML = 'Sending a request, please wait...';
+		ari_checker_time = getTime();
+		jQuery.ajax({
+<?php if($this->getRequest()->getParam('direct')): ?>
+			url: "<?php echo $this->getUrl() ?>ariapi/index.php".replace('http:', document.location.protocol),
+<?php else: ?>
+			url: "<?php echo $this->getUrl('fitment/check/post') ?>".replace('http:', document.location.protocol),
+<?php endif ?>
+			data: {
+				requestType: jQuery('.tabs .active')[0].id,
+				params: gatherParams('mandatory'),
+				options: gatherParams('optional')
+			},
+			dataType: 'json',
+			type: 'post',
+			cache: false,
+			success: function(response) {
+				var d = new Date();
+				ari_checker_time = getTime() - ari_checker_time;
+				html = '<p class="fitment-time">Total request time=' + ari_checker_time + 'ms, ARI request time='+ response.time + 's</p>' + response.dump;
+				document.getElementById('results').innerHTML = html;
+			}
+		});
+	};
+
+//	these are taken from Vic class as they're not getting ran being pulled with AJAX
+	lightOn = function(element){
+		element.parentNode.style.backgroundColor = "silver";
+		return false;
+	};
+	lightOff = function(element){
+		element.parentNode.style.backgroundColor = "transparent";
+		return false;
+	};
+	collapseToggle=function(element){
+		if(element.parentNode.collapsed) {
+			element.parentNode.classList.remove("collapsed");
+			element.parentNode.collapsed = 0;
+		} else {
+			element.parentNode.classList.add("collapsed");
+			element.parentNode.collapsed = 1;
+		}
+		return false;
+	};
+
+	jQuery(document).ready(function() {
+		jQuery('.tabs ul li:first-child').addClass('active');
+		jQuery('.content > ul li:first-child').addClass('active');
+
+		jQuery('.tabs li').click(function(event){
+			jQuery('.tabs li').removeClass('active');
+			jQuery(event.target).addClass('active');
+			jQuery('.tab-content').removeClass('active');
+			jQuery('#' + event.target.id + '_content').addClass('active');
+		});
+	});
+
+</script>
+
+</body>
+</html>

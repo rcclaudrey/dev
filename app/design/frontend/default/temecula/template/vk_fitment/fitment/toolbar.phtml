@@ -1,0 +1,27 @@
+<?php
+
+$sortingOptions = static::getSortingOptions();
+$currentSort = $this->getCurrentSort();
+$viewModes = static::getViewModes();
+$currentViewMode = static::getViewMode();
+
+?>
+<div class="fitment-toolbar">
+	<div class="fitment-toolbar-mode-container">
+		<span class="fitment-toolbar-label"><?php echo $this->__('View Mode') ?></span>
+		<ul class="fitment-toolbar-viewmode-switch">
+			<?php foreach($viewModes as $vmCode => $vmName): ?>
+				<li class="<?php if($vmCode == $currentViewMode): ?>fitment-toolbar-viewmode-active<?php endif ?> fitment-toolbar-viewmode-<?php echo $vmCode ?>" mode="<?php echo $vmCode ?>" onclick="fitment.onViewModeChange(this)"><?php echo htmlspecialchars($vmName) ?></li>
+			<?php endforeach ?>
+		</ul>
+	</div>
+
+	<div class="fitment-toolbar-sort-container">
+		<label for="fitment-toolbar-sort-selector"><?php echo $this->__('Sort by') ?></label>
+		<select id="fitment-toolbar-sort-selector" onchange="fitment.onSortModeChange(this)">
+			<?php foreach($sortingOptions as $soKey => $option): ?>
+			<option value="<?php echo $soKey ?>" title="<?php echo $this->__($option['title']) ?>" <?php if($currentSort == $soKey): ?>selected="selected"<?php endif ?>><?php echo $this->__($option['label']) ?></option>
+			<?php endforeach ?>
+		</select>
+	</div>
+</div>

@@ -1,0 +1,78 @@
+<?php
+
+$fields = $this->getFields();
+
+?>
+<div class="wsap-fieldset">
+	<ul class="wsap-fields">
+		<li>
+			<label class="wsap-label-wide wsap-label" for=""><?php echo $this->__('Company Address and Parts Representative') ?></label>
+			<div class="wsap-field-combo wsap-field">
+				<div class="wsap-radioitemcontainer">
+					<input type="radio" id="wsap-address-enter" name="address_source" value="enter" onclick="dealerApplicationForm.toggleBlock(this)" groupSelector="wsap-address-source" />
+					<label for="wsap-address-enter"><?php echo $this->__('Add new address') ?></label>
+				</div>
+				<div class="wsap-radioitemcontainer">
+					<input type="radio" id="wsap-address-exists" name="address_source" value="exists" onclick="dealerApplicationForm.toggleBlock(this)" groupSelector="wsap-address-source" />
+					<label for="wsap-address-exists"><?php echo $this->__('Select existing address') ?></label>
+				</div>
+				<div id="wsap-address-source-enter-content" class="wsap-address-source wsap-toggle">
+					<?php echo $this->getLayout()->createBlock('wholesale/application_address_edit')->toHtml() ?>
+				</div>
+				<div id="wsap-address-source-exists-content" class="wsap-address-source wsap-toggle">
+					<select name="address_id" class="wsap-required-cond" onchange="dealerApplicationForm.onAddressSelectChanged(this)">
+						<option value="" selected="selected"><?php echo $this->__('-- Please select your company address --') ?></option>
+						<?php foreach($this->getCustomerAddresses() as $addressId => $addressText): ?>
+							<option value="<?php echo (int)$addressId ?>"><?php echo htmlspecialchars($addressText) ?></option>
+						<?php endforeach ?>
+					</select>
+					<div class="wsap-address-view-container"></div>
+				</div>
+			</div>
+		</li>
+		<li>
+			<label class="wsap-label-wide wsap-label" for=""><?php echo $this->__('How long have you been in business?') ?></label>
+			<div class="wsap-field">
+				<input type="text" class="wsap-required" name="business_experience_term" value="<?php echo htmlspecialchars($fields['business_experience_term']) ?>" />
+			</div>
+		</li>
+		<li>
+			<label class="wsap-label-wide wsap-label" for=""><?php echo $this->__('Please estimate your dollar amount spent for parts in the prior 12 months:') ?></label>
+			<div class="wsap-field">
+				<input type="text" class="wsap-required" name="amount_spent_for_parts" value="<?php echo htmlspecialchars($fields['amount_spent_for_parts']) ?>" />
+			</div>
+		</li>
+		<li>
+			<label class="wsap-label-wide wsap-label" for=""><?php echo $this->__('What brands of motorcycles, ATVs, scooters or watercraft do you service or supply parts for? ') ?></label>
+			<div class="wsap-field">
+				<input type="text" class="wsap-required" name="brands_serviced" value="<?php echo htmlspecialchars($fields['brands_serviced']) ?>" />
+			</div>
+		</li>
+		<li>
+			<label class="wsap-label-wide wsap-label" for=""><?php echo $this->__('If you are switching from a current wholesale provider, please provide the reason so we may serve you better: ') ?></label>
+			<div class="wsap-field">
+				<textarea name="switch_reason"><?php echo htmlspecialchars($fields['switch_reason']) ?></textarea>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<div class="wsap-button-container">
+	<button type="submit" class="wsap-submit wsap-button" onclick="dealerApplicationForm.sendApplication()"><?php echo $this->__('Submit Application') ?></button>
+</div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	dealerApplicationForm = new DealerApplicationForm();
+	dealerApplicationForm.init({
+		sendApplicationURL: '<?php echo $this->getUrl('wholesale/application/postApplication') ?>'.replace('http:', location.protocol),
+		addressViewURL: '<?php echo $this->getUrl('wholesale/application/addressView', array('id' => '%address_id%')) ?>'.replace('http:', location.protocol),
+		messages: {
+			fieldsValidationNotPopulated: '<?php echo $this->__('Please populate the required field(s)') ?>',
+			common: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+		}
+	});
+});
+
+</script>

@@ -1,0 +1,218 @@
+<?php
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ */
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+
+$_configSimpleProduct = null;
+
+//brands of configurable products was not imported to the database
+//get the first simple product to get the brand
+if ($_product->getTypeId() == "configurable"):
+    $childIds = Mage::getModel('catalog/product_type_configurable')->getChildrenIds($_product->getId());
+    $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $_product);
+
+    foreach ($childProducts as $childProduct) {
+        $_configSimpleProduct = $childProduct;
+        break;
+    }
+endif;
+
+$fitmentHtml = Mage::helper('core')->isModuleEnabled('Vikont_Fitment') ? $this->getLayout()
+                ->createBlock('fitment/catalog_product_selector')
+                ->setProduct($_product)
+//				->setTemplate('vk_fitment/catalog/product/loader.phtml') // this is for calling the block by AJAX
+                ->toHtml() : '';
+?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential">
+        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="no-display">
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+                <input type="hidden" name="related_product" id="related-products-field" value="" />
+            </div>
+
+            <div class="product-shop">
+                <?php $imageName = null; ?>
+                <?php if ($_product->getTypeId() == "configurable" && !is_null($_configSimpleProduct)): ?>
+                    <?php $imageName = str_replace(' ', '-', strtolower($_configSimpleProduct->getAttributeText('ari_brands'))) . ".jpg"; ?>
+                <?php else: ?>
+                    <?php $imageName = str_replace(' ', '-', strtolower($_product->getAttributeText('ari_brands'))) . ".jpg"; ?>
+                <?php endif; ?>
+                <?php $_filename = Mage::getBaseDir() . "/media/catalog/product/brands/{$imageName}"; ?>
+                <?php $_fname = Mage::getBaseDir() . "/media/catalog/product/brands/150x50/{$imageName}"; ?>
+                <?php $filename = Mage::getBaseUrl('media') . "catalog/product/brands/150x50/{$imageName}"; ?>
+
+                <?php
+                $largeImage = $_filename;
+                $resizedImage = $_fname;
+
+                if (!file_exists($resizedImage) && file_exists($largeImage)) :
+                    $imageObj = new Varien_Image($largeImage);
+                    $imageObj->constrainOnly(TRUE);
+                    $imageObj->keepAspectRatio(TRUE);
+                    $imageObj->keepFrame(FALSE);
+//                    $imageObj->backgroundColor(array(255,255,255));
+                    $imageObj->resize(150, 50);
+                    $imageObj->save($resizedImage);
+                endif;
+                ?>
+
+                <?php if (file_exists($_filename)): ?>
+                    <div class="product-brand">
+                        <img src="<?php echo $filename; ?>" alt="<?php echo $_product->getAttributeText('ari_brands'); ?>" />
+                    </div>
+                <?php else: ?>
+                    <div class="product-brand">
+                        <?php echo $_product->getAttributeText('ari_brands'); ?>
+                    </div>
+                <?php endif; ?>
+                <div class="product-name">
+                    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                </div>
+                <div class="review_view">
+                    <?php echo $this->getReviewsSummaryHtml($_product, false, true) ?>                    
+                </div>
+                <div class="promo-wrapper">
+                    <?php
+                    $rules = Mage::getModel('catalogrule/rule');
+//                    $rule->setWebsiteIds("1");
+                    
+                     $catalogrules = Mage::getModel('catalogrule/rule')->getCollection();
+                     
+                     foreach($catalogrules as $catalogrule){
+                         echo $catalogrule->getName();
+                     }
+                    
+                    
+                    ?>
+                    <span class="promo-free-shipping">*Free Shipping</span>&nbsp;
+                    <span class="promo-rule-text">on orders over</span>&nbsp;
+                    <span class="promo-rule-price">$89!</span>
+                    <span class="promo-icon"></span>
+                </div>
+                <script type="text/javascript">
+                    //<![CDATA[
+//                    jQuery('.product-shop .price-box').append('<div style="position:absolute; top:-4px; left:0px"><img src="<?php echo $this->getSkinUrl('images/catalog/sale.png'); ?>" alt=""/></div>').addClass('withtag');
+//                    jQuery('.product-shop .price-label').text('MSRP');
+
+                    //]]
+                </script>
+
+                <?php echo $fitmentHtml ?>
+
+                <?php echo $this->getChildHtml('product_type_data'); ?>
+
+                <?php if (!$this->hasOptions()): ?>
+                    <div class="add-to-box">
+                        <?php if ($_product->isSaleable()): ?>
+                            <?php echo $this->getChildHtml('addtocart') ?>
+                        <?php else: ?>
+                            <?php echo $this->getChildHtml('addto') ?>
+                        <?php endif; ?>
+                        <?php /* <p class="share"><img src="<?php echo $this->getSkinUrl('images/buttons/share.gif'); ?>" alt=""/></p> */ ?>
+                    </div>
+                    <?php echo $this->getChildHtml('extra_buttons') ?>
+                <?php elseif (!$_product->isSaleable()): ?>
+                    <div class="add-to-box">
+                        <?php // echo $this->getChildHtml('addto')  ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php echo $this->getChildHtml('other'); ?>
+
+                <?php //$_product->isSaleable() &&  ?>
+                <?php if ($this->hasOptions()): ?>
+                    <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                <?php endif; ?>
+
+                <?php //$_product->isSaleable() &&  ?>
+                <?php if ($this->hasOptions()): ?>
+                    <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+                <?php endif; ?>
+            </div>
+            <div class="product-img product-img-box">
+                <?php echo $this->getChildHtml('media') ?>
+            </div>
+
+            <div class="clearer"></div>
+        </form>
+
+        <script type="text/javascript">
+            //<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function (button, url) {
+
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+
+                    if (url) {
+                        form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+
+            productAddToCartForm.submitLight = function (button, url) {
+                if (this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+            //]]>
+        </script>
+    </div>
+
+    <div class="product-collateral">
+        <?php
+        if ($tabsBlock = $this->getChild('info_tabs')) {
+            if ($sizingChartPath = $_product->getSizingChartPath()) {
+                $template = 'catalog/product/view/tabs/sizing_charts/' . trim($sizingChartPath, '/') . '.phtml';
+                $tabsBlock->addTab('sizing_charts', $this->__('Sizing Charts'), 'core/template', $template);
+            }
+        }
+        echo $this->getChildHtml('info_tabs');
+        ?>
+        <?php echo $this->getChildHtml('upsell_products') ?>
+        <div class="crystal"></div>
+        <?php echo $this->getChildHtml('product_recently_viewed') ?>
+    </div>
+
+</div>

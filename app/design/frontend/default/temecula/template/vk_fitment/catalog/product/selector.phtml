@@ -1,0 +1,89 @@
+<?php
+
+$tmsActivityId = $this->getTMSActivityId();
+$ride = $this->getCurrentRide();
+//$ariProductId = (int)$this->getProduct()->getAriProductId();
+$ariProductSku = $this->getProduct()->getAriProductSku();
+$fits = $this->getFits();
+
+?>
+<div class="fitment-productdetails fitment-selector">
+
+	<div class="fitment-selected">
+		<p class="fitment-selected-note"><?php echo $this->__('Does this product fit your vehicle? Check that easily!') ?></p>
+		<div class="<?php echo $fits ? 'fitment-compatible-yes' : '' ?> fitment-notice">
+			<div class="fitment-compatible"><?php echo $this->__('The product fits this vehicle:') ?></div>
+			<div class="fitment-incompatible"><?php echo $this->__('The product doesn\'t fit this vehicle. Sorry about that. Try searching for other product, or select other vehicle.') ?></div>
+		</div>
+		<div class="<?php echo $ride['id'] ? '' : 'fitment-hidden' ?> fitment-selected-ridename-container">
+			<span id="fitment-ride-name"><?php echo Mage::helper('fitment')->formatRideName($ride) ?></span>
+		</div>
+		<p class="fitment-change">
+			<button type="button" class="<?php echo $ride['id'] ? '' : 'fitment-hidden' ?> fitment-selector-reset" onclick="rideSelector.resetRide({target:this})"><?php echo $this->__('Reset vehicle') ?></button>
+			<button type="button" class="fitment-selector-change" onclick="rideSelector.changeRide({target:this})"><?php echo $this->__('Choose your vehicle') ?></button>
+		</p>
+	</div>
+
+	<div class="fitment-selectors">
+		<span><?php echo $this->__('Select your ride:') ?></span>
+		<div class="fitment-notice"><?php echo $this->__('If your ride is not within this list, then current product doesn\'t fit it. Try searching for other products.') ?></div>
+		<ul>
+			<li class="make">
+				<label for="fitment-make"><?php echo $this->__('Select Make') ?></label>
+				<select id="fitment-make" name="fitment-make">
+					<option value=""><?php echo $this->__('-- Select Make --') ?></option>
+				</select>
+			</li>
+
+			<li class="year">
+				<label for="fitment-year"><?php echo $this->__('Select Year') ?></label>
+				<select id="fitment-year" name="fitment-year">
+					<option><?php echo $this->__('-- Select year --') ?></option>
+				</select>
+			</li>
+
+			<li class="model">
+				<label for="fitment-model"><?php echo $this->__('Select Model') ?></label>
+				<select id="fitment-model" name="fitment-model">
+					<option><?php echo $this->__('-- Select model --') ?></option>
+				</select>
+			</li>
+		</ul>
+		<p>
+			<button class="fitment-selectors-select" type="button" onclick="rideSelector.keepRide({target:this})"><?php echo $this->__('Select') ?></button>
+			<button class="fitment-selectors-close" type="button" onclick="rideSelector.restoreRide({target:this})"><?php echo $this->__('Close') ?></button>
+		</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+// catalog/product/selector.phtml
+
+jQuery(document).ready(function() {
+	rideSelector = new RideSelector();
+	rideSelector.init({
+		baseURL: '<?php echo rtrim($this->getUrl('fitment/index/fitment'), '/') ?>'.replace(/\/+$/gm, ''),
+		activity: <?php echo (int) $tmsActivityId ?>,
+//		product: <?php echo $ariProductId ?>,
+		sku: <?php echo $ariProductSku ?>,
+		emptyText: {
+			makeSelect: '<?php echo $this->__('-- Select make --') ?>',
+			yearSelect: '<?php echo $this->__('-- Select year --') ?>',
+			modelSelect: '<?php echo $this->__('-- Select model --') ?>',
+			rideName: '<?php echo $this->__('Not selected') ?>'
+		},
+		<?php if($ride['id']): ?>
+			fitment: {
+				id: <?php echo (int)$ride['id'] ?>,
+				name: '<?php echo htmlspecialchars($ride['name']) ?>'
+			},
+		<?php endif ?>
+		errorMessage: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+	});
+});
+
+
+</script>
+

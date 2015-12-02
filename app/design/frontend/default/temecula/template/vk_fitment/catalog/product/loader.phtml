@@ -1,0 +1,38 @@
+<?php
+
+$tmsProductId = $this->getProductId();
+$urlParams = Mage::app()->getRequest()->getParams();
+$urlParams['product'] = $tmsProductId;
+$initUrl = $this->getUrl('fitment/index/initBlock', $urlParams);
+
+?>
+<div class="fitment-productdetails-selector-container"></div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	if(window.hasOwnProperty('loader')) {
+		window.loader.show('.fitment-productdetails-selector-container');
+	}
+	jQuery.ajax({
+		url: '<?php echo $initUrl ?>'.replace('http:', document.location.protocol),
+		dataType: 'json',
+		cache: false,
+		success: function(response) {
+			if(response.errorMessage) {
+				alert(response.errorMessage);
+				return;
+			}
+			jQuery('.fitment-productdetails-selector-container').html(response.html);
+			window.rideSelector = new RideSelector();
+			window.rideSelector.init(response.config);
+		},
+		complete: function() {
+			if(window.hasOwnProperty('loader')) {
+				window.loader.hide('.fitment-productdetails-selector-container');
+			}
+		}
+	});
+});
+
+</script>

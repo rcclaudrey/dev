@@ -1,0 +1,74 @@
+<?php
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'yamaha'; // folder name
+$default = false;
+?>
+
+<div class="fox-gloves">
+  <h1>Yamaha Glove Sizing Chart</h1>
+  <div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Yamaha" /></div>
+  <div style="text-align:center;"> <img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/glove_size.png' ?>" alt="Glove Sizes" /> </div>
+  <h1>Size Measurement</h1>
+  <p>Measure from the bottom of your palm (where it meets your wrist) to the top of your middle finger</p>
+  <div class='fox-gloves-table-header'>Offroad Glove Sizing Chart</div>
+  <table class="sizing_chart">
+    <tr class="title1">
+		<td class="title2">Mens</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td> 
+		<td></td>
+    </tr>
+    <tr>
+		<td class="title3">SIZE</td>
+		<td>XS</td>
+		<td>S</td>
+		<td>M</td>
+		<td>L</td>
+		<td>XL</td>
+		<td>2XL</td>
+    </tr> 
+	<tr>
+		<td class="title3">Inches</td>
+		<td>5-5 1/2</td>
+		<td>6-6 1/2</td>
+		<td>7- 7 1/2</td>
+		<td>8-8 1/2</td>
+		<td>9-9 1/2</td>
+		<td>10-10 1/2</td>
+    </tr>    
+  </table>
+  
+  
+  <table class="sizing_chart">
+    <tr class="title1">
+		<td class="title2">Womens</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+    </tr>
+    <tr>
+		<td class="title3">SIZE</td>
+		<td>S</td>
+		<td>M</td>
+		<td>L</td>
+		<td>S/M</td>
+		<td>M/L</td>
+    </tr>
+	<tr>
+		<td class="title3">Inches</td>
+		<td>5 1/2-6</td>
+		<td>6-6 1/2</td>
+		<td>7-7 1/2</td>
+		<td>5 1/2-6 1/2</td>
+		<td>6-7 1/2</td>
+    </tr>
+  </table>
+ 
+  <p>** Sizing information is provided by the manufacturer and does not guarantee a perfect fit. Please use this chart as a guide only.</p>
+</div>

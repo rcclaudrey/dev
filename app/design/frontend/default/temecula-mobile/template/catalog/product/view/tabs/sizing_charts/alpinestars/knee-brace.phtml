@@ -1,0 +1,59 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'alpinestars'; // folder name
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>Alpinestars Knee Brace Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Alpinestars" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/knee-brace.jpg' ?>" alt="Knee Brace Sizes" />
+	</div>
+
+	<div class='fox-gloves-table-header'>Knee Brace Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td>Size</td>
+			<td>Calf</td>
+			<td>Inches</td>
+			<td>Thigh</td>
+			<td>Inches</td>
+		</tr>
+		<tr>
+			<td>S</td>
+			<td>23 - 30 CM</td>
+			<td>9 - 12"</td>
+			<td>38 - 46 CM</td>
+			<td>15 - 18"</td>
+		</tr>
+		<tr>
+			<td>M</td>
+			<td>30 - 36 CM</td>
+			<td>12 - 14"</td>
+			<td>46 - 51 CM</td>
+			<td>18 - 20"</td>
+		</tr>
+		<tr>
+			<td>L</td>
+			<td>36 - 41 CM</td>
+			<td>14 - 16"</td>
+			<td>51 - 58 CM</td>
+			<td>20 - 23"</td>
+		</tr>
+		<tr>
+			<td>XL</td>
+			<td>41 - 46 CM</td>
+			<td>16 - 18"</td>
+			<td>58 - 66 CM</td>
+			<td>23 - 26"</td>
+		</tr>
+	</table>	
+	
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit. Please use this chart as a guide only.</p>
+
+</div>

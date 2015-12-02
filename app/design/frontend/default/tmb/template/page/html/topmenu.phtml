@@ -1,0 +1,36 @@
+<?php
+/**
+ * Top menu for store
+ *
+ * @see Mage_Page_Block_Html_Topmenu
+ */
+?>
+<?php
+	$menu = $this->getHtml('level-top');
+	$menu = str_replace('category-node-', 'cn', $menu);
+	$menu = str_replace(rtrim($this->getUrl(), '/'), '', $menu);
+	$menu = str_replace('<span>', '', $menu);
+	$menu = str_replace('</span>', '', $menu);
+	$menu = str_replace(' >', '>', $menu);
+	$menu = str_replace("\n", '', $menu);
+?>
+<?php if ($menu): ?>
+    <div class="nav-container mobile-nav">
+
+        <ul id="mobile-nav">
+            <?php echo $menu ?>
+        </ul>
+
+        <div class="mobile-featured-brands-wrap">
+            <div class="featured-brand-lbl">Featured Brands</div>
+            <div class="featured-brand-banner"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dropdown-banner')->toHtml(); ?></div>
+            <div class="featured-brand-list-wrap">
+                <ul class="featured-brand-list">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('featured-brands-dropdown')->toHtml(); ?>
+                </ul>
+            </div>
+        </div>
+
+        <div class="clearer">&nbsp;</div>
+    </div>
+<?php endif ?>

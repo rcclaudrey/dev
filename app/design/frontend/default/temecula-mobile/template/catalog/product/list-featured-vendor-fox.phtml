@@ -1,0 +1,160 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$this->setData('column_count', 4);
+?>
+<?php if (!$_productCollection->count()): ?>
+    <?php /* <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p> */ ?>
+<?php else: ?>
+    <h2 class="hdr-under">Featured Products</h2>
+    <?php /* ACTUAL CODE?>
+      <div class="vendor-grid">
+      <?php //echo $this->getToolbarHtml() ?>
+      <?php $_collectionSize = $_productCollection->count() ?>
+      <?php $_columnCount = 4; ?>
+      <?php $i=0; foreach ($_productCollection as $_product): ?>
+      <?php if ($i++%$_columnCount==0): ?>
+      <ul>
+      <?php endif ?>
+      <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+      <?php //tags here ?>
+      <div style="position:absolute; top:3px; left:1px"><img src="<?php echo $this->getSkinUrl('images/catalog/new.png');?>" alt=""/></div>
+
+      <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(200); ?>" width="200" height="200" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+      <div class="inwrap">
+      <div class="rateme">
+      <?php //echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+
+      <div class="crystal"></div>
+      </div>
+      <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+      <?php if($_product->getRatingSummary()): ?>
+
+      <?php endif; ?>
+      <div class="short-des"><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></div>
+      <div class="play"><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/buttons/button-vendor-shop-now.gif');?>" alt=""/></a></div>
+      <?php //echo $this->getPriceHtml($_product, true) ?>
+      </div>
+      </li>
+      <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+      </ul>
+      <?php endif ?>
+
+      <?php if ($i == 4){break;} endforeach ?>
+      <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+      </div>
+      <?php */ ?>
+
+
+    <?php // placeholder?>
+    <div class="vendor-grid">
+        <ul>
+            <li class="item first">
+
+
+
+                <a class="product-image" title="Nokia 2610 Phone" href="featured/nokia-2610-phone.html"><img src="<?php echo $this->getSkinUrl('images/vendor/place1.jpg'); ?>" /></a>		
+                <div class="inwrap">
+                    <div class="rateme">
+
+                        <div class="crystal"></div>
+                    </div>
+                    <h2 class="product-name"><a title="Nokia 2610 Phone" href="featured/nokia-2610-phone.html">Fox Racing Airframe 
+                            Roost Deflector</a></h2>
+
+                    <div class="short-des">The shock-resistant, Lexan polycarbonate front and rear panels of the new Fox Airframe Roost Deflector offer full coverage and durability for the best protection during hard rides.</div>
+                    <div class="play"><a href="featured/nokia-2610-phone.html"><img alt="" src="<?php echo $this->getSkinUrl('images/buttons/button-vendor-shop-now.gif'); ?>"></a></div>
+                </div>
+            </li>
+
+            <li class="item">
+
+
+
+                <a class="product-image" title="Apevia Black X-Cruiser Case ATX Mid-Tower Case (Default)" href="featured/apevia-black-x-cruiser-case-atx-mid-tower-case.html"><img src="<?php echo $this->getSkinUrl('images/vendor/place2.jpg'); ?>" /></a>		
+                <div class="inwrap">
+                    <div class="rateme">
+
+                        <div class="crystal"></div>
+                    </div>
+                    <h2 class="product-name"><a title="Apevia Black X-Cruiser Case ATX Mid-Tower Case (Default)" href="featured/apevia-black-x-cruiser-case-atx-mid-tower-case.html">Fox Racing Comp 5 Boots 
+                            2014</a></h2>
+                    <div class="short-des">The Fox Racing Comp 5 Motocross Boot sets the standard for value and performance. The Fox Racing Comp 5 Motocross Boots feature great. </div>
+                    <div class="play"><a href="featured/apevia-black-x-cruiser-case-atx-mid-tower-case.html"><img alt="" src="<?php echo $this->getSkinUrl('images/buttons/button-vendor-shop-now.gif'); ?>"></a></div>
+                </div>
+            </li>
+
+            <li class="item">
+
+
+
+                <a class="product-image" title="Universal Camera Charger" href="featured/universal-camera-charger.html"><img src="<?php echo $this->getSkinUrl('images/vendor/place3.jpg'); ?>" /></a>		
+                <div class="inwrap">
+                    <div class="rateme">
+
+                        <div class="crystal"></div>
+                    </div>
+                    <h2 class="product-name"><a title="Universal Camera Charger" href="featured/universal-camera-charger.html">Fox Racing HC Radeon 
+                            Jersey</a></h2>
+                    <div class="short-des">Fox Racing produces a lot of high quality race gear, and every year they seem to outdo themselves with their newest and latest innovations. Their Giant line of race clothing.</div>
+                    <div class="play"><a href="featured/universal-camera-charger.html"><img alt="" src="<?php echo $this->getSkinUrl('images/buttons/button-vendor-shop-now.gif' ); ?>"></a></div>
+                </div>
+            </li>
+
+            <li class="item last">
+
+
+
+                <a class="product-image" title="Universal Camera Case" href="featured/universal-camera-case.html"><img src="<?php echo $this->getSkinUrl('images/vendor/place4.jpg'); ?>" /></a>		
+                <div class="inwrap">
+                    <div class="rateme">
+
+                        <div class="crystal"></div>
+                    </div>
+                    <h2 class="product-name"><a title="Universal Camera Case" href="featured/universal-camera-case.html">The Fox Director Eyewear</a></h2>
+                    <div class="short-des">The Fox Director Eyewear is 
+                        unmatched in quality and style. 
+                        World leading optics by Carl Zeiss Vision lens technology and premium quality frame materials.</div>
+                    <div class="play"><a href="featured/universal-camera-case.html"><img alt="" src="<?php echo $this->getSkinUrl('images/buttons/button-vendor-shop-now.gif'); ?>"></a></div>
+                </div>
+            </li>
+        </ul>
+
+        <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
+    </div>
+
+<?php endif; ?>
+

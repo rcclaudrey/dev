@@ -1,0 +1,114 @@
+<?php
+
+$tmsActivityId = $this->getTMSActivityId();
+$ride = Mage::helper('fitment')->getCurrentRide();
+$ariProductId = (int)$this->getProduct()->getAriProductId();
+
+$noticeClass = '';
+//$noticeClass = $ride['id']
+//	?	(	$this->isRideCompatibleToProduct()
+//			?	'fitment-compatible-yes'
+//			:	'fitment-compatible-no'
+//		)
+//	:	'';
+
+?>
+<div class="fitment-productdetails fitment-selector">
+
+	<div class="fitment-selected">
+		<label><?php echo $this->__('Currently selected:') ?></label>
+		<span id="fitment-ride-name"><?php echo Mage::helper('fitment')->formatRideName($ride) ?></span>
+		<?php if(!$fitmentCompatible): ?>
+			<div class="<?php echo $noticeClass ?> fitment-notice">
+				<div class="fitment-compatible"><?php echo $this->__('The product fits your ride') ?></div>
+				<div class="fitment-incompatible"><?php echo $this->__('The product doesn\'t fit your ride. Sorry about that. Try searching for other product, or select other ride.') ?></div>
+			</div>
+		<?php endif ?>
+		<p class="fitment-change">
+			<button type="button" class="fitment-selector-reset"><?php echo $this->__('Reset') ?></button>
+			<button type="button" class="fitment-selector-change"><?php echo $this->__('Change') ?></button>
+		</p>
+	</div>
+
+	<div class="fitment-selectors">
+		<span><?php echo $this->__('Select your ride:') ?></span>
+		<div class="fitment-notice"><?php echo $this->__('If your ride is not within this list, then current product doesn\'t fit it. Try searching for other products.') ?></div>
+		<ul>
+			<li class="make">
+				<label for="fitment-make"><?php echo $this->__('Select Make') ?></label>
+				<select id="fitment-make" name="fitment-make">
+					<option value=""><?php echo $this->__('-- Select Make --') ?></option>
+				</select>
+			</li>
+
+			<li class="year">
+				<label for="fitment-year"><?php echo $this->__('Select Year') ?></label>
+				<select id="fitment-year" name="fitment-year">
+					<option><?php echo $this->__('-- Select year --') ?></option>
+				</select>
+			</li>
+
+			<li class="model">
+				<label for="fitment-model"><?php echo $this->__('Select Model') ?></label>
+				<select id="fitment-model" name="fitment-model">
+					<option><?php echo $this->__('-- Select model --') ?></option>
+				</select>
+			</li>
+		</ul>
+		<p>
+			<button class="fitment-save" type="button"><?php echo $this->__('Save Selection') ?></button>
+			<button class="fitment-cancel" type="button"><?php echo $this->__('Cancel') ?></button>
+<!--			<button class="fitment-save" type="button" onclick="fitment.rideSelector.saveRide({target:this})"><?php echo $this->__('Save Selection') ?></button>
+			<button class="fitment-cancel" type="button" onclick="fitment.rideSelector.restoreRide({target:this})"><?php echo $this->__('Cancel') ?></button>-->
+		</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	rideSelector = new RideSelector();
+	rideSelector.init({
+		baseURL: '<?php echo rtrim($this->getUrl('fitment/index/fitment'), '/') ?>',
+		activity: <?php echo (int) $tmsActivityId ?>,
+		product: <?php echo $ariProductId ?>,
+		emptyText: {
+			makeSelect: '<?php echo $this->__('-- Select make --') ?>',
+			yearSelect: '<?php echo $this->__('-- Select year --') ?>',
+			modelSelect: '<?php echo $this->__('-- Select model --') ?>',
+			rideName: '<?php echo $this->__('Not selected') ?>'
+		},
+		<?php if($ride['id']): ?>
+			fitment: {
+				id: <?php echo (int)$ride['id'] ?>,
+				make: {
+					id: <?php echo (int)$ride['make']['id'] ?>,
+					name: '<?php echo htmlspecialchars($ride['make']['name']) ?>'
+				},
+				year: <?php echo (int)$ride['year'] ?>,
+				model: {
+					id: <?php echo (int)$ride['model']['id'] ?>,
+					name: '<?php echo htmlspecialchars($ride['model']['name']) ?>'
+				},
+			},
+			saved: {
+				id: <?php echo (int)$ride['id'] ?>,
+				make: {
+					id: <?php echo (int)$ride['make']['id'] ?>,
+					name: '<?php echo htmlspecialchars($ride['make']['name']) ?>'
+				},
+				year: <?php echo (int)$ride['year'] ?>,
+				model: {
+					id: <?php echo (int)$ride['model']['id'] ?>,
+					name: '<?php echo htmlspecialchars($ride['model']['name']) ?>'
+				},
+			},
+		<?php endif ?>
+		errorMessage: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+	});
+});
+
+
+</script>
+

@@ -1,0 +1,66 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'pod';
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>POD Knee Brace Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.png' ?>" alt="POD" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/knee_brace.png' ?>" alt="Knee Brace Sizes" />
+	</div>
+
+	<h1>Knee Brace Size</h1>
+	
+	<h1>Width</h1>
+
+	<p>Measure across the center of the knee</p>
+	
+	<h1>Circumference</h1>
+	
+	<p>Measure the circumference of the knee directly underneath the kneecap using a soft tape measure or string.</p>
+
+	<div class='fox-gloves-table-header'>Knee Brace Sizing Chart</div>
+
+	<table class="sizing_chart">
+		<tr class="title1">
+			<td class="title2">MEN'S</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="title3">SIZE</td>
+			<td>S</td>
+			<td>M</td>
+			<td>L</td>
+			<td>XL</td>
+			<td>2XL</td>
+		</tr>
+		<tr>
+			<td class="title3">KNEE WIDTH</td>					
+			<td>10.2-10.8 cm</td>
+			<td>10.8-11.4 cm</td>
+			<td>11.4-12 cm</td>
+			<td>12-12.7 cm</td>
+			<td>12.7-13.4 cm</td>
+		</tr>
+		<tr>
+			<td class="title3">KNEE CIRCUMFERENCE</td>					
+			<td>32.0-34.0 cm</td>
+			<td>34.0-36.0 cm</td>
+			<td>36.0-38.0 cm</td>
+			<td>38.0-40.2 cm</td>
+			<td>40.2-42.0 cm</td>
+		</tr>
+	</table>
+
+	<p>* Disclaimer: Sizing information is provided by the manufacturer and does not guarantee a perfect fit. Please use this chart as a guide only.</p>
+
+</div>

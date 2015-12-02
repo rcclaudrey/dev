@@ -1,0 +1,19 @@
+<?php
+
+$baseMediaUrl = Mage::getBaseUrl('media') . DS . 'sizing_charts' . DS;
+
+$brand = 'alpinestars'; // folder name
+$default = true;
+?>
+<div class="fox-gloves">
+	<h1>Alpinestars Kidney Belt Sizing Chart</h1>
+
+	<div class="brand_logo"><img src="<?php echo $baseMediaUrl . $brand . '/brand_logo.jpg' ?>" alt="Alpinestars" /></div>
+
+	<div style="text-align:center;">
+		<img src="<?php echo $baseMediaUrl . ($default == true ? 'default' : $brand) . '/pants.jpg' ?>" alt=" Kidney Belt Sizes" />
+	</div>
+
+	<h1>OSFA</h1>
+
+</div>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <default translate="label" module="page">
+        <label>All Pages</label>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/catalog.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/mstyle.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/mobile.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/joefy.styles.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/styles-404.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/styles-marion.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/menu.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/cart.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/contact-us.css</stylesheet></action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>css/styles-ie.css</name>
+				<params/>
+				<if>lt IE 8</if>
+			</action>
+			<action method="addItem">
+				<type>js</type>
+				<name>lib/ds-sleight.js</name>
+				<params/>
+				<if>lt IE 7</if>
+			</action>
+			<action method="addItem">
+				<type>skin_js</type>
+				<name>js/ie6.js</name>
+				<params/>
+				<if>lt IE 7</if>
+			</action>
+
+			<action method="addCss"><stylesheet>css/layout.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/header.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/mainmenu.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/search-top.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/home-banner.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/home-featured-products.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/home-featured-brands.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/footer.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/catalog-activity.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/catalog-product-list.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/catalog-product-view.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/checkout.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/customer.css</stylesheet></action>
+
+			<action method="addCss"><stylesheet>css/cms-about.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/cms-privacy.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/cms-shippingpolicy.css</stylesheet></action>
+			<action method="addCss"><stylesheet>css/ajax-add-to-cart.css</stylesheet></action>
+		</reference>
+    </default>
+
+</layout>
