@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ajh_Common>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ajh_Common>
+    </modules>
+</config>

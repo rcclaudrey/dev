@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ajh_Tires>
+            <version>0.0.0</version>
+        </Ajh_Tires>
+    </modules>
+
+    <frontend>
+        <routers>
+            <tires>
+                <!-- should be set to "admin" when overloading admin stuff (?) -->
+                <use>standard</use>
+                <args>
+                    <module>Ajh_Tires</module>
+                    <!-- This is used when "catching" the rewrite above -->
+                    <frontName>tires</frontName>
+                </args>
+            </tires>
+        </routers>
+    </frontend>    
+</config>

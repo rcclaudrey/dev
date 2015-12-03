@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <modules>
+        <Ajh_Vendor>
+            <version>1.0.0.7</version>
+        </Ajh_Vendor>
+    </modules>
+    <global>
+        <resources>
+            <ajh_vendor_setup>
+                <setup>
+                    <module>Ajh_Vendor</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ajh_vendor_setup>
+            <ajh_vendor_setup_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ajh_vendor_setup_write>
+            <ajh_vendor_setup_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ajh_vendor_setup_read>
+        </resources>
+    </global>
+</config>

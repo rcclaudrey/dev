@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Vikont_Data2data>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Vikont_Data2data>
+	</modules>
+</config>

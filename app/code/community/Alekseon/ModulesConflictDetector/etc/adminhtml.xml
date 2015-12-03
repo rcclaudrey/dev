@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Marcin Frymark
+ * @email     contact@alekseon.com
+ * @company   Alekseon
+ * @website   www.alekseon.com
+ */
+-->
+<config>
+    <menu>
+        <system>
+            <children>
+                <alekseon_tools translate="title" module="alekseon_modulesConflictDetector">
+                    <title>Alekseon Tools</title>
+                    <sort_order>89</sort_order>
+                    <children>
+                        <modules_conflict_detector>
+                            <title>Modules Conflict Detector</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/modulesConflictDetector</action>                  
+                        </modules_conflict_detector>
+                    </children>
+                </alekseon_tools>
+            </children>
+        </system>    
+    </menu>
+   <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <alekseon_adminNotification translate="title" module="alekseon_modulesConflictDetector">
+                                        <title>Alekseon Notifications</title>
+                                        <sort_order>10</sort_order>
+                                    </alekseon_adminNotification>
+                                </children>
+                            </config>
+                            <alekseon_tools translate="title" module="alekseon_modulesConflictDetector">
+                                <title>Alekseon Tools</title>
+                                <sort_order>89</sort_order>
+                                <children>
+                                    <modules_conflict_detector>
+                                        <title>Modules Conflict Detector</title>
+                                        <sort_order>10</sort_order>
+                                    </modules_conflict_detector>
+                                </children>
+                            </alekseon_tools>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>    
+</config>

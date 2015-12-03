@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <common module="common">
+            <label>Ajh</label>
+            <sort_order>500</sort_order>
+        </common>
+    </tabs>
+    <sections>
+        <common_options translate="label" module="common">
+            <tab>common</tab>
+            <label>Base Module</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <common_desc translate="label">
+                    <label>Contact Support</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <expanded>1</expanded>
+                    <comment>
+                        <![CDATA[
+                        <p>Contact us at: <a href="http://www.ajhcreate.com/" target="_blank">www.ajhcreate.com</a></p>
+                        ]]>
+                    </comment>
+                </common_desc>
+            </groups>
+        </common_options>
+    </sections>
+</config>

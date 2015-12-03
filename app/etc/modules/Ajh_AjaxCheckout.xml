@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Ajh_AjaxCheckout>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Checkout />
+            </depends>
+        </Ajh_AjaxCheckout>
+    </modules>
+</config>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <conversionpro_mapping translate="title" module="conversionpro">
+                    <title>Celebros Conversion Pro</title>
+                    <action>conversionpro/adminhtml_mapping</action>
+                </conversionpro_mapping>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <conversionpro>
+                                        <title translate="title">Celebros</title>
+                                    </conversionpro>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <catalog>
+                        <children>
+                            <conversionpro_mapping>
+                                <title translate="title">Conversion Pro Settings</title>
+                            </conversionpro_mapping>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

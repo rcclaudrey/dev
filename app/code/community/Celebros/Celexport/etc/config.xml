@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+ * Celebros Qwiser - Magento Extension
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish correct extension functionality.
+ * If you wish to customize it, please contact Celebros.
+ *
+ * @category    Celebros
+ * @package     Celebros_Celexport
+-->
+<config>
+    <modules>
+        <Celebros_Celexport>
+            <version>1.0.2</version>
+            <build>116</build>
+        </Celebros_Celexport>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Celebros_Celexport before="Mage_Adminhtml">Celebros_Celexport_Adminhtml</Celebros_Celexport>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <!--<layout>
+            <updates>
+                <celexport>
+                    <file>celebros/celexport.xml</file>
+                </celexport>
+            </updates>
+        </layout>-->
+    </adminhtml>
+    <global>
+        <models>
+            <celexport>
+                <class>Celebros_Celexport_Model</class>
+                <resourceModel>celexport_mysql4</resourceModel>
+            </celexport>
+            <celexport_mysql4>
+                <class>Celebros_Celexport_Model_Mysql4</class>
+                <entities>
+                    <cache>
+                        <table>celebros_cache</table>
+                    </cache>
+                    <mapping>
+                        <table>celebros_mapping</table>
+                    </mapping>
+                </entities>
+            </celexport_mysql4>
+        </models>
+        <resources>
+            <celexport_setup>
+                <setup>
+                    <module>Celebros_Celexport</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </celexport_setup>
+            <celexport_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </celexport_write>
+            <celexport_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </celexport_read>
+        </resources>
+        <blocks>
+            <celexport>
+                <class>Celebros_Celexport_Block</class>
+            </celexport>
+        </blocks>
+        <helpers>
+            <celexport>
+                <class>Celebros_Celexport_Helper</class>
+            </celexport>
+        </helpers>
+    </global>
+    <default>
+        <celexport>
+            <export_settings>
+                <export_enabled>0</export_enabled>
+                <export_data_history>0</export_data_history>
+                <zipname>products.zip</zipname>
+                <datahistoryname>Data_History.zip</datahistoryname>
+                <delimiter>\t</delimiter>
+                <enclosed_values>"</enclosed_values>
+                <type>file</type>
+                <export_lifetime>10</export_lifetime>
+                <path>/var/celebros/export</path>
+                <global_export>0</global_export>
+                <extra_tables></extra_tables>
+                <rootcat_products_export>0</rootcat_products_export>
+            </export_settings>
+            <advanced>
+                <single_process>0</single_process>
+                <export_chunk_size>1000</export_chunk_size>
+                <export_process_limit>3</export_process_limit>
+                <memory_limit>1024</memory_limit>
+                <enable_log>1</enable_log>
+            </advanced>
+        </celexport>
+    </default>
+    <crontab>
+        <jobs>
+            <celexport_export>
+                <schedule>
+                    <config_path>celexport/export_settings/cron_expr</config_path>
+                </schedule>
+                <run>
+                    <model>celexport/exporter::catalogUpdate</model>
+                </run>
+            </celexport_export>
+        </jobs>
+    </crontab>
+</config>

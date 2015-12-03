@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Ajh_Tires>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog />
+            </depends>
+        </Ajh_Tires>
+    </modules>
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Marcin Frymark
+ * @email     contact@alekseon.com
+ * @company   Alekseon
+ * @website   www.alekseon.com
+ */
+-->
+<config>
+    <modules>
+        <Alekseon_ModulesConflictDetector>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Alekseon_ModulesConflictDetector>
+    </modules>
+</config>

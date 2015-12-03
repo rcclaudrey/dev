@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+ * Celebros Qwiser - Magento Extension
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish correct extension functionality.
+ * If you wish to customize it, please contact Celebros.
+ *
+ * @category    Celebros
+ * @package     Celebros_Celexport
+-->
+<config>
+    <menu>
+        <system>
+            <children>
+                <convert>
+                    <children>
+                        <celexport_export translate="title" module="celexport">
+                            <title>Celebros Export</title>
+                            <sort_order>100</sort_order>
+                            <children>
+                                <celexport_manual translate="title" module="celexport">
+                                    <title>Start Manual Export</title>
+                                    <action>adminhtml/celexport_export/export_celebros/webadmin/1</action>
+                                    <sort_order>10</sort_order>
+                                </celexport_manual>    
+                                <celexport_cron translate="title" module="celexport">
+                                    <title>Schedule Cron Export</title>
+                                    <action>adminhtml/celexport_export/schedule_export</action>
+                                    <sort_order>20</sort_order>
+                                </celexport_cron>
+                            </children>
+                        </celexport_export>
+                    </children>
+                </convert>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <celexport>
+                                        <title translate="title">Celebros Export Settings</title>
+                                    </celexport>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <system>
+                        <children>
+                            <convert>
+                                <children>
+                                    <celexport_export>
+                                        <title translate="title">Celebros Export Process</title>
+                                        <children>
+                                            <celexport_manual>
+                                                <title translate="title" module="celexport">Manual Export</title>
+                                            </celexport_manual>    
+                                            <celexport_cron>
+                                                <title translate="title" module="celexport">Schedule Cron Export</title>
+                                            </celexport_cron>
+                                        </children>
+                                    </celexport_export>
+                                </children>
+                            </convert>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Marcin Frymark
+ * @email     contact@alekseon.com
+ * @company   Alekseon
+ * @website   www.alekseon.com
+ */
+-->
+<config>
+    <modules>
+        <Alekseon_ModulesConflictDetector>
+            <version>0.1.1</version>
+        </Alekseon_ModulesConflictDetector>
+    </modules>
+    <global>
+        <helpers>
+            <alekseon_modulesConflictDetector>
+                <class>Alekseon_ModulesConflictDetector_Helper</class>
+            </alekseon_modulesConflictDetector>
+        </helpers>
+        <blocks>
+            <alekseon_modulesConflictDetector>
+                <class>Alekseon_ModulesConflictDetector_Block</class>
+            </alekseon_modulesConflictDetector>            
+        </blocks>
+        <models>
+            <alekseon_modulesConflictDetector>
+                <class>Alekseon_ModulesConflictDetector_Model</class>
+            </alekseon_modulesConflictDetector>
+        </models>        
+    </global>
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <alekseon_modulesConflictDetector before="Mage_Adminhtml">Alekseon_ModulesConflictDetector_Adminhtml</alekseon_modulesConflictDetector>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <alekseon_adminNotification>
+                        <class>alekseon_modulesConflictDetector/alekseonAdminNotification_observer</class>
+                        <method>preDispatch</method>
+                    </alekseon_adminNotification>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </adminhtml>
+    <default>
+        <alekseon_adminNotification>
+            <general>
+                <enabled>1</enabled>
+                <frequency>12</frequency>
+            </general>
+        </alekseon_adminNotification>
+    </default>
+</config>

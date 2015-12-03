@@ -1,0 +1,48 @@
+<config>
+    <modules>
+        <Ajh_AjaxCheckout>
+            <version>0.0.0</version>
+        </Ajh_AjaxCheckout>
+    </modules>
+
+    <frontend>
+        <routers>
+            <ajh_ajaxcheckout>
+                <use>standard</use>
+                <args>
+                    <module>Ajh_AjaxCheckout</module>
+                    <frontName>ajaxcheckout</frontName>
+                </args>
+            </ajh_ajaxcheckout>
+        </routers>
+        <layout>
+            <updates>
+                <ajh_ajaxcheckout>
+                    <file>ajh/ajaxcheckout.xml</file>
+                </ajh_ajaxcheckout>
+            </updates>
+        </layout>
+    </frontend>
+
+    <global>
+        <blocks>
+            <ajh_ajaxcheckout>
+                <class>Ajh_AjaxCheckout_Block</class>
+            </ajh_ajaxcheckout>
+        </blocks>
+
+        <helpers>
+            <ajh_ajaxcheckout>
+                <class>Ajh_AjaxCheckout_Helper</class>
+            </ajh_ajaxcheckout>
+        </helpers>
+    </global>
+
+    <default>
+        <ajh_ajaxcheckout>
+            <settings>
+                <enabled>1</enabled>
+            </settings>
+        </ajh_ajaxcheckout>
+    </default>
+</config>
