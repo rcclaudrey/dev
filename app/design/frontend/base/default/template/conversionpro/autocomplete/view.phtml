@@ -1,0 +1,35 @@
+<?php if($this->helper('conversionpro')->isAutoComplete()) {?>
+<script src="//uitemplatev3.celebros.com/uitemplate/Scripts/jquery.1.7.Celebros.min.js" type="text/javascript"></script>
+<script src="//uitemplatev3.celebros.com/uitemplate/Scripts/jquery-ui-1.8.13-Celebros.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo (Mage::app()->getFrontController()->getRequest()->isSecure())?'https':'http' ?>://<?php echo $this->helper('conversionpro')->getACScriptServerAddress()?>/AutoComplete/Scripts/CelebrosAutoCompleteV3c.js"></script>
+
+<script type="text/javascript">
+    CelebrosAutoCompleteV3("<?php echo $this->helper('conversionpro')->getACCustomerName()?>", "search",  onSelect, "<?php echo $this->helper('conversionpro')->getACFrontServerAddress()?>", "<?php echo $this->helper('conversionpro')->getACScriptServerAddress()?>", {acShowType: "regular",btnSearch:"search_button"});
+		 function onSelect(aParameter) { 
+        if ((aParameter["SelectedURL"]!="") &&(aParameter["IsAutoComplete"])) { 
+            var sCmp = (aParameter["SelectedURL"].indexOf("?") == -1) ? "?" : "&";
+            window.location = aParameter["SelectedURL"] + sCmp + "cmp=cel" + "&trigger=ac";
+        } else if (window['UITemplateConfigurationMaster'] != undefined) {
+		
+			var e = jQueryCel.Event("keypress");
+			e.which = 13; e.keyCode = 13;
+			jQueryCel('#search').trigger(e);
+			jQueryCel('#searchSuggestions').hide();
+			return false;
+        } else { 
+            var targetLocation = "<?php echo (Mage::app()->getFrontController()->getRequest()->isSecure())?$this->getUrl('catalogsearch/result', array('_secure' => TRUE)):$this->getUrl('catalogsearch/result', array('_secure' => FALSE)) ?>?<?php echo $this->helper('conversionpro')->getQueryParamName() ?>="+encodeURIComponent(aParameter["SelectedQuery"]);
+            if (aParameter["IsAutoComplete"].toString().toLowerCase() == "true") targetLocation += "&Trigger=ac";
+            window.location = targetLocation;
+        }
+    } 
+		
+    var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search...') ?>');
+</script>
+<?php } else {?>
+	<script type="text/javascript">
+	//<![CDATA[
+		var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search...') ?>');
+		searchForm.initAutocomplete('<?php echo Mage::helper('catalogsearch')->getSuggestUrl() ?>', 'search_autocomplete');
+	//]]>
+	</script>		
+<?php } ?>

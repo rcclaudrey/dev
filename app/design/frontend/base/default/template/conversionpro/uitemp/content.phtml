@@ -1,0 +1,4 @@
+<?php $helper = Mage::helper('conversionpro'); ?>
+<?php if ($helper->isAddScripts()) echo Mage::helper('conversionpro')->getJsScripts(); ?>
+<input id="cuit_form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" type="hidden"/>
+<?php if ($helper->isAddDiv()): ?><div id="celUITDiv"></div><?php endif; ?>

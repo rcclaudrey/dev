@@ -1,0 +1,24 @@
+<?php
+$helper = Mage::helper('arioem');
+
+$categoryName = $helper->getCategoryName();
+
+$brandName = $helper->getCurrentBrandName();
+$brandCode = $helper->brandName2Code($brandName);
+if(!$brandCode) {
+	Mage::log('ERROR: ARI OEM: header.phtml: no brand code found for name='.$brandName);
+	return;
+}
+
+$cmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-header-' . $brandCode)->toHtml();
+
+?>
+
+<div class="arioem-brand-header page-title category-title">
+	<div class="arioem-brand-header-image">
+		<img src="<?php echo $this->getSkinUrl('arioem/logos/logo-'.$brandCode.'.jpg') ?>" />
+	</div>
+	<h1><?php echo $this->__('%s OEM Parts Finder', $categoryName) ?></h1>
+</div>
+
+<div class="arioem-brand-header-text"><?php echo $cmsContent ?></div>

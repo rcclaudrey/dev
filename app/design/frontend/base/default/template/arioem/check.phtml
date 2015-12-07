@@ -1,0 +1,650 @@
+<?php
+
+$tabs = array(
+	'APIEndPoint' => array(
+		'name' => 'API End point',
+		'description' => 'You must call services.arinet.com to get the active API endpoint for you application key. It is
+not required to make this call for each API request, but it is strongly suggested to make it frequently to ensure your application picks up an API endpoint change immediately.',
+		'mandatory_fields' => array(),
+		'optional_fields' => array(),
+	),
+
+	'NodeChildren' => array(
+		'name' => 'Node Children',
+		'description' => <<<'DESCR'
+Returns the organizational data of the catalog.
+URL - /RestAPI/NodeChildren/{brandCode}/{parentId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of parent Node. (Int). Top-level ID is -1.
+Result Data - Object List NodeChildren
+- IsParent is an important field as it notes the end of organizational data and the beginning of Assembly Data. To retrieve Assembly data for nodes where IsParent is False, use the AssemblyInfo call.
+- ID - ID of this result node
+- ParentID - ID of parent node
+- ParentName - Name of parent node
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId'),
+		'optional_fields' => array(),
+	),
+
+	'SearchModelAssemblies' => array(
+		'name' => 'Search Model Assemblies',
+		'description' => <<<'DESCR'
+Returns a list of assemblies that belong to a matching model.
+URL - /RestAPI/SearchModelAssemblies/{brandCode}/{modelId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelId} - Model ID to look up children assemblies.
+Result Data - Object List<NodeChildren>
+- Use Id and ParentId to get assembly information by calling AssemblyInfo.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelId'),
+		'optional_fields' => array(),
+	),
+
+	'ModelAutoComplete' => array(
+		'name' => 'Model Auto Complete',
+		'description' => <<<'DESCR'
+Searches for matching model names by a wildcard match for the purpose of providing search suggestions.
+URL - /RestAPI/ModelAutoComplete/{brandCode}/{modelName}/{numberOfResults}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelName} - Model name search text. (string)
+- {numberOfResults} - Number of matches to return. Optional, defaults to 10. Max value of 25. (int)
+Result Data - Object List <ModelAutoComplete>
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelName'),
+		'optional_fields' => array('numberOfResults'),
+	),
+
+	'SearchModel' => array(
+		'name' => 'Search Model',
+		'description' => <<<'DESCR'
+Searches for all matching models by a wildcard match against a given model name.
+URL - /RestAPI/SearchModel/{brandCode}/{model}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {model} - Model name to match for. (string)
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional, defaults to 50. (int)
+Result Data - Object SearchResult with Results as List <SearchModel>
+- ModelId - Use the model id to retrieve assemblies by calling SearchModelAssemblies.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'model'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartModels' => array(
+		'name' => 'Search Part Models',
+		'description' => <<<'DESCR'
+Returns a list of models that a given part is found in.
+URL - /RestAPI/SearchPartModels/{brandCode}/{sku}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {Sku} - Part sku to find models for.
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional, defaults to 100.
+(int)
+Result Data - Object SearchResult with Results as List<SearchModel>
+- ModelId - Use the model id to retrieve assemblies that the matching part is a part of by calling SearchPartModelAssemblies.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'sku'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'PartAutoComplete' => array(
+		'name' => 'Part Auto Complete',
+		'description' => <<<'DESCR'
+Searches for matching part sku by a wildcard match for the purpose of providing search suggestions.
+URL - /RestAPI/PartAutoComplete/{brandCode}/{partSku}/{numberOfResults}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {partSku} - Part name search text. (string)
+- {numberOfResults} - Number of matches to return. Optional, defaults to 10. Max value of 25. (int)
+Result Data - Object List <PartAutoComplete>
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'partSku'),
+		'optional_fields' => array('numberOfResults'),
+	),
+
+	'SearchParts' => array(
+		'name' => 'Search Parts',
+		'description' => <<<'DESCR'
+Searches for all matching parts by a wildcard match against a part sku or description.
+URL - /RestAPI/SearchParts/{brandCode}/{search}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {search} - Text to search for. (string)
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional defaults to 50. (int)
+Result Data - Object SearchResult with Results as List SearchPart
+- HasModels - If true, call SearchPartModels to get the models that contain a matching part.
+- IsSuperseded - If true, call PartInfo to get newer part information.
+- NLA - Stands for No Longer Available.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'search'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartsWithinModel' => array(
+		'name' => 'Search Parts Within Models',
+		'description' => <<<'DESCR'
+Searches for all the matching parts by a wildcard match against a part sku or description that also belong to matching models also found by a wildcard match.
+URL - /RestAPI/SearchPartsWithinModel/{brandCode}/{modelSearch}/{partSearch}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelSearch} - Text to search for matching models. (string)
+- {partSearch} - Text to search for matching parts within matching models. (string)
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional defaults to 50. (int)
+Result Data - Object SearchResult with Results as List SearchPart
+- HasModels - If true, call SearchPartModelsFiltered to get the models that contain the matching part and match model search text.
+- IsSuperseded - If true, call PartInfo to get newer part information.
+- NLA - Stands for No Longer Available.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelSearch', 'partSearch'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartModelsFiltered' => array(
+		'name' => 'Search Part Models Filtered',
+		'description' => <<<'DESCR'
+Returns a list of models that a given part is found in that also match the model search text.
+URL - /RestAPI/SearchPartModelsFiltered/{brandCode}/{sku}/{modelName}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {sku} - Part sku to find models for.
+- {modelName} - Model search text to find matching models against.
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional, defaults to 100. (int)
+Result Data - Object SearchResult with Results as List SearchModel
+- ModelId - Use model id to retrieve assemblies that a matching part is a part of by calling SearchPartModelAssemblies.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'sku', 'modelName'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartModelAssemblies' => array(
+		'name' => 'Search Part Model Assemblies',
+		'description' => <<<'DESCR'
+Returns a list of assemblies that belong to a matching model and that contain the matching part.
+URL - /RestAPI/SearchPartModelAssemblies/{brandCode}/{modelId}/{sku}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelId} - Model ID used to find children assemblies.
+- {sku} - Part Sku to filter assemblies to only ones that contain the specified part.
+Result Data - Object List<NodeChildren>
+- Use Id and ParentId to get assembly information by calling AssemblyInfo.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelId', 'sku'),
+		'optional_fields' => array(),
+	),
+
+	'AssemblyInfo' => array(
+		'name' => 'Assembly Info',
+		'description' => <<<'DESCR'
+Returns the image, hotspots, and part list for a given assembly.
+URL - /RestAPI/AssemblyInfo/{brandCode}/{parentId}/{assemblyId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of the parent node of the assembly. (int)
+- {assemblyId} - ID of the assembly. (int)
+Result Data - Object AssemblyInfo
+- AssemblyId - The ID for this assembly
+- Name - The assembly name
+- ParentId - ID for the parent node
+- ParentName - Name for parent node
+- ImageURL - To access an image, you must pass the requesting page URL in the Query String as ariv. To change zoom levels, modify ariz. Valid zoom levels are -1 to 5.
+- HotSpots - List of hotspots and locations, calculated off of the default zoom level of 1.
+- Parts - List of parts associated with this assembly.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId', 'assemblyId'),
+		'optional_fields' => array(),
+	),
+
+	'AssemblyInfoNoHotSpot' => array(
+		'name' => 'Assembly Info No Hotspots',
+		'description' => <<<'DESCR'
+Returns the image and part list for a given assembly. No hotspot data is returned.
+URL - /RestAPI/AssemblyInfoNoHotSpot/{brandCode}/{parentId}/{assemblyId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of the parent node of the assembly. (int)
+- {assemblyId} - ID of the assembly. (int)
+Result Data - Object AssemblyInfo
+- NLA - Stands for No Longer Available.
+- ImageURL - To access the image, you must pass the requesting page URL in the Query String as ariv. To change zoom levels, modify ariz. Valid zoom levels are - 1 to 5.
+- IsSuperseded - If true, the original part data is prefixed by Org.
+- HotSpots - Value is null.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId', 'assemblyId'),
+		'optional_fields' => array(),
+	),
+
+	'AssemblyImage' => array(
+		'name' => 'Assembly Image',
+		'description' => <<<'DESCR'
+Returns the image for a given assembly.
+URL - /RestAPI/AssemblyImage/{brandCode}/{parentId}/{assemblyId}/{width}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of the parent node of the assembly. (int)
+- {assemblyId} - ID of the assembly. (int)
+- {width} - Desired width of the image. (int)
+Result Data - GIF image
+- Content-type: Image/GIF
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId', 'assemblyId', 'width'),
+		'optional_fields' => array(),
+	),
+
+	'hotspots' => array(
+		'name' => 'Hotspots',
+		'description' => <<<'DESCR'
+Returns hotspot data for a given assembly image at specified zoom level.
+URL - /RestAPI/Hotspots/{brandCode}/{assemblyId}/{zoomLevel}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {assemblyId} - Assembly Id for assembly that the hotspots are for.
+- {zoomLevel} - Desired zoom level of image hotspots.
+Result Data - Object List HotSpot
+- Tag - Matches part tag.
+- TopLeft - The top-left point relative to the image dimensions by x y coordinates.
+- BottomRight - The bottom-right point relative to the image dimensions by x y coordinates.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'assemblyId', 'zoomLevel'),
+		'optional_fields' => array(),
+	),
+
+	'partinfo' => array(
+		'name' => 'Part Info',
+		'description' => <<<'DESCR'
+Returns part data for an individual part.
+URL - /RestAPI/PartInfo/{brandCode}/{partId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {partId} - ID for the Part. (int)
+Result Data - Object Part
+- NLA - Stands for No Longer Available.
+- ImageURL - Url for this part's image. May be null. Only available for select catalogs.
+- IsSuperseded - If true, the original part data is prefixed by Org.
+- Description - Part description
+- MSRP - MSRP for this part
+- OrgDescription - If there is a prior part, the prior part's description
+- OrgSKU - If there is a prior part, the prior part's SKU
+- SKU - SKU / part number for this part
+- SortTag - Sort order for this part on its associated assembly
+- Tag - Reference tag for this part
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'partId'),
+		'optional_fields' => array(),
+	),
+
+	'brands' => array(
+		'name' => 'Brand List',
+		'description' => <<<'DESCR'
+Not sure how this can be retrieved, but it seems the brand list is static and predefined, so here're the values:
+BRP		Can-Am (Bombardier)
+HOM		Honda
+HONPE		Honda Power Equipment
+KUS		Kawasaki
+POL		Polaris
+BRP_SEA		Sea-Doo
+SUZ		Suzuki Motor of America, Inc
+VIC		Victory
+YAM		Yamaha
+DESCR
+		,
+		'mandatory_fields' => array(),
+		'optional_fields' => array(),
+		'hint' => true,
+	),
+
+//	'' => array(
+//		'name' => '',
+//		'description' => <<<'DESCR'
+//
+//DESCR
+//		,
+//		'mandatory_fields' => array('brandCode', ''),
+//		'optional_fields' => array(),
+//	),
+
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+);
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>ARI API checker</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	</head>
+<body>
+
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		font-family: Arial,Helvetica,sans-serif;
+		font-size: 14px;
+	}
+	ul, ol {
+		list-style: outside none none;
+	}
+	button {}
+
+	.clearer::after {
+		clear: both;
+		font-size: 0;
+		height: 0;
+		line-height: 0;
+		text-indent: -10000px;
+		content: '.';
+	}
+
+	h1 {
+		margin: 20px 40px;
+		font-size: 20px;
+	}
+	.check-container {
+		margin: 20px;
+		overflow: auto;
+		border: 1px solid #aaa;
+	}
+	.tabs {
+		float: left;
+		width: 300px;
+	}
+	.tabs ul {
+		margin: 20px;
+		padding: 0;
+		border-top: 1px solid #aaa;
+	}
+	.tabs li {
+		padding: 10px;
+		border-bottom: 1px solid #aaa;
+		cursor: pointer;
+	}
+	.tabs li.active {
+		background-color: lightgrey;
+		font-weight: bold;
+	}
+	.content {
+		float: left;
+		width: 700px;
+	}
+	.content > ul {
+		margin: 20px;
+	}
+	.content > ul > li {
+		display: none
+	}
+	.content > ul > li.active {
+		display: block;
+	}
+	.content h2 {
+		border-bottom: 1px solid #aaa;
+		font-size: 16px;
+		margin: 20px 0;
+		padding: 10px 0;
+	}
+	.description {
+		line-height: 22px;
+	}
+	.field-list {
+		margin: 20px 0;
+	}
+	.field-list li {
+		margin: 10px 0;
+	}
+	.mandatory {}
+	.optional {}
+	.field-list label {
+		display: inline-block;
+		min-width: 140px;
+		vertical-align: middle;
+	}
+	.field-list input {
+		width: 250px;
+		padding: 3px 10px;
+	}
+	.content .buttons {
+		margin: 40px 20px 20px;
+		padding: 20px 0;
+		border-top: 1px solid #aaa;
+	}
+	.buttons button {
+		padding: 10px 20px;
+		border: 1px solid darkgrey;
+		background: lightgrey;
+		font-size: 14px;
+		font-weight: bold;
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+	#results,
+	.results {
+		margin: 20px;
+		line-height: 20px;
+		font-size: 20px;
+	}
+	.result {
+		display: none;
+	}
+	.result.active {
+		display: block;
+	}
+	.result > p {
+		margin: 10px 0;
+		font-size: 16px;
+	}
+	.result .tab-name {
+		vertical-align: middle;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.result .no-request-yet {
+		display: block;
+		padding: 20px 0;
+		color: red;
+		text-transform: uppercase;
+	}
+	.arioem-time {
+		margin: 20px 0;
+		font-size: 14px;
+		text-align: left;
+		color: #000;
+	}
+	#please-wait {
+		display: none;
+		margin: 20px;
+		padding: 20px 0;
+		font-size: 20px;
+		line-height: 20px;
+		color: red;
+		text-align: center;
+	}
+	#please-wait.active {
+		display: block;
+	}
+</style>
+
+<h1>ARI API Checker</h1>
+<div class="clearer check-container">
+	<div class="tabs">
+		<ul>
+			<?php foreach($tabs as $tabid => $tab): ?>
+				<li id="<?php echo $tabid ?>"><?php echo htmlspecialchars($tab['name']) ?></li>
+			<?php endforeach ?>
+		</ul>
+	</div>
+	<div class="content">
+		<ul>
+			<?php foreach($tabs as $tabid => $tab): ?>
+				<li id="<?php echo $tabid ?>_content" class="tab-content">
+					<h2>Description</h2>
+					<p class="description"><?php echo nl2br(htmlspecialchars($tab['description'])) ?></p>
+
+					<?php if(!isset($tab['hint'])): ?>
+						<h2>Mandatory fields</h2>
+						<ul class="mandatory field-list">
+							<?php if(count($tab['mandatory_fields'])): ?>
+								<?php foreach($tab['mandatory_fields'] as $fieldName): ?>
+									<li>
+										<label for="<?php echo $tabid.'_'.$fieldName ?>"><?php echo $fieldName ?></label>
+										<input id="<?php echo $tabid.'_'.$fieldName ?>" name="<?php echo $fieldName ?>" value="<?php echo isset($params[$fieldName]) ? htmlspecialchars($params[$fieldName]) : '' ?>"/>
+									</li>
+								<?php endforeach ?>
+							<?php else: ?>
+								<li>This request does not have mandatory parameters</li>
+							<?php endif ?>
+						</ul>
+
+						<h2>Optional fields</h2>
+						<ul class="optional field-list">
+							<?php if(count($tab['optional_fields'])): ?>
+								<?php foreach($tab['optional_fields'] as $fieldName): ?>
+									<li>
+										<label for="<?php echo $tabid.'_'.$fieldName ?>"><?php echo $fieldName ?></label>
+										<input id="<?php echo $tabid.'_'.$fieldName ?>" name="<?php echo $fieldName ?>" value="<?php echo isset($params[$fieldName]) ? htmlspecialchars($params[$fieldName]) : '' ?>"/>
+									</li>
+								<?php endforeach ?>
+							<?php else: ?>
+								<li>This request does not have optional parameters</li>
+							<?php endif ?>
+						</ul>
+					<?php endif ?>
+				</li>
+			<?php endforeach ?>
+		</ul>
+		<div class="buttons">
+			<button type="button" onclick="sendRequest()">Send</button>
+		</div>
+	</div>
+</div>
+
+<div id="please-wait">Sending a request, please wait...</div>
+
+<div id="results" class="results">
+	<?php foreach($tabs as $tabid => $tab): ?>
+		<div id="<?php echo $tabid ?>_result" class="result">
+			<p>Showing results for <span class="tab-name"><?php echo htmlspecialchars($tab['name']) ?></span> request:</p>
+			<div><span class="no-request-yet">No response received yet</span></div>
+		</div>
+	<?php endforeach ?>
+</div>
+
+<script type="text/javascript">
+
+	var ari_checker_time = null;
+
+	function getTime() {
+		var d = new Date();
+		return (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds())*1000 + d.getMilliseconds();
+	}
+
+	function gatherParams(selector) {
+		var arr = jQuery('.content .tab-content.active .' + selector + ' input').serializeArray();
+		result = {};
+		for(var i=0; i<arr.length; i++) {
+			result[arr[i].name] = arr[i].value;
+		}
+		return result;
+	};
+
+	function sendRequest() {
+		jQuery('#please-wait').show();
+		ari_checker_time = getTime();
+		jQuery.ajax({
+<?php if($this->getRequest()->getParam('direct')): ?>
+			url: "<?php echo $this->getUrl() ?>ariapi/index.php".replace('http:', document.location.protocol),
+<?php else: ?>
+			url: "<?php echo $this->getUrl('arioem/check/post') ?>".replace('http:', document.location.protocol),
+<?php endif ?>
+			data: {
+				requestType: jQuery('.tabs .active')[0].id,
+				params: gatherParams('mandatory'),
+				options: gatherParams('optional')
+			},
+			dataType: 'json',
+			type: 'post',
+			cache: false,
+			success: function(response) {
+				jQuery('#please-wait').hide();
+				var d = new Date();
+				ari_checker_time = getTime() - ari_checker_time;
+				html = '<p class="arioem-time">Total request time=' + ari_checker_time + 'ms, ARI request time='+ response.time + 's</p>';
+
+				if(response.responseType == 'image') {
+					html += '<p>Image URL: <a href="' + response.imageURL + '" target="_blank">' + response.imageURL + '</a><p/>';
+					html += '<img src="' + response.imageURL + '" alt="response image" />';
+				} else {
+					html += response.dump;
+				}
+
+				var elementId = '#' + response.requestType + '_result';
+				jQuery(elementId + ' > div').html(html);
+				jQuery(elementId).addClass('active');
+			}
+		});
+	};
+
+//	these are taken from Vic class as they're not getting ran being pulled with AJAX
+	lightOn = function(element){
+		element.parentNode.style.backgroundColor = "silver";
+		return false;
+	};
+	lightOff = function(element){
+		element.parentNode.style.backgroundColor = "transparent";
+		return false;
+	};
+	collapseToggle=function(element){
+		if(element.parentNode.collapsed) {
+			element.parentNode.classList.remove("collapsed");
+			element.parentNode.collapsed = 0;
+		} else {
+			element.parentNode.classList.add("collapsed");
+			element.parentNode.collapsed = 1;
+		}
+		return false;
+	};
+
+	jQuery(document).ready(function() {
+		jQuery('.tabs ul li:first-child').addClass('active');
+		jQuery('.content > ul li:first-child').addClass('active');
+
+		jQuery('.tabs li').click(function(event){
+			jQuery('.tabs li').removeClass('active');
+			jQuery(event.target).addClass('active');
+			jQuery('.tab-content').removeClass('active');
+			jQuery('#' + event.target.id + '_content').addClass('active');
+			// switching results panels
+			jQuery('#results .result').removeClass('active');
+			jQuery('#' + event.target.id + '_result').addClass('active');
+		});
+	});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+<?php
+
+$brands = Mage::helper('arioem')->getBrands();
+
+?>
+<div class="arioem-brand-list">
+	<ul>
+		<?php foreach($brands as $code => $name): ?>
+			<?php $brandName = htmlspecialchars($name) ?>
+				<li><img title="<?php echo $brandName ?>" onclick="return(arioem.brandClick(this))" src="<?php echo $this->getSkinUrl('arioem/logos/logo-'.$code.'.jpg') ?>" alt="<?php echo $brandName. ' logo' ?>" ari_brand_code="<?php echo $code ?>"/></li>
+		<?php endforeach ?>
+	</ul>
+</div>

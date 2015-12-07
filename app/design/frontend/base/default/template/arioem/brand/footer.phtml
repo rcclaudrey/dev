@@ -1,0 +1,30 @@
+<?php
+$helper = Mage::helper('arioem');
+
+$brandName = $helper->getCurrentBrandName();
+$brandCode = $helper->brandName2Code($brandName);
+if(!$brandCode) {
+	Mage::logException('no brand code found for name='.$brandName);
+	return;
+}
+$cmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-footer-' . $brandCode)->toHtml();
+
+?>
+
+<div class="arioem-brand-footer-text"><?php echo $cmsContent ?></div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	if(window.dataLayer) {
+		dataLayer.push({
+			'OEMFunnelStep': 'brand',
+			'OEMBrand': '<?php echo addslashes($brandName) ?>',
+			'OEMVehicle': 'none selected',
+			'OEMYear': 'none selected',
+			'OEMModel': 'none selected'
+		});
+	}
+});
+
+</script>

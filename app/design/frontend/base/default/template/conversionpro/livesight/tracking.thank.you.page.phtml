@@ -1,0 +1,16 @@
+<?php if(Mage::helper('conversionpro')->isLivesightEnabled()): ?>
+<!-- BEGIN: LiveSight.Celebros Conversion Page-->
+<img alt="" width="0" height="0" src="http://col-ls.celebros.com/pixel.aspx"/>
+    <script type="text/javascript">
+    svluArea="Conversion";
+    (function()
+      {
+        var ms = document.createElement("script");
+        var site = ("https:" == document.location.protocol) ?  "https://col-ls.celebros.com/cjs.aspx" : "http://col-ls.celebros.com/cjs.aspx";
+        ms.src = site;
+        ms.setAttribute("async", "true");
+        document.documentElement.firstChild.appendChild(ms);
+      })();
+    </script>
+<!-- END: LiveSight.Celebros Conversion Page-->
+<?php endif?>
