@@ -136,20 +136,30 @@ class Wyomind_Advancedinventory_Model_Observer {
         $orderedItems = Mage::helper('advancedinventory/data')->getOrderedItems($order);
 
 
-
         try {
             $assignation_stock_origin = Mage::helper('core')->jsonDecode($order->getAssignationStock());
         } catch (Exception $e) {
-           Mage::log('Advanced Inventory says :' . $exception->getMessage(), Zend_Log::ERR);
+            Mage::log('Advanced Inventory says :' . $exception->getMessage(), Zend_Log::ERR);
         }
 
 
 
         $assignation_stock_new = $assignation_stock_origin;
         $orderedItems_new = $orderedItems;
-        foreach ($creditmemo->getAllItems() as $item) {
-            $remain = $item->getQty();
-            $orderedItems[$item->getProductId()]["qty"]+=$item->getQty();
+        $items = $creditmemo->getAllItems();
+        $i = 0;
+        foreach ($items as $item) {
+
+
+            if ($item->getOrderItem()->getParentItemId() != null && $item->getOrderItem()->getParentItem()->getProductType() == "configurable") {
+
+                $itemQty = $items[$i - 1]->getQty();
+            } else {
+                $itemQty = $item->getQty();
+            }
+            $i++;
+            $remain = $itemQty;
+            $orderedItems[$item->getProductId()]["qty"]+=$itemQty;
 
             $return = false;
             $back_in_stock = array_reverse($assignation_stock_origin[$item->getProductId()], true);
@@ -157,19 +167,19 @@ class Wyomind_Advancedinventory_Model_Observer {
 
             foreach ($back_in_stock as $wh => $qty) {
 
-                if ($item->getBackToStock() && $item->getQty()) { //qtyRefunded ?
+                if ($item->getBackToStock() && $itemQty) { //qtyRefunded ?
                     $assignation_stock_origin[$item->getProductId()][$wh] = $qty;
                 } else {
                     $assignation_stock_origin[$item->getProductId()][$wh] = 0;
                 }
 
                 if ($qty >= $remain && $remain) {
-                    $assignation_stock_new[$item->getProductId()][$wh] = $qty - $item->getQty();
+                    $assignation_stock_new[$item->getProductId()][$wh] = $qty - $itemQty;
                     $warehouses[] = $wh;
                     $remain = 0;
                 } elseif ($qty < $remain && $remain) {
                     $assignation_stock_new[$item->getProductId()][$wh] = 0;
-                    $remain = $item->getQty() - $qty;
+                    $remain = $itemQty - $qty;
                 } else {
                     $assignation_stock_new[$item->getProductId()][$wh] = $qty;
                     $warehouses[] = $wh;
@@ -179,7 +189,7 @@ class Wyomind_Advancedinventory_Model_Observer {
             if (isset($assignation_stock_new[$item->getProductId()]))
                 $assignation_stock_new[$item->getProductId()] = array_reverse($assignation_stock_new[$item->getProductId()], true);
         }
-
+        
 
         $additional = array("action" => "Order creditmemo", "type" => "Backend", "store_id" => $order->getStoreId(), "order_id" => $order->getId());
         Mage::helper('advancedinventory/data')->increaseStock($orderedItems, $assignation_stock_origin, $additional);
@@ -351,7 +361,7 @@ class Wyomind_Advancedinventory_Model_Observer {
 
         $permissions = Mage::helper('advancedinventory/permissions')->getUserPermissions();
         $all = $permissions->isAdmin();
-        $pos = $permissions->getPos;
+        $pos = $permissions->getPos();
 
         parse_str(urldecode(base64_decode(Mage::app()->getRequest()->getParam('filter'))), $data);
         if (isset($data["assignation_warehouse"])) {
@@ -405,6 +415,8 @@ class Wyomind_Advancedinventory_Model_Observer {
 
         $product = $observer->getProduct();
         $productData = $observer->getRequest()->getParams();
+        if (!isset($productData["product"]["stock_data"]))
+            $productData = $observer->getRequest()->getPost();
         $product_id = $product->getId();
         $stockitem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
         $store_id = $this->_getStore()->getStoreId();
@@ -433,7 +445,10 @@ class Wyomind_Advancedinventory_Model_Observer {
                     $inventory[$product_id]['pos_wh'][$pos_id] = $invData;
                 }
             } else {
-                $multistock_enabled = $productData["inventory"][$product_id]['multi_stock_enabled'];
+                if (isset($productData["inventory"]))
+                    $multistock_enabled = $productData["inventory"][$product_id]['multi_stock_enabled'];
+                else
+                    $multistock_enabled = false;
                 $inventory = $observer->getRequest()->getParam("inventory");
             }
 

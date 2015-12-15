@@ -1,178 +1,178 @@
-<?xml version="1.0"?>
-
-<config>
-    <modules>
-        <Wyomind_Massstockupdate>
-            <version>3.8.0</version>
-        </Wyomind_Massstockupdate>
-    </modules>
-    <default>
-        <massstockupdate>
-            <license>
-                <version>3.8.0</version>
-            </license>
-            
-            <import>
-                <report_title>Stock update - report </report_title>
-                <backup_enabled>1</backup_enabled>
-               
-            </import>
-            <settings>
-                <backup_file>stockupdate</backup_file>
-                <backup_dir>var/backups/</backup_dir>
-                <sql_file>MassStockUpdate.sql</sql_file>
-                <sql_dir>var/tmp</sql_dir>
-                <sh_mode>0</sh_mode>
-            </settings>
-        </massstockupdate>
-        
-    </default>
-    <frontend>
-        
-        <translate>
-            <modules>
-                <Wyomind_Massstockupdate>
-                    <files>
-                        <default>Wyomind_Massstockupdate.csv</default>
-                    </files>
-                </Wyomind_Massstockupdate>
-            </modules>
-        </translate>
-    </frontend>
-    <admin>
-        <routers>
-            <massstockupdate>
-                <use>admin</use>
-                <args>
-                    <module>Wyomind_Massstockupdate</module>
-                    <frontName>massstockupdate</frontName>
-                </args>
-            </massstockupdate>
-        </routers>
-    </admin>
-    <adminhtml>
-        <menu>
-            <system>
-                <children>
-                    <convert>
-                        <children>
-                            <massstockupdate translate="title" module="massstockupdate">
-                                <title>Mass Stock Update</title>
-                                <sort_order>1</sort_order>
-                                <action>massstockupdate/adminhtml_import</action>
-                            </massstockupdate>
-                        </children>
-                    </convert>
-                </children>
-            </system>
-        </menu>
-        <acl>
-            <resources>
-                <all>
-                    <title>Allow Everything</title>
-                </all>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <convert>
-                                    <children>
-                                        <massstockupdate>
-                                            <title>Mass Stock Update</title>
-                                        </massstockupdate>
-                                    </children>
-                                </convert>
-                                <config>
-                                    <children>
-                                        <massstockupdate>
-                                            <title>Mass Stock Update</title>
-                                        </massstockupdate>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
-        <translate>
-            <modules>
-                <Wyomind_Massstockupdate>
-                    <files>
-                        <default>Wyomind_Massstockupdate.csv</default>
-                    </files>
-                </Wyomind_Massstockupdate>
-            </modules>
-        </translate>
-        <layout>
-            <updates>
-                <massstockupdate>
-                    <file>massstockupdate.xml</file>
-                </massstockupdate>
-            </updates>
-        </layout>
-        
-    </adminhtml>
-    <global>
-         
-        
-        <models>
-            <massstockupdate>
-                <class>Wyomind_Massstockupdate_Model</class>
-                <resourceModel>massstockupdate_mysql4</resourceModel>
-            </massstockupdate>
-            <massstockupdate_mysql4>
-                <class>Wyomind_Massstockupdate_Model_Mysql4</class>
-                <entities>
-                    <import>
-                        <table>massstockupdate_import</table>
-                    </import>
-                </entities>
-            </massstockupdate_mysql4>
-           
-        </models>
-        <resources>
-            <massstockupdate_setup>
-                <setup>
-                    <module>Wyomind_Massstockupdate</module>
-                </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </massstockupdate_setup>
-            <massstockupdate_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </massstockupdate_write>
-            <massstockupdate_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </massstockupdate_read>
-        </resources>
-        <blocks>
-            <massstockupdate>
-                <class>Wyomind_Massstockupdate_Block</class>
-            </massstockupdate>
-           
-        </blocks>
-        <helpers>
-            <massstockupdate>
-                <class>Wyomind_Massstockupdate_Helper</class>
-            </massstockupdate>
-        </helpers>
-    </global>
-    <crontab>
-        <jobs>
-            <massstockupdate_import>
-                <schedule>
-                    <cron_expr>*/30 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>massstockupdate/observer::run</model>
-                </run>
-            </massstockupdate_import>
-        </jobs>
-    </crontab>
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Wyomind_Massstockupdate>
+            <version>3.9.1</version>
+        </Wyomind_Massstockupdate>
+    </modules>
+    <default>
+        <massstockupdate>
+            <license>
+                <version>3.9.1</version>
+            </license>
+            
+            <import>
+                <report_title>Stock update - report </report_title>
+                <backup_enabled>1</backup_enabled>
+               
+            </import>
+            <settings>
+                <backup_file>stockupdate</backup_file>
+                <backup_dir>var/backups/</backup_dir>
+                <sql_file>MassStockUpdate.sql</sql_file>
+                <sql_dir>var/tmp</sql_dir>
+                <sh_mode>0</sh_mode>
+            </settings>
+        </massstockupdate>
+        
+    </default>
+    <frontend>
+        
+        <translate>
+            <modules>
+                <Wyomind_Massstockupdate>
+                    <files>
+                        <default>Wyomind_Massstockupdate.csv</default>
+                    </files>
+                </Wyomind_Massstockupdate>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Wyomind_Massstockupdate after="Mage_Adminhtml">Wyomind_Massstockupdate_Adminhtml</Wyomind_Massstockupdate>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <system>
+                <children>
+                    <convert>
+                        <children>
+                            <massstockupdate translate="title" module="massstockupdate">
+                                <title>Mass Stock Update</title>
+                                <sort_order>1</sort_order>
+                                <action>adminhtml/imports</action>
+                            </massstockupdate>
+                        </children>
+                    </convert>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <convert>
+                                    <children>
+                                        <massstockupdate>
+                                            <title>Mass Stock Update</title>
+                                        </massstockupdate>
+                                    </children>
+                                </convert>
+                                <config>
+                                    <children>
+                                        <massstockupdate>
+                                            <title>Mass Stock Update</title>
+                                        </massstockupdate>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Wyomind_Massstockupdate>
+                    <files>
+                        <default>Wyomind_Massstockupdate.csv</default>
+                    </files>
+                </Wyomind_Massstockupdate>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <massstockupdate>
+                    <file>massstockupdate.xml</file>
+                </massstockupdate>
+            </updates>
+        </layout>
+        
+    </adminhtml>
+    <global>
+         
+        
+        <models>
+            <massstockupdate>
+                <class>Wyomind_Massstockupdate_Model</class>
+                <resourceModel>massstockupdate_mysql4</resourceModel>
+            </massstockupdate>
+            <massstockupdate_mysql4>
+                <class>Wyomind_Massstockupdate_Model_Mysql4</class>
+                <entities>
+                    <import>
+                        <table>massstockupdate_import</table>
+                    </import>
+                </entities>
+            </massstockupdate_mysql4>
+           
+        </models>
+        <resources>
+            <massstockupdate_setup>
+                <setup>
+                    <module>Wyomind_Massstockupdate</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </massstockupdate_setup>
+            <massstockupdate_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </massstockupdate_write>
+            <massstockupdate_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </massstockupdate_read>
+        </resources>
+        <blocks>
+            <massstockupdate>
+                <class>Wyomind_Massstockupdate_Block</class>
+            </massstockupdate>
+           
+        </blocks>
+        <helpers>
+            <massstockupdate>
+                <class>Wyomind_Massstockupdate_Helper</class>
+            </massstockupdate>
+        </helpers>
+    </global>
+    <crontab>
+        <jobs>
+            <massstockupdate_import>
+                <schedule>
+                    <cron_expr>*/30 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>massstockupdate/observer::run</model>
+                </run>
+            </massstockupdate_import>
+        </jobs>
+    </crontab>
 </config>

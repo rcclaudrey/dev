@@ -1,0 +1,57 @@
+<?php class GTS {  private $pid = "-1";
+    private $website = null;
+    private $request = null;
+    private $product = null;
+    private $id_template = null;
+    private $googletrustedstores_gts_country = null;
+    private $googletrustedstores_gts_gts_id = null;
+    private $googletrustedstores_gts_badge_position = null;
+    private $googletrustedstores_gts_language = null;
+    private $googletrustedstores_gts_gb_id = null;
+    private $googletrustedstores_gts_badge_container_css = null;
+ function __construct($x47) { $x59="\x70\162e\147\137m\141\x74\143h\x5fa\154\154";  $x5a="\141rray\137r\145\x76e\x72\163e";  $x5b="\165c\x66\x69rst";  $x5c="\x73\x75bs\164\x72\137\162\x65\x70lace";  $x5d="\163\164\162\154\x65\156";  $x50 = array("\x61c" => "ac\164i\166\141\x74i\157n\x5f\143\157\144\145", "\141k" => "a\x63tiv\x61\x74\x69\157\156\x5f\x6bey", "b\165" => "\142a\x73e_u\162\154", "\x6dd" => "m\144\65", "\x74\150" => "\164\x68\151\x73", "\x64\155" => "\137\x64\145mo", "\145x\164" => "\147ts", "\x76e\162" => "\61\56\67\56\62");  $this->request = $x47;  $this->website = Mage::app()->getWebsite();  if (Mage::getSingleton('checkout/session')->getData('gts_badge_test') === true && $this->request->getParam('product-sku') != '') { $this->product = Mage::getModel('catalog/product')->loadByAttribute('sku', $this->request->getParam('product-sku'));  } $x51 = array( "a\x63tiv\x61\x74\x69\157\156\x5f\x6bey" => Mage::getStoreConfig("\147\x6f\157\x67\x6c\x65t\x72\165\x73\x74\x65ds\x74\157\x72e\163\x2fl\151\x63\x65n\163e\x2f\141\143\164\x69va\x74ion\x5f\153e\x79"), "ac\164i\166\141\x74i\157n\x5f\143\157\144\145" => Mage::getStoreConfig("\x67o\157g\154\145\164\x72\165\163\x74\145\144\163\164\157\x72\145\x73\x2fl\x69c\x65\156\x73\x65/\141c\164\151\166\x61\x74i\157n\x5f\x63\x6f\x64\145"), "\142a\x73e_u\162\154" => Mage::getStoreConfig("\x77\145b\57se\143\165\x72\x65\x2fba\x73\x65_url", 0), );  if (Mage::getSingleton('checkout/session')->getData('gts_badge_test') === true) { $this->id_template = $this->request->getParam('googletrustedstores_gts_gs_product_id');  $this->googletrustedstores_gts_country = $this->request->getParam('googletrustedstores_gts_country');  $this->googletrustedstores_gts_gts_id = $this->request->getParam('googletrustedstores_gts_gts_id');  $this->googletrustedstores_gts_badge_position = $this->request->getParam('googletrustedstores_gts_badge_position');  $this->googletrustedstores_gts_language = $this->request->getParam('googletrustedstores_gts_language');  $this->googletrustedstores_gts_gb_id = $this->request->getParam('googletrustedstores_gts_gb_id');  $this->googletrustedstores_gts_badge_container_css = $this->request->getParam('googletrustedstores_gts_badge_container_css');  } else if (Mage::registry('current_product')) { $x52 = Mage::registry('current_product')->getId();  $this->product = Mage::getModel('catalog/product')->load($x52);  $this->id_template = $this->website->getConfig("g\x6f\x6f\147l\x65\164r\165s\x74\145ds\164\157r\145\x73\57g\164\163\57\x67s_\x70r\157\x64\165\143\x74\x5f\151\144");  $this->googletrustedstores_gts_country = $this->website->getConfig("\147\x6fo\x67\154\145\x74\162us\x74\x65dst\x6f\x72\145\163\x2f\x67\164s\57\143\157\x75n\164r\x79");  $this->googletrustedstores_gts_gts_id = $this->website->getConfig("\x67o\x6f\x67\154\145\164r\x75\x73\x74\145ds\x74o\x72\145\x73\x2fgt\x73\x2f\x67\164\163_\x69\x64");  $this->googletrustedstores_gts_badge_position = $this->website->getConfig("\x67\x6f\x6f\x67\154\145\164r\165st\145\x64s\x74\x6fr\x65s\x2f\147\164s/ba\144\147e\137posit\x69\157\156");  $this->googletrustedstores_gts_language = $this->website->getConfig("\x67o\x6f\x67\154\x65t\162\165\163t\145\144\163\x74\157\x72e\x73\57\x67t\x73\x2flang\x75\141\x67\x65");  $this->googletrustedstores_gts_gb_id = $this->website->getConfig("\x67\157\157gl\x65\164\x72u\163t\145dst\x6fr\x65\163\x2f\x67t\x73/\147b_i\144");  $this->googletrustedstores_gts_badge_container_css = $this->website->getConfig("\x67\x6fo\147\154\145\164rus\164\x65\144\x73t\x6f\x72\x65s\x2f\147t\163\x2fb\141dg\x65\137\x63\x6f\156tai\156\x65r\x5fc\x73\163");  } else { $this->googletrustedstores_gts_country = $this->website->getConfig("\147\x6fo\x67\154\145\x74\162us\x74\x65dst\x6f\x72\145\163\x2f\x67\164s\57\143\157\x75n\164r\x79");  $this->googletrustedstores_gts_gts_id = $this->website->getConfig("\x67o\x6f\x67\154\145\164r\x75\x73\x74\145ds\x74o\x72\145\x73\x2fgt\x73\x2f\x67\164\163_\x69\x64");  $this->googletrustedstores_gts_badge_position = $this->website->getConfig("\x67\x6f\x6f\x67\154\145\164r\165st\145\x64s\x74\x6fr\x65s\x2f\147\164s/ba\144\147e\137posit\x69\157\156");  $this->googletrustedstores_gts_language = $this->website->getConfig("\x67o\x6f\x67\154\x65t\162\165\163t\145\144\163\x74\157\x72e\x73\57\x67t\x73\x2flang\x75\141\x67\x65");  $this->googletrustedstores_gts_gb_id = $this->website->getConfig("\x67\157\157gl\x65\164\x72u\163t\145dst\x6fr\x65\163\x2f\x67t\x73/\147b_i\144");  $this->googletrustedstores_gts_badge_container_css = $this->website->getConfig("\x67\x6fo\147\154\145\164rus\164\x65\144\x73t\x6f\x72\x65s\x2f\147t\163\x2fb\141dg\x65\137\x63\x6f\156tai\156\x65r\x5fc\x73\163");  } if ($x51[$x50['ac']] != $x50["\x6dd"]($x50["\x6dd"]($x51[$x50['ak']]) . $x50["\x6dd"]($x51[$x50['bu']]) . $x50["\x6dd"]($x50["\145x\164"]) . $x50["\x6dd"]($x50["\x76e\162"]))) { $$x50["\145x\164"] = "\166\141li\144";  $$x50["\x74\150"]->$x50["\x64\155"] = true;  } else { $$x50["\x74\150"]->$x50["\x64\155"] = false;  $$x50["\145x\164"] = "\166\141li\144";  } if (isset($this->product)) { if ($this->id_template != "") { $this->pid = $this->id_template;  $x59('/{[^}]+}/', $this->id_template, $x53, PREG_OFFSET_CAPTURE);  $x54 = $x5a($x53[0], true);  foreach ($x54 as $x55) { $x53 = $x55[0];  $x56 = $x55[1];  $x57 = str_replace(array('{', '}'), array('', ''), $x53);  $x58 = eval('return $this->product->get' . $x5b($x57) . '(); ');  $this->pid = $x5c($this->pid, $x58, $x56, $x5d($x53));  } } } if (!isset($$x50["\145x\164"]) || $$x50["\x74\150"]->$x50["\x64\155"]) { $$x50["\x74\150"]->$x50["\x64\155"] = true;  $this->googletrustedstores_gts_badge_position = "\111\156\166a\x6cid\x20l\x69\x63\145\156\x73\145\56\40P\x6c\x65\141s\x65 check\40t\x68\x65\x20a\x63\x74i\166\x61t\151\157\x6e \x6b\145\x79\x20\171\x6f\165\40\x70\162\157v\x69\x64\145.";  } } function getPid() { $x59="\160\x72\x65\x67\137m\141tc\x68_a\154\154";  $x5a="a\x72r\141y\x5f\162e\x76\x65rse";  $x5b="\x75\x63fi\162\x73t";  $x5c="\163ubs\164\162\x5f\x72\145pl\x61\x63\145";  $x5d="st\162\154en";  return $this->pid;  } function getId_template() { $x59="\160\162\145\147_\155\141tc\150_\141\154\154";  $x5a="\141rra\x79\137re\166e\x72\163e";  $x5b="ucf\151\162\x73t";  $x5c="s\x75\142\163\x74\162_re\x70\x6c\141\x63\x65";  $x5d="\x73\x74\162le\x6e";  return $this->id_template;  } function getGoogletrustedstores_gts_country() { $x59="p\x72eg\x5f\155\141\164ch\137all";  $x5a="\x61r\162\x61\171\x5f\162ev\145\x72se";  $x5b="uc\146\x69rst";  $x5c="\163u\x62s\164\x72\137r\x65\x70l\x61\x63\145";  $x5d="\163t\162le\x6e";  return $this->googletrustedstores_gts_country;  } function getGoogletrustedstores_gts_gts_id() { $x59="\160r\x65\x67_\x6datc\150\137\x61\154l";  $x5a="ar\x72\x61y\x5f\162e\166\145\x72s\145";  $x5b="u\143\x66ir\x73\x74";  $x5c="su\x62s\164r\x5f\x72e\160la\143\x65";  $x5d="s\x74\x72\154e\156";  return $this->googletrustedstores_gts_gts_id;  } function getGoogletrustedstores_gts_badge_position() { $x59="\x70r\x65\147\137ma\164\143h_\141ll";  $x5a="\x61\x72r\141\171_\x72\145\166\145\162\x73e";  $x5b="\165\143\146\x69\162\163\164";  $x5c="\x73\x75\x62st\162\137\162\x65\160\154\141\143\x65";  $x5d="\x73\x74r\x6c\145\x6e";  return $this->googletrustedstores_gts_badge_position;  } function getGoogletrustedstores_gts_language() { $x59="p\x72\145\147_\x6d\x61tch\x5f\x61\x6c\x6c";  $x5a="a\x72r\141y\x5fr\x65\166\145\162\163e";  $x5b="\165c\x66ir\x73\164";  $x5c="\163\x75\142\163t\162\137\x72\145\160\154\141\143\x65";  $x5d="\x73\x74\x72l\145n";  return $this->googletrustedstores_gts_language;  } function getGoogletrustedstores_gts_gb_id() { $x59="\160\x72\145\x67\137\155\141\x74\x63h\137\141l\x6c";  $x5a="\x61\162r\141y\137\x72\x65ve\162s\x65";  $x5b="ucf\151\x72s\x74";  $x5c="\163\x75\142s\164r\137r\x65\x70\x6c\141ce";  $x5d="\x73\164\x72\154\145\x6e";  return $this->googletrustedstores_gts_gb_id;  } function getGoogletrustedstores_gts_badge_container_css() { $x59="\x70r\x65\147\137m\x61\x74\x63h\x5f\141ll";
+ $x5a="\x61\x72\162\141\x79_\162\x65\166\145\x72\163e";  $x5b="\165c\146\151\x72\x73\164";  $x5c="\163u\142\163\x74\162\x5f\x72e\x70l\x61\143\145";  $x5d="\163t\x72\x6ce\156";  return $this->googletrustedstores_gts_badge_container_css;  } } 
+
+$gts = new GTS($this->getRequest());
+?>
+<!-- - Trusted stores script - -->
+<script type="text/javascript">
+    if (typeof GtsValidator != 'undefined')
+        GtsValidator.badge = true;
+</script>
+<script type="text/javascript">
+
+    var gts = gts || [];
+    gts.push(["id", "<?php echo $gts->getGoogletrustedstores_gts_gts_id(); ?>"]);
+<?php if ($gts->getGoogletrustedstores_gts_badge_position() == "USER_DEFINED") { ?>
+        gts.push(["badge_position", "USER_DEFINED"]);
+        gts.push(["badge_container", "gts_container"]);
+<?php } else { ?>
+        gts.push(["badge_position", "<?php echo $gts->getGoogletrustedstores_gts_badge_position(); ?>"]);
+<?php } ?>
+<?php // if ($gts->getPid() != "-1") {    ?>
+    gts.push(["google_base_offer_id", "<?php echo $gts->getPid(); ?>"]);
+<?php // }    ?>
+    gts.push(["locale", "<?php echo $gts->getGoogletrustedstores_gts_language(); ?>"]);
+    gts.push(["google_base_subaccount_id", "<?php echo $gts->getGoogletrustedstores_gts_gb_id(); ?>"]);
+    gts.push(["google_base_country", "<?php echo $gts->getGoogletrustedstores_gts_country(); ?>"]);
+    gts.push(["google_base_language", "<?php echo substr($gts->getGoogletrustedstores_gts_language(), 0, 2); ?>"]);
+
+    (function() {
+        var gts = document.createElement("script");
+        gts.type = "text/javascript";
+        gts.async = true;
+        gts.src = "https://www.googlecommerce.com/trustedstores/api/js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(gts, s);
+    })();
+</script>
+<?php if ($gts->getGoogletrustedstores_gts_badge_position() == "USER_DEFINED") { ?>
+    <style>
+        div#gts_container { <?php echo str_replace(array("\r\n", "\r", "\n"), "", $gts->getGoogletrustedstores_gts_badge_container_css()); ?> }
+    </style>
+    <div id="gts_container"></div>
+    <?php
+}
+
+Mage::getSingleton('checkout/session')->setData('gts_badge_test', false);

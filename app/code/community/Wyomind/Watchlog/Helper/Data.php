@@ -13,7 +13,7 @@ class Wyomind_Watchlog_Helper_Data extends Mage_Core_Helper_Abstract {
             // add notif in inbox
             $notification_title = Mage::getStoreConfig("watchlogpro/settings/notification_title");
             $notification_description = Mage::getStoreConfig("watchlogpro/settings/notification_description");
-            $notification_link = Mage::helper("adminhtml")->getUrl("watchlog/adminhtml_basic/index/");
+            $notification_link = Mage::helper("adminhtml")->getUrl("/adminhtml/index/");
             $date = Mage::getSingleton('core/date')->gmtDate('Y-m-d H:i:s');
 
             $notify = Mage::getModel('adminnotification/inbox');

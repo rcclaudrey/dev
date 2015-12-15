@@ -1,0 +1,229 @@
+<?php
+$website = Mage::app()->getWebsite();
+
+$orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
+
+if (Mage::registry('order'))
+    $orderId = Mage::getModel('sales/order')->load(Mage::registry('order'))->getId();
+
+if (!$orderId && Mage::getSingleton('checkout/session')->getData('gts_order_page_test') === true) {
+
+    $website = $this->getRequest()->getParam('website');
+    $website = Mage::app()->getWebsite($website);
+
+    if ($this->getRequest()->getParam('order-number') != "") {
+        $order = Mage::getModel('sales/order')->loadByIncrementId($this->getRequest()->getParam('order-number'));
+    } else {
+        $stores = $website->getStores();
+        $storeId = array();
+        foreach ($stores as $store) {
+            $storeId[] = $store->getId();
+        }
+        $order = Mage::getModel('sales/order')
+                ->getCollection()
+                ->setOrder('created_at', 'DESC')
+                ->addAttributeToFilter('store_id', array('in' => $storeId))
+                ->setPageSize(1)
+                ->getFirstItem();
+        if (!$order->getId()) {
+            die('No order to load.');
+        }
+    }
+
+    $eta_ship = $this->getRequest()->getParam("googletrustedstores_gts_orders_eta_ship");
+    $eta = $this->getRequest()->getParam("googletrustedstores_gts_orders_eta");
+    $use_edd = $this->getRequest()->getParam('googletrustedstores_gts_orders_use_edd_module');
+    $id_template = $this->getRequest()->getParam('googletrustedstores_gts_gs_product_id');
+    $googletrustedstores_gts_country = $this->getRequest()->getParam('googletrustedstores_gts_country');
+    $googletrustedstores_gts_gts_id = $this->getRequest()->getParam('googletrustedstores_gts_gts_id');
+    $googletrustedstores_gts_badge_position = $this->getRequest()->getParam('googletrustedstores_gts_badge_position');
+    $googletrustedstores_gts_language = $this->getRequest()->getParam('googletrustedstores_gts_language');
+    $googletrustedstores_gts_gb_id = $this->getRequest()->getParam('googletrustedstores_gts_gb_id');
+    $googletrustedstores_gts_badge_container_css = $this->getRequest()->getParam('googletrustedstores_gts_badge_container_css');
+} else {
+    $order = Mage::getModel('sales/order')->load($orderId);
+
+    $eta_ship = $website->getConfig("googletrustedstores/gts_orders/eta_ship");
+    $eta = $website->getConfig("googletrustedstores/gts_orders/eta");
+    $use_edd = $website->getConfig('googletrustedstores/gts_orders/use_edd_module');
+    $id_template = $website->getConfig("googletrustedstores/gts/gs_product_id");
+    $googletrustedstores_gts_country = $website->getConfig("googletrustedstores/gts/country");
+    $googletrustedstores_gts_gts_id = $website->getConfig("googletrustedstores/gts/gts_id");
+    $googletrustedstores_gts_badge_position = $website->getConfig("googletrustedstores/gts/badge_position");
+    $googletrustedstores_gts_language = $website->getConfig("googletrustedstores/gts/language");
+    $googletrustedstores_gts_gb_id = $website->getConfig("googletrustedstores/gts/gb_id");
+    $googletrustedstores_gts_badge_container_css = $website->getConfig("googletrustedstores/gts/badge_container_css");
+}
+
+
+if (!$order->getId()) {
+    if (Mage::getSingleton('checkout/session')->getData('gts_order_page_test') === true)
+        die('Unable to load the order.');
+    else
+        throw new RuntimeException('Unable to load the order.');
+}
+
+$order_id = $order->getIncrementId();
+
+//------------------------------------------------------------------------------
+$domain = Mage::getModel('core/url')->parseUrl(Mage::getBaseUrl())->getHost();
+
+//------------------------------------------------------------------------------
+$email = $order->getCustomerEmail();
+//------------------------------------------------------------------------------
+$address = "";
+if ($address = $order->getShippingAddress()) {
+    $country = $address->getCountry();
+} else {
+    $country = $order->getBillingAddress()->getCountry();
+}
+
+//------------------------------------------------------------------------------
+$currency_code = $order->getOrderCurrencyCode();
+
+//------------------------------------------------------------------------------
+$order_total = sprintf("%01.2F", $order->getGrandTotal());
+$order_discount = sprintf("%01.2F", $order->getDiscountAmount());
+$order_shipping = sprintf("%01.2F", $order->getShippingAmount());
+$order_tax = sprintf("%01.2F", $order->getTaxAmount());
+
+
+$date = new Datetime();
+$date->setTimestamp($order->getCreatedAtDate()->toString('U'));
+$add_days = $eta_ship;
+if ($add_days != '' && $add_days > 0)
+    $date->add(new DateInterval('P' . $add_days . 'D')); // add x day to the order date
+$order_shipdate = $date->format('Y-m-d');
+
+//--------- Estimated delivery date --------------------------------------------
+$json = json_decode($order->getEstimatedDeliveryDate());
+if (Mage::getConfig()->getModuleConfig('Wyomind_Estimateddeliverydate')->is('active', 'true') && $use_edd && $json != "") {
+    $date->setTimestamp($json->time);
+    $delivery_date = $date->format('Y-m-d');
+} else {
+    $date = new Datetime();
+    $date->setTimestamp($order->getCreatedAtDate()->toString('U'));
+    $add_days = $eta;
+    if ($add_days != '' && $add_days > 0)
+        $date->add(new DateInterval('P' . $add_days . 'D')); // add x day to the order date
+    $delivery_date = $date->format('Y-m-d');
+}
+
+
+//------------------------------------------------------------------------------
+$order_items = $order->getAllVisibleItems();
+
+//------------------------------------------------------------------------------
+$has_preorder = 'N';
+foreach ($order_items as $item) {
+    if ($item->getQtyBackordered() > 0) {
+        $has_preorder = 'Y';
+        break;
+    }
+}
+
+//------------------------------------------------------------------------------
+$has_digital = 'N';
+foreach ($order_items as $item) {
+    if ($item->getIsVirtual() > 0) {
+        $has_digital = 'Y';
+        break;
+    }
+}
+
+//------------------------------------------------------------------------------
+$items = array();
+
+foreach ($order_items as $item) {
+    $itemInfo = array(
+        'name' => $this->escapeHtml($item->getName()),
+        'price' => sprintf("%01.2F", $item->getPriceInclTax()),
+        'qty_ordered' => number_format(sprintf($item->getIsQtyDecimal() ? '%F' : '%d', $item->getQtyOrdered()), 0, '.', ''),
+    );
+
+
+    if ($item->getData('product_type') == 'configurable') {
+        $simple_info = unserialize($item->getData('product_options'));
+        $simple_sku = $simple_info['simple_sku'];
+        $itemInfo['name'] = $simple_info['simple_name'];
+        $product = Mage::getModel('catalog/product')->loadByAttribute('sku',$simple_sku);
+    } else {
+        $product = Mage::getModel('catalog/product')->load($item->getProductId());
+    }
+
+    $gs_item = null;
+    if ($product->getId()) {
+
+        $pid = $id_template;
+        preg_match_all('/{[^}]+}/', $id_template, $m, PREG_OFFSET_CAPTURE);
+        $matches = array_reverse($m[0], true);
+
+        foreach ($matches as $matche) {
+            $m = $matche[0];
+            $index = $matche[1];
+            $att = str_replace(array('{', '}'), array('', ''), $m);
+            $val = eval('return $product->get' . ucfirst($att) . '();');
+            $pid = substr_replace($pid, $val, $index, strlen($m));
+        }
+
+
+        if ($pid) {
+            $gs_item = array(
+                'gbase_id' => $this->escapeHtml($pid),
+                'gbase_account_id' => $googletrustedstores_gts_gb_id,
+                'gbase_country' => $googletrustedstores_gts_country,
+                'gbase_language' => $googletrustedstores_gts_language,
+            );
+        }
+    }
+    if ($gs_item) {
+        $itemInfo['google_shopping'] = $gs_item;
+    }
+    $items[] = $itemInfo;
+}
+?>
+<?php if (Mage::registry('order')) : ?>
+    <script language="javascript" language="text/javascript"  >
+        if (typeof GtsValidator != 'undefined')
+            GtsValidator.order = true;
+    </script>
+<?php endif; ?>
+
+<?php if ($order) : ?>
+    <div id="gts-order" style="display:none;" translate="no">
+        <span id="gts-o-id"><?php echo $order_id; ?></span>
+        <span id="gts-o-domain"><?php echo $domain; ?></span>
+        <span id="gts-o-email"><?php echo $email ?></span>
+        <span id="gts-o-country"><?php echo $country ?></span>
+        <span id="gts-o-currency"><?php echo $currency_code; ?></span>
+        <span id="gts-o-total"><?php echo $order_total; ?></span>
+        <span id="gts-o-discounts"><?php echo $order_discount; ?></span>
+        <span id="gts-o-shipping-total"><?php echo $order_shipping; ?></span>
+        <span id="gts-o-tax-total"><?php echo $order_tax; ?></span>
+        <span id="gts-o-est-ship-date"><?php echo $order_shipdate; ?></span>
+        <span id="gts-o-est-delivery-date"><?php echo $delivery_date; ?></span>
+        <span id="gts-o-has-preorder"><?php echo $has_preorder ?></span>
+        <span id="gts-o-has-digital"><?php echo $has_digital ?></span>
+        <?php foreach ($items as $k => $item) : ?>
+            <span class="gts-item">
+                <span class="gts-i-name"><?php echo $item['name'] ?></span>
+                <span class="gts-i-price"><?php echo $item['price'] ?></span>
+                <span class="gts-i-quantity"><?php echo $item['qty_ordered'] ?></span>
+                <?php if (isset($item['google_shopping'])) : ?>
+                    <span class="gts-i-prodsearch-id"><?php echo $item['google_shopping']['gbase_id'] ?></span>
+                    <span class="gts-i-prodsearch-store-id"><?php echo $item['google_shopping']['gbase_account_id'] ?></span>
+                    <span class="gts-i-prodsearch-country"><?php echo $item['google_shopping']['gbase_country'] ?></span>
+                    <span class="gts-i-prodsearch-language"><?php
+                        $tmp = explode('_', $item['google_shopping']['gbase_language']);
+                        echo $tmp[0];
+                        ?></span>
+                <?php endif; ?>
+            </span>
+        <?php endforeach; ?>
+    </div><?php
+
+
+
+
+
+ endif;

@@ -65,7 +65,7 @@ class Wyomind_Advancedinventory_Block_Rss_Stock extends Mage_Rss_Block_Abstract 
                 ->addAttributeToSelect('name', true)
                 ->joinTable('advancedinventory/stock', 'product_id=entity_id', array(
                     'qty' => 'quantity_in_stock'
-                        ), "place_id='.$wh_id.' AND manage_stock=1 AND quantity_in_stock<$globalNotifyStockQty", 'inner')
+                        ), "place_id='".$wh_id."' AND manage_stock=1 AND quantity_in_stock<$globalNotifyStockQty", 'inner')
                 ->setOrder('qty');
 
         $collection->addAttributeToFilter('status', array('in' => Mage::getSingleton('catalog/product_status')->getVisibleStatusIds()));

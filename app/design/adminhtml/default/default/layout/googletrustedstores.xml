@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>googletrustedstores/googletrustedstores.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/lib/codemirror.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/theme/default.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/lib/codemirror.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/xml/xml.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/javascript/javascript.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/css/css.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/htmlmixed.js</name>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+</layout>

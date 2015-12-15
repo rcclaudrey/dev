@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* @category   Wyomind
+* @package    Wyomind_Googletrustedstores
+* @license    http://Wyomind.com
+*/
+--> 
+<config>
+    <modules>
+        <Wyomind_Googletrustedstores>
+            <version>1.7.2</version> 
+        </Wyomind_Googletrustedstores> 
+    </modules> 
+    <default>
+        <googletrustedstores>
+            <license>
+                <version>1.7.2</version>
+            </license>
+            <gts>
+                <country>US</country>
+                <country>en_US</country>
+                <badge_position>BOTTOM_RIGHT</badge_position>
+                <badge_container_css>left:0px;
+top:0px;
+position:absolute;</badge_container_css>
+                <gs_product_id>{sku}</gs_product_id>
+            </gts>
+            <gts_orders>
+                <use_edd_module>0</use_edd_module>
+                <eta>0</eta>
+                <eta_ship>0</eta_ship>
+            </gts_orders>
+        </googletrustedstores>
+    </default>
+    <frontend>
+        <layout>
+            <updates>
+                <googletrustedstores>
+                    <file>googletrustedstores.xml</file>
+                </googletrustedstores>
+            </updates>
+        </layout>
+        <routers>
+            <googletrustedstores>
+                <use>standard</use>
+                <args>
+                    <module>Wyomind_Googletrustedstores</module>
+                    <frontName>googletrustedstores</frontName>
+                </args>
+            </googletrustedstores>
+        </routers>  
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Wyomind_Googletrustedstores after="Mage_Adminhtml">Wyomind_Googletrustedstores_Adminhtml</Wyomind_Googletrustedstores>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+        <resources>
+            <googletrustedstores_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </googletrustedstores_write>
+            <googletrustedstores_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </googletrustedstores_read>
+        </resources>
+        <helpers>
+            <googletrustedstores>
+                <class>Wyomind_Googletrustedstores_Helper</class>
+            </googletrustedstores>
+        </helpers>
+        <models>
+            <googletrustedstores>
+                <class>Wyomind_Googletrustedstores_Model</class>
+            </googletrustedstores>
+        </models>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <googletrustedstores>
+                                            <title>Google Trusted Stores</title>
+                                        </googletrustedstores>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Wyomind_Googletrustedstores>
+                    <files>
+                        <default>Wyomind_Googletrustedstores.csv</default>
+                    </files>
+                </Wyomind_Googletrustedstores>
+            </modules>
+        </translate>
+        
+        <layout>
+            <updates>
+                <googletrustedstores>
+                    <file>googletrustedstores.xml</file>
+                </googletrustedstores>
+            </updates>
+        </layout>
+    </adminhtml> 
+</config>

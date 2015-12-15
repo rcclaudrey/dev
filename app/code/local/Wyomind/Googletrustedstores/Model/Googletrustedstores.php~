@@ -1,0 +1,291 @@
+<?php
+
+class Wyomind_Googletrustedstores_Model_Googletrustedstores extends Mage_Core_Model_Abstract {
+
+    var $SEP = "\t";
+    var $NEWLINE = "\n";
+    var $HEADERS_s = "merchant order id\ttracking number\tcarrier code\tother carrier name\tship date\n";
+    var $HEADERS_c = "merchant order id\treason\n";
+    var $last_update = null;
+    var $cron_expr = null;
+    
+
+    public function __construct() {
+        $this->last_update = Mage::getStoreConfig("googletrustedstores/schedule/last_update");
+        $this->cron_expr = Mage::getStoreConfig("googletrustedstores/schedule/cron");
+    }
+
+    public function getLastUpdate() {
+        if ($this->last_update == null || $this->last_update == 0) {
+            $this->last_update = Mage::getSingleton("core/date")->date("Y-m-d H:i:s");
+        }
+        return $this->last_update;
+    }
+
+    public function setLastUpdate() {
+        $this->last_update = Mage::getSingleton("core/date")->gmtDate("Y-m-d H:i:s");
+        Mage::getConfig()->saveConfig("googletrustedstores/schedule/last_update", $this->last_update, "default", "0");
+        Mage::getConfig()->cleanCache();
+        Mage::getConfig()->reinit();
+        Mage::app()->reinitStores();
+    }
+
+    public function getCronExpr() {
+        return $this->cron_expr;
+    }
+
+    private function cleanString($string) {
+        $string = str_replace("\\t", "", $string);
+        $string = str_replace("\\n", "", $string);
+        $string = str_replace("\\r", "", $string);
+        $string = str_replace("'", "", $string);
+        return trim($string);
+    }
+
+    public function generateShipmentsFeed($website,$display = false) {
+ 
+        $website = Mage::app()->getWebsite($website);
+        $store_ids = array();
+        foreach ($website->getStoreIds() as $id)
+            $store_ids[] = $id;
+        
+
+        
+        $days = $website->getConfig("googletrustedstores/shipments_settings/previous_days");
+        $from_date = strtotime(date("Y-m-d") . " " . $days . " day" . (($days == -1) ? "" : "s"));
+        $from_date = date("Y-m-d 00:00:00", $from_date);
+        $to_date = strtotime(date("Y-m-d") . " + 1 day");
+        $to_date = date("Y-m-d 00:00:00", $to_date);
+        /*         * ***********************************
+         * *******License controller 1 *********
+         * *********************************** */
+        $act = array("ac" => "activation_code", "ak" => "activation_key", "bu" => "base_url", "md" => "md5", "th" => "this", "dm" => "_demo", "ext" => "gts", "ver" => "1.5.0");
+        /*         * ********************************** */
+
+        $csv = "";
+
+        if (!$display) {
+            $io = new Varien_Io_File();
+            
+            $file = $website->getConfig("googletrustedstores/shipments_settings/filename");
+            $file = $website->getCode() . "_" . $file;
+            $path = $website->getConfig("googletrustedstores/shipments_settings/filepath");
+            $filepath = $io->getCleanPath(Mage::getBaseDir() . "/" . $path . "/" . $file);
+
+            $path = dirname($filepath);
+
+            if (!$io->allowedPath($path, Mage::getBaseDir())) {
+                Mage::throwException(Mage::helper("googletrustedstores")->__("Please define correct path for the shipments feed ! (current : " . $path . ")"));
+            }
+            if (!$io->fileExists($path, false)) {
+                Mage::throwException(Mage::helper("googletrustedstores")->__("Please create the specified folder '%s'.", Mage::helper("core")->htmlEscape($path)));
+            }
+
+            if (!$io->isWriteable($path)) {
+                Mage::throwException(Mage::helper("googletrustedstores")->__("Please make sure that '%s' is writable by web-server.", $path));
+            }
+        }
+        /*         * ***********************************
+         * *******License controller 2 *********
+         * *********************************** */
+        $adminId = Mage::app()->getStore()->getStoreId();
+        $license = array(
+            "activation_key" => Mage::getStoreConfig("googletrustedstores/license/activation_key"),
+            "activation_code" => Mage::getStoreConfig("googletrustedstores/license/activation_code"),
+            "base_url" => Mage::getStoreConfig("web/secure/base_url"),
+        );
+        /*         * ********************************** */
+        $orders = Mage::getModel("sales/order")
+                ->getCollection()
+                ->addFieldToFilter("created_at", array("from" => $from_date, "to" => $to_date))
+                ->addFieldToFilter("store_id",array("in"=>$store_ids))
+                ->addAttributeToSort("created_at", "DESC");
+        
+        /*         * ***********************************
+         * *******License controller 3 *********
+         * *********************************** */
+         if ($license[$act['ac']] != $act["md"]($act["md"]($license[$act['ak']]) . $act["md"]($license[$act['bu']]) . $act["md"]($act["ext"]) . $act["md"]($act["ver"]))) {
+            $$act["ext"] = "valid";
+            $$act["th"]->$act["dm"] = true;
+        } else {
+            $$act["th"]->$act["dm"] = false;
+            $$act["ext"] = "valid";
+        }
+        /*         * ********************************** */
+        if (!$display) {
+            $io->setAllowCreateFolders(true);
+
+            $io->open(array("path" => $path));
+            $io->streamOpen($filepath);
+
+            $io->streamWrite($this->HEADERS_s);
+        } else {
+            $csv .= $this->HEADERS_s;
+        }
+        /*         * ***********************************
+         * *******License controller 4 *********
+         * *********************************** */
+        
+        if (!isset($$act["ext"]) || $$act["th"]->$act["dm"]) {
+            $$act["th"]->$act["dm"] = true;
+            return $$act["th"];
+        }
+        /*         * ********************************** */
+        
+        
+        $o_mapping = json_decode(Mage::getStoreConfig('googletrustedstores/carriers/carriers_mapping'));
+        $a_mapping = array();
+        foreach ($o_mapping as $m) {
+            $a_mapping[$m->code] = $m->as;
+        }
+        
+        $helper = Mage::helper('googletrustedstores/data');
+        
+        foreach ($orders as $order) {
+            $id = $order->getId();
+            $objOrder = Mage::getModel("sales/order")->load($id);
+            $id = $objOrder->getIncrementId();
+
+            $shipments = $objOrder->getShipmentsCollection();
+            foreach ($shipments as $shipment) {
+                $tracking = $shipment->getAllTracks();
+                
+                $shipdate = $this->cleanString($shipment->getUpdatedAt());
+                if ($shipdate != "") {
+                    $shipdate = strtotime($shipdate);
+                    $shipdate = date("Y-m-d", $shipdate);
+                }
+                if (count($tracking)) {
+                    foreach ($tracking as $track) {
+                        
+                        $shipdate = $this->cleanString($track->getUpdatedAt());
+                        if ($shipdate != "") {
+                            $shipdate = strtotime($shipdate);
+                            $shipdate = date("Y-m-d", $shipdate);
+                        }
+                        
+                        $track_no = $this->cleanString($track->getNumber());
+                        //if ($track_no == "") continue;
+                        $other = "";
+                        $carrier = $this->cleanString($track->getCarrierCode());
+                        
+                        $cartrans = $a_mapping[$carrier];
+                        if ($cartrans != "") {
+                        
+                            if ($helper->isOther($cartrans)) {
+                                $other = $cartrans;
+                                $cartrans = "Other";
+                            } else if ($helper->isCarrier($cartrans)){
+                                $other  = "";
+                            } else {
+                                $cartrans = "Other";    
+                                $other = "OTHER";
+                            }
+                            
+                        } else {
+                            $cartrans = "Other";    
+                            $other = "OTHER";
+                        }
+                        if (!$display) {
+                            $io->streamWrite($id . $this->SEP . $track_no . $this->SEP . $cartrans . $this->SEP . $other . $this->SEP . $shipdate . $this->NEWLINE);
+                        } else {
+                            $csv .= $id . $this->SEP . $track_no . $this->SEP . $cartrans . $this->SEP . $other . $this->SEP . $shipdate . $this->NEWLINE;
+                        }
+                        
+                    }
+                } else {
+                    //continue;
+                    if (!$display) {
+                        $io->streamWrite($id . $this->SEP . $this->SEP . "Other" . $this->SEP . "OTHER" . $this->SEP . $shipdate . $this->NEWLINE);
+                    } else {
+                        $csv .= $id . $this->SEP . $this->SEP . "Other" . $this->SEP . "OTHER" . $this->SEP . $shipdate . $this->NEWLINE;
+                    }
+                }
+            }
+        }
+
+        if ($display) {
+            return $csv;
+        }
+        $io->streamClose();
+
+        return true;
+    }
+
+    public function generateCancellationsFeed($website,$display = false) {
+
+        
+        $website = Mage::app()->getWebsite($website);
+        $store_ids = array();
+        foreach ($website->getStoreIds() as $id)
+            $store_ids[] = $id;
+        
+        $csv = "";
+        
+
+        $days = $website->getConfig("googletrustedstores/cancellations_settings/previous_days");
+
+        $from_date = strtotime(date("Y-m-d") . " " . str_replace('-','- ',$days) . " day" . (($days == -1) ? "" : "s"));
+        $from_date = date("Y-m-d 00:00:00", $from_date);
+        $to_date = strtotime(date("Y-m-d") . " + 1 day");
+        $to_date = date("Y-m-d 00:00:00", $to_date);
+
+
+        if (!$display) {
+            $io = new Varien_Io_File();
+            $file = $website->getConfig("googletrustedstores/cancellations_settings/filename");
+            $file = $website->getCode() . "_" . $file;
+
+            $path = $website->getConfig("googletrustedstores/cancellations_settings/filepath");
+            $filepath = $io->getCleanPath(Mage::getBaseDir() . "/" . $path . "/" . $file);
+            $path = dirname($filepath);
+
+            if (!$io->allowedPath($path, Mage::getBaseDir())) {
+                Mage::throwException(Mage::helper("googletrustedstores")->__("Please define correct path for the cancellations feed ! (current : " . $path . ")"));
+            }
+            if (!$io->fileExists($path, false)) {
+                Mage::throwException(Mage::helper("googletrustedstores")->__("Please create the specified folder '%s'.", Mage::helper("core")->htmlEscape($path)));
+            }
+
+            if (!$io->isWriteable($path)) {
+                Mage::throwException(Mage::helper("googletrustedstores")->__("Please make sure that '%s' is writable by web-server.", $path));
+            }
+        }
+
+        $orders = Mage::getModel("sales/order")
+                ->getCollection()
+                ->addFieldToFilter("created_at", array("from" => $from_date, "to" => $to_date))
+                ->addFieldToFilter("store_id",array("in"=>$store_ids))
+                ->addAttributeToFilter("status", "canceled")
+                ->addAttributeToSort("created_at", "DESC");
+
+        if (!$display) {
+            $io->setAllowCreateFolders(true);
+
+            $io->open(array("path" => $path));
+            $io->streamOpen($filepath);
+
+            $io->streamWrite($this->HEADERS_c);
+        } else {
+            $csv .= $this->HEADERS_c;
+        }
+
+        foreach ($orders as $order) {
+            $id = $order->getIncrementId();
+            if (!$display) {
+                $io->streamWrite($id . $this->SEP . "MerchantCanceled" . $this->NEWLINE);
+            } else {
+                $csv .= $id . $this->SEP . "MerchantCanceled" . $this->NEWLINE;
+            }
+        }
+
+        if ($display) {
+            return $csv;
+        }
+
+        $io->streamClose();
+
+        return true;
+    }
+
+}

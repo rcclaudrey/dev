@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <WYOMIND translate="label">
+            <label>WYOMIND</label>
+            <sort_order>1000000</sort_order>
+        </WYOMIND>
+    </tabs>
+    <sections>
+        <googletrustedstores translate="label">
+            <label>Google Trusted Stores</label>
+            <tab>WYOMIND</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>999</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <license translate="label">
+                    <label>License activation</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>98</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <version translate="label comment">
+                            <label>Extension version</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Googletrustedstores_Block_Adminhtml_System_Config_Form_Field_Link</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </version>
+                        <activation_key translate="label comment">
+                            <label>Activation key</label>
+                            <comment>
+                                <![CDATA[<span class="notice">1- Fill this field with your activation key.</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_key>
+                        <get_online_license translate="label comment">
+                            <label>Remote activation :</label>
+                            <comment>
+                                <![CDATA[<span class="notice">2- Choose your activation method.
+                                    <br/>[yes = automatic activation]
+                                    <br/>[no = manual activation]
+                                </span>]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_online_license>
+                        <activation_code translate="label comment">
+                            <label>License code</label>
+                            <comment>
+                                <![CDATA[<span class="notice">3 - Fill this field with the license code you get.
+                                </span>]]>
+                            </comment>
+                            <depends>
+                                <get_online_license>0</get_online_license>
+                            </depends>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </activation_code>
+                    </fields>
+                </license>
+                <gts translate="label">
+                    <label>Google Trusted Stores settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>99</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <gts_id translate="label comment">
+                            <label>Google Trusted Stores Account Id</label>
+                            <comment>Fill this field with your google trusted stores id</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </gts_id>
+                        <gb_id translate="label comment">
+                            <label>Google Merchant Account Id</label>
+                            <comment>Fill this field with your google merchant id</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </gb_id>
+                        <country translate="label comment">
+                            <label>Country</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Number of days to include in the shipments feed
+                            ]]></comment>
+                        </country>
+                        <language translate="label comment">
+                            <label>Language</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>googletrustedstores/system_config_source_lang</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </language>
+                        <badge_position translate="label comment">
+                            <label>Trusted Stores Badge position</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>googletrustedstores/system_config_source_badgeposition</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </badge_position>
+                        <badge_container_css translate="label comment">
+                            <label>Trusted Stores Badge container style</label>
+                            <comment>Css rules to apply to the container</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <badge_position>USER_DEFINED</badge_position>
+                            </depends>
+                        </badge_container_css>
+                        <gs_product_id translate="label comment">
+                            <label>Google shopping products id template</label>
+                            <comment>Template for the google shopping products' id (default : {sku})</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </gs_product_id>
+                    </fields>
+                </gts>
+                <gts_orders translate="label">
+                    <label>Orders confirmation page settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <use_edd_module translate="label comment">
+                            <label>Use Estimated Delivery Date module</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>googletrustedstores/system_config_source_useedd</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[<a target='_blank' href="http://www.wyomind.com/estimated-delivery-date-magento.html?utm_source=module&utm_medium=googletrustedstores&utm_campaign=estimateddeliverydate">What is Estimated Delivery Date module ?</a>]]></comment>
+                        </use_edd_module>
+                        <eta translate="label comment">
+                            <label>Estimated delivery date offset</label>
+                            <comment>Days to add to the order date (default 0)</comment>
+                            <validate>validate-number</validate>
+                            <frontend_type>text</frontend_type> 
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <use_edd_module>0</use_edd_module>
+                            </depends>
+                        </eta>
+                        <eta_ship translate="label comment">
+                            <label>Estimated shipment date offset</label>
+                            <comment>Days to add to the order date (default 0)</comment>
+                            <validate>validate-number</validate>
+                            <frontend_type>text</frontend_type> 
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </eta_ship>
+                    </fields>
+                </gts_orders>
+                <testing_tools>
+                    <label>Testing and debugging tools (for developers only)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>150</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <test_badge translate="label comment">
+                            <label>Test badge code</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Googletrustedstores_Block_Adminhtml_System_Config_Form_Field_Testbadgelink</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test_badge>
+                        <test_page translate="label comment">
+                            <label>Test order confirmation page code</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>Wyomind_Googletrustedstores_Block_Adminhtml_System_Config_Form_Field_Testorderpagelink</frontend_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test_page>
+                    </fields>
+                </testing_tools>
+            </groups>
+        </googletrustedstores>
+    </sections>
+</config>
+
+
+
+

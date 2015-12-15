@@ -12,7 +12,9 @@ class Wyomind_Watchlog_Adminhtml_BasicController extends Mage_Adminhtml_Controll
 
         return $this;
     }
-
+	protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('system/watchlog');
+    }
     public function indexAction() {
         $this->_title($this->__("Watchlog"));
         $this->_title($this->__("Manager Watchlog"));

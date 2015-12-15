@@ -29,18 +29,20 @@
     <?php echo $this->__('Shipping Method') ?> <span class="changelink"><span class="separator">|</span> <a
             href="#shipping_method"
             onclick="checkout.changeSection('opc-shipping_method');
-                        return false;"><?php echo $this->__('Change') ?></a></span>
+                    return false;"><?php echo $this->__('Change') ?></a></span>
     </dt>
     <dd class="complete">
         <?php if ($this->getShippingMethod()): ?>
             <?php echo $this->getShippingDescription() ?>
             <?php
             $quote = Mage::getSingleton('checkout/session')->getQuote();
-            if (Mage::getSingleton('core/session')->getPickupatstore()  && Mage::getStoreConfig('carriers/pickupatstore/date')  && Mage::getStoreConfig('carriers/pickupatstore/time'))
-                echo "<br>" . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($quote->getPickupDatetime()) . "<br>";
+            if (Mage::getStoreConfig('carriers/pickupatstore/dropdown')) {
+                if (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date') && Mage::getStoreConfig('carriers/pickupatstore/time'))
+                    echo "<br>" . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($quote->getPickupDatetime()) . "<br>";
 
-            elseif (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date'))
-                echo "<br>" . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($quote->getPickupDatetime()) . "<br>";
+                elseif (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date'))
+                    echo "<br>" . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($quote->getPickupDatetime()) . "<br>";
+            }
             ?>
             <?php $_excl = $this->getShippingPriceExclTax(); ?>
             <?php $_incl = $this->getShippingPriceInclTax(); ?>
@@ -55,7 +57,7 @@
 
         <?php else: ?>
             <?php echo $this->__('Shipping method has not been selected yet') ?>
-        <?php endif; ?>
+    <?php endif; ?>
     </dd>
 <?php else: ?>
     <dt>

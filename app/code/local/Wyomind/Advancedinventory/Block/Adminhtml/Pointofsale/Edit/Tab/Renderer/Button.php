@@ -6,7 +6,7 @@ class Wyomind_Advancedinventory_Block_Adminhtml_Pointofsale_Edit_Tab_Renderer_Bu
         //You can write html for your button here
         $html = "<script type='text/javascript'>"
                 . "function apply(){"
-                . "$('edit_form').action='" . $this->getUrl('advancedinventory/adminhtml_pos/apply', array("place_id" => $placeId)) . "';"
+                . "$('edit_form').action='" . $this->getUrl('*/pos/apply', array("place_id" => $this->getRequest()->getParam("place_id"))) . "';"
                 . "$('edit_form').submit();"
                 . "}"
                 . "</script>";

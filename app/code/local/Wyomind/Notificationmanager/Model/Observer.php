@@ -10,9 +10,9 @@ class Wyomind_Notificationmanager_FeedReader extends Mage_AdminNotification_Mode
 
         $lastcheck = $this->getLastUpdate();
 
-        $rss_url = 'www.wyomind.com';
+        $rss_url = 'rss.wyomind.com';
 
-        return "http://$rss_url/rss/new_releases.php?domain=$url&version=$version&lastcheck=$lastcheck&now=" . time();
+        return "http://$rss_url/?domain=$url&version=$version&lastcheck=$lastcheck&now=" . time();
     }
 
     public function getLastUpdate() {

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="after_body_start">
+            <block type="page/html" name="googletrustedstores_badge" template="googletrustedstores/badge.phtml"/>
+        </reference>
+    </default>
+    
+    <checkout_onepage_success>
+        <reference name="before_body_end">
+            <block type="page/html" name="googletrustedstores" after="-" template="googletrustedstores/details.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+    
+    <googletrustedstores_validator_badge>
+         
+        <reference name="head">
+            <block type="core/text" name="googlemap">
+                <action method="setText">
+                    <text>
+           <![CDATA[<script type="text/javascript">GtsValidator = {badge:false};</script>
+           <style>
+                            #GtsValidator{
+                            background: none repeat scroll 0 0 rgb(255, 253, 181);
+                            border-bottom: 1px solid grey;
+                            color: green;
+                            font-size: 15px;
+                            font-weight: bold;
+                            left: 0;
+                            padding: 3px;
+                            position: fixed;
+                            top: 0;
+                            width: 100%;
+                            z-index: 1000000;}
+                        </style>
+                        ]]>
+                    </text>
+                </action>
+            </block>       
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>googletrustedstores/validator.js</name>
+            </action>
+           
+        </reference>
+        <update handle="catalog_product_view"/>
+    </googletrustedstores_validator_badge>
+    <googletrustedstores_validator_order>
+      
+        <reference name="head">
+            <block type="core/text" name="googlemap">
+                <action method="setText">
+                    <text>
+           <![CDATA[<script type="text/javascript">GtsValidator = {order:false};</script>
+                        <style>
+                            #GtsValidator{
+                            background: none repeat scroll 0 0 rgb(255, 253, 181);
+                            border-bottom: 1px solid grey;
+                            color: green;
+                            font-size: 15px;
+                            font-weight: bold;
+                            left: 0;
+                            padding: 3px;
+                            position: fixed;
+                            top: 0;
+                            width: 100%;
+                            z-index: 1000000;}
+                        </style>
+                        ]]>
+                    </text>
+                </action>
+            </block>        
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>googletrustedstores/validator.js</name>
+            </action>
+           
+        </reference>
+        <update handle="checkout_onepage_success"/>
+    </googletrustedstores_validator_order>
+        
+</layout>

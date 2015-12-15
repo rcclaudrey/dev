@@ -40,12 +40,12 @@ class Wyomind_PickupatStore_Model_Observer {
             $store = Mage::getModel('pointofsale/pointofsale')->getPlace($storeId)->getFirstItem();
             $storeDetails.="<br>";
             $storeDetails.=Mage::helper("pointofsale")->getHours($store->getHours(), $template = "<b>{day}</b> {H1}:{mn1} - {H2}:{mn2}<br>");
-
-           if (Mage::getStoreConfig('carriers/pickupatstore/time')) {
-                $storeDetails.="<br>" . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($order->getPickupDatetime());
-            }
-			 elseif (Mage::getStoreConfig('carriers/pickupatstore/date')) {
-                $storeDetails.="<br>" . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($order->getPickupDatetime());
+            if (Mage::getStoreConfig('carriers/pickupatstore/dropdown')) {
+                if (Mage::getStoreConfig('carriers/pickupatstore/time')) {
+                    $storeDetails.="<br>" . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($order->getPickupDatetime());
+                } elseif (Mage::getStoreConfig('carriers/pickupatstore/date')) {
+                    $storeDetails.="<br>" . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($order->getPickupDatetime());
+                }
             }
             $order->setShippingDescription($storeDetails)->save();
         }
