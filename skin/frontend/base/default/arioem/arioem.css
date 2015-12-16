@@ -1,0 +1,317 @@
+/*
+	Brand list block
+*/
+.arioem-brand-list ul {
+	clear: both;
+	margin: 0 0 20px;
+	padding: 20px 0;
+	border: 2px solid black;
+	text-align: center;
+}
+.arioem-brand-list li {
+	display: inline-block;
+	margin: 10px;
+	position: relative;
+	text-align: center;
+}
+.arioem-brand-list li img {
+	max-width: 170px;
+	max-height: 100px;
+	opacity: 0.6;
+	cursor: pointer;
+	vertical-align: middle;
+}
+.arioem-brand-list li img:hover {
+	opacity: 1;
+	transition: opacity 0.25s ease-in-out 0s;
+}
+
+
+/*
+	Brand Header block
+*/
+.arioem-brand-header {
+	width: 100%;
+	margin: 40px 0;
+	border: 2px solid;
+	border-collapse: collapse;
+}
+.arioem-brand-header td {
+	border: 2px solid;
+}
+.arioem-brand-header-image {
+    float: left;
+	width: 180px;
+    height: 80px;
+	line-height: 80px;
+	background: none repeat scroll 0 0 white;
+	text-align: center;
+}
+.arioem-brand-header-image img {
+	height: 70px;
+	vertical-align: middle;
+}
+.arioem-brand-header-text {
+	margin: 20px 0;
+	font-size: 13px;
+	line-height: 22px;
+	text-align: justify;
+}
+.arioem-brand-footer-text {
+	margin: 20px 0;
+	line-height: 22px;
+	font-size: 13px;
+	text-align: justify;
+}
+
+
+/*
+	OEM parts selector
+*/
+#arioem_containter {
+}
+.arioem-step {
+	margin: 20px 0;
+}
+.arioem-step-header {
+	padding: 5px 20px;
+	font-size: 16px;
+	font-weight: bold;
+	background: url("images/oem-header-bg-inv.png") repeat scroll 0 0 transparent;
+	color: #fff;
+	letter-spacing: 1px;
+}
+.active .arioem-step-header{}
+.arioem-step-header-caption {
+	display: inline-block;
+	min-width: 200px;
+	vertical-align: middle;
+	color: #fff;
+    text-transform: uppercase;
+}
+.active .arioem-step-header-caption {
+	color: #fff;
+}
+.arioem-step-content {
+	display: none;
+	padding: 0;
+	border: 2px solid black;
+	background-color: transparent;
+}
+.active .arioem-step-content {
+	display: block;
+}
+.arioem-step-content div.odd {
+	background-color: #E2E2E2;
+}
+
+
+/*
+	Select Vehicle Type step
+*/
+#arioem_vehicle .arioem-step-content  {
+	text-align: center;
+}
+#arioem_vehicle .arioem-step-content li {
+	display: inline-block;
+	width: 107px;
+	min-height: 20px;
+	margin: 20px 10px;
+	padding: 90px 0 0;
+	border: solid 2px transparent;
+	background: url("") no-repeat scroll center 25% transparent;
+	cursor: pointer;
+}
+#arioem_vehicle .arioem-step-content li:hover {
+	border-color: red;
+}
+#arioem_vehicle .arioem-step-content span {
+	opacity: 1;
+}
+
+/*
+	Select Year step
+*/
+#arioem_year .arioem-step-content {
+	padding: 0;
+}
+#arioem_year .arioem-step-content-col {
+	float: left;
+	padding: 20px;
+    width: 145px;
+}
+#arioem_year .arioem-step-content-col span {
+    display: block;
+    /*margin: 0 40px;*/
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+}
+#arioem_year .arioem-step-content-col span:hover {
+	background-color: red;
+    font-weight: bold;
+    color: white;
+}
+
+
+/*
+	Select Model step
+*/
+#arioem_model .arioem-step-content-col {
+	float: left;
+    width: 275px;
+	padding: 20px
+}
+#arioem_model .arioem-step-content-col span {
+	display: block;
+    padding: 5px 10px;
+	cursor: pointer;
+}
+#arioem_model .arioem-step-content-col span:hover {
+	background-color: red;
+	color: white;
+}
+
+
+/*
+	Common fixes
+*/
+.category-title h1 {
+	width: auto;
+    margin: 12px 0 0;
+	padding: 8px 0;
+    line-height: 41px;
+    font-size: 37px;
+    text-align: center;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.28);
+    font-weight: bold;
+	color: #FFF;
+	text-transform: none;
+    text-shadow: 2px 2px #787878 !important;
+}
+
+
+.arioem-subcategory-header {
+    float: left;
+    margin: 20px 0 0;
+    padding: 10px 20px;
+	background: url("images/oem-header-bg-inv.png") repeat scroll 0 0 transparent;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Helvetica";
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.arioem-brand-header.category-title {
+    background: url("images/page-title-bg.jpg") repeat scroll 0 0 transparent;
+    border: 0 none !important;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+
+.arioem-statusbar {
+	height: 100px;
+	margin: 20px 0;
+}
+.arioem-statusbar-label {
+	display: inline-block;
+	width: 240px;
+	height: 100px;
+	background: url("images/oem-find-parts-for.jpg") no-repeat scroll transparent left center;
+}
+.arioem-statusbar-vehicle {
+    display: inline-block;
+    width: 120px;
+    height: 0;
+	overflow: visible;
+    padding: 80px 0 0;
+    line-height: 20px;
+	background: url("") no-repeat scroll center center transparent;
+    text-align: center;
+	font-size: 14px;
+    vertical-align: top;
+}
+.arioem-statusbar-year {
+	display: inline-block;
+	width: 120px;
+	height: 100px;
+    line-height: 100px;
+	overflow: hidden;
+	font-size: 26px;
+    vertical-align: top;
+	text-align: center;
+}
+.arioem-statusbar-model {
+	display: inline-block;
+    min-width: 150px;
+    max-width: 250px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 20px;
+	vertical-align: top;
+    text-align: center;
+}
+.arioem-statusbar-model span {
+	display: inline-block;
+	vertical-align: middle;
+}
+.arioem-statusbar-model span span {
+    display: block;
+    line-height: 20px;
+}
+.arioem-statusbar-reset {
+	float: right;
+	height: 100px;
+	margin: 30px 0 0;
+}
+.arioem-statusbar-reset button {
+    color: #FFF;
+    padding: 10px 20px;
+	border: 0 none;
+    font-size: 16px;
+	border: 1px solid lightgray;
+	background-color: #FC2223;
+	cursor: pointer;
+}
+
+.category-oem-parts .category-title {
+	margin: 0 0 20px;
+    padding: 0;
+	background: url("/media/images/page-title-bg.jpg") repeat scroll 0 0 transparent;
+}
+.category-oem-parts .category-title h1 {
+	margin: 10px 0;
+    padding: 10px 0;
+}
+
+
+
+
+.arioem-statusbar-selection-container {}
+.arioem-statusbar-placeholder {
+    color: #aaa;
+    display: block;
+    font-size: 26px;
+    text-transform: uppercase;
+    vertical-align: middle;
+	background-color: #eee;
+}
+.arioem-statusbar-vehicle .arioem-statusbar-placeholder {
+    position: relative;
+    top: -80px;
+    height: 100px;
+    line-height: 100px;
+}
+.arioem-statusbar-model {
+	position: relative;
+}
+.arioem-statusbar-model .arioem-statusbar-placeholder {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	line-height: 100px;
+}
