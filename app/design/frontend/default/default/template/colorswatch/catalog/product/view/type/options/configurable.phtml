@@ -1,0 +1,113 @@
+<?php
+/*
+ * Inner DIV.popup-info is available var like
+ * #{image}		- will find base-image under Li tag and will
+ * #{price}		- will show different in price, simlar like in label under select option
+ * 
+ */
+
+
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl>
+    <?php foreach($_attributes as $_attribute): $swatchIsActive=Mage::getModel('colorswatch/attribute_settings')->getConfig($_attribute->getAttributeId(), 'enable_colorswatch'); ?>
+        <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
+        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+			<?php if (Mage::getStoreConfig('smdesign_colorswatch/general/show_select_box') || !$swatchIsActive || !$_attribute->getSwatches() || !$_product->getUseSmdColorswatch()) : ?>
+			<div class="input-box" style="display: block;">
+				<select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="<?php if (!$swatchIsActive || !$_attribute->getSwatches()) : ?>required-entry<?php endif; ?> super-attribute-select">
+					<option><?php echo $this->__('Choose an Option...') ?></option>
+				</select>
+			</div>
+			<?php endif; ?>
+
+			<?php  if ($_attribute->getSwatches() && $_product->getUseSmdColorswatch() && Mage::getModel('colorswatch/attribute_settings')->getConfig($_attribute->getAttributeId(), 'enable_colorswatch')) :  ?>
+			<div class="color-swatch-wrapper">
+				<ul id="color-swatch-attribute-<?php echo $_attribute->getAttributeId() ?>">
+					<?php foreach ($_attribute->getSwatches() as $swatch) :  if (0 == Mage::getStoreConfig('smdesign_colorswatch/general/swatch_load_type') || $swatch->getIsAssigned()) :?>
+					<li class="color-swatch-<?php echo $_attribute->getAttributeId() ?>-<?php echo $swatch->getOptionId(); ?> <?php echo ($swatch->getIsAssigned() ? '' : 'is-disabled-option');?>">
+						<?php $swatchImages = $this->helper('colorswatch/images')->init($swatch); ?>
+						<span class="swatch-title" style="width:<?php echo  Mage::getStoreConfig('smdesign_colorswatch/general/swatch_image_size_width'); ?>px; height:<?php echo Mage::getStoreConfig('smdesign_colorswatch/general/swatch_image_size_height'); ?>px; line-height:<?php echo Mage::getStoreConfig('smdesign_colorswatch/general/swatch_image_size_height'); ?>px;"><?php echo $swatch->getImageBase() ? '&nbsp;' : $swatch->getStoreLabel(); ?></span>
+						
+						<?php if ($swatch->getImageBase()) : ?><img class="<?php echo $swatchImages->getClassName();?>" src="<?php echo $swatchImages->resize(); ?>" /><?php endif; ?>	
+						<?php if ($swatch->getImageActive()) : $swatchImages->prepareImage(SMDesign_Colorswatch_Helper_Images::ACTIVE_IMAGE); ?><img class="<?php echo $swatchImages->getClassName();?>" src="<?php echo $swatchImages->resize(); ?>" /><?php endif; ?>	
+						<?php if ($swatch->getImageHover()) : $swatchImages->prepareImage(SMDesign_Colorswatch_Helper_Images::HOVER_IMAGE); ?><img class="<?php echo $swatchImages->getClassName();?>" src="<?php echo $swatchImages->resize(); ?>" /><?php endif; ?>	
+						<?php if ($swatch->getImageDisabled()) : $swatchImages->prepareImage(SMDesign_Colorswatch_Helper_Images::DISABLED_IMAGE); ?><img class="<?php echo $swatchImages->getClassName();?>" src="<?php echo $swatchImages->resize(); ?>" /><?php endif; ?>
+						<?php if (Mage::getStoreConfig('smdesign_colorswatch/popup_info/enabled')) : ?>
+						<div class="popup-info">
+							<?php echo $swatch->getSwatchDescription(); ?>
+						</div>
+						<?php endif; ?>
+					</li>
+					
+					<?php endif; endforeach; ?>
+				</ul>
+				<input type="hidden" id="hidden-attribute-<?php echo $_attribute->getAttributeId() ?>" name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" class="required-entry hidden-super-attribute-select" />
+			</div>	
+			<br class="clearfloat" />
+			<?php endif; ?>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
+    <script type="text/javascript">
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+		
+		spConfig.setEnableToChangeLabel(true);
+		spConfig.setEnableToResetValidationOnSelect(true);
+		
+		$$('.hidden-super-attribute-select').each( function(element, index) { element.callbackFunction = 'validateColorSwatch'; });
+		function validateColorSwatch(elmId, result){
+			var container = $(elmId).up('dd');
+			if (result == 'failed') {
+				container.removeClassName('validation-passed');
+				container.addClassName('validation-failed');
+			} else {
+				container.removeClassName('validation-failed');
+				container.addClassName('validation-passed');
+			}
+		}
+		
+		<?php if (Mage::getStoreConfig('smdesign_colorswatch/popup_info/enabled')) : ?>spConfig.initPopUpInfo();<?php endif; ?>
+			
+		spConfig.initAjaxRequest({
+			url:'<?php echo $this->getUrl('colorswatchproductview/get/mainImage')?>',
+			productId:'<?php echo $this->getProduct()->getId(); ?>',
+			imageSelector:'.product-img-box .product-image img'
+		});
+		
+
+		$$('.color-swatch-wrapper ul').each( function(element, index) {
+			element.notAvailableCallback = function(config, option) {
+				config.$prevSelectionInfo = '';
+
+				config.settings.each(function(config, element, index) {
+					if (this.attributeId == element.attributeId) {
+						throw $break;
+					}
+					if (element.value) {
+						tmpOption = config.getOption(element.attributeId, element.value);
+						config.$prevSelectionInfo += element.config.label + ': '+tmpOption.label+"\r\n";
+					}
+				}.bind(this, config));
+
+				// here add custom code if need to do someting when is clicked swatch who not have for selected combinaction but that swatch is visible
+				//console.log("Selected "+ elementUL.settings.config.label+" "+option.label+" is not available by previuse selection :\r\n" + config.$prevSelectionInfo);
+			}
+		} );	
+		
+		$$('.color-swatch-wrapper ul').each( function(element, index) {
+			element.outOfStockCallback = function(config) {
+				// this function will run when selected swatch not have his product in stock (when end product is "Out of stock")
+			}
+		} );
+		
+
+    </script>
+<?php
+	if ($this->helper('colorswatch')->hasError()) {
+		echo '<p class="error">' . $this->helper('colorswatch')->getError() . '</p>';
+	}
+?>
+<?php endif;?>

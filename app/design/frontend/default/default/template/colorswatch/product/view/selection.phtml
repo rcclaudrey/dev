@@ -1,0 +1,246 @@
+
+<div class="colorswatch-wrapper">
+	<?php foreach($this->getAttributes() as $_attribute) : ?>
+	<div class="colorswatch-attribute-wrapper colorswatch-attribute-wrapper-<?php echo $_attribute->getId()?>">
+		<?php echo $this->getSwatchesHtml($_attribute) ?>
+	</div>
+	<?php endforeach; ?>	
+</div>
+
+<script type="text/javascript">
+
+var smdColorswatch = null;
+document.observe("dom:loaded", function() {
+
+  imageSelector = '';
+  if (document.getElementById('image')) {
+    imageSelector = '#image';
+  } else if ($$('.product-view .product-img-box img')) {
+    imageSelector = '.product-view .product-img-box img';
+  }
+  
+		window.smdColorswatch = new SMDesignColorswatch('.colorswatch-attribute li', new ColorswatchConfig(<?php echo $this->getJsonConfig()?>) , {
+		
+		/* product main image option */
+		mainImageSelector : imageSelector,
+//		mainImageSelector : <?php if (count($this->getProduct()->getMediaGalleryImages()) > 0) : ?> '#image' <?php else : ?> '.product-view .product-img-box img' <?php endif; ?>,
+		image_url : '<?php echo $this->getUrl('colorswatchproductview/get/mainImage')?>',
+		
+		// to change price
+		onSwatchSelectChangeMainProductImage : true,
+		changePrice : ['.price'],
+		priceBlockClass : '.product-view',
+		
+		// to change label
+		showSelectionInLabel : ['label.colorswatch-attribute-label-#{attribute_id} .seleted-option'],
+		labelTemplate : "#{label} #{price}"
+		
+	});
+	
+<?php if (Mage::getStoreConfig('smdesign_colorswatch/general/show_options_configurable_block')) : ?> 	
+	/* to support default magento selection */
+	smdColorswatch.addEvent('clicked', 'after', function(element, attribute_id, option_id) {
+		
+		selection = this.getSelection();
+		for (att = 0; att < selection.length; att++) {
+			
+			dropdown = document.getElementById('attribute' + selection[att].attribute_id);
+
+			if (dropdown) {
+				if (selection[att].selected == true) {
+					
+					for ( var i = 0; i < dropdown.options.length; i++ ) {
+						if ( dropdown.options[i].value == selection[att].option_id ) {
+							dropdown.selectedIndex = i;
+							break;
+						}
+					}
+					spConfig.configureElement($('attribute' + selection[att].attribute_id));
+					
+				} else {
+					dropdown.selectedIndex = 0;
+				}
+			}
+		}
+		
+	});
+<?php endif; ?>	
+	
+	smdColorswatch.addEvent('clicked', 'not_clickable', function(element, attribute_id, option_id) {
+			showValidation = 1;
+			this.ColorSwatchConfig.selected.each(function(selection, index) {
+				
+				if (attribute_id == selection.attribute_id) {
+					showValidation = 0;
+				}
+				if (attribute_id != selection.attribute_id && showValidation) { 
+					if ($('colorswatch-'+selection.attribute_id)) { // colorswatch
+						$('colorswatch-'+selection.attribute_id).forceValidationShow = 1;
+						Validation.validate($('colorswatch-'+selection.attribute_id));
+					} else if ($('colorswatch-attribute'+selection.attribute_id)) { // select box
+						$('colorswatch-attribute'+selection.attribute_id).forceValidationShow = 1;
+						Validation.validate($('colorswatch-attribute'+selection.attribute_id));
+					}
+
+				}
+			});
+	});
+	
+	smdColorswatch.addEvent('clicked', 'after', function(element, attribute_id, option_id) {
+		if ($('colorswatch-'+attribute_id)) {
+			if ($('colorswatch-'+attribute_id).forceValidationShow == 1) {
+				Validation.validate($('colorswatch-'+attribute_id));
+				$('colorswatch-'+attribute_id).forceValidationShow = 0;
+			}
+		} else if ($('colorswatch-attribute'+attribute_id)) {
+			if ($('colorswatch-attribute'+attribute_id).forceValidationShow == 1) {
+				Validation.validate($('colorswatch-attribute'+attribute_id));
+				$('colorswatch-attribute'+attribute_id).forceValidationShow = 0;
+			}
+		}
+
+	});
+	
+<?php if (Mage::getStoreConfig('smdesign_colorswatch/popup_info/enabled')) : ?> 
+	smdColorswatch.addEvent('mouseover', 'before', function(element, attribute_id, option_id) {
+	
+			swatch = this.ColorSwatchConfig.getSwatch(attribute_id, option_id);
+
+			popUpInfoContent = ( new Template( <?php if (Mage::getStoreConfig('smdesign_colorswatch/popup_info/global_text') == 2) : echo "\"" . Mage::getStoreConfig('smdesign_colorswatch/popup_info/popup_info_text') . "\"";  else : ?>swatch.swatch_description<?php endif; ?>) ).evaluate({
+				image:( swatch.image.swatch ? '<img src="'+swatch.image.swatch+'" />' : ''),
+				attribute: swatch.attribute_label,
+				option:swatch.option_values.label
+			});
+			if (popUpInfoContent.length == 0) { return; }
+			$(element).setStyle({position:'relative'});
+
+			var popupDiv = document.createElement('div');
+		  popupDiv.id = 'colorswatch-popup-info-div-'+attribute_id+'-'+option_id;
+		  $(popupDiv).addClassName('popup-div');
+		  $(popupDiv).addClassName('popup-div-'+attribute_id+'-'+option_id);
+		  $(popupDiv).setStyle({ position: 'absolute', top:-1000, opacity: 0, zIndex: 1001 });
+		  
+			PopUpTextElement = document.createElement('span');
+			PopUpTextElement.innerHTML = popUpInfoContent;
+
+			$(PopUpTextElement).setStyle({ border: '1px solid red', display: 'block'});
+			popupDiv.appendChild(PopUpTextElement);
+			element.appendChild(popupDiv);
+
+			if (parseInt($(popupDiv).getWidth()) < 3*parseInt($(element).getWidth())) {
+				$(PopUpTextElement).setStyle({ minWidth: (3*parseInt($(element).getWidth()))+'px' });
+			}
+
+      popupDiv.style.top = (-(parseInt($(element).getHeight())/2+$(popupDiv).getHeight())) + 'px';
+      popupDiv.style.left = ((parseInt($(element).getWidth())/2)-parseInt($(popupDiv).getWidth())/2) + 'px';
+
+      $(popupDiv).fade({ duration: 1, from: 0, to: 1 });
+
+	});
+
+	smdColorswatch.addEvent('mouseout', 'after', function(element, attribute_id, option_id) {
+
+	  popupDiv = document.getElementById('colorswatch-popup-info-div-'+attribute_id+'-'+option_id);
+  	if (popupDiv) { popupDiv.parentNode.removeChild(popupDiv); }
+
+	});
+	<?php endif; ?>
+
+<?php /* emulate click on mouse hover	
+//	smdColorswatch.addEvent('mouseover', 'before', function(element, attribute_id, option_id, event) {
+//	  this.clicked(element, attribute_id, option_id, event);
+//	});
+*/ ?>
+
+});
+
+<?php if (Mage::getStoreConfig('smdesign_colorswatch/general/show_options_configurable_block')) : ?>
+document.observe("dom:loaded", function() {
+
+	$$('.product-options select.super-attribute-select').each(function(element, index) {
+		
+		Event.observe(element, 'change', function(smdColorswatch, event) {
+			attMatch = /.*\[(\d+)\]/.exec(this.name);
+			if (attMatch[1]) {
+				elementCurrent = $$('.colorswatch-'+attMatch[1]+'-'+this.value)[0];
+				elementCurrent.parentNode.selectedIndex = elementCurrent.index;
+				smdColorswatch.clicked(elementCurrent, attMatch[1], this.value, event);
+			}
+		}.bind(element,smdColorswatch));
+		
+	});
+	
+});
+<?php endif; ?>
+
+if (typeof(opConfig) != 'undefined') {
+Object.extend(opConfig , {
+	
+	getCurrentSelectionPrice:function() {
+		
+			price = new Number();
+      config = this.config;
+      skipIds = [];
+      $$('.product-custom-option').each(function(element){
+          var optionId = 0;
+          element.name.sub(/[0-9]+/, function(match){
+              optionId = match[0];
+          });
+          if (this.config[optionId]) {
+              if (element.type == 'checkbox' || element.type == 'radio') {
+                  if (element.checked) {
+                      if (config[optionId][element.getValue()]) {
+                          price += parseFloat(config[optionId][element.getValue()]);
+                      }
+                  }
+              } else if(element.hasClassName('datetime-picker') && !skipIds.include(optionId)) {
+                  dateSelected = true;
+                  $$('.product-custom-option[id^="options_' + optionId + '"]').each(function(dt){
+                      if (dt.getValue() == '') {
+                          dateSelected = false;
+                      }
+                  });
+                  if (dateSelected) {
+                      price += parseFloat(this.config[optionId]);
+                      skipIds[optionId] = optionId;
+                  }
+              } else if(element.type == 'select-one' || element.type == 'select-multiple') {
+                  if (element.options) {
+                      $A(element.options).each(function(selectOption){
+                          if (selectOption.selected) {
+                              if (this.config[optionId][selectOption.value]) {
+                                  price += parseFloat(this.config[optionId][selectOption.value]);
+                              }
+                          }
+                      });
+                  }
+              } else {
+                  if (element.getValue().strip() != '') {
+                      price += parseFloat(this.config[optionId]);
+                  }
+              }
+          }
+      });
+			return price;
+		
+		
+	},
+	
+	reloadPrice : function() {
+		price = smdColorswatch.ColorSwatchConfig.getTotalSelectionPrice();
+    try {
+        optionsPrice.changePrice('options', price);
+        optionsPrice.reload();
+    } catch (e) {
+
+    }
+
+	}
+	
+});
+}
+
+</script>
+
+<?php echo $this->getSwatchesCss() ?>
+<br class="colorswatch-clear" />

@@ -3,7 +3,7 @@
 <config>
     <modules>
         <Wyomind_Advancedinventory>
-            <version>5.1.4</version>
+            <version>5.1.2</version>
         </Wyomind_Advancedinventory>
     </modules>
     <stores>
@@ -21,7 +21,7 @@
     <default>
         <advancedinventory>
             <license>
-                <version>5.1.4</version>
+                <version>5.1.2</version>
             </license>
             <setting>
                 <usemultistock>1</usemultistock>
@@ -71,17 +71,23 @@
         </layout>
     </frontend>
     <admin>
-        
         <routers>
-           
+            <advancedinventory>
+                <use>admin</use>
+                <args>
+                    <module>Wyomind_Advancedinventory</module>
+                    <frontName>advancedinventory</frontName>
+                </args>
+                
+            </advancedinventory>
             <adminhtml>
                 <args>
                     <modules>
-                        <Wyomind_Advancedinventory before="Mage_Adminhtml">Wyomind_Advancedinventory_Adminhtml</Wyomind_Advancedinventory>
+                        <wyomind_advancedinventory before="Mage_Adminhtml">Wyomind_Advancedinventory_Adminhtml</wyomind_advancedinventory>
                     </modules>
-                </args> 
+                </args>
             </adminhtml>
-        </routers>    
+        </routers>
     </admin>
     <adminhtml>
         <menu> 
@@ -90,7 +96,7 @@
                     <stocks translate="title" module="advancedinventory">
                         <title>Manage Stocks</title>
                         <sort_order>1</sort_order>
-                        <action>adminhtml/stocks</action>
+                        <action>advancedinventory/adminhtml_stocks</action>
                     </stocks>
                 </children>
                
@@ -100,22 +106,22 @@
                     <pointofsale translate="title" module="pointofsale">
                         <title>POS / Warehouses</title>
                         <sort_order>1</sort_order>
-                        <action>adminhtml/manage</action>
+                        <action>pointofsale/adminhtml_manage</action>
                         <children>
                             <grid translate="title" module="pointofsale">
                                 <title>Manage POS / Warehouses</title>
                                 <sort_order>1</sort_order>
-                                <action>adminhtml/manage</action>
+                                <action>pointofsale/adminhtml_manage</action>
                             </grid>
                             <permissions translate="title" module="advancedinventory">
                                 <title>Manage Users Permissions</title>
                                 <sort_order>2</sort_order>
-                                <action>adminhtml/permissions</action>
+                                <action>advancedinventory/adminhtml_permissions</action>
                             </permissions>
                             <log translate="title" module="advancedinventory">
                                 <title>Stock movement journal</title>
                                 <sort_order>3</sort_order>
-                                <action>adminhtml/log</action>
+                                <action>advancedinventory/adminhtml_log</action>
                             </log>
                         </children>
                     </pointofsale>

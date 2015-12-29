@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Advancedinventory>
+            <version>0.1.0</version>
+        </Advancedinventory>
+    </modules>
+    <api>
+        <resources>
+            <advancedinventory translate="title" module="advancedinventory">
+                <model>Wyomind_Advancedinventory_Model_Api</model>
+                <title>Advanced Inventory Resource</title>
+                <acl>advancedinventory</acl>
+                <methods>
+                    <setMultistock translate="title" module="advancedinventory">
+                        <title>Enable/disabled multi-stock by product</title>
+                        <acl>advancedinventory/setManageLocalStock</acl>
+                        <method>setManageLocalStock</method>
+                    </setMultistock>
+                    <setData translate="title" module="advancedinventory">
+                        <title>Update stock data by warehouse</title>
+                        <acl>advancedinventory/setStockData</acl>
+                        <method>setStockData</method>
+                    </setData>
+                    <getData translate="title" module="advancedinventory">
+                        <title>Retrieve stock data by warehouse</title>
+                        <acl>advancedinventory/getStockData</acl>
+                        <method>getStockData</method>
+                    </getData>
+                    <getWh translate="title" module="advancedinventory">
+                        <title>Retrieve all warehouses ids</title>
+                        <acl>advancedinventory/getWhPos</acl>
+                        <method>getWhPos</method>
+                    </getWh>
+                    <writejournal translate="title" module="advancedinventory">
+                        <title>Insert data into journal</title>
+                        <acl>advancedinventory/insertLogRow</acl>
+                        <method>insertLogRow</method>
+                    </writejournal>
+                    
+                </methods>
+                <faults module="advancedinventory">                   
+                </faults>
+            </advancedinventory>
+        </resources>
+        <acl>
+            <resources>
+                <advancedinventory translate="title" module="advancedinventory">
+                    <title>Advanced Inventory</title>
+                    <setManageLocalStock translate="title" module="advancedinventory">
+                        <title>Enable/disabled multi-stock by product</title>
+                    </setManageLocalStock>
+                    <setStockData translate="title" module="advancedinventory">
+                        <title>Update stock data by warehouse</title>
+                    </setStockData>
+                    <getStockData translate="title" module="advancedinventory">
+                        <title>Retrieve stock data by warehouse</title>
+                    </getStockData>
+                    <getWhPos translate="title" module="advancedinventory">
+                        <title>Retrieve all warehouses ids</title>
+                    </getWhPos>
+                    <insertLogRow translate="title" module="advancedinventory">
+                        <title>Insert data into journal</title>
+                    </insertLogRow>
+                </advancedinventory>
+                <all>
+                </all>
+            </resources>
+        </acl>
+    </api>
+</config>
