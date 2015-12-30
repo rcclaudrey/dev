@@ -77,7 +77,7 @@ foreach ($orderedItems as $item) {
                     <?php $k = 0; ?>
                     <?php foreach ($pos_wh as $p) : ?>
                         <?php $display = (in_array($p->getPlaceId(), $pos) || $all) ? '' : 'none'; ?>
-                        <th  style="white-space:nowrap; display:<?php echo $display ?>" colspan='2' class='double-border' title='<?php echo $p->getName() ?>'>
+                        <th  style="display:<?php echo $display ?>" colspan='2' class='double-border' title='<?php echo $p->getName() ?>'>
                             <?php if (!Mage::getStoreConfig("advancedinventory/setting/multiple_assignation_enabled")): ?>
 
                                 <?php ($warehouses[0] == $p->getPlaceId()) ? $checked = "checked='checked'" : $checked = null; ?>
@@ -140,7 +140,7 @@ foreach ($orderedItems as $item) {
 
 <input type='hidden' id='assignation_to_json' value='<?php echo $order->getAssignationStock(); ?>'/>
 <input type='hidden' id='assignation_to_json_origin' value='<?php echo $order->getAssignationStock(); ?>'/>
-<input type='hidden' id='assignation_action' value='<?php echo $this->getUrl("*/stocks/assignation"); ?>'/>
+<input type='hidden' id='assignation_action' value='<?php echo $this->getUrl("advancedinventory/adminhtml_stocks/assignation"); ?>'/>
 <input type='hidden' id='order_id' value='<?php echo $order_id ?>'/>
 <div style='clear:both'></div>
 <ul>

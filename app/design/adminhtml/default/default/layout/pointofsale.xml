@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <adminhtml_manage_index>
+    <pointofsale_adminhtml_manage_index>
         <reference name="content">
             <block type="pointofsale/adminhtml_manage" name="pointofsale" />
         </reference>
-    </adminhtml_manage_index>
+    </pointofsale_adminhtml_manage_index>
 </layout>

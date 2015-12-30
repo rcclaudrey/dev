@@ -12,7 +12,7 @@
                 <type>skin_js</type>
                 <name>pointofsale/js/pointofsale.js</name>
             </action>	
-            <action method="addItem">
+             <action method="addItem">
                 <type>skin_js</type>
                 <name>pickupatstore/js/script.js</name>
             </action>	
@@ -25,65 +25,6 @@
             </block>			
         </reference>
         
-        <reference name="shipping.progress">
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/progress/shipping.phtml</template>
-            </action>
-        </reference>
-        <reference name='shippingmethod.progress'>
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/progress/shipping_method.phtml</template>
-            </action>
-        </reference>
-        <reference name="checkout.onepage.billing">
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/billing.phtml</template>
-            </action>
-        </reference>
-        <reference name="checkout.onepage.shipping_method.available">
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/shipping_method/available.phtml</template>
-            </action>
-        </reference>
     </checkout_onepage_index>
-    
-    <checkout_onepage_shippingmethod>
-        <reference name='root'>
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/shipping_method/available.phtml</template>
-            </action>
-        </reference>
-    </checkout_onepage_shippingmethod>
-    
-    <checkout_onepage_progress>
-        <reference name="shipping.progress">
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/progress/shipping.phtml</template>
-            </action>
-        </reference>
-        <reference name='shippingmethod.progress'>
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/progress/shipping_method.phtml</template>
-            </action>
-        </reference>
-    </checkout_onepage_progress>
-
-
-    <checkout_onepage_progress_shipping>
-        <reference name="shipping.progress">
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/progress/shipping.phtml</template>
-            </action>
-        </reference>
-    </checkout_onepage_progress_shipping>
-
-
-    <checkout_onepage_progress_shipping_method>
-        <reference name='shippingmethod.progress'>
-            <action method='setTemplate'>
-                <template>pickupatstore/checkout/onepage/progress/shipping_method.phtml</template>
-            </action>
-        </reference>
-    </checkout_onepage_progress_shipping_method>
     
 </layout> 

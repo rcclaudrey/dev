@@ -59,7 +59,7 @@ class Wyomind_Advancedinventory_Block_Adminhtml_Catalog_Product_Renderer_Treevie
                                     'id': 'w" . $website->getId() . "-p" . $row->getId() . "',
                                     'txt': '<b><u>" . $website->getName() . " (" . $qty . ")</u></b>',
                                     'onopenpopulate' : myOpenPopulate,
-                                    'openlink' : '" . Mage::getUrl('*/stocks/treeview', array("type" => "storegroup", 'instanceid' => $website->getId(), "productid" => $row->getId())) . "',
+                                    'openlink' : '" . Mage::getUrl('advancedinventory/adminhtml_stocks/treeview', array("type" => "storegroup", 'instanceid' => $website->getId(), "productid" => $row->getId())) . "',
                                     'canhavechildren' : true
                                 }
                             );";
@@ -75,7 +75,7 @@ class Wyomind_Advancedinventory_Block_Adminhtml_Catalog_Product_Renderer_Treevie
                                     'id': 's" . $storeId . "-p" . $row->getId() . "',
                                     'txt': '" . Mage::app()->getStore($storeId)->getName() . " (" . (int) $qty . ")',
                                     'onopenpopulate' : myOpenPopulate,
-                                    'openlink' : '" . Mage::getUrl('*/stocks/treeview', array("type" => "pos", 'instanceid' => $storeId, "productid" => $row->getId())) . "',
+                                    'openlink' : '" . Mage::getUrl('advancedinventory/adminhtml_stocks/treeview', array("type" => "pos", 'instanceid' => $storeId, "productid" => $row->getId())) . "',
                                     'canhavechildren' : true
                                 });";
                 }

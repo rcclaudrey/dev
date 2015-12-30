@@ -24,7 +24,6 @@ class Wyomind_Pointofsale_Helper_Data extends Mage_Core_Helper_Data {
     function getHours($data) {
         $data = json_decode($data);
         $content = null;
-        if ($data != null)
         foreach ($data as $day => $hours) {
 
             $content.=$this->__($day);
