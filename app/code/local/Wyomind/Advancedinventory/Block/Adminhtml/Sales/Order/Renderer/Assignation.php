@@ -7,7 +7,7 @@ class Wyomind_Advancedinventory_Block_Adminhtml_Sales_Order_Renderer_Assignation
             return "<div style='color:grey;'>" . Mage::helper('advancedinventory')->__("Order placed before multistock initialization") . "</div>";
 
 
-        $link_open = '<a class="assignation_cell" href="javascript:InventoryManager.changeAssignation(' . $row->getId() . ',' . $this->getRequest()->getParam('store', 0) . ',\'' . $this->getUrl('advancedinventory/adminhtml_stocks/details') . '\')" title="' . Mage::helper('advancedinventory')->__('Change assignation') . '">';
+        $link_open = '<a class="assignation_cell" href="javascript:InventoryManager.changeAssignation(' . $row->getId() . ',' . $this->getRequest()->getParam('store', 0) . ',\'' . $this->getUrl('*/stocks/details') . '\')" title="' . Mage::helper('advancedinventory')->__('Change assignation') . '">';
         $link_close = "</a>";
         try {
             $data = Mage::helper('core')->jsonDecode($row->getAssignationStock());

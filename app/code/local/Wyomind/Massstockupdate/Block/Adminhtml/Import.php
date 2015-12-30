@@ -12,7 +12,7 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import extends Mage_Adminhtml_Bloc
 
         $this->_addButton('backup', array(
             'label' => Mage::helper('massstockupdate')->__('Create a stock backup'),
-            'onclick' => 'document.location=\''.$this->getUrl('*/adminhtml_import/backup').'\'',
+            'onclick' => 'document.location=\''.$this->getUrl('adminhtml/imports/backup').'\'',
             'class' => 'go'
         ));
     }

@@ -80,13 +80,13 @@ class Wyomind_Advancedinventory_Block_Adminhtml_Pointofsale_Edit_Tab_AdvancedInv
                 2 => Mage::helper('advancedinventory')->__('Allow Qty below 0 and Notify Customer'),
             ),
         ));
-        $fieldset->addField('group', 'text', array(
-            'label' => Mage::helper('pointofsale')->__('Store group code'),
-            'name' => 'group',
-            'class' => 'group',
-            'note' => 'Stores that share the same store code will be decreased synchronously',
-        ));
-        $customField = $fieldset->addField('letsgo', 'text');
+//        $fieldset->addField('group', 'text', array(
+//            'label' => Mage::helper('pointofsale')->__('Store group code'),
+//            'name' => 'group',
+//            'class' => 'group',
+//            'note' => 'Stores that share the same store code will be decreased synchronously',
+//        ));
+        $customField = $fieldset->addField('letsgo', 'text',null);
 
         $customField->setRenderer($this->getLayout()->createBlock('advancedinventory/adminhtml_pointofsale_edit_tab_renderer_button'));
 

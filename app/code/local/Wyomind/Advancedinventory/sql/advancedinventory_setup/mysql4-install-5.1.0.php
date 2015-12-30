@@ -79,11 +79,11 @@ $installer->getConnection()->addColumn(
 // ajout du champ assignation dans les commandes
 if (version_compare(Mage::getVersion(), '1.4.0', '<')) {
     $installer->getConnection()->addColumn(
-            $installer->getTable('sales_order'), 'assignation_stock', 'VARCHAR(5000) DEFAULT NULL'
+            $installer->getTable('sales_order'), 'assignation_stock', 'TEXT'
     );
 
     $installer->getConnection()->addColumn(
-            $installer->getTable('sales_order'), 'assignation_warehouse', 'VARCHAR(5000) DEFAULT 0'
+            $installer->getTable('sales_order'), 'assignation_warehouse', 'TEXT'
     );
     $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
     $setup->addAttribute('order', 'assignation_stock', array('type' => 'static', 'visible' => false));
@@ -91,17 +91,17 @@ if (version_compare(Mage::getVersion(), '1.4.0', '<')) {
     $setup->addAttribute('order', 'assignation_warehouse', array('type' => 'static', 'visible' => false));
 } else {
     $installer->getConnection()->addColumn(
-            $installer->getTable('sales_flat_order'), 'assignation_stock', 'VARCHAR(5000) DEFAULT NULL'
+            $installer->getTable('sales_flat_order'), 'assignation_stock', 'TEXT'
     );
     $installer->getConnection()->addColumn(
-            $installer->getTable('sales/order_grid'), 'assignation_stock', 'VARCHAR(5000) DEFAULT NULL'
+            $installer->getTable('sales/order_grid'), 'assignation_stock', 'TEXT'
     );
 
     $installer->getConnection()->addColumn(
-            $installer->getTable('sales_flat_order'), 'assignation_warehouse', 'VARCHAR(5000) DEFAULT 0'
+            $installer->getTable('sales_flat_order'), 'assignation_warehouse', 'TEXT'
     );
     $installer->getConnection()->addColumn(
-            $installer->getTable('sales/order_grid'), 'assignation_warehouse', 'VARCHAR(5000) DEFAULT 0'
+            $installer->getTable('sales/order_grid'), 'assignation_warehouse', 'TEXT'
     );
 }
 Mage::getConfig()->saveConfig("advancedinventory/setting/order_notification_from_date", Mage::getSingleton('core/date')->gmtDate('l Y-m-d H:i:s'), "default", "0");

@@ -144,7 +144,7 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import_Edit_Tab_Setting extends Ma
             'name' => 'file_separator',
             'value' => $model->getFileSeparator(),
             'label' => Mage::helper('massstockupdate')->__('Field separator'),
-            "required" => true,
+            "required" => false,
             'options' => array(
                 ';' => ';',
                 ',' => ',',
@@ -156,7 +156,7 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import_Edit_Tab_Setting extends Ma
             'name' => 'file_enclosure',
             'value' => $model->getFileEnclosure(),
             'label' => Mage::helper('massstockupdate')->__('Field enclosure'),
-            "required" => true,
+             "required" => true,
             'options' => array(
                 "none" => 'none',
                 '"' => '"',
