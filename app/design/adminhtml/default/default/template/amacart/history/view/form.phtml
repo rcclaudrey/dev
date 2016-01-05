@@ -1,0 +1,24 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+?>
+<div class="box-left">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head"><?php echo $this->helper('amacart')->__('Email Preview') ?></h4>
+        </div>
+    </div>
+    <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+                <tbody>
+                    <tr>
+                        <td class="label"><label><?php echo $this->helper('amacart')->__('Head') ?></label></td>
+                        <td class="value"><strong><?php echo $this->getModel()->getSubject()?></strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</div>

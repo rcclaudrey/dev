@@ -1,0 +1,146 @@
+<!--@subject {{var store.getFrontendName()}}: Items in your shopping bag  @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"var store.getFrontendName()":"Store Name",
+"var urlmanager.mageUrl('amacartfront/main/unsubscribe')":"Unsubscribe Url",
+"var urlmanager.mageUrl('amacartfront/main/order')":"Place Order Url",
+"var urlmanager.mageUrl('checkout/onepage/index')":"Checkout Url",
+"var history.getCouponCode()":"Coupon Code",
+"var customer.getFirstname()":"First Name",
+"var customer.getMiddlename()":"Middle Name",
+"var customer.getLastname()":"Last Name",
+"var customer.getSuffix()":"Suffix",
+"var quote.getSubtotalWithCoupon()":"Subtotal With Coupon",
+"var quote.getSubtotalWithoutCoupon()":"Subtotal Without Coupon",
+"var quote.getSubtotalTaxWithCoupon()":"Subtotal(with tax) With Coupon",
+"var quote.getSubtotalTaxWithoutCoupon()":"Subtotal(with tax) Without Coupon",
+"var formatmanager.formatDate('customer', 'dob')":"Customer: Date Of Birth",
+"var formatmanager.formatDate('customer', 'created_at')":"Customer: Registration Date",
+"var formatmanager.formatDate('customer_log', 'login_at')":"Customer: Last Login"
+}
+@-->
+
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <!-- change color styles for  backgr-color, bord_color and tr tag-->
+        <table class="main-table" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="font-family: 'Myriad Pro', 'Verdana', Geneva; font-size: 16pt;">
+            <tr class="top">
+                <td align="center" valign="top">
+                    <table class="top-table font_12" border="0" cellpadding="10" cellspacing="0" width="600" style="width:600px; max-width: 600px;font-size: 12pt;font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                        <tr>
+                            <td align="left"><img src="{{var logo_url}}"/></td>
+                            <td align="right">Phone: +123 456 789</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="body">
+                <td align="center" valign="top">
+                    <table class="container bord_color" cellpadding="0" cellspacing="0" width="600" style="width:600px; max-width: 600px;overflow: hidden; border-radius:12px; border: 1px solid #FFA453">
+                        <tr class="email-head">
+                            <td align="center" valign="top">
+                                <table class="table-head" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr width="100%">
+                                        <td class="banner backgr-color" align="center" valign="top" style="background-color: #FFA453; max-height: 76px;"><div style="height: 76px;max-height: 76px;"><img src="{{skin url="images/amacart/banner.png" _area='frontend'}}" alt="" /></div></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="head" style="padding: 10px 20px 10px 20px;font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                                           <span style="font-size: 18pt;">Dear {{var customer.getFirstname()}} {{var customer.getLastname()}},</span><br/>
+                                            You have items in your shopping bag.<br/>
+											   Get them with discount!<br/>
+											</td>
+                                    </tr>
+                                    
+                                    <tr >
+                                        <td align="center" valign="top" class="head" style="padding: 10px 20px 10px 20px;">
+                                            <table class="contact font_12" width="100%" style="font-size: 12pt;font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                                                <tr>
+                                                    <td align="left" ><img src="{{skin url="images/amacart/phone.png" _area='frontend'}}" style="top: 4px; position: relative;" alt="" /> +7(45) 123 45 67</td>
+                                                    <td align="center"><img src="{{skin url="images/amacart/mail.png" _area='frontend'}}" style="top: 4px; position: relative;" alt="" /> info@company_name.com</td>
+                                                    <td align="right"><img src="{{skin url="images/amacart/arrow.png" _area='frontend'}}" style="top: 4px; position: relative;" alt="" /> <a href="mailto:info@company_name.com">reply to this mail</a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td align="center" valign="top" class="head" style="padding: 10px 20px 10px 20px;">
+                                            <hr style="border: 0; border-top: 1px dashed #FFA453; margin: 0;" />
+                                            Save money with coupon code <span style="border: 1px solid #E0E0E0; margin-left: 10px; background-color: #f9f9f9;">{{var history.getCouponCode()}}  !</span>
+                                            <hr style="border: 0; border-top: 1px dashed #FFA453; margin: 0;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <tr >
+                            <td>
+                                <table class="email-body-button backgr-color font_18" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FFA453; font-size: 18pt; color: #FFFFFF; font-weight: bold; padding: 10px 20px 10px 20px; font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                                    <tr>
+                                        <td align="left">Items in your cart...</td>
+                                        <td align="right" style="color: #FFFFFF;"><a href="{{var urlmanager.mageUrl('amacartfront/main/order')}}" style="color: #FFFFFF;font-size: 16pt;">View carts>></a></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="email-body">
+                            <td>
+                                {{layout
+                                    handle="amacart_email_quote_items" 
+                                    quote=$quote 
+                                    history=$history
+                                    mode=list
+                                    image=yes
+                                    price=yes
+                                    priceFormat=exculdeTax
+                                    descriptionFormat=short
+                                    discount=yes
+                                    optionList=yes
+                                }}<br/>							   
+                            </td>
+                        </tr>
+                        
+                        <tr class="email-footer">
+                            <td>
+                             <table cellpadding="10" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td align="center" class="font_16" style="font-size: 16pt; font-weight: 600;">
+                                            <a style="text-decoration:none;" href="{{var urlmanager.mageUrl('checkout/onepage/index')}}">
+                                                <div class="footer-button backgr-color" style="padding-top: 5px; width: 250px;height: 30px;background-color: #2AC711;border-radius:6px;color: #FFFFFF;">
+                                                    CHECK OUT
+                                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!--tr>
+                                        <td align="" style="color:#FFA453; font-family: 'Myriad Pro', 'Verdana', Geneva;">
+											   Total with coupon: {{var quote.getSubtotalWithCoupon()}}<br/>
+											   Total without coupon:{{var quote.getSubtotalWithoutCoupon()}}<br/>
+											  	Don't want to...
+                                        </td>
+                                    </tr-->
+                             </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="footer">
+                 <td align="center" valign="top">
+                     <table border="0" cellpadding="20" cellspacing="0" width="600" style="width:600px; max-width: 600px;">
+                        <tr>
+                            <td align="center" valign="top" class="font_14" style="font-size: 14pt; font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                                Delivered by  CompanyName, Street 123, City |Telephone | support@company.com <a href="{{var urlmanager.mageUrl('amacartfront/main/unsubscribe')}}" style="color:#FFA453;">Unsubscibe</a>
+                            </td>
+                        </tr>
+                    </table>        
+                 </td>
+            </tr>
+        </table>
+    </body>

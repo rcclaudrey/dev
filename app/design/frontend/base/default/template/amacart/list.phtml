@@ -1,0 +1,107 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+?>
+<?php
+if ($this->getQuote()) {
+    $quoteItems = $this->getQuote()->getAllVisibleItems();
+?>
+
+<?php
+    foreach ($quoteItems as $_item){
+        
+//        $_product = $_item->getProduct();
+//        Mage::log($_product->debug());
+        $_product = Mage::getModel('catalog/product')
+                ->setStoreId($_item->getQuote()->getStoreId())
+                ->load($_item->getProductId());
+        
+        $price = $this->showPriceIncTax() ? $_item->getPriceInclTax() : $_item->getPrice();
+        
+        $price = $_item->getQuote()->getBaseToQuoteRate() * $price;
+        
+        $discountPrice = $this->getDiscountPrice($price);
+        $showDiscount = $price != $discountPrice && $this->showDiscount();
+?>
+    <table class="product" cellpadding="0" cellspacing="0">
+                                    <tr>
+					<?php if ($this->showImage()) {?>
+                                         <td class="product-image" valign=top style="padding: 20px 10px 20px 20px; width: 100px; height: 100px; font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                                            <a href="<?php echo $this->getProductUrl($_product) ?>">
+						<img class="product-image-image bord_color" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" alt="" width="100" height="100" style="border: 1px solid #FFA453"/>
+					    </a>
+                                        </td> 
+                                        <?php }?>
+                                        <td class="product-text" style="padding: 20px 20px 20px 10px;">
+                                          <table class="product-text">
+                                              <tr class="name font_16" style="font-size: 16pt; font-weight: 600;color:black; font-family: 'Myriad Pro', 'Verdana', Geneva;"><td>
+                                                    <a style="color: black;" href="<?php echo $this->getProductUrl($_product) ?>" ><?php echo $this->escapeHtml($_product->getName()) ?></a>   
+                                                <?php if ($this->showOptionList() && $_options = $this->getOptionList($_item)) {?>
+                                                <dl class="item-options">
+                                                    <?php foreach ($_options as $_option) { ?>
+                                                    <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
+                                                    <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                                                    <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?> style="margin-left: 20px;"><?php echo $_formatedOptionValue['value'] ?>
+                                                        <?php if (isset($_formatedOptionValue['full_view'])) { ?>
+                                                        <div>
+                                                            <dl>
+                                                                <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                                                                <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                                                            </dl>
+                                                        </div>
+                                                        <?php } ?>
+                                                    </dd>
+                                                    <?php } ?>
+                                                </dl>
+                                              <?php }?>
+                                              </td>
+                                              
+                                              </tr>
+                                              
+                                              <tr class="description font_12" style="font-size: 12pt; font-family: 'Myriad Pro', 'Verdana', Geneva;"><td style="font-family: 'Myriad Pro', 'Verdana', Geneva;">
+                                                  <?php echo $this->showShortDescription() ? $_product->getShortDescription() : $_product->getDescription() ?>
+                                              </td></tr>
+                                              
+                                              <tr class="product-price" style="font-size: 18pt; color: #FFA453; font-family: 'Myriad Pro', 'Verdana', Geneva;"><td>
+               <?php if ($this->showPrice()) {?>
+                                                      <p><?php 
+                                                      
+                print $this->__('Price:') ;
+                
+                print "&nbsp;";
+                
+                print Mage::app()->getLocale()->currency($_item->getQuote()->getQuoteCurrencyCode())
+                    ->toCurrency($price);
+                
+                if ($_item->getQty() > 1){
+                    print '&nbsp;x&nbsp;'.$_item->getQty();
+                }
+            ?>
+           
+            <?php if ($showDiscount) {
+                    print "<br/>";
+                    print $this->__('Discount Price').":" ;
+                    print "&nbsp;";
+                    print Mage::app()->getLocale()->currency($_item->getQuote()->getQuoteCurrencyCode())
+                        ->toCurrency($discountPrice);
+                    if ($_item->getQty() > 1){
+                        print '&nbsp;x&nbsp;'.$_item->getQty();
+                    }
+                
+                }
+            ?>
+            </p>
+            <?php }?>
+                                              </td></tr>
+                                          </table> 
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr style="border: 0; border-top: 1px dashed #FFA453; margin: 0;" />
+ <?php }?>
+ 
+
+<?php }?>

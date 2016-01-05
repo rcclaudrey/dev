@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Acart>
+            <version>1.11.10</version>
+        </Amasty_Acart>
+    </modules>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Amasty_Acart after="Mage_Adminhtml">Amasty_Acart_Adminhtml</Amasty_Acart>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <routers>
+            <amacartfront>
+                <use>standard</use>
+                <args>
+                    <module>Amasty_Acart</module>
+                    <frontName>amacartfront</frontName>
+                </args>
+            </amacartfront>
+        </routers>
+        <translate>
+            <modules>
+                <Amasty_Acart>
+                    <files>
+                        <default>Amasty_Acart.csv</default>
+                    </files>
+                </Amasty_Acart>
+            </modules>
+        </translate>
+    </frontend>    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Amasty_Acart>
+                    <files>
+                        <default>Amasty_Acart.csv</default>
+                    </files>
+                </Amasty_Acart>
+            </modules>
+        </translate>
+        <menu>
+            <promo>
+                <children>
+                    <amacart translate="title" module="amacart">
+                        <title>Abandoned Cart Emails</title>
+                        <sort_order>900</sort_order>
+                        <!--<action>amacart/adminhtml_rule</action>-->
+                        <children>
+                            <amacart_rule translate="title" module="amacart">
+                                <title>Rules</title>
+                                <sort_order>900</sort_order>
+                                <action>adminhtml/amacart_rule/index</action>
+                            </amacart_rule>
+                        
+                            <amacart_queue translate="title" module="amacart">
+                                <title>Emails Queue</title>
+                                <sort_order>1000</sort_order>
+                                <action>adminhtml/amacart_queue/index</action>
+                            </amacart_queue>
+                        
+                            <amacart_history translate="title" module="amacart">
+                                <title>History</title>
+                                <sort_order>1100</sort_order>
+                                <action>adminhtml/amacart_history/index</action>
+                            </amacart_history>
+                            <amacart_blacklist translate="title" module="amacart">
+                                <title>Black List</title>
+                                <sort_order>1200</sort_order>
+                                <action>adminhtml/amacart_blist/index</action>
+                            </amacart_blacklist>
+                        </children>
+                    </amacart>
+                    
+</children>
+            </promo>
+        </menu> 
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <promo>
+                            <children>
+                                
+                                <amacart translate="title" module="amacart">
+                                    <title>Amasty Abandoned Cart Email</title>
+                                    <children>
+                                        <amacart_rule translate="title">
+                                            <title>Rules</title>
+                                        </amacart_rule>
+                                        <amacart_queue translate="title">
+                                            <title>Queue</title>
+                                        </amacart_queue>
+                                        <amacart_history translate="title">
+                                            <title>History</title>
+                                        </amacart_history>
+                                    </children>
+                                </amacart>
+                              
+                            </children>
+                        </promo>
+                     </children>
+                </admin> 
+            </resources>
+        </acl>
+        
+        <layout>
+            <updates>
+                <amacart>
+                    <file>amacart.xml</file>
+                </amacart>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <global>
+        <models>
+            <amacart>
+                <class>Amasty_Acart_Model</class>
+                <resourceModel>amacart_mysql4</resourceModel>
+            </amacart>
+            <amacart_mysql4>
+                <class>Amasty_Acart_Model_Mysql4</class>
+                <entities>
+                    <rule>
+                        <table>am_acart_rules</table>
+                    </rule>
+                    <schedule>
+                        <table>am_acart_schedule</table>
+                    </schedule>
+                    <history>
+                        <table>am_acart_history</table>
+                    </history>
+                    <canceled>
+                        <table>am_acart_canceled</table>
+                    </canceled>
+                    <blacklist>
+                        <table>am_acart_blacklist</table>
+                    </blacklist>
+                    <quote2email>
+                        <table>am_acart_quote2email</table>
+                    </quote2email>
+                    <attribute>
+                        <table>am_acart_attribute</table>
+                    </attribute>
+                </entities>
+            </amacart_mysql4>
+        </models>
+        <resources>
+             <amacart_setup>
+                <setup>
+                    <module>Amasty_Acart</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amacart_setup>
+            <amacart_write>
+                <connection><use>core_write</use></connection>
+            </amacart_write>
+            <amacart_read>
+                <connection><use>core_read</use></connection>
+            </amacart_read>
+        </resources>
+        <template>
+            <email>
+                <amacart_template_main_template translate="label" module="amacart">
+                    <label>Amasty Abandoned Cart</label>
+                    <file>sales/amacart_template_main_template.html</file>
+                    <type>html</type>
+                </amacart_template_main_template>
+            </email>
+        </template>
+        <blocks>
+            <amacart>
+                <class>Amasty_Acart_Block</class>
+            </amacart>
+            <adminhtml>
+                <rewrite>
+                </rewrite>
+            </adminhtml>
+            
+        </blocks>
+        <helpers>
+            <amacart>
+                <class>Amasty_Acart_Helper</class>
+            </amacart>
+        </helpers>
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <amacart>
+                        <class>amacart/observer</class>
+                        <method>onSalesOrderPlaceAfter</method>
+                    </amacart>
+                </observers>
+            </sales_order_place_after>
+            <sales_quote_config_get_product_attributes>
+                <observers>
+                    <amacart>
+                        <class>amacart/observer</class>
+                        <method>addProductAttributes</method>
+                    </amacart>
+                </observers>
+            </sales_quote_config_get_product_attributes>        
+            <salesrule_validator_process>
+                <observers>
+                    <amacart>
+                        <class>amacart/observer</class>
+                        <method>onSalesruleValidatorProcess</method>
+                    </amacart>
+                </observers>
+            </salesrule_validator_process>
+        </events>
+        
+    </global>
+    <frontend>
+        <layout>
+              <updates>
+                  <amacart>
+                      <file>amacart.xml</file>
+                  </amacart>
+              </updates>
+        </layout>
+    </frontend>
+    <default>
+        <amacart>
+            
+            <template>
+                <name>Owner</name>
+                <email>owner@example.com</email>
+                <main>amacart_template_main_template</main>
+            </template>
+        <general>
+                <customer_coupon>0</customer_coupon>
+            <only_customers>0</only_customers>
+            </general>
+        <quote>
+                <expires_on></expires_on>
+            </quote>
+        </amacart>
+    </default>
+    <crontab>
+        <jobs>
+            <amacart_coupon>
+                <schedule>
+                    <cron_expr>0 0 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>amacart/observer::clearCoupons</model>
+                </run>
+            </amacart_coupon>
+            <amacart_history>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>amacart/observer::refreshHistory</model>
+                </run>
+            </amacart_history>
+        </jobs>
+    </crontab>
+</config>

@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+-->
+<config>
+    <sections>
+        <amacart translate="label" module="amacart">
+            <label>Abandoned Cart</label>
+            <tab>amasty</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10203</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <customer_coupon translate="label">
+                            <label>The coupon is available only for particular customer</label>
+                            <comment><![CDATA[If the option is disabled the coupon can be used by all customers.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customer_coupon>
+                    <only_customers translate="label">
+                            <label>Send emails only to registered customers</label>
+                            <comment/>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </only_customers>
+                    </fields>
+                </general>
+                <template translate="label">
+                    <label>Email Templates</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <name translate="label">
+                            <label>Sender Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order> 
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name>
+                        <email translate="label">
+                            <label>Sender Email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order> 
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email>
+                        <cc translate="label">
+                            <label>Sends copy of emails to</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>11</sort_order> 
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cc>
+                        <main_template translate="label">
+                            <label>Main Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>12</sort_order> 
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </main_template>
+                    </fields>
+                </template>
+                
+<import>
+                    <label>Import</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                            <blacklist translate="label">	
+                                <label>Import Blacklist</label>
+                                <frontend_type>import</frontend_type>
+                                <backend_model>amacart/source_import</backend_model>
+                                <sort_order>6</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>0</show_in_website>
+                                <show_in_store>0</show_in_store>
+                            </blacklist>
+                    </fields> 
+                </import>
+            <!--<quote>-->
+                    <!--<label>Quote</label>-->
+                    <!--<frontend_type>text</frontend_type>-->
+                    <!--<sort_order>30</sort_order>-->
+                    <!--<show_in_default>1</show_in_default>-->
+                    <!--<show_in_website>0</show_in_website>-->
+                    <!--<show_in_store>0</show_in_store>-->
+                    <!--<fields>-->
+                            <!--<expires_on translate="label">-->
+                                <!--<label>Expires On</label>-->
+                                <!--<validate>validate-not-negative-number</validate>-->
+                                <!--<comment><![CDATA[In days.]]></comment>-->
+                                <!--<frontend_type>text</frontend_type>-->
+                                <!--<sort_order>11</sort_order>-->
+                                <!--<show_in_default>1</show_in_default>-->
+                                <!--<show_in_website>1</show_in_website>-->
+                                <!--<show_in_store>1</show_in_store>-->
+                            <!--</expires_on>-->
+                    <!--</fields>-->
+                <!--</quote>-->
+            </groups>
+        </amacart>
+    </sections>
+</config>

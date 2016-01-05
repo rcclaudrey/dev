@@ -1,0 +1,389 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+?>
+<style>
+    .am_grid_schedule .data{
+        width: 800px;
+    }
+    
+    
+    .am_grid_schedule .select{
+        width: 100%;
+    }
+    
+    .am_grid_schedule td input.input-text{
+        width: 98%;
+    }
+    
+    .am_extra_fields{
+    }
+</style>
+<script>
+    var rowIndex = 0;
+    function addRow(){
+
+        var tbody = $('schedule_grid_body').insert($('schedule_template').outerHTML.replace(/_rowIdx_/g, rowIndex++));
+
+        var cloneRow = $(tbody.lastChild);
+
+        cloneRow.setStyle({
+            'display': 'table-row'
+        });
+        
+        cloneRow.down("#showMore").click();
+        
+        useCreatedCoupon(cloneRow.down('[idx=schedule_use_rule]'));
+        
+        return cloneRow;
+    }
+    
+    function removeRow(button){
+        $(button).up('tr').remove();
+    }
+    
+    function showMore(a){
+        
+        var collapsed = a.getAttribute("collapsed") == 1;
+        a.up("table").select("tr.am_extra_fields").each(function(tr){
+            collapsed ? tr.show() : tr.hide();
+            
+            onCouponTypeChange(tr.up("table").down("#coupon_type"));
+        })
+        a.setAttribute("collapsed", collapsed ? 0 : 1);
+        a.innerHTML = collapsed ? '<?php echo $this->__('Less') ?>' : '<?php echo $this->__('More') ?>';
+    }
+    
+    function onCouponTypeChange(select){
+        
+        var container = select.up("table");
+        
+        var coupon_type = container.down('#coupon_type').value;
+        
+        container.down('#discount_qty').up("tr").show();
+        container.down('#discount_step').up("tr").show();
+        
+        container.down('#promo_sku').up("tr").hide();
+        container.down('#ampromo_type').up("tr").hide();
+        
+        if (coupon_type == 'ampromo_cart') {
+            container.down('#discount_qty').up("tr").hide();
+            container.down('#discount_step').up("tr").hide();
+
+            container.down('#ampromo_type').up("tr").show();
+            container.down('#promo_sku').up("tr").show();
+        } 
+        if (coupon_type == 'ampromo_items'){
+            container.down('#ampromo_type').up("tr").show();
+            container.down('#promo_sku').up("tr").show();
+        }
+        <?php if (Mage::getConfig()->getNode('modules/Amasty_Rules/active') == 'true') {?>
+        if (
+            '<?php echo Amasty_Rules_Helper_Data::TYPE_XY_PERCENT?>' == coupon_type ||
+            '<?php echo Amasty_Rules_Helper_Data::TYPE_XY_FIXED?>' == coupon_type || 
+            '<?php echo defined('Amasty_Rules_Helper_Data::TYPE_XY_FIXDISC') ? Amasty_Rules_Helper_Data::TYPE_XY_FIXDISC : 'none'?>'  == coupon_type ||
+            '<?php echo defined('Amasty_Rules_Helper_Data::TYPE_SETOF_PERCENT') ? Amasty_Rules_Helper_Data::TYPE_SETOF_PERCENT : 'none'?>'  == coupon_type || 
+            '<?php echo defined('Amasty_Rules_Helper_Data::TYPE_SETOF_FIXED') ? Amasty_Rules_Helper_Data::TYPE_SETOF_FIXED : 'none'?>' == coupon_type)
+        {
+            container.down('#promo_sku').up("tr").show();
+        }
+        <?php }?>
+    }
+    
+    function useCreatedCoupon(input){
+        var currentRow = $(input).up('tr');
+
+        currentRow.down('#schedule_use_rule').value = $(input).checked ? 1 : 0;
+
+        $(input).up('table').select('tr').each(function(row){
+
+            if (row == currentRow){
+
+                if ($(input).checked){
+                    currentRow.down('#schedule_rule_id').show();
+                    currentRow.down('#schedule_rule_id_comment').show();
+
+                } else {
+                    currentRow.down('#schedule_rule_id').hide();
+                    currentRow.down('#schedule_rule_id_comment').hide();
+                }
+
+            } else {
+                row.select('select').each(function(select){
+                    $(input).checked ? select.setAttribute("disabled", "disabled") : select.removeAttribute("disabled");
+                });
+                row.select('input').each(function(select){
+                    $(input).checked ? select.setAttribute("disabled", "disabled") : select.removeAttribute("disabled");
+                });
+            }
+        })
+    }
+    
+</script>
+<div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Schedule') ?></h4>
+</div>
+<fieldset>
+    
+    <div class="grid am_grid_schedule">
+    
+        <span class="field-row">
+            <table class="data" cellpadding="0" cellspacing="0">
+                <thead>
+                   <tr class="headings">
+                       <th><?php echo $this->__('Transactional Email') ?></th>
+                       <th><?php echo $this->__('Delivery Time') ?></th>
+                       <th><?php echo $this->__('Coupon'); ?></th>
+                       <th><?php echo $this->__('Action') ?></th>
+                   </tr>
+               </thead> 
+               <tbody id="schedule_grid_body">
+                    <tr id="schedule_template" style="display:none">
+                        <td>
+                            <input type="hidden" value="_rowIdx_" name="schedule[row_index][_rowIdx_]">
+                            <select id="email_templates" name="schedule[email_templates][_rowIdx_]" class="select">
+                            <?php 
+                                foreach($this->getEmailTemplatesOptions() as $template){
+                            ?>
+                                <option value="<?php print $template['value']?>"><?php print $template['label']?></option>
+                            <?php
+                                }
+                            ?>
+                            </select>
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" style="width: 115px;">
+                                <tr>
+                                    <td>Days</td>
+                                    <td>
+                                        <select id="days" name="schedule[days][_rowIdx_]" class="select">
+                                            <?php print $this->getNumberOptions(31)?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Hours</td>
+                                    <td>
+                                        <select id="hours" name="schedule[hours][_rowIdx_]" class="select">
+                                            <?php print $this->getNumberOptions(24)?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Minutes</td>
+                                    <td>
+                                        <select id="minutes" name="schedule[minutes][_rowIdx_]" class="select">
+                                            <?php print $this->getNumberOptions(60)?>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" style="width: 455px;">
+                                <tr>
+                                    <td style="width: 200px;"><?php echo $this->__('Type') ?></td>
+                                    <td>
+                                        <select onchange="onCouponTypeChange(this)" id="coupon_type" name="schedule[coupon_type][_rowIdx_]" class="select">
+                                            <?php 
+                                                foreach($this->getCouponTypesOptions() as $template){
+                                            ?>
+                                                <option value="<?php print $template['value']?>"><?php print $template['label']?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><?php echo $this->__('Discount Amount') ?></td>
+                                    <td>
+                                        <input id="discount_amount" name="schedule[discount_amount][_rowIdx_]" value="0" class="validate-not-negative-number input-text" type="text">
+                                    </td>
+                                </tr>
+                                <tr class="am_extra_fields">
+                                    <td colspan="2" style="padding: 0; border: 0px;">
+                                        <table cellpadding="0" cellspacing="0" style="border: 0px;">
+                                            <tr>
+                                                <td style="width: 200px;"><?php echo $this->__('Expired in (days)') ?></td>
+                                                <td>
+                                                    <input id="expired_in_days" name="schedule[expired_in_days][_rowIdx_]" value="4" class="validate-not-negative-number input-text" type="text">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo $this->__('Maximum Qty Discount is Applied To') ?></td>
+                                                <td>
+                                                    <input id="discount_qty" name="schedule[discount_qty][_rowIdx_]" value="0" class=" input-text" type="text">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo $this->__('Discount Qty Step (Buy X)') ?></td>
+                                                <td>
+                                                    <input id="discount_step" name="schedule[discount_step][_rowIdx_]" class=" input-text" type="text">
+                                                </td>
+                                            </tr>
+                                            <tr class="am_promo_items_type">
+                                                <td><?php echo $this->__('Promo Items (Type)') ?></td>
+                                                <td>
+                                                    <select id="ampromo_type" name="schedule[ampromo_type][_rowIdx_]" class="select">
+                                                        <option value="0"><?php print $this->__("All SKUs below");?></option>
+                                                        <option value="1"><?php print $this->__("One of the SKUs below");?></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr class="am_promo_items">
+                                                <td><?php echo $this->__('Promo Items') ?></td>
+                                                <td>
+                                                    <input id="promo_sku" name="schedule[promo_sku][_rowIdx_]" class=" input-text" type="text">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo $this->__('Subtotal is greater than') ?></td>
+                                                <td>
+                                                    <input id="subtotal_greater_than" name="schedule[subtotal_greater_than][_rowIdx_]" value="" class="validate-zero-or-greater input-text" type="text">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;" colspan="2">
+                                        <a id="showMore" onclick="showMore(this); return false;" href="#"></a>
+                                    </td>
+                                </tr>
+                                <?php
+                                    if (version_compare(Mage::getVersion(), '1.6.2.0', '>')) {
+                                    ?>
+                                <tr>
+                                    <td colspan="2">
+                                        <div><?php echo $this->__('or');?></div>
+                                        <input type="hidden" id="schedule_use_rule" name="schedule[use_rule][_rowIdx_]" />
+                                        <input idx="schedule_use_rule" id="schedule_use_rule_ch__rowIdx_" value="1" onclick="useCreatedCoupon(this);"  type="checkbox"/><label for="schedule_use_rule_ch__rowIdx_" style="float: none;"><?php echo $this->__("Use Shopping Cart Rule")?></label><br/>
+                                        <?php if ($this->getRulesCount() > 100 ) {?>
+                                            <input placeholder="<?php echo "Rule ID"?>" id="schedule_rule_id" name="schedule[rule_id][_rowIdx_]" value="" class="validate-zero-or-greater input-text" type="text">
+                                        <?php } else {?>
+                                            <select id="schedule_rule_id" name="schedule[rule_id][_rowIdx_]" class="select">
+                                                <?php foreach($this->getRules() as $rule) {?>
+                                                    <option value="<?php echo $rule->getRuleId();?>"><?php print $this->htmlEscape($rule->getName());?></option>
+                                                <?php }?>
+                                            </select>
+                                        <?php }?>
+                                        <small id="schedule_rule_id_comment"><?php echo $this->__('Rule option `Use Auto Generation` should be turned on')?></small>
+                                    </td>
+                                </tr>
+                                    <?php
+                                }?>
+
+
+                            </table>
+                        </td>
+                        <td><button title="" type="button" class="scalable delete" onclick="removeRow(this)" style=""><span></span></button></td>
+                    </tr>   
+               </tbody>
+            </table>                    
+        </span>
+    
+    </div>
+    <button title="Add Column" type="button" class="scalable add" onclick="addRow()" style=""><span><?php echo $this->__('Add Record')?></span></button>    
+</fieldset>
+
+<script>
+    <?php
+        $items = $this->getScheduleCollection()->getItems();
+        
+        if ($this->getModel()->getId()){
+            
+            foreach($items as $schedule){
+    ?>
+        var tmpAmRow = addRow();
+        
+        <?php if ($schedule->getUseRule()) { ?>
+            tmpAmRow.down('[idx=schedule_use_rule]').checked = true;
+
+            var inputRule = tmpAmRow.down('#schedule_rule_id');
+
+            if (inputRule.tagName.toLocaleLowerCase() == "input"){
+                inputRule.value = <?php print $schedule->getSalesRuleId();?>
+            } else {
+                tmpAmRow.down('#schedule_rule_id option[value=<?php print $schedule->getSalesRuleId();?>]').setAttribute('selected', true);
+            }
+        <?php }?>
+
+        useCreatedCoupon(tmpAmRow.down('[idx=schedule_use_rule]'));
+        
+        <?php if ($schedule->getEmailTemplateId()) {?>
+        tmpAmRow.down('#email_templates option[value=<?php print $schedule->getEmailTemplateId();?>]').setAttribute('selected', true);
+        <?php }?>
+            
+        <?php if ($schedule->getDays()) {?>
+        tmpAmRow.down('#days option[value=<?php print $schedule->getDays();?>]').setAttribute('selected', true);
+        <?php }?>
+            
+        <?php if ($schedule->getHours()) {?>
+        tmpAmRow.down('#hours option[value=<?php print $schedule->getHours();?>]').setAttribute('selected', true);
+        <?php }?>
+            
+        <?php if ($schedule->getMinutes()) {?>
+        tmpAmRow.down('#minutes option[value=<?php print $schedule->getMinutes();?>]').setAttribute('selected', true);
+        <?php }?>
+            
+        <?php if ($schedule->getCouponType()) {?>
+        tmpAmRow.down('#coupon_type option[value=<?php print $schedule->getCouponType();?>]').setAttribute('selected', true);
+        <?php }?>
+            
+        <?php if ($schedule->getDiscountAmount()) {?>
+        tmpAmRow.down('#discount_amount').value = <?php print $schedule->getDiscountAmount();?>;
+        <?php }?>
+        
+        <?php if ($schedule->getExpiredInDays()) {?>
+        tmpAmRow.down('#expired_in_days').value = <?php print $schedule->getExpiredInDays();?>;
+        <?php }?>
+            
+        <?php if ($schedule->getDiscountQty()) {?>
+        tmpAmRow.down('#discount_qty').value = <?php print $schedule->getDiscountQty();?>;
+        <?php }?>
+            
+        <?php if ($schedule->getDiscountStep()) {?>
+        tmpAmRow.down('#discount_step').value = <?php print $schedule->getDiscountStep();?>;
+        <?php }?>
+            
+        <?php if ($schedule->getPromoSku()) {?>
+        tmpAmRow.down('#promo_sku').value = <?php print $schedule->getPromoSku();?>;
+        <?php }?>
+            
+        <?php if ($schedule->getAmpromoType()) {?>
+            tmpAmRow.down('#ampromo_type option[value=<?php print $schedule->getAmpromoType();?>]').setAttribute('selected', true);
+        <?php }?>
+            
+        <?php if ($schedule->getSubtotalGreaterThan()) {?>
+        tmpAmRow.down('#subtotal_greater_than').value = <?php print $schedule->getSubtotalGreaterThan();?>;
+        <?php }?>
+            
+    <?php
+        }
+        } else {
+            $defaultTemplate = $this->getDefaultTemplateId();
+?>
+        var tmpAmRow1 = addRow();
+        tmpAmRow1.down('#minutes option[value=10]').setAttribute('selected', true);
+        
+        var tmpAmRow2 = addRow();
+        
+        tmpAmRow2.down('#hours option[value=3]').setAttribute('selected', true);
+        
+        var tmpAmRow3 = addRow();
+        
+        tmpAmRow3.down('#days option[value=1]').setAttribute('selected', true);
+        
+        <?php if ($defaultTemplate) {?>
+            tmpAmRow1.down('#email_templates option[value=<?php print $defaultTemplate;?>]').setAttribute('selected', true);
+            tmpAmRow2.down('#email_templates option[value=<?php print $defaultTemplate;?>]').setAttribute('selected', true);
+            tmpAmRow3.down('#email_templates option[value=<?php print $defaultTemplate;?>]').setAttribute('selected', true);
+        <?php }?>
+<?php
+        }
+    ?>
+</script>

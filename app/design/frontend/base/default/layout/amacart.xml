@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+-->
+<layout version="0.1.0">
+<!--
+Email layouts section
+-->
+    <amacart_email_quote_items>
+        <block type="amacart/quote_items" name="items" >
+            
+<block type="amacart/quote_items" name="table" template="/amacart/table.phtml"/>
+            <block type="amacart/quote_items" name="list" template="/amacart/list.phtml"/>
+        </block>
+        
+    </amacart_email_quote_items>
+    
+    <default translate="label">            <reference name="content">
+                <block type="core/template" name="amacart.jsscript" xas="review_before" xbefore="-">
+                    <action method="setTemplate"><template>amacart/jsscript.phtml</template></action>
+                </block>
+            </reference>
+    </default>    
+</layout>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+-->
+<config>
+    <translate>
+        <modules>
+            <Amasty_Acart>
+                <files>
+                    <default>Amasty_Acart.csv</default>
+                </files>
+            </Amasty_Acart>
+        </modules>
+    </translate>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amacart translate="title" module="amacart">
+                                        <title>Amasty Abandoned Cart</title>
+                                    </amacart>
+                                </children>
+                            </config>
+                            <acart_adminsetting translate="title" module="amacart">
+                                <title>Amasty Abandoned Cart</title>
+                            </acart_adminsetting>
+                        </children>
+                    </system> 
+                 </children>
+            </admin> 
+        </resources>
+    </acl>
+</config>

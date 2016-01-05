@@ -1,0 +1,51 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Acart
+ */
+?>
+<?php
+    if (Mage::getModel('checkout/cart')->getQuote() && Mage::getModel('checkout/cart')->getQuote()->getItemsCount() > 0) {
+?>
+        <script>
+            var amcarttimers = null;
+
+            function amcartValidateEmail(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
+
+
+
+            function amcartAjaxCall(value){
+                new Ajax.Request('<?php echo Mage::getUrl('amacartfront/main/email', array('_secure'=>true)) ?>', {
+                    parameters: {
+                        value: value
+                    },
+                    onSuccess: function(response) {
+
+                    }
+              });
+            }
+
+            function amcartHandleEmailKeyUp(e, input){
+                var value = $(input).value;
+                if (amcartValidateEmail(value)){
+
+                    if (amcarttimers != null){
+                        clearTimeout(amcarttimers);
+                    }
+
+                    amcarttimers = setTimeout(function(){
+                        amcartAjaxCall(value)
+                    }, 500);
+                }
+            }
+
+            $(document).on('keyup', '[name=\"login[username]\"]', amcartHandleEmailKeyUp);
+            $(document).on('keyup', '[name=\"billing[email]\"]', amcartHandleEmailKeyUp);
+        </script>
+<?php
+    }
+?>
