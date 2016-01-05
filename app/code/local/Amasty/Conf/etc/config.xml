@@ -9,7 +9,7 @@
 <config>
     <modules>
         <Amasty_Conf>
-            <version>3.11.5</version>
+            <version>3.11.6</version>
         </Amasty_Conf>
     </modules>
     
@@ -71,6 +71,18 @@
             </core_block_abstract_to_html_before>
        </events>
     </adminhtml>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Amasty_Conf after="Mage_Adminhtml">Amasty_Conf_Adminhtml</Amasty_Conf>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     
     <global>
         <index>

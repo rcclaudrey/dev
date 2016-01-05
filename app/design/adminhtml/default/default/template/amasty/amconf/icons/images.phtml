@@ -1,0 +1,119 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+?>
+<?php
+if($this->getOptionsCollection()->getSize() > Mage::helper('amconf')->getLimit() ){?>
+    <div id="amconf-images-pager" style="padding-left: 50px; height: 30px; padding-top: 8px; margin-bottom: 14px;" class="notice-msg">
+        <?php echo $this->__('Page') ?>
+
+        <?php $_curPage  = $this->getOptionsCollection()->getCurPage() ?>
+        <?php $_lastPage = $this->getOptionsCollection()->getLastPageNumber() ?>
+        <?php if($_curPage>1): ?>
+            <a href="#"
+               title="<?php echo Mage::helper('core')->quoteEscape($this->__('Previous page')) ?>"
+               onclick="amconfImagesAjaxObject.loadAmastyImagesPage('<?php echo ($_curPage-1) ?>');return false;"
+            >
+                <img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif') ?>"
+                     alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Go to Previous page')) ?>"
+                     class="arrow"/>
+            </a>
+        <?php else: ?>
+            <img src="<?php echo $this->getSkinUrl('images/pager_arrow_left_off.gif') ?>"
+                 alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Go to Previous page')) ?>"
+                 class="arrow"/>
+        <?php endif; ?>
+
+        <input style="width: 2em !important;"
+               type="text"
+               name="<?php echo $this->getVarNamePage() ?>"
+               value="<?php echo $_curPage ?>"
+               class="input-text page"
+               onkeypress="amconfImagesAjaxObject.amastyInputPress(event, '<?php echo $_lastPage ?>')"/>
+
+        <?php if($_curPage < $_lastPage): ?>
+            <a href="#"
+               title="<?php echo Mage::helper('core')->quoteEscape($this->__('Next page')) ?>"
+               onclick="amconfImagesAjaxObject.loadAmastyImagesPage('<?php echo ($_curPage+1) ?>');return false;">
+                <img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif') ?>"
+                     alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Go to Next page')) ?>"
+                     class="arrow"/>
+            </a>
+        <?php else: ?>
+            <img src="<?php echo $this->getSkinUrl('images/pager_arrow_right_off.gif') ?>" alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Go to Next page')) ?>" class="arrow"/>
+        <?php endif; ?>
+
+        <?php echo $this->__('of %s pages', $this->getOptionsCollection()->getLastPageNumber()) ?>
+        <span class="separator">|</span>
+
+        <?php echo $this->__('Total %d records found', $this->getOptionsCollection()->getSize()) ?>
+        <span id="<?php echo $this->getHtmlId() ?>-total-count" class="no-display"><?php echo $this->getOptionsCollection()->getSize() ?></span>
+            <span class="separator">|</span>
+            <span></span><?php echo $this->__('(Now the extension saves images only from the current page.)')?></span>
+    </div>
+<?php }?>
+
+<table id="amconf-images-table">
+    <thead>
+    <tr class="headings">
+        <th width="200"><?php echo Mage::helper('amconf')->__('Status Label') ?></th>
+        <th width="350"><?php echo Mage::helper('amconf')->__('Upload image') ?></th>
+        <th><?php echo Mage::helper('amconf')->__('Preview') ?></th>
+        <th><?php echo Mage::helper('amconf')->__('Delete') ?></th>
+    </tr>
+    </thead>
+            <tbody id="amconf-tbody">
+        <?php $addBackground = 0;?>
+        <?php foreach ($this->getOptionsCollection() as $option): $addBackground++;?>
+            <tr class="<?php echo $addBackground % 2 ? 'am_first_row' : 'am_second_row';?>">
+                <?php $swatchModel = Mage::getModel('amconf/swatch')->load($option->getId()); $color = $swatchModel->getColor();?>
+                <?php $addActiveClass = $color ? true : false;?>
+                <td style="vertical-align: middle; text-align: center;"><?php echo $option->getData('value'); ?></td>
+                <?php
+                $iconUrl = $this->getIcon($option);
+                $iconBigUrl = $this->getBigIcon($option);
+                ?>
+                <td style="vertical-align: middle;">
+                    <div class="amconf-radio-box">
+                        <label class="amconf-image-radio">
+                            <input type="radio" title="Upload Image" <?php echo !$addActiveClass ? 'checked="checked"' : ''; ?> style="display: none">
+                            <span class="am_radio"></span>
+                            <?php echo Mage::helper('amconf')->__('Upload image') ?>
+                        </label>
+                        <label class="amconf-color-radio" style="float: right;">
+                            <input type="radio" title="Color Picker" <?php echo $addActiveClass ? 'checked="checked"' : ''; ?> style="display: none">
+                            <span class="am_radio"></span>
+                            <?php echo Mage::helper('amconf')->__('Color Picker') ?>
+                        </label>
+                    </div>
+                    <div class="am-button-box">
+                        <div class="upload_box" style="display: <?php echo !$addActiveClass ? 'block' : 'none'; ?>; width: <?php echo !$addActiveClass ? '330px' : '0'; ?>">
+                            <div class="drop"><span><?php echo $this->__('Click or drop files here') ;?></span></div>
+                            <input type="file" name="amconf_icon[<?php echo $option->getData('option_id'); ?>]" accept="image/*" class="am-upload-img-input" multiple="false">
+                        </div>
+                        <input value="<?php echo $swatchModel->getColor(); ?>" type="hidden" class="color_text color_text_<?php echo $option->getId();?>" id="color-text_<?php echo $option->getId(); ?>" name="amconf_swatch[<?php echo $option->getId();?>]">
+                        <div style="display: <?php echo $addActiveClass ? 'block' : 'none'; ?>; width: <?php echo $addActiveClass ? '86px' : '0'; ?>" class="am-color-picker-img" onclick="openColorpicker('color-text_<?php echo $option->getId()?>', this);"></div>
+                    </div>
+                </td>
+                <td style="vertical-align: middle;" align="center">
+                    <?php
+                    if ($color):
+                        ?>
+                        <div style="background-color: #<?php echo $color; ?>" name="<?php echo $option->getData('value'); ?>" color="<?php echo $color; ?>"class="tooltipster color-preview color-preview_<?php echo $option->getId();?>" id="color-preview_<?php echo $option->getId(); ?>"></div>
+
+                    <?php elseif($iconUrl): ?>
+                        <img class="tooltipster" name="<?php echo $option->getData('value'); ?>" src="<?php echo $iconUrl; ?>" bigicon="<?php echo $iconBigUrl; ?>" alt="">
+                        <div style="display: none;" class="color-preview color-preview_<?php echo $option->getId();?>" id="color-preview_<?php echo $option->getId(); ?>"></div>
+                    <?php else : ?>
+                        <div style="display: none;" class="color-preview color-preview_<?php echo $option->getId();?>" id="color-preview_<?php echo $option->getId(); ?>"></div>
+                        <span class="am-none"><?php echo Mage::helper('amconf')->__('[none]') ?></span>
+                    <?php endif; ?>
+                </td>
+                <td style="vertical-align: middle;" align="center"><input type="checkbox" value="1" name="amconf_icon_delete[<?php echo $option->getData('option_id'); ?>]"></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

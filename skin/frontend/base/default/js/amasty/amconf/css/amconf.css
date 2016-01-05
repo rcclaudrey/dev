@@ -115,6 +115,7 @@ hr.amconf-hr{
     text-align: center;
     margin-right: 5px;
     margin-bottom: 3px;
+ vertical-align: top;
 }
 
 .amconf-image-container img, .amconf-image-container div:first-child

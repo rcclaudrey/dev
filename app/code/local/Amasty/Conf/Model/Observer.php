@@ -322,7 +322,7 @@ class Amasty_Conf_Model_Observer
         $catalogProductEditTabsClass = Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_attribute_edit_tabs');
         if ($catalogProductEditTabsClass == get_class($block) && Mage::registry('entity_attribute')->getIsConfigurable() && Mage::registry('entity_attribute')->getIsGlobal() && 'custom_stock_status' != Mage::registry('entity_attribute')->getData('attribute_code')) {
             
-            $imgBlock =  $block->getLayout()->createBlock('amconf/adminhtml_catalog_product_attribute_edit_tab_images');
+            $imgBlock =  $block->getLayout()->createBlock('amconf/adminhtml_catalog_product_attribute_edit_tab_icons');
             if ($imgBlock)
             {
                 if(method_exists ($block, 'addTabAfter' )){

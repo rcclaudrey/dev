@@ -1,4 +1,13 @@
+.arrow {
+	margin: 0 3px;
+	vertical-align: middle;
+}
+
+#amconf-images-table{
+	margin-bottom: 5px;
+}
 /* This is the default Tooltipster theme (feel free to modify or duplicate and create multiple themes!): */
+
 
 .amtooltip-label{
     text-align: center;

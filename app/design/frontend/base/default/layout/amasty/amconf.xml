@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Conf
+ */
+-->
+<layout version="1.0.0">
+    <catalog_product_view>
+        <reference name="head">       
+            <!-- module sourse -->
+            <action method="addItem"><type>skin_css</type><name>js/amasty/amconf/css/amconf.css</name><params/></action>
+            <!--<action method="addItem" ><type>skin_js</type><name>js/amasty/amconf/zoomer.js</name><params/></action>--> <!--move to app\design\frontend\base\default\template\amasty\amconf\media.phtml-->
+            <action method="addItem"><type>skin_css</type><name>js/amasty/amconf/css/tooltipster.css</name><params/></action>
+            <!-- include jQuery plugins -->
+            <action method="addItem"><type>skin_js</type><name>js/amasty/plugins/jquery-1.9.1.min.js</name><params/></action>
+			<action method="addItem"><type>skin_js</type><name>js/amasty/plugins/jquery.tooltipster.min.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/amasty/plugins/jquery.elevatezoom.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/carousel/swipe"><type>skin_js</type><name>js/amasty/plugins/jquery.touchSwipe.min.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/amasty/plugins/jquery.carouFredSel-6.2.1.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/lightbox/enable"><type>skin_css</type><name>js/amasty/plugins/fancybox/jquery.fancybox.css</name><params/></action>
+            <action method="addItem" ifconfig="amconf/lightbox/enable"><type>skin_js</type><name>js/amasty/plugins/fancybox/jquery.fancybox.js</name><params/></action> 
+        </reference>
+        <reference name="product.info.media">
+            <action method="setTemplate"><template>amasty/amconf/media.phtml</template></action>
+        </reference>
+    </catalog_product_view>
+    
+    <PRODUCT_TYPE_configurable>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/amasty/amconf/configurable.js</name><params/></action>
+        </reference>
+    </PRODUCT_TYPE_configurable>
+
+    <amconf_category_handle>
+        <reference name="head">
+            <action method="addItem" ifconfig="amconf/product_image_size/enable_jquery"><type>skin_js</type><name>js/amasty/plugins/jquery-1.9.1.min.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/list/enable_list"><type>skin_css</type><name>js/amasty/amconf/css/amconf.css</name><params/></action>
+            <action method="addJs" ifconfig="amconf/list/enable_list"><script>varien/product.js</script></action>
+            <action method="addJs" ifconfig="amconf/list/enable_list"><script>varien/configurable.js</script></action>
+
+            <action method="addItem" ifconfig="amconf/list/enable_list"><type>skin_js</type><name>js/amasty/amconf/formList.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/list/enable_list"><type>skin_js</type><name>js/amasty/amconf/configurableList.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/amasty/plugins/jquery.tooltipster.min.js</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>js/amasty/amconf/css/tooltipster.css</name><params/></action>
+        </reference>
+    </amconf_category_handle>
+
+    <catalog_category_view>
+        <update handle="amconf_category_handle" />
+    </catalog_category_view>
+    
+    <catalogsearch_result_index>
+        <update handle="amconf_category_handle" />
+    </catalogsearch_result_index>
+
+    <catalogsearch_advanced_result>
+        <update handle="amconf_category_handle" />
+    </catalogsearch_advanced_result>
+
+    <amshopby_index_index>
+       <update handle="amconf_category_handle" />
+    </amshopby_index_index>
+    
+    <amlanding_page_view>
+        <update handle="amconf_category_handle" />
+    </amlanding_page_view>
+	
+	<cms_page>
+        <update handle="amconf_category_handle" />
+    </cms_page>
+    
+    <amconf_media_gallery translate="label">
+        <label>Catalog Product Image Gallery Popup</label>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="catalog/product_gallery" name="catalog_product_gallery" template="catalog/product/gallery.phtml"/>
+        </reference>
+    </amconf_media_gallery>
+
+    <review_product_list>
+        <reference name="head">
+            <!-- module sourse -->
+            <action method="addItem"><type>skin_css</type><name>js/amasty/amconf/css/amconf.css</name><params/></action>
+            <!--<action method="addItem" ><type>skin_js</type><name>js/amasty/amconf/zoomer.js</name><params/></action>--> <!--move to app\design\frontend\base\default\template\amasty\amconf\media.phtml-->
+            <action method="addItem"><type>skin_css</type><name>js/amasty/amconf/css/tooltipster.css</name><params/></action>
+            <!-- include jQuery plugins -->
+            <action method="addItem"><type>skin_js</type><name>js/z_amasty/plugins/jquery-1.9.1.min.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/z_amasty/plugins/jquery.tooltipster.min.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/zoom/enable"><type>skin_js</type><name>js/z_amasty/plugins/jquery.elevatezoom.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/carousel/swipe"><type>skin_js</type><name>js/z_amasty/plugins/jquery.touchSwipe.min.js</name><params/></action>
+            <!--action method="addItem" ifconfig="amconf/carousel/mousewheel"><type>skin_js</type><name>z_amasty/plugins/jquery.mousewheel.js</name><params/></action-->
+            <action method="addItem" ifconfig="amconf/carousel/enable"><type>skin_js</type><name>js/z_amasty/plugins/jquery.carouFredSel-6.2.1.js</name><params/></action>
+            <action method="addItem" ifconfig="amconf/lightbox/enable"><type>skin_css</type><name>js/z_amasty/plugins/fancybox/jquery.fancybox.css</name><params/></action>
+            <action method="addItem" ifconfig="amconf/lightbox/enable"><type>skin_js</type><name>js/z_amasty/plugins/fancybox/jquery.fancybox.js</name><params/></action>
+        </reference>
+        <reference name="product.info.media">
+            <action method="setTemplate"><template>amasty/amconf/media.phtml</template></action>
+        </reference>
+    </review_product_list>
+</layout>
