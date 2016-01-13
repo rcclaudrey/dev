@@ -1,0 +1,77 @@
+.feedback-header-title{
+    font-size: 40px;
+    text-transform: uppercase;
+    font-style: italic;
+    font-weight: bold;
+    color: #515151;
+    letter-spacing: -3px;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+    padding: 4px 0px !important;
+    margin-top: 25px !important;
+}
+
+.tms-red{
+    color: #FE202B;
+}
+
+.feedback-p1,
+.feedback-p2 {
+    font-size: 16px;
+    padding: 5px 0px 25px;
+    color: #515151;
+    line-height: 22px;
+}
+
+label.feedback-form-label {
+    display: block;
+    font-size: 16px;
+    color: #515151;
+    line-height: 32px;
+}
+
+.feedback-field{
+    width: 362px;
+    padding: 5px 10px;
+}
+
+textarea.feedback-field{
+    height: 244px;
+}
+
+.feedback-form-fields{
+    margin-bottom: 30px;
+}
+
+.feedback-form-control{
+    margin-bottom: 100px;
+}
+
+.submit-feedback span{
+    visibility: hidden;
+}
+
+.submit-feedback{
+    background-image: url(../images/cms/submit-btn-image.jpg);
+    background-repeat: no-repeat;
+    width: 179px;
+    height: 49px;
+    border: none;
+    cursor: pointer;
+}
+
+.notification-message{
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.overlay-message {
+    font-size: 18px;
+    line-height: 42px;
+    padding: 25px;
+}
+
+button.close-overlay {
+    padding: 5px 10px;
+    cursor: pointer;
+}
