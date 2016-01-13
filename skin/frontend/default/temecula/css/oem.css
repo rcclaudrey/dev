@@ -1,0 +1,17 @@
+/*oemfinder*/	
+.oem-finder h1.hdr-oem { background:url(../images/cms/hdr-oem-finder.jpg) center 0 no-repeat; height:110px; text-align:center}
+.oem-finder h1.hdr-oem span { display:none}
+.oem-finder ul li { list-style:none; display:inline; margin:0 15px}
+.oem-finder ul li img { vertical-align:middle}
+.oem-finder p.oem-desc { border-top:2px solid #000; margin:15px 0 0 0; padding:25px 0 0; line-height:1.8em; color:#6c6c6c}
+
+
+.select-ride { background:url(../images/cms/bg-select-ride.gif) 0 0 repeat-x; height:67px; border:2px solid #000; position:relative;    margin: 0 0 40px;}
+.select-ride h2 { background:url(../images/cms/hdr-select-ride.gif) 0 0 no-repeat; width:293px; height:67px; border-right:2px solid #000}
+.select-ride h2 span { display:none}
+
+.selects {    position: absolute;
+    right: 7px;
+    top: 20px;
+    width: 640px;}
+.selects select { width:24.5%}

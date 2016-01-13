@@ -1,0 +1,31 @@
+
+/* = = = = = = = = = = = = = = = = = = = = = = = GOOGLE CHROME FIXES = = = = = = = = = = = = = = = = = = = = = = = */
+
+.fitment-activity select,
+.fitment-selector #fitment-make,
+.fitment-selector #fitment-year,
+.fitment-selector #fitment-model
+{
+	-webkit-padding-after: 5px;
+	-webkit-padding-before: 5px;
+}
+.fitment-toolbar select {
+	-webkit-padding-before: 5px;
+	-webkit-padding-after: 5px;
+}
+.fitment-pager .fitment-toolbar-pagesize-container select {
+	-webkit-padding-before: 5px;
+	-webkit-padding-after: 5px;
+}
+.tireshop-selector select {
+	-webkit-padding-before: 5px;
+	-webkit-padding-after: 5px;
+}
+.tireshop-goSearch {
+	-webkit-padding-before: 6px;
+	/*-webkit-padding-after: 5px;*/
+}
+.fitment-filter-facet-select {
+	-webkit-padding-before: 5px;
+	-webkit-padding-after: 5px;
+}

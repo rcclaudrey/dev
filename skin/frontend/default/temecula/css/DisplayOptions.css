@@ -1,0 +1,839 @@
+/* START OF DEFAULT SETTINGS SECTION               */
+/* ----------------------------------------------- */
+/*  This section contains default CSS Settings.
+**  These entries are provided as a reference only.
+**  They shall be trimmed off upon upload 
+**  
+**  Please DO NOT place any modification until after the end of this section
+** ----------------------------------------------- */
+
+#ariPartStream {
+	text-align: left;
+	background-color: white;
+	border: none 1px black;
+	padding: 0px 0px 0px 0px;
+	width: 600px;
+}
+.ari_searchResults_GridOddRow {
+	background-color: #eee;
+}
+.ari_searchResults_GridEvenRow {
+	background-color: #fff;
+}
+.ari_searchResults_GridRowHover {
+	background-color: Gray;
+}
+#ariparts_assemblyDescription {
+	color: #000000;
+	font-family: Verdana;
+	font-size: 10px;
+	font-style: italic;
+	font-weight: normal;
+	height: 15px;
+	overflow: hidden;
+}
+#ariparts_divModelLabel {
+	color: #666666;
+	font-family: Verdana;
+	font-size: 14px;
+	font-weight: bold;
+	overflow: hidden;
+}
+.ariDropDown {
+	font-family: arial;
+}
+#ariAssemblyList .ariDropDown {
+	font-family: verdana;
+	font-size: 8pt;
+	font-weight: 100;
+	background: white;
+	color: black;
+}
+#ariPartList {
+	margin-top: 5px;
+}
+#ariPartList table {
+	width: 100%;
+	border: solid 1px black;
+	border-collapse: collapse;
+	color: black;
+	font-family: sans-serif;
+	font-size: x-small;
+	font-weight: 100;
+	text-align: left;
+}
+#ariPartList table .listTD {
+	padding: 5px 5px 5px 5px;
+	border-bottom: solid 1px black;
+	text-align: left;
+}
+#ariPartList table td.ariPLDesc {
+	text-align: left;
+}
+#ariPartList .ari_row_even {
+	background: white;
+}
+#ariPartList .ari_row_odd {
+	background: #ddd;
+}
+#ariPartList thead {
+	color: white;
+	background-color: navy;
+	border: solid 1px black;
+	font-family: tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: 5px 5px 5px 5px;
+}
+.ariHotSpot {
+	border: solid 1px black;
+	cursor: pointer;
+}
+.ariHotSpot:hover {
+	border: solid 1px blue;
+}
+.ariHotSpot_highlight {
+	background-color: yellow;
+	opacity: .5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+}
+#ariPartImage {
+	border: solid 2px black;
+	margin: 0px auto 0px auto;
+	height : 400px;
+	overflow: auto;
+}
+.ariHR {
+	height: 1px;
+	margin: 5px 0px 5px 0px;
+	background: black;
+}
+.ariInputs {
+	background-color: white;
+	border: inset 2px gray;
+	color: black;
+	font-family: verdana;
+	font-size: 10pt;
+	font-weight: normal;
+	margin: 0px 0px 0px 0px;
+	width: 100%;
+}
+.ariMainTitle {
+	background-color: white;
+	color: black;
+	font-family: arial;
+	font-size: large;
+	font-weight: normal;
+	padding: 0px 0px 0px 0px;
+	text-align: left;
+}
+#ari_brands_jl {
+	background-color: white;
+	color: black;
+	font-family: verdana;
+	font-size: small;
+	font-weight: 100;
+	width: auto;
+}
+.ariMainLabel {
+	background-color: white;
+	color: black;
+	font-family: verdana;
+	font-size: 10pt;
+	font-weight: normal;
+	margin: 0px 0px 0px 0px;
+	padding-top: 10px;
+	text-align: left;
+	width: 80px;
+}
+#arisearch_brands_jl, #ariDropDowns {
+	background-color: white;
+	color: black;
+	font-family: verdana;
+	font-size: small;
+	font-weight: 100;
+	margin: 0px;
+	width: auto;
+}
+.ariModelBlock {
+	border: collapse;
+	border-collapse: collapse;
+}
+.ariSearchBlock {
+	padding: 0px 0px 0px 0px;
+	border-collapse: collapse;
+}
+.ari_notice {
+	display: block;
+}
+#arisearch_btnLookup {
+	cursor: default;
+}
+#arisearch_btnLookup:hover {
+	cursor: pointer;
+}
+.ariToolTipBase {
+	color: black;
+	font-family: serif;
+	font-size: 16px;
+}
+.ariToolTipTitle {
+	color: black;
+	font-size: 20px;
+}
+.ariToolTipPartNumber {
+	background-color: #e0e0e0;
+	color: #54a0eb;
+}
+.ariToolTipPrice {
+	background-color: #e0e0e0;
+	color: #54a0eb;
+}
+.ariToolTipMSRP {
+	background-color: #e0e0e0;
+	color: #54a0eb;
+}
+#ariHotSpotBrandName {
+	font-weight: bold;
+}
+#ariPartsTree, .ariPartsTree {
+	font-family: tahoma;
+	font-size: 9pt;
+	padding: 0px 0px 0px 0px;
+	text-align: left;
+	width: auto;
+}
+#ariAssemblyPageTree {
+	margin: 2px 0px 0px 3px;
+}
+.ariSupersesionToolTipTitleClass {
+	color: #4e7aa9;
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+}
+.ariSupersesionToolTipPartLabelClass {
+	font-size: Verdana;
+	font-family: 11px;
+}
+.ariSupersesionToolTipPartInfoClass {
+	background: #e6e6e6;
+	font-size: 11px;
+}
+#ariSearchSupersesionToolTipPartInfoLoading {
+	height: 15px;
+	width: 50%;
+}
+.ariSearchBrandWidth {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+#ariBackToSearch, #ariparts_btnModelSearchNewModel {
+	font-weight: normal;
+	cursor: default;
+}
+#ariBackToSearch:hover, #ariparts_btnModelSearchNewModel:hover {
+	cursor: pointer;
+}
+.ariPartListAddToCart {
+	cursor: default;
+}
+.ariPartListAddToCart:hover {
+	cursor: pointer;
+}
+#ariZoomIn {
+	cursor: default;
+}
+#ariZoomIn:hover {
+	cursor: pointer;
+}
+#ariZoomOut {
+	cursor: default;
+}
+#ariZoomOut:hover {
+	cursor: pointer;
+}
+.ariSearchBrandWidth, .ariSearchModelWidth, .ariSearchPartWidth {
+	margin-right: 20px;
+}
+.ariSearchBrandWidth {
+	width: 27%;
+}
+.ariSearchModelWidth, .ariSearchPartWidth {
+	width: 20%;
+}
+.ariSearchButtonWidth {
+	width: 15%;
+}
+#ari_searchResults_Column_Header_ModelNoDesc {
+	width : 75%;
+	text-align:left;
+}
+#ari_searchResults_Column_Header_SelectAssembly {
+	width : 25%;
+}
+#ari_searchResults_Column_Header_PartNum {
+	width : 20%;
+	text-align: left;
+}
+#ari_searchResults_Column_Header_IsSuperceeded {
+	width: 10%;
+}
+#ari_searchResults_Column_Header_PartDesc {
+	width : 40%;
+	text-align: left;
+}
+#ari_searchResults_Column_Header_Price {
+	width : 10%;
+	text-align : left;
+}
+#ari_searchResults_Column_Header_AddToCart {
+	width : 10%;
+}
+#ari_searchResults_Column_Header_WhereUsed {
+	width : 20%;
+	text-align: center;
+}
+.ari_searchResults_Prompt, .ari_partImage_Prompt {
+	text-align: left;
+	border: 1px solid black;
+	background-color: White;
+}
+.ari_searchResults_Prompt {
+	width: 400px;
+}
+.ari_partImage_Prompt {
+	width: 600px;
+}
+.ari_searchResults_Prompt .ui-dialog-titlebar-close span, .ari_partImage_Prompt .ui-dialog-titlebar-close span {
+	margin: 1px;
+	background-color: #AAA;
+}
+.ari_Alert_Prompt {
+	border: 1px solid red;
+	background-color: white;
+	font-family : Sans-Serif;
+	font-size: small;
+	font-style: italic;
+	font-weight: bold;
+	color : #FF6666;
+}
+#ariInfoBack, #ariInfoDesc, #ariInfoZoom {
+	display: inline;
+	float: left;
+}
+#ariInfoBack {
+	width: 22%;
+}
+#ariInfoDesc {
+	width: 58%;
+}
+#ariInfoZoom {
+	width: 20%;
+	text-align: right;
+}
+.ari_searchResults_GridHeader {
+	background-color:navy;
+	border:1px solid black;
+	color:white;
+	font-family:tahoma;
+	font-size:11px;
+	font-weight:bold;
+	text-align:center;
+}
+#ariPartList .ari_row_even:hover, #ariPartList .ari_row_odd:hover {
+	background-color: grey;
+}
+#ariPartList .ari_row_highlight {
+	background-color: yellow;
+}
+.ariSearchDescription {
+	overflow: hidden;
+	color:black;
+	font-family:tahoma;
+	font-size:8pt;
+	font-weight:bold;
+	width:75%;
+	padding: 2px;
+}
+#ariAssemblyLabelContent {
+	background-image: none;
+}
+#ariLeftSide, #ariRightSide {
+	width: 50%;
+}
+.ariDDWrapper {
+	margin-bottom: 5px;
+}
+.ariMultiCartWrapper {
+	float: right;
+}
+#ariPartStream .ariAutocompleteHeader {
+	background-color:white;
+	color: grey;
+	font-size: 12px;
+	text-align: right;
+	padding: 2px 4px 2px 4px;
+	font-family: arial;
+	font-style: italic;
+}
+#ariPartStream .ui-autocomplete {
+	padding: 0px;
+	list-style-type: none;
+	border: solid #ccc 1px;
+	width: 300px;
+}
+#ariPartStream .ui-menu-item {
+	background: #fff;
+}
+#ariPartStream .ui-state-hover {
+	background: #ccc;
+}
+#ariPartStream .ui-menu-item a {
+	cursor: pointer;
+	width: 100%;
+	display: block;
+}
+/* Grid */
+.ari_searchResults_Column {
+	/* .listTD */
+  border-bottom:1px solid black;
+	padding:5px;
+	/* .ari_list */
+  font-family : Sans-Serif;
+	font-size: x-small;
+	font-weight: 100;
+}
+/* Search Grid Contents - BEGIN */
+.ari_searchResults_Column_Content_PartNum .ari_searchResults_Column_Content_IsSuperceeded .ari_searchResults_Column_Content_ModelNoDesc .ari_searchResults_Column_Content_SelectAssembly {
+	padding-left: 10px;
+}
+.ari_searchResults_Column_Content_SelectAssembly .ari_searchResults_Column_Content_WhereUsed {
+	color: rgb(65, 105, 225);
+}
+.ari_searchResults_Column_Content_PartNum {
+	color: #4169e1;
+}
+.ari_searchResults_Column_Content_ModelNoDesc {
+	color: #4169e1;
+}
+/* Search Grid Contents - END */
+
+/* Model Search Prompt Tree - START */
+#ariModelAssemblyTree li {
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+#ariModelAssemblyTree li > a {
+	font-family: tahoma;
+	font-size: 16px;
+}
+#ariModelAssemblyTree {
+	padding: 5px 0px 10px 30px;
+}
+/* Model Search Prompt Tree - END */
+
+/* Assembly Page - Start */
+
+#ariAssemblyPageHeader {
+	margin: 0px 0px 15px 0px;
+}
+#ariAssemblyPageTitle {
+	font-size: 18px;
+	font-weight: bold;
+}
+/* Assembly Page - End */
+
+.NLA {
+	padding-left: 5px;
+}
+.NLA, .ariAddToCartToShowPrice {
+	font-weight: bold;
+	color: red;
+}
+/* Dropdowns */
+.jl_class a {
+	background:url('//partstream.arinet.com/Content/Images/down-arrow.png') no-repeat 100% 50%;
+	text-align: left;
+	padding:0;
+	margin: 0px;
+	font-weight:normal;
+	text-decoration:none;
+	color:#000;
+	border: solid #000 0px;
+}
+/* END OF DEFAULT SETTINGS SECTION */
+/* START OF CUSTOMER EDITABLE SECTION */
+
+#ariPartStream {
+	width:730px;
+}
+#ariPartImage {
+	height:428px;
+}
+/* Start PartStream Mod CSS ---------- */
+#ariLeftSide {
+	width: 55% !important;
+}
+#ariRightSide {
+	width: 40% !important;
+}
+#ariLeftSide, #ariRightSide {
+	border:1px solid #E5E5E5 !important;
+	float:right !important;
+	min-height:300px !important;
+	border-radius:0.3em 0.3em 0 0;
+	-webkit-border-radius:0.3em 0.3em 0 0;
+	-moz-border-radius:0.3em 0.3em 0 0;
+}
+.ariMainTitle {
+	background: #f9f9f9 !important; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* IE10+ */
+	background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* W3C */
+	color:#555555 !important;
+	font-family:'Droid Sans', arial, serif !important;
+	font-size:13px !important;
+	font-weight:bold !important;
+	padding:0.5em !important;
+	text-align:left !important;
+	text-shadow:1px 1px 0 #FFFFFF !important;
+}
+#ariLeftSide .ariHR, #ariRightSide .ariHR {
+	background:none repeat scroll 0 0 #E5E5E5;
+	margin:0 0 10px;
+}
+#arisearch_btnLookup, #ariAssemblyInfo input, #ariPSSearchResults_NewModelBtnDiv input {
+	border-radius:0.3em;
+	-webkit-border-radius:0.3em;
+	-moz-border-radius:0.3em;
+	background: #ffc578; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffc578 0%, #fb9d23 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffc578), color-stop(100%, #fb9d23)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffc578 0%, #fb9d23 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffc578 0%, #fb9d23 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffc578 0%, #fb9d23 100%); /* IE10+ */
+	background: linear-gradient(top, #ffc578 0%, #fb9d23 100%); /* W3C */
+	border:1px solid #E2860F;
+	color:#FFFFFF;
+	cursor:default;
+	display:block;
+	padding:0.5em;
+	text-shadow:1px 1px 0 #444444;
+	width:100%;
+	font-size: 13px;
+}
+#ariPSSearchResults_NewModelBtnDiv {
+	width: 20%;
+}
+#arisearch_btnLookup:hover, #ariAssemblyInfo input:hover, #ariPSSearchResults_NewModelBtnDiv input:hover {
+	background: #7abcff; /* Old browsers */
+	background: -moz-linear-gradient(top, #7abcff 0%, #60abf8 44%, #4096ee 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7abcff), color-stop(44%, #60abf8), color-stop(100%, #4096ee)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #7abcff 0%, #60abf8 44%, #4096ee 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #7abcff 0%, #60abf8 44%, #4096ee 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #7abcff 0%, #60abf8 44%, #4096ee 100%); /* IE10+ */
+	background: linear-gradient(top, #7abcff 0%, #60abf8 44%, #4096ee 100%); /* W3C */
+	border:1px solid #2A80D7;
+}
+.ariSearchButtonWidth {
+	padding:15px 0;
+	width:30% !important;
+}
+.jl_class {
+	border-radius:0.3em 0.3em 0.3em 0.3em;
+	-webkit-border-radius:0.3em 0.3em 0.3em 0.3em;
+	-moz-border-radius:0.3em 0.3em 0.3em 0.3em;
+	box-shadow:0 1px 1px rgba(0, 0, 0, 0.2) inset;
+	-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2) inset;
+	-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2) inset;
+	border:1px solid #f1f1f1;
+	margin:2px 0;
+	padding:0.5em;
+	position:relative;
+}
+.ariInputs {
+	border-radius:0.3em 0.3em 0.3em 0.3em;
+	-webkit-border-radius:0.3em 0.3em 0.3em 0.3em;
+	-moz-border-radius:0.3em 0.3em 0.3em 0.3em;
+	background-color:white;
+	border:1px solid #e5e5e5 !important;
+	color:black;
+	font-family:verdana;
+	font-size:10pt;
+	font-weight:normal;
+	margin:0;
+	padding:0.5em 0.5em 0.7em 0.5em;
+	width:90%;
+}
+.ariMainLabel {
+	color:#555555;
+	font-family:'Droid Sans', arial, serif;
+}
+#arisearch_brands_jl, #ari_brands_jl {
+	border:medium none;
+	width:95%;
+	border: 1px solid #F1F1F1;
+	background:#F9F9F9 !important;
+}
+div.jl_class {
+	border-radius:0.3em 0.3em 0.3em 0.3em;
+	-webkit-border-radius:0.3em 0.3em 0.3em 0.3em;
+	-moz-border-radius:0.3em 0.3em 0.3em 0.3em;
+	box-shadow:0 1px 1px rgba(0, 0, 0, 0.2) inset;
+	-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2) inset;
+	-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2) inset;
+	border:1px solid #f1f1f1;
+	padding:0.5em;
+	width:95%;
+	background:#f9f9f9 !important;
+}
+.jl_class a {
+	background: url("http://techsupport.wss-pro.com/clientsrv/layouts/05/skins/OPE/base/down-arrow.png") no-repeat scroll 100% 50% transparent !important;
+}
+.ariDDWrapper {
+	margin-bottom:10px;
+}
+#ariparts_divModelLabel {
+	color:#555555;
+	font-family:'Droid Sans', arial, serif;
+}
+#ariPartList thead {
+	background: #f9f9f9 !important; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* IE10+ */
+	background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* W3C */
+	border:1px solid #E5E5E5 !important;
+	color:#555555 !important;
+	font-family:'Droid Sans', arial, serif !important;
+	font-size:13px !important;
+	font-weight:bold !important;
+	padding:0.5em !important;
+	text-align:left;
+	text-shadow:1px 1px 0 #FFFFFF !important;
+	border-radius:0.3em 0.3em 0 0;
+	-webkit-border-radius:0.3em 0.3em 0 0;
+	-moz-border-radius:0.3em 0.3em 0 0;
+}
+#ariPartList table .listTD {
+	border-bottom:1px solid #E5E5E5 !important;
+	padding:10px !important;
+}
+#ariPartList table {
+	border:1px solid #E5E5E5 !important;
+	border-radius:0.3em 0.3em 0 0;
+	-webkit-border-radius:0.3em 0.3em 0 0;
+	-moz-border-radius:0.3em 0.3em 0 0;
+}
+#ariPartList .ari_row_odd, #ariPartList .ari_row_even {
+	background:none repeat scroll 0 0 #F9F9F9;
+	height:40px;
+}
+#ariPartList .ari_row_odd {
+	background:#F9F9F9 !important;
+}
+#ariPartList .ari_row_odd:hover, #ariPartList .ari_row_even:hover {
+	background-color:#EBF3FF !important;
+}
+#ariPartImage {
+	border:1px solid #E5E5E5 !important;
+	margin: 10px auto 0 !important;
+}
+#ariAssemblyInfo {
+	margin-top: 10px;
+}
+#ariDetailsPanel #ariInfoBack {
+	width: 18%;
+	margin-right: 2%;
+}
+#ariInfoZoom {
+	width : 28%;
+}
+#ariInfoDesc {
+	width : 52%;
+}
+#ariDetailsPanel #ariInfoZoom input {
+	display: inline-block;
+	width: 50px;
+}
+.jl_item_folder {
+	background: url("http://techsupport.wss-pro.com/clientsrv/layouts/05/skins/OPE/base/d.png") repeat scroll -57px -16px transparent !important;
+}
+.jl_item_folder, .jl_item_assembly {
+	width: 18px !important;
+	height: 18px !important;
+}
+.jl_item_assembly {
+	background: url("http://techsupport.wss-pro.com/clientsrv/layouts/05/skins/OPE/base/gear.png") no-repeat scroll 0 2px transparent !important;
+}
+.ariPartListAddToCart {
+	background: url("http://techsupport.wss-pro.com/clientsrv/layouts/05/skins/OPE/base/addtoCart.png") repeat scroll 0 0 transparent !important;
+	width: 84px;
+	height: 28px;
+}
+.ariPartListAddToCart:hover {
+	background: url("http://techsupport.wss-pro.com/clientsrv/layouts/05/skins/OPE/base/addtoCartHover.png") repeat scroll 0 0 transparent !important;
+}
+#ariPSSearchReasults_Page {
+	border: none !important;
+}
+.ari_searchResults_GridHeader {
+	background: #f9f9f9 !important; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* IE10+ */
+	background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%) !important; /* W3C */
+	color:#555555 !important;
+	font-family:'Droid Sans', arial, serif !important;
+	font-size:13px !important;
+	font-weight:bold !important;
+	padding:0.5em !important;
+	text-align:left;
+	text-shadow:1px 1px 0 #FFFFFF !important;
+	border-top:1px solid #E5E5E5 !important;
+	border-left:1px solid #E5E5E5 !important;
+	border-right:1px solid #E5E5E5 !important;
+	border-radius:0.3em 0.3em 0 0;
+	-webkit-border-radius:0.3em 0.3em 0 0;
+	-moz-border-radius:0.3em 0.3em 0 0;
+}
+.ari_searchResults_GridHeader td {
+	color:#555555 !important;
+	font-family:'Droid Sans', arial, serif !important;
+	font-size:13px !important;
+	font-weight:bold !important;
+	text-shadow:1px 1px 0 #FFFFFF !important;
+	padding: 10px 10px 10px 5px !important;
+}
+.ari_searchResults_GridRow {
+	height: 40px;
+	border-right:1px solid #E5E5E5 !important;
+	border-left:1px solid #E5E5E5 !important;
+}
+.ari_searchResults_Column {
+	border-bottom:1px solid #E5E5E5 !important;
+}
+.ari_searchResults_Column_Content_PartNum {
+	font-weight: bold;
+}
+.ariSearchDescription {
+	color:#555 !important;
+}
+#ariPartStream .ui-autocomplete {
+	border-top: 1px solid #E5E5E5 !important;
+	border-left: 1px solid #E5E5E5 !important;
+	border-right: 1px solid #E5E5E5 !important;
+	border-bottom:0 !important;
+	border-radius: 0;
+	margin-top: -1px;
+	-moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+}
+#ariPartStream .ui-autocomplete .ui-menu-item {
+	border-bottom: 1px solid #f4f4f4 !important;
+	overflow: hidden;
+}
+#ariPartStream .ui-autocomplete .ui-menu-item a:before {
+	content: "\00BB";
+	margin-right: 6px;
+}
+#ariPartStream .ui-autocomplete .ui-menu-item a {
+	border: 0 none !important;
+	border-radius: 0 0 0 0 !important;
+	font-size: 1.1em !important;
+	margin: 0 !important;
+}
+#ariPartStream .ui-autocomplete .ui-menu-item a:hover {
+	background:#EBF3FF !important;
+}
+#ariPartStream .ariAutocompleteHeader {
+	background: none repeat scroll 0 0 #F9F9F9 !important;
+	border-bottom: 1px solid #E5E5E5 !important;
+	padding: 5px !important;
+	text-align: left !important;
+}
+.ariSearchBrandDDLDiv {
+	width: 95%
+}
+/* AJH Edits */
+
+#ariInfoDesc {
+	position:relative;
+	top:-80px;
+	left:0px;
+	font-size:45px !important;
+	width:100% !important;
+}
+#ariInfoDesc #ariparts_divModelLabel {
+	color:#f47312;
+	font-size:36px;
+	line-height:36px;
+}
+#ariAssemblyList {
+	position:relative;
+	top:60px;
+	left:0px;
+}
+#ariInfoBack {
+	position:relative;
+	top:70px;
+	left:0px;
+}
+#ariInfoZoom {
+	position:relative;
+	top:434px;
+	left:520px;
+	z-index:1000;
+}
+#arisearch_btnLookup, #ariAssemblyInfo input, #ariPSSearchResults_NewModelBtnDiv input {
+	background: #000000 !important;
+	border: 1px solid #e2860f;
+	border-radius: 0em !important;
+	border:none !important;
+}
+#ariAssemblyList {
+	border:solid 1px #444444;
+	padding:10px 0px 24px 10px;
+	background:#444444;
+	color:#ffffff;
+}
+#ariAssemblyList .ariDropDown {
+	background:#444444;
+	border-radius: 0em !important;
+	padding:5px !important;
+	box-shadow: 0 0 0 0 !important;
+	width:89% !important;
+	margin:0px 0px 0px 10px !important;
+	position:relative;
+	top:-6px;
+}
+th.listTD {
+	background:#000000;
+	color:#ffffff !important;
+	text-shadow:0 0 !important;
+	border-left:solid 1px #ffffff;
+}
+td.listTD {
+	font-size:12px;
+}
+#ariPartList .ari_row_odd {
+	background:#dddddd !important;
+}
+.ariMultiCartWrapper {
+	margin:10px 0px 10px 0px;
+	position:relative;
+	left:-0px;
+}
+
+/* END OF CUSTOMER EDITABLE SECTION */

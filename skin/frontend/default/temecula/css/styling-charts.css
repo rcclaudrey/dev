@@ -1,0 +1,59 @@
+/*
+	Place here styles for sizing charts at Produc Details page tabs
+*/
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = FOX GLOVES */
+
+.fox-gloves h1 {
+	border-bottom: 5px solid #000000;
+	color: #000;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 20px;
+	margin: 0 0 20px;
+	padding: 5px 0;
+	text-transform: uppercase;
+}
+.fox-gloves p {
+	margin: 20px 0;
+	font-size: 14px;
+}
+.fox-gloves .fox-gloves-table-header {
+    background-color: #000;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px;
+    text-transform: uppercase;
+}
+.fox-gloves table.sizing_chart {
+	border:solid 1px #b1b1b1;
+	border-collapse:collapse;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	margin:15px 0px 15px 0px;
+	width:100%;
+}
+.fox-gloves table.sizing_chart td {
+	border:solid 1px #b1b1b1;
+	text-align:center;
+	padding:5px;
+}
+.fox-gloves tr.title1 {
+	background-color:#d41c1a;
+	color:#FFFFFF;
+	text-align:center;
+}
+.fox-gloves td.title2 {
+	background-color:#981614;
+	color:#FFFFFF;
+	text-align:left !important;
+	text-transform: uppercase;
+}
+.fox-gloves td.title3 {
+	background-color:#d4d4d4;
+	color:#000000;
+	text-align:left !important;
+	text-transform: uppercase;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =/FOX GLOVES */

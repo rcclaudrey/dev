@@ -1,0 +1,192 @@
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = Firefox button fix */
+
+button::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = Dealer Corner Login Page */
+
+.wholesale-dealer-login .wrapper {
+	margin: 0;
+}
+
+.wslg {
+	font-size: 14px;
+}
+.wslg h1 {
+	margin: 0;
+    padding: 10px;
+    background-color: #000;
+	line-height: 40px;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 900;
+    color: #fff;
+}
+
+.wslg h2 {
+/*
+    text-shadow: 2px 0 0 #54849a, -2px 0 0 #54849a, 0 2px 0 #54849a, 0 -2px 0 #54849a, 1px 1px #54849a, -1px -1px 0 #54849a, 1px -1px 0 #54849a, -1px 1px 0 #54849a;
+	text-shadow: 0 0 8px #54849a, -2px -2px 8px #54849a, 2px 2px 8px #54849a, 2px -2px 8px #54849a, -2px 2px 4px #54849a;
+    color: #fff;*/
+    margin: 10px 0 15px;
+    min-height: 33px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-style: italic;
+    font-weight: bold;
+	background-size: contain;
+    color: transparent;
+}
+.wslg h2.wslg-registered-customers {
+	background: url("../images/login/header-registered-customers.png") no-repeat scroll center center;
+}
+.wslg h2.wslg-new-customers {
+	background: url("../images/login/header-new-customers.png") no-repeat scroll center center;
+}
+
+.wslg h3 {
+	margin: 40px 0 20px;
+	font-size: 32px;
+	font-weight: bold;
+	text-align: center;
+}
+.wslg h4 {
+    margin: 20px 0;
+    text-align: center;
+    text-transform: none;
+}
+.wslg h5 {
+	margin: 30px 0 20px;
+	font-size: 20px;
+	text-align: center;
+	color: #c21821;
+}
+
+.wslg-topbanner {}
+.wslg-topbanner img {
+	max-width: 100%;
+}
+
+.wslg-form-container {
+	margin: 20px 0;
+}
+.wslg-form-container > div {
+	box-sizing: border-box;
+	width: 50%;
+	padding: 0 10px;
+	text-align: center;
+}
+.wslg-form-registered {
+	float: left;
+	border-right: 3px dotted #ccc;
+}
+.wslg-form-new {
+	float: right;
+}
+.wslg-form-container p {
+	margin: 15px 0;
+	/*font-size: 12px;*/
+}
+.wslg-form-registered form > div {
+	margin: 10px 0;
+}
+.wslg-form-container input {
+	box-sizing: border-box;
+	width: 70%;
+	padding: 10px;
+	background-color: #eee;
+	border: none;
+	text-align: center;
+}
+.wslg-forgotpassword {
+	color: #ca383b;
+}
+
+.wslg-button {
+    padding: 0 0 0 11px;
+    border: none;
+    line-height: 38px;
+	background: transparent url("../images/login/button-bg-left.png") no-repeat scroll left top;
+	cursor: pointer;
+}
+.wslg-button span {
+    display: inline-block;
+    margin: 0;
+    padding: 0 30px 0 18px;
+	background: transparent url("../images/login/button-bg-right.png") no-repeat scroll right top;
+	font-size: 14px;
+	letter-spacing: 0.6px;
+    color: #fff;
+}
+
+
+
+.wslg-brandbar {
+	margin: 20px 0;
+	padding: 10px 0;
+	text-align: center;
+	background-color: #eee;
+}
+.wslg-brandbar li {
+    display: inline-block;
+    width: 90px;
+    height: 90px;
+    margin: 0 5px;
+	background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.wslg-benefits {
+	margin: 20px 0;
+}
+.wslg-benefits dt {
+	margin: 20px 0 5px;
+	font-weight: bold;
+	padding-left: 35px;
+	background: url("../images/login/check-green.png") no-repeat scroll 0 0 transparent;
+}
+.wslg-benefits dd {
+	margin: 5px 0 30px;
+	padding-left: 35px;
+}
+
+.wslg-bluecomment {
+	margin: 40px 0;
+	color: #0961a8;
+	font-size: 17px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.wslg-misclogos {
+	text-align: center;
+	word-spacing: 100px;
+}
+.wslg-misclogos-payment {
+	display: inline-block;
+    width: 361px;
+    height: 60px;
+	background: url("../images/login/icons-payment.png") no-repeat center center transparent;
+}
+.wslg-misclogos-shipping {
+	display: inline-block;
+    width: 191px;
+    height: 60px;
+	background: url("../images/login/icons-shipping.png") no-repeat center center transparent;
+}
+
+.wslg-bottombutton {
+	margin: 20px 0;
+	text-align: center;
+}
+.wslg-callus {
+	margin: 40px 0 50px;
+	text-align: center;
+}

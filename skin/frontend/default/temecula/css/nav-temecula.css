@@ -1,0 +1,372 @@
+/********** < Navigation */
+#nav h3 {
+    font-size:14px;
+    border-bottom:1px solid #737373;
+    padding:0 0 3px;
+    display:inline;
+}
+#nav li.headrmenu {
+    margin:0 0 15px
+}
+/* All Levels */ /* Style consistent throughout all nav levels */
+/*#nav li.over { z-index:998; }*/
+#nav a, #nav a:hover {
+    display:block;
+    line-height:1.3em;
+    text-decoration:none;
+}
+#nav span {
+    display:block;
+    cursor:pointer;
+    white-space:nowrap;
+}
+#nav li ul span {
+    white-space:normal;
+}
+#nav ul li.parent a {
+}
+#nav ul li.parent li a {
+}
+.nav-links {
+    background: url(../images/header/nav-link-bg.gif) 0 0 repeat-x;
+    position:relative;
+    float:left;
+    width:100%;
+    margin:10px 0 0
+}
+.nav-links .li-first {
+    background:url(../images/header/nav-bor-top-left.gif) 0 0 no-repeat;
+    width:16px;
+    height:15px;
+    position:absolute;
+    top:0;
+    left:0
+}
+.nav-links .li-last {
+    background:url(../images/header/nav-bor-top-right.gif) 0 0 no-repeat;
+    width:16px;
+    height:15px;
+    position:absolute;
+    top:0;
+    right:0
+}
+/* 0 Level */
+.nav-links ul.nav-ul {
+}
+.nav-links ul.nav-ul li.level-top {
+    background: url("../images/header/nav-pic-divide.gif") no-repeat scroll right 0 rgba(0, 0, 0, 0);
+    float: left;
+    /*height: 107px;*/    
+    text-align: center;
+    width: 9.090909090909091%
+}
+.nav-links ul.nav-ul li.last.level-top {
+    background:none
+}
+.nav-links ul.nav-ul li.level-top a.level-top {
+    bottom: 0;
+    color: #fff;
+    font-size: 11px;
+    height: 100%;
+    margin-top: 10px;
+    padding-top: 60px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.nav-links ul.nav-ul li.level-top a.level-top span {
+    margin: 5px 0 20px;
+    height: 30px;
+}
+.nav-links ul.nav-ul li.level-top a.level-top.over {
+    color:#fff
+}
+.nav-links ul.nav-ul li.level-top.parent a.level-top.over span, .nav-links ul.nav-ul li.level-top.parent.active a.level-top span {
+    background:url(../images/header/ico-down.png) bottom center no-repeat;
+}
+.nav-links ul.nav-ul li.level-top.parent.active ul.level0 {
+    /*left: 0px !important;*/
+}
+/* 1st Level */
+#nav ul li, #nav ul li.active {
+    float:none;
+}
+#nav ul li.last {
+}
+#nav ul a, #nav ul a:hover {
+    float:none;
+}
+#nav ul li a {
+}
+/* 2nd Level */
+#nav ul, #nav div {
+    position:absolute;
+    width:15em;
+    top:109px;
+    left:-10000px;
+    text-align:left;
+}
+#nav div ul {
+    position:static;
+    width:auto;
+    border:none;
+}
+/* 3rd+ Level */
+#nav ul ul, #nav ul div {
+    /*top:5px;*/
+}
+/* Show menu */
+#nav li ul.shown-sub, #nav li div.shown-sub {
+    /*left:0;*/
+    z-index:100;
+}
+#nav li .shown-sub ul.shown-sub, #nav li .shown-sub li div.shown-sub {
+}
+/********** Navigation > */
+/* ======================================================================================= */
+li.level1.parent a.over span {
+    color: #fff !important;
+}
+li.level2.parent a.over span {
+    color: #de1f27 !important;
+}
+#nav ul.level1.shown-sub {
+    background:url(../images/header/bg-nav-level0.gif);
+    border:1px solid #737373;
+    padding:25px;
+    left:0px;
+    width:635px;
+    min-height:305px;
+    margin-top:33px;
+}
+ul.level1.shown-sub li.level2 {
+    margin:0 0 3px 0;
+    width:175px;
+    position:relative;
+}
+ul.level1.shown-sub li.level2.last {
+    margin:0
+}
+ul.level1.shown-sub li.level2 a {
+    display:block;
+    font-size:10px;
+    color:#4b4b4b;
+    text-transform:uppercase;
+    padding:2px 0 3px
+}
+ul.level1.shown-sub li.level2 a.over {
+    color:#de1f27;
+}
+ul.level1.shown-sub li.level2.parent a.over {
+    padding:2px 0 2px;
+    background:url(../images/header/ico-arrow-red.jpg) 95% center no-repeat;
+    border-bottom:1px solid #8f8f8f;
+}
+li.level1.parent a.over {
+    padding-bottom: 10px;
+}
+li.level1 {
+    background:none;
+    padding:0;
+    margin:0
+}
+#nav li ul.level2.shown-sub {
+    background:url(../images/header/bg-nav-level1.gif);
+    border:1px solid #737373;
+    padding:25px;
+    left:175px;
+    top:-5px;
+    width:220px;
+}
+#nav li ul.level2.shown-sub li a {
+    display:block;
+    font-size:10px;
+    color:#4b4b4b;
+    text-transform:uppercase;
+    padding:2px 0 3px
+}
+#nav li ul.level2.shown-sub li a.over {
+    color:#de1f27;
+    background:none;
+    border:none;
+    padding:2px 0 3px
+}
+#nav ul.level1.shown-sub li.featured-brands-menu {
+    position:absolute;
+    right:25px;
+    top:25px
+}
+#nav ul.level1.shown-sub li.featured-brands-menu ul {
+    position:static
+}
+#nav ul.level1.shown-sub li.featured-brands-menu ul li a {
+    display:block;
+    font-size:10px;
+    color:#4b4b4b;
+    text-transform:uppercase;
+    padding:2px 0 3px
+}
+#nav ul.level1.shown-sub li.featured-brands-menu ul li a:hover {
+    color:#de1f27;
+    background:none;
+    border:none;
+    padding:2px 0 3px
+}
+#nav ul #dd-banner {
+    height: 100%;
+    left: -270px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: auto;
+}
+a.show-more {
+    background: url("../images/catalog/show-more.png") no-repeat;
+    display: inline-block;
+    height: 26px;
+    width: 93px;
+    text-indent: -9999px;
+}
+a.show-less {
+    background: url("../images/catalog/show-less.png") no-repeat;
+    display: inline-block;
+    height: 26px;
+    width: 93px;
+    text-indent: -9999px;
+}
+.show-more-less-li {
+    text-align: center;
+}
+.show-more-less-li a {
+    margin-top: 20px;
+}
+.level0.nav-1.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") 0 0 no-repeat;
+}
+.level0.nav-1.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -80px 0 no-repeat;
+}
+.level0.nav-2.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -160px 0 no-repeat;
+}
+.level0.nav-2.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -240px 0 no-repeat;
+}
+.level0.nav-3.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -320px 0 no-repeat;
+}
+.level0.nav-3.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -400px 0 no-repeat;
+}
+.level0.nav-4.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -480px 0 no-repeat;
+}
+.level0.nav-4.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -560px 0 no-repeat;
+}
+.level0.nav-5.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -640px 0 no-repeat;
+}
+.level0.nav-5.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -720px 0 no-repeat;
+}
+.level0.nav-6.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -800px 0 no-repeat;
+}
+.level0.nav-6.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -880px 0 no-repeat;
+}
+.level0.nav-7.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -960px 0 no-repeat;
+}
+.level0.nav-7.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1040px 0 no-repeat;
+}
+.level0.nav-8.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -1120px 0 no-repeat;
+}
+.level0.nav-8.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1200px 0 no-repeat;
+}
+.level0.nav-9.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -1280px 0 no-repeat;
+}
+.level0.nav-9.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1360px 0 no-repeat;
+}
+.level0.nav-10.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -1440px 0 no-repeat;
+}
+.level0.nav-10.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1520px 0 no-repeat;
+}
+.level0.nav-11.level-top a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -1600px 0 no-repeat;
+}
+.level0.nav-11.level-top a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1680px 0 no-repeat;
+}
+
+#nav .nav-1 ul.level0.shown-sub {
+    left: 0px ;
+}
+
+#nav .nav-2 ul.level0.shown-sub {
+    left: 76px;
+}
+#nav .nav-3 ul.level0.shown-sub {
+    left: 162px;
+}
+
+#nav .nav-4 ul.level0.shown-sub {
+    left: 248px;
+}
+
+#nav .nav-5 ul.level0.shown-sub {
+    left: 334px;
+}
+
+#nav .nav-6 ul.level0.shown-sub {
+    left: 420px;
+}
+
+#nav .nav-7 ul.level0.shown-sub,
+#nav .nav-8 ul.level0.shown-sub{
+    left: 460px;
+}
+#nav .nav-9 ul.level0.shown-sub{
+    left: 595px;
+
+}
+
+#nav .nav-10 ul.level0.shown-sub{
+    left: 520px;
+}
+
+#nav .nav-11 ul.level0.shown-sub{
+    left: 190px;
+}
+
+#nav .level0.nav-5 ul.level1.shown-sub{
+    left: -72px !important;
+}
+
+#nav .level0.nav-6 ul.level1.shown-sub{
+    left: -158px !important;
+}
+
+#nav .level0.nav-7 ul.level1.shown-sub{
+    left: -198px !important;
+}
+
+#nav .level0.nav-8 ul.level1.shown-sub{
+    left: -198px !important;
+}
+
+#nav .level0.nav-9 ul.level1.shown-sub{
+    left: -333px !important;
+}
+
+#nav .level0.nav-10 ul.level1.shown-sub{
+    left: -258px !important;
+}

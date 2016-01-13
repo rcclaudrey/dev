@@ -1,0 +1,14 @@
+.liquid .previous {
+    display:block;    
+    float:left;
+    margin:0;
+    margin-top: 196px;
+    padding:0;
+}
+.liquid .next {
+    display:block;
+    float:right;
+    margin:0;
+    margin-top: 196px;
+    padding:0;
+}

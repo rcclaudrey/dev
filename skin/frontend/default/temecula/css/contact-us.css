@@ -1,0 +1,29 @@
+.cms-contact-us-html .box_left {
+    width: 163px;
+    float: none; 
+    margin-left: 0px; 
+    border: 1px solid #e5e5e5;
+    background: #e7e7e7;
+    border: 1px solid #dbdbdb;
+    padding: 20px;
+    min-height: 105px;
+    margin-bottom: 20px;
+}
+
+.cms-contact-us-html .left-cont {
+    width: 205px;
+    float: none;
+}
+
+.contact-us-left-wrap {
+    float: left;
+}
+
+.other-dealer a span {    
+    padding: 0 0 0 5px;
+    display: block;
+}
+
+.left-cont .other-dealer ul {
+  margin: 0 15px 0px 20px;
+}
