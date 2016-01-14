@@ -1,0 +1,95 @@
+#divSuggestions /* the div that will be placed next to the search box */
+{	
+	position:absolute; /* the div's position will be set by placing it next to the search box */
+	z-index:9050; /* z-index for the div */
+	font-family:Verdana; /* font for the suggestions */
+	font-size:8pt; /*font-size for the div */
+	color:#00256A; /* color for the div */
+	width:300px; /* width of the div */
+}
+#divSuggestions .yui-ac-content /* the content that will be placed inside the div */
+{
+	position:absolute; /* the content will be placed inside the div */
+	left:0; /* distance from the left-top point of the div */
+	top:0; /* distance from the left-top point of the div */
+	border:1px solid #ABC1D3; /* border of the content div */
+	background-color:#DEE6EE;  /* background color for content */
+	overflow:hidden; /* show/hide content flowing from the div */
+	text-align:left; /* text-align of content */
+	z-index:9050; /* z-index for the content */
+	filter: alpha(opacity=95); /* Transperacy of the content, IE Support */
+	opacity: .95; /* Transperacy of the content */
+	width:300px; /* width of the content */
+}
+#divSuggestions ul /* the list of suggestions */
+{
+	letter-spacing:0em; /* letter spacing */
+	margin:0; /* margins for the ul */
+	padding:5px 0; /* padding for the ul */
+	width:100%; /* size relative to the content */
+}
+#divSuggestions li /* a suggestion */
+{
+	padding:0 5px; /* padding for the suggestion */
+	cursor:default; /* cursor type when hovering over a suggestion */
+	white-space:wrap; /* break/don't break lines beyond the end of the li */
+	cursor: pointer;
+}
+#divSuggestions li.ACQueryItem /* a suggestion */
+{
+	line-height:13pt; /* default line height for suggestions */
+}
+#divSuggestions li.ACProductItem
+{
+	line-height:10pt;		/* increase this value if names are long and text overlaps */
+	cursor: pointer;
+	background-color:White; /* background color for the product suggetions */
+}
+#divSuggestions li.ACHeaderItem /* a header */
+{
+	margin-left: 4px;
+	margin-right: 4px;
+	margin-bottom: 1px;	
+	background-color:CornflowerBlue;/* background color for the suggestion's heder, ie: Queries, Products */
+	font-size:8pt; /* font size for the headers */
+	color:#00256A; /* color for the font */	
+	line-height:13pt; /* ling height for the headers */
+}
+#divSuggestions li.yui-ac-highlight /* highlighted suggestion */
+{
+	background-color:#789BCF; /* background color for highlighted content */
+	color:White; /* color for highlighted content */
+	padding:0px 0px 0px 0px;
+	margin:0px 5px 0px 5px;
+}
+.ACproductText /* a product suggestion */
+{
+	font-family:Verdana; /* font for the suggestions */
+	font-size:7pt; /* font size for the product suggestions */
+	color:#00256A; /* font color for the product suggestions */
+	vertical-align:top;
+	padding-top:5px;
+}
+.ACProduct /* a product suggestion */
+{
+	width:100%;
+	margin:0;
+	padding:2;
+}
+.ACProductImageCell
+{
+	margin:0px 0px 0px 0px;
+	padding:0px 5px 0px 0px;
+}
+img.ACProductImage /* product's image */
+{
+	width:45px; /* width */
+	height:45px; /* height */
+}
+.Seperator /* Seperator between products */
+{
+	margin:2px 0px 0px 0px;
+	width:95%;
+	border-top:1px solid silver;
+	font-size:1pt;
+}

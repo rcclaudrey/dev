@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+/* ======================Gift finder============================*/
+.cel_ddlZone { background-color: #70D2D5; padding-left: 20px; padding-top: 20px; padding-bottom: 30px; height: 200px; }
+.cel_ddlZone div.cel_selectBlock { width:450px; padding-bottom:10px; height:20px; display:block}
+.cel_ddlZone .cel_selectBlock .cel_selectBlockL { float:left; color:White; font-weight:bold; }
+.cel_ddlZone .cel_selectBlock .cel_selectBlockR { width:220px; float:right; padding-right:100px; }
+.cel_ddlZone .cel_selectBlock .cel_selectBlockR select { width:170px; }
+.cel_ddlZone button.button { margin-left:225px; margin-top:4px; }
+.cel_ddlZone .cel_Price { width:168px; }
+.cel_ddlZone .cel_Price #price-slider-range-giftfinder-display { width:168px; margin-bottom: 4px; border:0; color:#f6931f; font-weight:bold; }
+
+.cel_ddlZone div.priceSliderDiv{margin-bottom:7px}
+/* ======================End of Gift finder============================*/
+
+/* ==========================Price slider==============================*/
+#narrow-by-list .cel_Price { width:150px; margin-bottom:10px; }
+.price-slider-range-display { background-color: rgba(0, 0, 0, 0); border: 0 none; color: #F6931F; font-weight: bold; margin: 3px; width: 150px; }
+/* =======================End of Price slider==========================*/

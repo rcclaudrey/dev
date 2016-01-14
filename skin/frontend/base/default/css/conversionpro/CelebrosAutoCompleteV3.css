@@ -1,0 +1,233 @@
+/* --- Typography ------------------------ */
+
+#searchSuggestions 
+{
+    background: url(../../../../default/temecula/images/header/bg-nav-level0.gif);
+	
+    border: 1px solid #737373;
+    color: #616161;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+	max-width: 949px;
+	z-index: 9050;
+	width: 800px;
+	
+    display:none;
+	
+    /* left: -500px !important; */
+	
+    right: 112px;
+	
+    top: 37px;
+    left: auto !important;
+}
+#search_text
+{
+    position:relative;
+}
+#searchSuggestions .topProducts {
+    /* border-right: 1px dotted #737373; */
+    float: left;
+    margin: 15px 0;
+	 
+    padding-left: 15px;
+	width: 480px;
+}
+
+#searchSuggestions ul {
+    float: left;
+    letter-spacing: 0;
+	list-style: none outside none;
+	margin: 0;
+	padding: 0;
+}
+
+#searchSuggestions  .topProducts ul {
+	/*width: 627px;*/
+}
+
+#searchSuggestions ul li {
+	list-style: none outside none;
+}
+
+#searchSuggestions .headerItem, #searchSuggestions .headerTopSearch  {
+    color: #000;
+    font-size: 17px;
+	
+    font-weight: 500;
+    line-height: 13pt;
+    margin-bottom: 15px;
+    /* margin-left: 7px; */
+    padding: 0;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+#searchSuggestions li.productItem {
+    background-color: #FFFFFF;
+    float: left;
+	padding: 0 2px 20px;
+    width: 150px;
+}
+
+#searchSuggestions .topProducts .productImage{
+	/*height: 200px;*/
+ 	margin-bottom: 25px;
+	text-align: center;
+	/* border:1px solid #888B8D !important; */
+	margin-left:5px;
+margin-right:5px;
+}
+
+#searchSuggestions .topProducts .productImage img{
+    width: 120px;
+	height: 120px !important;
+	padding-bottom: 5px;
+    padding-top: 5px;
+    display:inline !important;
+}
+
+#searchSuggestions .topProducts .productDesc{
+	font-size:12px;
+	text-align:center;
+padding-left: 7px;
+    padding-right: 7px;
+}
+
+#searchSuggestions .topProducts .productDesc .productPrice {
+    margin-top: 25px;
+    color: #c83535;      font-weight: bold;      font-size: 14px;      line-height: normal;
+}
+
+#searchSuggestions .topProducts .productDesc span{
+	display: block;
+	height: 30px;
+}
+
+#searchSuggestions .topProducts .productVendor{
+	text-transform: uppercase;
+}
+
+#searchSuggestions .topProducts .productDesc .toProduct{
+	/* background-color: #000; */
+	color: #FFFFFF;
+	font-family: "Montserrat",Verdana,Arial,sans-serif;
+	font-weight: normal;
+	font-size: 10px;
+	padding: 7px 5px;
+	text-transform: uppercase;
+	text-decoration: none;
+	/* height:23px; */
+	border-radius: 4px;
+	line-height:10px;
+}
+
+#searchSuggestions .topProducts .productDesc .toProduct:hover{
+	background-color: #ad5e5e;
+}
+
+#searchSuggestions .topSearch {
+    float: right;
+    margin: 15px 0;
+	padding: 0;
+	width: 290px;
+	min-height: 180px;
+    /* border-left: 1px dotted #737373; */
+}
+
+#searchSuggestions .topSearch ul {
+	width: 100%;
+	text-align: left;
+}
+
+#searchSuggestions .topSearch ul li{
+	font-family: "Montserrat",Verdana,Arial,sans-serif;
+	font-size: 15px;
+}
+
+#searchSuggestions .topSearch.noDesigner ul li{
+	line-height: 20px;
+}
+
+#searchSuggestions .topSearch.noDesigner ul li:hover{
+	/* background-color: #000; */
+}
+
+
+#searchSuggestions .topSearch a {
+	color: #000000;
+	text-decoration: none;
+}
+
+#searchSuggestions .topSearch li:hover a{
+	color: #de1f27;
+}
+
+#searchSuggestions .topDesigner {
+    float: right;
+    clear:right;
+    margin: 20px 0 30px 25px;
+	padding: 0;
+	width: 290px;
+}
+
+/*#searchSuggestions .headerTopSearch {
+    color: #000000;
+    font-family: "Montserrat",Verdana,Arial,sans-serif;
+    font-size: 17px;
+	font-weight: 300;
+    line-height: 13pt;
+    margin-bottom: 25px;
+    padding: 0;
+    text-transform: uppercase;
+}*/
+
+#searchSuggestions .headerTopDesigner {
+    color: #000000;
+    font-family: "Montserrat",Verdana,Arial,sans-serif;
+    font-size: 17px;
+	font-weight: 300;
+    line-height: 13pt;
+    margin-bottom: 15px;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.ac_li_query
+{
+    cursor:pointer;
+}
+#dvSearchArea
+{
+    padding-left:600px;
+}
+/*#header
+{
+    padding-left:600px;
+}*/
+.ellipsis {
+	/*width: 250px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;*/
+height: 50px !important;
+}
+
+.toProduct button
+{
+width:130px;
+}
+
+/* Custom Client CSS changes */
+.searchMiniContainer.open
+{
+    border-radius: 14px !important;
+	-moz-border-radius: 14px !important;
+	-webkit-border-radius: 14px !important;
+	
+}
+
+.searchMiniForm #search
+{
+    margin: 0 !important;
+}
