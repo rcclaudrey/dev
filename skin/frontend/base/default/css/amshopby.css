@@ -70,14 +70,6 @@ div.block-layered-nav.amshopby-collapse-enabled dl dt::after {
 }
 div.block-layered-nav.amshopby-collapse-enabled dl dt.amshopby-collapsed {background:url(../images/amshopby-collapsed.gif) center left no-repeat;}
 .main .col-left div.block-layered-nav.amshopby-collapse-enabled dl dt{background:url(../images/amshopby-expanded.gif) center left no-repeat;}
-.main .col-left div.block-layered-nav.amshopby-collapse-enabled dl dt.amshopby-collapsed{background:url(../images/amshopby-collapsed.gif) center left no-repeat;}
-
-.main .col-main div.block-layered-nav.amshopby-collapse-enabled .toggle-content dl dt{background:none;}
-.main .col-main div.block-layered-nav.amshopby-collapse-enabled .toggle-content dl dt.amshopby-collapsed{background:none}
-
-.main .col-main div.block-layered-nav.amshopby-collapse-enabled .toggle-content dl dd .no-display {
-    display: block!important;
-}
 
 div.block-layered-nav div.amshopby-slider {
 	 position:relative; margin:10px 4px 5px 4px; z-index:9; height:18px;  background: url(../images/amshopby-slider-bg.gif) repeat-x 0 50%; cursor:pointer;
