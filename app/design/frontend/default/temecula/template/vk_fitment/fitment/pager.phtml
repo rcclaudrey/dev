@@ -1,41 +1,41 @@
-<?php
-
-$foundTotal = static::getFoundTotal();
-$pagesTotal = static::getPagesTotal();
-$pageSize = static::getPageSize();
-$currentPage = static::getCurrentPage();
-$pageSizesAvailable = static::getPageSizesAvailable();
-
-?>
-<div class="fitment-pager">
-	<div class="fitment-toolbar-pagesize-container">
-		<label for="fitment-toolbar-pagesize-selector"><?php echo $this->__('Show') ?></label>
-		<select id="fitment-toolbar-pagesize-selector" onchange="fitment.onPageSizeChange(this)">
-			<?php foreach($pageSizesAvailable as $value): ?>
-				<option value="<?php echo $value ?>" <?php echo ($pageSize == $value) ? 'selected="selected"' : '' ?>><?php echo $this->__('%d per page', $value) ?></option>
-			<?php endforeach ?>
-		</select>
-	</div>
-	<div class="fitment-toolbar-pager-number">
-		<?php echo $this->__('%d to %d of %d',
-				$currentPage * $pageSize + 1,
-				min(($currentPage + 1) * $pageSize, $foundTotal),
-				$foundTotal)
-		?>
-	</div>
-	<div class="fitment-toolbar-pager-container">
-		<label for=""><?php echo $this->__('Select page') ?></label>
-
-		<?php if($currentPage > 2): ?>
-			<span class="fitment-toolbar-first" value="0" onclick="fitment.onPageNumberClick(this)"><?php echo $this->__('First') ?></span>
-		<?php endif ?>
-
-		<?php for($i=max($currentPage-2, 0); $i<=min($currentPage+2, $pagesTotal-1); $i++): ?>
-			<span class="<?php echo ($i == $currentPage) ? 'current' : '' ?>" value="<?php echo (int)$i ?>" onclick="fitment.onPageNumberClick(this)"><?php echo $i+1 ?></span>
-		<?php endfor ?>
-
-		<?php if($currentPage < $pagesTotal-1): ?>
-			<span class="fitment-toolbar-last" value="<?php echo $pagesTotal-1 ?>" onclick="fitment.onPageNumberClick(this)"><?php echo $this->__('Last') ?></span>
-		<?php endif ?>
-	</div>
+<?php
+
+$foundTotal = static::getFoundTotal();
+$pagesTotal = static::getPagesTotal();
+$pageSize = static::getPageSize();
+$currentPage = static::getCurrentPage();
+$pageSizesAvailable = static::getPageSizesAvailable();
+
+?>
+<div class="fitment-pager">
+	<div class="fitment-toolbar-pagesize-container">
+		<label for="fitment-toolbar-pagesize-selector"><?php echo $this->__('Show') ?></label>
+		<select id="fitment-toolbar-pagesize-selector" onchange="fitment.onPageSizeChange(this)">
+			<?php foreach($pageSizesAvailable as $value): ?>
+				<option value="<?php echo $value ?>" <?php echo ($pageSize == $value) ? 'selected="selected"' : '' ?>><?php echo $this->__('%d per page', $value) ?></option>
+			<?php endforeach ?>
+		</select>
+	</div>
+	<div class="fitment-toolbar-pager-number">
+		<?php echo $this->__('%d to %d of %d',
+				$currentPage * $pageSize + 1,
+				min(($currentPage + 1) * $pageSize, $foundTotal),
+				$foundTotal)
+		?>
+	</div>
+	<div class="fitment-toolbar-pager-container">
+		<label for=""><?php echo $this->__('Select page') ?></label>
+
+		<?php if($currentPage > 2): ?>
+			<span class="fitment-toolbar-first" value="0" onclick="fitment.onPageNumberClick(this)"><?php echo $this->__('First') ?></span>
+		<?php endif ?>
+
+		<?php for($i=max($currentPage-2, 0); $i<=min($currentPage+2, $pagesTotal-1); $i++): ?>
+			<span class="<?php echo ($i == $currentPage) ? 'current' : '' ?>" value="<?php echo (int)$i ?>" onclick="fitment.onPageNumberClick(this)"><?php echo $i+1 ?></span>
+		<?php endfor ?>
+
+		<?php if($currentPage < $pagesTotal-1): ?>
+			<span class="fitment-toolbar-last" value="<?php echo $pagesTotal-1 ?>" onclick="fitment.onPageNumberClick(this)"><?php echo $this->__('Last') ?></span>
+		<?php endif ?>
+	</div>
 </div>

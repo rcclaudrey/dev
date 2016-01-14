@@ -50,7 +50,7 @@
                 <li class="featured-brands-menu" style="display: none;">
                     <div id="dd-banner"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dropdown-banner')->toHtml(); ?></div>
                     <ul>
-                        <li class="headrmenu"><h3>featured brands:</h3></li>
+                        <li class="headrmenu"><h3>featured brands:</h3></li>                        
                         <?php echo strip_tags($this->getLayout()->createBlock('cms/block')->setBlockId('featured-brands-dropdown')->toHtml(), '<li><a>'); ?>
                     </ul>
                     <div class="crystal"></div>

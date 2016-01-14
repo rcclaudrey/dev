@@ -1,84 +1,84 @@
-<?php
-
-$facets = $this->getFacets();
-$facetValueQtyLimit = $this->getFacetValueQtyLimit();
-$priceFilter = $this->getPriceFilter();
-$params = $this->getRequestParams();
-$minPrice = isset($params['options']['minPrice']) ? $params['options']['minPrice'] : 0;
-$maxPrice = isset($params['options']['maxPrice']) ? $params['options']['maxPrice'] : 0;
-
-?>
-<div class="fitment-filter">
-	<ul class="fitment-filter-list">
-		<?php foreach($facets as $facet): ?>
-
-		<?php if( !isset($facet['InputType']) || !$facet['InputType'] || 'checkbox' == $facet['InputType'] ): ?>
-
-				<?php
-					$facetValues = Vikont_Fitment_Helper_Data::sortOptions($facet['Values'], 'Name');
-					$isCollapsable = (count($facets) > 1) && (count($facet['Values']) > $facetValueQtyLimit);
-					$isCollapsed = $isCollapsable && !Vikont_Fitment_Block_Fitment_Abstract::checkParamGroup($facet['Field']);
-				?>
-				<li class="<?php echo $isCollapsable && $isCollapsed ? 'fitment-filter-facet-values-collapsed' : '' ?> fitment-filter-facet">
-					<span class="fitment-filter-facet-name"><?php echo htmlspecialchars($facet['Name']) ?></span>
-					<ul class="fitment-filter-facet-values clearer">
-						<?php foreach($facetValues as $facetValue): ?>
-							<?php $checked = Vikont_Fitment_Block_Fitment_Abstract::checkParamValue($facet['Field'], $facetValue['Value']); ?>
-							<li class="<?php echo $checked ? 'fitment-filter-value-checked' : '' ?> fitment-filter-facet-value">
-								<input name="<?php echo $facet['Field'] ?>" value="<?php echo $facetValue['Value'] ?>" type="checkbox" id="facet-<?php echo $facet['Field'] ?>_<?php echo $facetValue['Value'] ?>" onclick="fitment.onFilterOptionChecked(this)" <?php echo $checked ? 'checked="checked"' : '' ?>/>
-								<label for="facet-<?php echo $facet['Field'] ?>_<?php echo $facetValue['Value'] ?>"><?php echo htmlspecialchars($facetValue['Name']) ?>
-									<span class="fitment-filter-facet-value-count"><?php echo sprintf('(%d)', htmlspecialchars($facetValue['Count'])) ?></span>
-								</label>
-							</li>
-						<?php endforeach ?>
-					</ul>
-					<?php if($isCollapsable) : ?>
-						<div class="fitment-filter-facet-values-showmore" onclick="fitment.onFilterExpandCollapse(this)"><?php echo $isCollapsed ? $this->__('+ Show more') : $this->__('- Show less') ?></div>
-					<?php endif ?>
-				</li>
-
-			<?php elseif('select' == $facet['InputType']): ?>
-
-				<li class="fitment-filter-facet">
-					<span class="fitment-filter-facet-name"><?php echo htmlspecialchars($facet['Name']) ?></span>
-					<?php	$facetValues = Vikont_Fitment_Helper_Data::sortOptions($facet['Values'], 'Name');	?>
-					<div class="fitment-filter-facet-category">
-						<select name="<?php echo $facet['Field'] ?>" id="facet-<?php echo $facet['Field'] ?>" onchange="fitment.onFilterSelectChanged(this)" class="fitment-filter-facet-select">
-							<option value=""><?php echo $this->__('-- Select --') ?></option>
-							<?php foreach($facetValues as $facetValue): ?>
-								<?php $checked = Vikont_Fitment_Block_Fitment_Abstract::checkParamValue($facet['Field'], $facetValue['Value']); ?>
-								<option value="<?php echo $facetValue['Value'] ?>" <?php echo $checked ? 'selected="selected"' : '' ?>><?php echo htmlspecialchars($facetValue['Name']) ?></option>
-							<?php endforeach ?>
-						</select>
-					</div>
-				</li>
-
-			<?php elseif('resetCategory' == $facet['InputType']): ?>
-
-				<li class="fitment-filter-facet">
-					<span class="fitment-filter-facet-name"><?php echo $this->__('Clear Choices') ?></span>
-					<div class="fitment-filter-facet-resetCategory">
-						<button type="button" class="fitment-filter-facet-resetCategory-reset" onclick="fitment.onCategoryFilterReset(this)"><?php echo $this->__('Clear') ?></button>
-					</div>
-				</li>
-
-			<?php elseif('price' == $facet['InputType']): ?>
-
-				<?php if(count($facets)): ?>
-					<li class="fitment-filter-price fitment-filter-facet">
-						<span class="fitment-filter-facet-name"><?php echo $this->__('Price') ?></span>
-						<div>
-							<?php
-								vd($minPrice);
-								vd($maxPrice);
-							?>
-							price filter's going to appear here
-						</div>
-					</li>
-				<?php endif ?>
-
-			<?php endif ?>
-
-		<?php endforeach ?>
-	</ul>
+<?php
+
+$facets = $this->getFacets();
+$facetValueQtyLimit = $this->getFacetValueQtyLimit();
+$priceFilter = $this->getPriceFilter();
+$params = $this->getRequestParams();
+$minPrice = isset($params['options']['minPrice']) ? $params['options']['minPrice'] : 0;
+$maxPrice = isset($params['options']['maxPrice']) ? $params['options']['maxPrice'] : 0;
+
+?>
+<div class="fitment-filter">
+	<ul class="fitment-filter-list">
+		<?php foreach($facets as $facet): ?>
+
+		<?php if( !isset($facet['InputType']) || !$facet['InputType'] || 'checkbox' == $facet['InputType'] ): ?>
+
+				<?php
+					$facetValues = Vikont_Fitment_Helper_Data::sortOptions($facet['Values'], 'Name');
+					$isCollapsable = (count($facets) > 1) && (count($facet['Values']) > $facetValueQtyLimit);
+					$isCollapsed = $isCollapsable && !Vikont_Fitment_Block_Fitment_Abstract::checkParamGroup($facet['Field']);
+				?>
+				<li class="<?php echo $isCollapsable && $isCollapsed ? 'fitment-filter-facet-values-collapsed' : '' ?> fitment-filter-facet">
+					<span class="fitment-filter-facet-name"><?php echo htmlspecialchars($facet['Name']) ?></span>
+					<ul class="fitment-filter-facet-values clearer">
+						<?php foreach($facetValues as $facetValue): ?>
+							<?php $checked = Vikont_Fitment_Block_Fitment_Abstract::checkParamValue($facet['Field'], $facetValue['Value']); ?>
+							<li class="<?php echo $checked ? 'fitment-filter-value-checked' : '' ?> fitment-filter-facet-value">
+								<input name="<?php echo $facet['Field'] ?>" value="<?php echo $facetValue['Value'] ?>" type="checkbox" id="facet-<?php echo $facet['Field'] ?>_<?php echo $facetValue['Value'] ?>" onclick="fitment.onFilterOptionChecked(this)" <?php echo $checked ? 'checked="checked"' : '' ?>/>
+								<label for="facet-<?php echo $facet['Field'] ?>_<?php echo $facetValue['Value'] ?>"><?php echo htmlspecialchars($facetValue['Name']) ?>
+									<span class="fitment-filter-facet-value-count"><?php echo sprintf('(%d)', htmlspecialchars($facetValue['Count'])) ?></span>
+								</label>
+							</li>
+						<?php endforeach ?>
+					</ul>
+					<?php if($isCollapsable) : ?>
+						<div class="fitment-filter-facet-values-showmore" onclick="fitment.onFilterExpandCollapse(this)"><?php echo $isCollapsed ? $this->__('+ Show more') : $this->__('- Show less') ?></div>
+					<?php endif ?>
+				</li>
+
+			<?php elseif('select' == $facet['InputType']): ?>
+
+				<li class="fitment-filter-facet">
+					<span class="fitment-filter-facet-name"><?php echo htmlspecialchars($facet['Name']) ?></span>
+					<?php	$facetValues = Vikont_Fitment_Helper_Data::sortOptions($facet['Values'], 'Name');	?>
+					<div class="fitment-filter-facet-category">
+						<select name="<?php echo $facet['Field'] ?>" id="facet-<?php echo $facet['Field'] ?>" onchange="fitment.onFilterSelectChanged(this)" class="fitment-filter-facet-select">
+							<option value=""><?php echo $this->__('-- Select --') ?></option>
+							<?php foreach($facetValues as $facetValue): ?>
+								<?php $checked = Vikont_Fitment_Block_Fitment_Abstract::checkParamValue($facet['Field'], $facetValue['Value']); ?>
+								<option value="<?php echo $facetValue['Value'] ?>" <?php echo $checked ? 'selected="selected"' : '' ?>><?php echo htmlspecialchars($facetValue['Name']) ?></option>
+							<?php endforeach ?>
+						</select>
+					</div>
+				</li>
+
+			<?php elseif('resetCategory' == $facet['InputType']): ?>
+
+				<li class="fitment-filter-facet">
+					<span class="fitment-filter-facet-name"><?php echo $this->__('Clear Choices') ?></span>
+					<div class="fitment-filter-facet-resetCategory">
+						<button type="button" class="fitment-filter-facet-resetCategory-reset" onclick="fitment.onCategoryFilterReset(this)"><?php echo $this->__('Clear') ?></button>
+					</div>
+				</li>
+
+			<?php elseif('price' == $facet['InputType']): ?>
+
+				<?php if(count($facets)): ?>
+					<li class="fitment-filter-price fitment-filter-facet">
+						<span class="fitment-filter-facet-name"><?php echo $this->__('Price') ?></span>
+						<div>
+							<?php
+								vd($minPrice);
+								vd($maxPrice);
+							?>
+							price filter's going to appear here
+						</div>
+					</li>
+				<?php endif ?>
+
+			<?php endif ?>
+
+		<?php endforeach ?>
+	</ul>
 </div>

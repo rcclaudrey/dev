@@ -133,6 +133,9 @@
                 <action method="addCss">
                     <stylesheet>css/contest.css</stylesheet>
                 </action>
+                <action method="addCss">
+                    <stylesheet>css/cms.css</stylesheet>
+                </action>
                 <action method="addItem">
                     <type>skin_css</type>
                     <name>css/styles-ie.css</name>

@@ -1,47 +1,47 @@
-<?php
-
-$products = $this->getProducts();
-
-?>
-<?php if(count($products)): ?>
-	<p class="fitment-grouped-partlist-title"><?php echo $this->__('The product(s) below fit your vehicle:') ?></p>
-	<ul class="fitment-grouped-partlist">
-		<li class="fitment-grouped-partlist-header">
-			<span class="fitment-grouped-partlist-header-name"><?php echo $this->__('Name') ?></span>
-			<span class="fitment-grouped-partlist-header-price"><?php echo $this->__('Price') ?></span>
-			<span class="fitment-grouped-partlist-header-qty"><?php echo $this->__('Qty') ?></span>
-		</li>
-		<?php foreach($products as $productData): ?>
-			<li class="fitment-grouped-partlist-item">
-				<span class="fitment-grouped-partlist-list-name"><?php echo $this->escapeHtml($productData['product']->getName()) ?></span>
-				<span class="fitment-grouped-partlist-list-price">
-					<?php echo $this->getPriceHtml($productData['product'], true) ?>
-					<?php echo $this->getTierPriceHtml($productData['product']) ?>
-				</span>
-				<span class="fitment-grouped-partlist-list-qty">
-					<?php if ($productData['product']->isSaleable()) : ?>
-						<input type="text" name="super_group[<?php echo $productData['product']['entity_id'] ?>]" maxlength="6" value="<?php echo $productData['product']->getQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
-					<?php else: ?>
-						<span class="fitment-grouped-partlist-list-out-of-stock"><?php echo $this->__('Out of stock') ?></span>
-					<?php endif; ?>
-				</span>
-				<?php if(count($productData['item']['Applications'])): ?>
-					<div class="fitment-grouped-partlist-list-applications">
-						<span><?php echo (count($productData['item']['Applications']) > 1)
-							?	$this->__('Applications:')
-							:	$this->__('Application:')
-						?></span>
-						<?php foreach($productData['item']['Applications'] as $skuItemApplication): ?>
-							<strong><?php echo htmlspecialchars($skuItemApplication) ?></strong>
-						<?php endforeach ?>
-					</div>
-				<?php endif ?>
-				<?php if($productData['item']['Note']): ?>
-					<div class="fitment-grouped-partlist-list-note"><?php echo htmlspecialchars($productData['item']['Note']) ?></div>
-				<?php endif ?>
-			</li>
-		<?php endforeach ?>
-	</ul>
-<?php else: ?>
-	<p class="fitment-grouped-partlist-noitems"><?php echo $this->__('Sorry, no items fitting selected vehicle were found') ?></p>
+<?php
+
+$products = $this->getProducts();
+
+?>
+<?php if(count($products)): ?>
+	<p class="fitment-grouped-partlist-title"><?php echo $this->__('The product(s) below fit your vehicle:') ?></p>
+	<ul class="fitment-grouped-partlist">
+		<li class="fitment-grouped-partlist-header">
+			<span class="fitment-grouped-partlist-header-name"><?php echo $this->__('Name') ?></span>
+			<span class="fitment-grouped-partlist-header-price"><?php echo $this->__('Price') ?></span>
+			<span class="fitment-grouped-partlist-header-qty"><?php echo $this->__('Qty') ?></span>
+		</li>
+		<?php foreach($products as $productData): ?>
+			<li class="fitment-grouped-partlist-item">
+				<span class="fitment-grouped-partlist-list-name"><?php echo $this->escapeHtml($productData['product']->getName()) ?></span>
+				<span class="fitment-grouped-partlist-list-price">
+					<?php echo $this->getPriceHtml($productData['product'], true) ?>
+					<?php echo $this->getTierPriceHtml($productData['product']) ?>
+				</span>
+				<span class="fitment-grouped-partlist-list-qty">
+					<?php if ($productData['product']->isSaleable()) : ?>
+						<input type="text" name="super_group[<?php echo $productData['product']['entity_id'] ?>]" maxlength="6" value="<?php echo $productData['product']->getQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+					<?php else: ?>
+						<span class="fitment-grouped-partlist-list-out-of-stock"><?php echo $this->__('Out of stock') ?></span>
+					<?php endif; ?>
+				</span>
+				<?php if(count($productData['item']['Applications'])): ?>
+					<div class="fitment-grouped-partlist-list-applications">
+						<span><?php echo (count($productData['item']['Applications']) > 1)
+							?	$this->__('Applications:')
+							:	$this->__('Application:')
+						?></span>
+						<?php foreach($productData['item']['Applications'] as $skuItemApplication): ?>
+							<strong><?php echo htmlspecialchars($skuItemApplication) ?></strong>
+						<?php endforeach ?>
+					</div>
+				<?php endif ?>
+				<?php if($productData['item']['Note']): ?>
+					<div class="fitment-grouped-partlist-list-note"><?php echo htmlspecialchars($productData['item']['Note']) ?></div>
+				<?php endif ?>
+			</li>
+		<?php endforeach ?>
+	</ul>
+<?php else: ?>
+	<p class="fitment-grouped-partlist-noitems"><?php echo $this->__('Sorry, no items fitting selected vehicle were found') ?></p>
 <?php endif ?>

@@ -47,8 +47,7 @@ $_category = Mage::registry('current_category');
               <?php endif; */ ?>
 
             <?php if ($this->canShowOptions()): ?>
-            
-                <?php
+            <?php
                 if ($_category->getLevel() == 2):
                     if ($_category->getHasFitment()):
                         $fitmentSelectorBlock = $this->getLayout()->createBlock('fitment/landing_selector');
@@ -60,7 +59,7 @@ $_category = Mage::registry('current_category');
                     endif;
                 endif;
                 ?>
-
+            
                 <dl id="narrow-by-list">
                     <?php if (($_category->getLevel() == 3 || $_category->getLevel() == 4 || $_category->getLevel() == 5)): ?>
                         <dt class="dt-layered-nav-department">
@@ -232,9 +231,7 @@ $_category = Mage::registry('current_category');
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </dl>
-                <script type="text/javascript">decorateDataList('narrow-by-list')</script>
-
-
+                <script type="text/javascript">decorateDataList('narrow-by-list')</script>                
 
             <?php endif; ?>
         </div>

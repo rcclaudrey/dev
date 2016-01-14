@@ -24,11 +24,15 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 /* @var $this Mage_Reports_Block_Product_Viewed */
+
+$router = Mage::app()->getFrontController()->getRequest()->getRouteName();
+
+$skip_cms_ids = array(34, 35, 36);
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
-
+<?php if($router != 'cms' || ($router == 'cms' && !in_array(Mage::getBlockSingleton('cms/page')->getPage()->getId(), $skip_cms_ids))):?>
     <div class="block block-list block-viewed">
-        <div class="block-title">
+        <div class="block-title cms-page-<?php echo Mage::getBlockSingleton('cms/page')->getPage()->getId() . '-' . $router; ?>">
             <strong><span><?php echo $this->__('Recently Viewed Products') ?></span></strong>
         </div>
         <div class="block-content">
@@ -156,4 +160,5 @@
             });
         });
     </script>
+<?php endif; ?>
 <?php endif; ?>

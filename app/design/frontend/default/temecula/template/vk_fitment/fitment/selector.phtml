@@ -1,41 +1,49 @@
 <?php
+
 $ride = $this->getRide();
+
 ?>
 <div class="fitment-sidebar-header"><?php echo $this->__('Search by Fitment') ?></div>
+
 <div class="fitment-selector-sidebar fitment-selector">
-    <div class="fitment-selected">
-        <label><?php echo $this->__('Currently selected:') ?></label>
-        <span id="fitment-ride-name"><?php echo htmlspecialchars($ride['name']) ?></span>
-        <p class="fitment-change clearer">
-            <button type="button" class="fitment-selector-reset" onclick="fitment.rideSelector.resetRide()"><?php echo $this->__('Reset') ?></button>
-            <button type="button" class="fitment-selector-change" onclick="fitment.rideSelector.changeRide()"><?php echo $this->__('Change') ?></button>
-        </p>
-    </div>
-    <div class="fitment-selectors">
-        <span><?php echo $this->__('Select your ride:') ?></span>
-        <ul>
-            <li class="make">
-                <label for="fitment-make"><?php echo $this->__('Select Make') ?></label>
-                <select id="fitment-make" name="fitment-make" onchange="fitment.rideSelector.changedMake({target: this})">
-                    <option value=""><?php echo $this->__('-- Select Make --') ?></option>
-                </select>
-            </li>
-            <li class="year">
-                <label for="fitment-year"><?php echo $this->__('Select Year') ?></label>
-                <select id="fitment-year" name="fitment-year" onchange="fitment.rideSelector.changedYear({target: this})">
-                    <option><?php echo $this->__('-- Select year --') ?></option>
-                </select>
-            </li>
-            <li class="model">
-                <label for="fitment-model"><?php echo $this->__('Select Model') ?></label>
-                <select id="fitment-model" name="fitment-model" onchange="fitment.rideSelector.changedModel({target: this})">
-                    <option><?php echo $this->__('-- Select model --') ?></option>
-                </select>
-            </li>
-        </ul>
-        <p>
-            <button class="fitment-save" type="button" onclick="fitment.rideSelector.saveRide()"><?php echo $this->__('Save Selection') ?></button>
-            <button class="fitment-cancel" type="button" onclick="fitment.rideSelector.restoreRide()"><?php echo $this->__('Cancel') ?></button>
-        </p>
-    </div>
+
+	<div class="fitment-selected">
+		<label><?php echo $this->__('Currently selected:') ?></label>
+		<span id="fitment-ride-name"><?php echo htmlspecialchars($ride['name']) ?></span>
+		<p class="fitment-change clearer">
+			<button type="button" class="fitment-selector-reset" onclick="fitment.rideSelector.resetRide()"><?php echo $this->__('Reset') ?></button>
+			<button type="button" class="fitment-selector-change" onclick="fitment.rideSelector.changeRide()"><?php echo $this->__('Change') ?></button>
+		</p>
+	</div>
+
+	<div class="fitment-selectors">
+		<span><?php echo $this->__('Select your ride:') ?></span>
+		<ul>
+			<li class="make">
+				<label for="fitment-make"><?php echo $this->__('Select Make') ?></label>
+				<select id="fitment-make" name="fitment-make" onchange="fitment.rideSelector.changedMake({target:this})">
+					<option value=""><?php echo $this->__('-- Select Make --') ?></option>
+				</select>
+			</li>
+
+			<li class="year">
+				<label for="fitment-year"><?php echo $this->__('Select Year') ?></label>
+				<select id="fitment-year" name="fitment-year" onchange="fitment.rideSelector.changedYear({target:this})">
+					<option><?php echo $this->__('-- Select year --') ?></option>
+				</select>
+			</li>
+
+			<li class="model">
+				<label for="fitment-model"><?php echo $this->__('Select Model') ?></label>
+				<select id="fitment-model" name="fitment-model" onchange="fitment.rideSelector.changedModel({target:this})">
+					<option><?php echo $this->__('-- Select model --') ?></option>
+				</select>
+			</li>
+		</ul>
+		<p>
+			<button class="fitment-save" type="button" onclick="fitment.rideSelector.saveRide()"><?php echo $this->__('Save Selection') ?></button>
+			<button class="fitment-cancel" type="button" onclick="fitment.rideSelector.restoreRide()"><?php echo $this->__('Cancel') ?></button>
+		</p>
+	</div>
+
 </div>

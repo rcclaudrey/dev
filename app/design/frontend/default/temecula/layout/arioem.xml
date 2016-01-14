@@ -15,6 +15,12 @@
 		<reference name="root">
 			<action method="setTemplate"><template>page/1column.phtml</template></action>
 		</reference>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/oempart.css</name>
+			</action>
+		</reference>
 		<reference name="content">
 			<block type="arioem/parts_part" name="arioem_part" />
 		</reference>

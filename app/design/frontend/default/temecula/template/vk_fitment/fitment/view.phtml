@@ -1,87 +1,87 @@
-<?php
-
-$coreHelper = Mage::helper('core');
-$product = $this->getProduct();
-$imageUrl = Vikont_Fitment_Helper_Data::processImageUrl($product['ImageUrl'], 500);
-$products = $this->getProducts();
-$viewSkuUrlTemplate = $this->getViewSkuUrlTemplate();
-
-?>
-<div class="fitment-popup-image">
-	<img src="<?php echo $imageUrl ?>" onload="this.parentNode.style.backgroundImage='none'; fitment.viewPopup.reposition()" />
-</div>
-
-<div class="fitment-popup-smallinfo">
-	<span class="fitment-popup-brand"><?php echo htmlspecialchars($product['Brand']) ?></span>
-
-	<span class="fitment-popup-name"><?php echo htmlspecialchars($product['Name']) ?></span>
-
-	<?php if($product['Fits']): ?>
-		<div class="fitment-popup-fits"><span><?php echo $this->__('Fits') ?></span>
-			<?php echo htmlspecialchars($product['Fits']) ?>
-		</div>
-	<?php endif ?>
-
-	<div class="fitment-popup-price-container">
-		<?php if($product['PriceInfo']['CanShow']): ?>
-			<?php if($product['PriceInfo']['HasPriceRange']): ?>
-				<span class="fitment-popup-price-from"><?php echo $this->__('From') ?></span>
-			<?php endif ?>
-			<span class="fitment-popup-price-value"><?php echo $coreHelper->formatPrice($product['PriceInfo']['Price'], false) ?></span>
-		<?php endif ?>
-	</div>
-
-	<div class="fitment-popup-instock-<?php echo $product['InStock'] ? 'yes' : 'no' ?> fitment-popup-instock-container">
-		<?php if(count($products) <= 1): ?>
-			<span class="fitment-popup-instock-label"><?php echo $this->__('Availability') ?></span>
-			<?php if($product['InStock']): ?>
-				<span class="fitment-popup-instock-available"><?php echo $this->__('In Stock') ?></span>
-			<?php else: ?>
-				<span class="fitment-popup-instock-outofstock"><?php echo $this->__('Out of Stock') ?></span>
-			<?php endif ?>
-		<?php endif ?>
-	</div>
-
-	<div class="fitment-popup-rating-container"></div>
-
-	<div class="fitment-popup-fitment-container">
-		<span class="fitment-popup-fitment-list-title"><?php echo $this->__('Product variations:') ?>
-			<?php if(!$product['Fits']): ?>
-				<span class="fitment-popup-fitment-list-shortenTip"><p><?php echo $this->__('You can shorten this list by selecting your vehicle first') ?></p></span>
-			<?php endif ?>
-		</span>
-		<ul class="fitment-popup-fitment-list">
-			<?php if(count($products)): ?>
-				<?php foreach($products as $sku => $productItem): ?>
-					<li class="fitment-popup-fitment-list-item" title="<?php echo $this->__('View product on its page') ?>">
-						<a href="<?php echo str_replace('%sku%', (string)$sku, $viewSkuUrlTemplate) ?>">
-							<div class="fitment-popup-fitment-list-item-name"><?php echo htmlspecialchars($productItem['product']->getName()) ?></div>
-							<?php if(count($productItem['item']['Applications'])): ?>
-								<div class="fitment-popup-fitment-list-item-applications">
-									<span><?php echo (count($productItem['item']['Applications']) > 1)
-										?	$this->__('Applications:')
-										:	$this->__('Application:')
-									?></span>
-									<?php foreach($productItem['item']['Applications'] as $productItemApplication): ?>
-										<strong><?php echo htmlspecialchars($productItemApplication) ?></strong>
-									<?php endforeach ?>
-								</div>
-							<?php endif ?>
-							<?php if($productItem['item']['Note']): ?>
-								<div class="fitment-popup-fitment-list-item-note"><?php echo htmlspecialchars($productItem['item']['Note']) ?></div>
-							<?php endif ?>
-							<div class="fitment-popup-fitment-list-item-view"><?php echo $this->__('View') ?></div>
-						</a>
-					</li>
-				<?php endforeach ?>
-			<?php else: ?>
-					<li class="fitment-popup-fitment-list-noitems"><?php echo $this->__('Sorry, no items fitting your vehicle found') ?></li>
-			<?php endif ?>
-		</ul>
-	</div>
-</div>
-
-<div class="fitment-popup-description"><?php echo nl2br(htmlspecialchars($product['Description'])) ?></div>
-<?php if($product['IsOnSale']): ?>
-	<span class="fitment-popup-onsale"><?php echo $this->__('On Sale') ?></span>
-<?php endif ?>
+<?php
+
+$coreHelper = Mage::helper('core');
+$product = $this->getProduct();
+$imageUrl = Vikont_Fitment_Helper_Data::processImageUrl($product['ImageUrl'], 500);
+$products = $this->getProducts();
+$viewSkuUrlTemplate = $this->getViewSkuUrlTemplate();
+
+?>
+<div class="fitment-popup-image">
+	<img src="<?php echo $imageUrl ?>" onload="this.parentNode.style.backgroundImage='none'; fitment.viewPopup.reposition()" />
+</div>
+
+<div class="fitment-popup-smallinfo">
+	<span class="fitment-popup-brand"><?php echo htmlspecialchars($product['Brand']) ?></span>
+
+	<span class="fitment-popup-name"><?php echo htmlspecialchars($product['Name']) ?></span>
+
+	<?php if($product['Fits']): ?>
+		<div class="fitment-popup-fits"><span><?php echo $this->__('Fits') ?></span>
+			<?php echo htmlspecialchars($product['Fits']) ?>
+		</div>
+	<?php endif ?>
+
+	<div class="fitment-popup-price-container">
+		<?php if($product['PriceInfo']['CanShow']): ?>
+			<?php if($product['PriceInfo']['HasPriceRange']): ?>
+				<span class="fitment-popup-price-from"><?php echo $this->__('From') ?></span>
+			<?php endif ?>
+			<span class="fitment-popup-price-value"><?php echo $coreHelper->formatPrice($product['PriceInfo']['Price'], false) ?></span>
+		<?php endif ?>
+	</div>
+
+	<div class="fitment-popup-instock-<?php echo $product['InStock'] ? 'yes' : 'no' ?> fitment-popup-instock-container">
+		<?php if(count($products) <= 1): ?>
+			<span class="fitment-popup-instock-label"><?php echo $this->__('Availability') ?></span>
+			<?php if($product['InStock']): ?>
+				<span class="fitment-popup-instock-available"><?php echo $this->__('In Stock') ?></span>
+			<?php else: ?>
+				<span class="fitment-popup-instock-outofstock"><?php echo $this->__('Out of Stock') ?></span>
+			<?php endif ?>
+		<?php endif ?>
+	</div>
+
+	<div class="fitment-popup-rating-container"></div>
+
+	<div class="fitment-popup-fitment-container">
+		<span class="fitment-popup-fitment-list-title"><?php echo $this->__('Product variations:') ?>
+			<?php if(!$product['Fits']): ?>
+				<span class="fitment-popup-fitment-list-shortenTip"><p><?php echo $this->__('You can shorten this list by selecting your vehicle first') ?></p></span>
+			<?php endif ?>
+		</span>
+		<ul class="fitment-popup-fitment-list">
+			<?php if(count($products)): ?>
+				<?php foreach($products as $sku => $productItem): ?>
+					<li class="fitment-popup-fitment-list-item" title="<?php echo $this->__('View product on its page') ?>">
+						<a href="<?php echo str_replace('%sku%', (string)$sku, $viewSkuUrlTemplate) ?>">
+							<div class="fitment-popup-fitment-list-item-name"><?php echo htmlspecialchars($productItem['product']->getName()) ?></div>
+							<?php if(count($productItem['item']['Applications'])): ?>
+								<div class="fitment-popup-fitment-list-item-applications">
+									<span><?php echo (count($productItem['item']['Applications']) > 1)
+										?	$this->__('Applications:')
+										:	$this->__('Application:')
+									?></span>
+									<?php foreach($productItem['item']['Applications'] as $productItemApplication): ?>
+										<strong><?php echo htmlspecialchars($productItemApplication) ?></strong>
+									<?php endforeach ?>
+								</div>
+							<?php endif ?>
+							<?php if($productItem['item']['Note']): ?>
+								<div class="fitment-popup-fitment-list-item-note"><?php echo htmlspecialchars($productItem['item']['Note']) ?></div>
+							<?php endif ?>
+							<div class="fitment-popup-fitment-list-item-view"><?php echo $this->__('View') ?></div>
+						</a>
+					</li>
+				<?php endforeach ?>
+			<?php else: ?>
+					<li class="fitment-popup-fitment-list-noitems"><?php echo $this->__('Sorry, no items fitting your vehicle found') ?></li>
+			<?php endif ?>
+		</ul>
+	</div>
+</div>
+
+<div class="fitment-popup-description"><?php echo nl2br(htmlspecialchars($product['Description'])) ?></div>
+<?php if($product['IsOnSale']): ?>
+	<span class="fitment-popup-onsale"><?php echo $this->__('On Sale') ?></span>
+<?php endif ?>

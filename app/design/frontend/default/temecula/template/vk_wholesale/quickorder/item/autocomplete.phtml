@@ -1,13 +1,13 @@
-<?php
-
-$options = $this->getOptions();
-
-?>
-<select class="wsqo-parts-autocomplete" size="<?php echo count($options) ?>">
-	<?php foreach($options as $option): ?>
-		<option>
-			<span class="wsqo-parts-autocomplete-brand"><?php echo htmlspecialchars($option['Brand']) ?></span>
-			<span class="wsqo-parts-autocomplete-partNumber"><?php echo htmlspecialchars($option['Data']) ?></span>
-		</option>
-	<?php endforeach ?>
+<?php
+
+$options = $this->getOptions();
+
+?>
+<select class="wsqo-parts-autocomplete" size="<?php echo count($options) ?>">
+	<?php foreach($options as $option): ?>
+		<option>
+			<span class="wsqo-parts-autocomplete-brand"><?php echo htmlspecialchars($option['Brand']) ?></span>
+			<span class="wsqo-parts-autocomplete-partNumber"><?php echo htmlspecialchars($option['Data']) ?></span>
+		</option>
+	<?php endforeach ?>
 </select>

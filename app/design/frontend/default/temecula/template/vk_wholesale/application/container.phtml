@@ -1,45 +1,45 @@
-<?php
-
-$loginRequired = Vikont_Wholesale_Helper_Data::isLoginRequired();
-$applicationSent = $loginRequired ? false : Vikont_Wholesale_Helper_Data::isApplicationSent();
-
-?>
-<div class="wholesale-home wholesale">
-	<h1>Welcome to tmsparts.com Dealer Corner</h1>
-
-	<p>We are large multi-line OEM dealership located in sunny southern California. We specialize in Honda, Yamaha, Kawasaki, Suzuki, and Polaris OEM parts and accessories. We also carry a full line of aftermarket parts and accessories, we can offer additional specialty products as well, such as Fox Racing Shox, JE pistons, and many, many more. If you need it, we can supply it, please don't hesitate to inquire today. If you are a new customer please fill out our dealer application below. We will contact you once the dealer application is received to begin account set up. We order parts daily, and ship out daily, we will be the best partner you have on your team! We have been making a difference in the Powersports business for many years now and look forward to many years to come as the industry leader.</p>
-
-	<?php /** ?>
-	<p>Applies to companies located in California only:
-		<br/>
-		If you are located in the state of California we will need to have you submit a CA resale certificate to us prior to ordering any parts.  Click here to download the <a href="http://www.boe.ca.gov/pdf/boe230.pdf" target="_blank">CA resale certificate</a>
-		<br/>
-		It is very important that line 2 and 5 of the CA resale certificate say the following. <strong>POWERSPORTS PARTS AND ACCESSORIES</strong> and the line 3 of the CA resale certificate says the following <strong>TEMECULA MOTORSPORTS INC.</strong> Please email or fax the completed CA resale certificate to <a href="mailto:info@temeculamotorsports.com">info@temeculamotorsports.com</a> or 951-493-8808</p>
-
-	<p>Thank you for your interest in doing business with Temecula Motorsports!</p>
-
-	<p>Sincerely,<br/>
-	JD Dominick<br/>
-	<i>(Dealer Account Manager)</i></p>
-<?php /**/ ?>
-</div>
-
-<div class="wsap wholesale">
-	<h1><?php echo $this->__('Dealer Application') ?></h1>
-	<?php if($loginRequired): ?>
-		<div class="wsap-registerwarning">
-			<?php echo $this->__('In order to apply for access to the Dealer Corner please') ?>
-			<a href="<?php echo $this->getUrl('customer/account/login') ?>"><?php echo $this->__('log in') ?></a>
-			<?php echo $this->__('to your account.  If you don\'t have an account you may') ?>
-			<a href="<?php echo $this->getUrl('customer/account/create') ?>"><?php echo $this->__('register') ?></a>
-		</div>
-	<?php elseif($applicationSent): ?>
-		<div class="wsap-registerwarning">
-			<?php echo $this->__('You have already sent the application. You can check the status of your dealership at the') ?>
-			<a href="<?php echo $this->getUrl('wholesale/dealer/corner') ?>"><?php echo $this->__('Dealer Corner') ?></a>
-			<?php echo $this->__('section of your account.') ?>
-		</div>
-	<?php else: ?>
-		<?php echo $this->getLayout()->createBlock('wholesale/application_form')->toHtml() ?>
-	<?php endif ?>
-</div>
+<?php
+
+$loginRequired = Vikont_Wholesale_Helper_Data::isLoginRequired();
+$applicationSent = $loginRequired ? false : Vikont_Wholesale_Helper_Data::isApplicationSent();
+
+?>
+<div class="wholesale-home wholesale">
+	<h1>Welcome to tmsparts.com Dealer Corner</h1>
+
+	<p>We are large multi-line OEM dealership located in sunny southern California. We specialize in Honda, Yamaha, Kawasaki, Suzuki, and Polaris OEM parts and accessories. We also carry a full line of aftermarket parts and accessories, we can offer additional specialty products as well, such as Fox Racing Shox, JE pistons, and many, many more. If you need it, we can supply it, please don't hesitate to inquire today. If you are a new customer please fill out our dealer application below. We will contact you once the dealer application is received to begin account set up. We order parts daily, and ship out daily, we will be the best partner you have on your team! We have been making a difference in the Powersports business for many years now and look forward to many years to come as the industry leader.</p>
+
+	<?php /** ?>
+	<p>Applies to companies located in California only:
+		<br/>
+		If you are located in the state of California we will need to have you submit a CA resale certificate to us prior to ordering any parts.  Click here to download the <a href="http://www.boe.ca.gov/pdf/boe230.pdf" target="_blank">CA resale certificate</a>
+		<br/>
+		It is very important that line 2 and 5 of the CA resale certificate say the following. <strong>POWERSPORTS PARTS AND ACCESSORIES</strong> and the line 3 of the CA resale certificate says the following <strong>TEMECULA MOTORSPORTS INC.</strong> Please email or fax the completed CA resale certificate to <a href="mailto:info@temeculamotorsports.com">info@temeculamotorsports.com</a> or 951-493-8808</p>
+
+	<p>Thank you for your interest in doing business with Temecula Motorsports!</p>
+
+	<p>Sincerely,<br/>
+	JD Dominick<br/>
+	<i>(Dealer Account Manager)</i></p>
+<?php /**/ ?>
+</div>
+
+<div class="wsap wholesale">
+	<h1><?php echo $this->__('Dealer Application') ?></h1>
+	<?php if($loginRequired): ?>
+		<div class="wsap-registerwarning">
+			<?php echo $this->__('In order to apply for access to the Dealer Corner please') ?>
+			<a href="<?php echo $this->getUrl('customer/account/login') ?>"><?php echo $this->__('log in') ?></a>
+			<?php echo $this->__('to your account.  If you don\'t have an account you may') ?>
+			<a href="<?php echo $this->getUrl('customer/account/create') ?>"><?php echo $this->__('register') ?></a>
+		</div>
+	<?php elseif($applicationSent): ?>
+		<div class="wsap-registerwarning">
+			<?php echo $this->__('You have already sent the application. You can check the status of your dealership at the') ?>
+			<a href="<?php echo $this->getUrl('wholesale/dealer/corner') ?>"><?php echo $this->__('Dealer Corner') ?></a>
+			<?php echo $this->__('section of your account.') ?>
+		</div>
+	<?php else: ?>
+		<?php echo $this->getLayout()->createBlock('wholesale/application_form')->toHtml() ?>
+	<?php endif ?>
+</div>

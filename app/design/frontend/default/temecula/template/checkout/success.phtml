@@ -3,14 +3,15 @@
  * @var $this Mage_Checkout_Block_Onepage_Success
  */
 
-//Get Order Number & Order Total
-	$order = Mage::getModel('sales/order')->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
-    $amount = number_format($order->getGrandTotal(), 2);
+$orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+$amount = number_format($order->getGrandTotal(), 2);
+
 ?>
- 
+
 <!-- START Bing Tracking Code -->
 <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"4048318"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
- 
+
 <script>
 var uetq = uetq || [];
 uetq.push({'gv':<?php echo $amount; ?>}); // Pass the computed goal value
@@ -87,3 +88,38 @@ var google_remarketing_only = false;
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
 <noscript><div style="display:inline;"><img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/959963017/?value=<?php echo $amount ?>&amp;currency_code=USD&amp;label=EbJhCKDTr1kQib_fyQM&amp;guid=ON&amp;script=0"/></div></noscript>
 
+<?php
+/*
+// Google Trusted Stores Badge Code
+
+$customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
+$shippingAddress = $order->getShippingAddress();
+$backorder = false; // not now
+$download = false; // are motorcycles downloadable? hmm...
+$shipDate = new Zend_Date(); // this is very hard to define...
+
+?>
+<div id="gts-order" style="display:none;">
+	<span id="gts-o-id"><?php echo $orderId ?></span>
+	<span id="gts-o-domain"><?php echo $this->getUrl('') ?></span>
+	<span id="gts-o-email"><?php echo htmlentities($customer->getEmail()) ?></span>
+	<span id="gts-o-country"><?php echo htmlentities($shippingAddress->getCountryId()) ?></span>
+	<span id="gts-o-currency">USD</span>
+	<span id="gts-o-total"><?php echo $order->getGrandTotal() ?></span>
+	<span id="gts-o-discounts">-<?php echo $order->getDiscountAmount() ?></span>
+	<span id="gts-o-shipping-total"><?php echo $order->getShippingAmount() ?></span>
+	<span id="gts-o-tax-total"><?php echo $order->getTaxAmount() ?></span>
+	<span id="gts-o-est-ship-date"><?php echo $shipDate->toString('yyyy-MM-dd') ?></span>
+	<span id="gts-o-has-preorder"><?php echo $backorder ? 'Y' : 'N' ?></span>
+	<span id="gts-o-has-digital"><?php echo $download ? 'Y' : 'N' ?></span>
+	<?php foreach ($order->getAllItems() as $item): ?>
+		<span class="gts-item">
+			<span class="gts-i-name"><?php echo htmlentities($item->getName()) ?></span>
+			<span class="gts-i-price"><?php echo $item->getBasePrice() ?></span>
+			<span class="gts-i-quantity"><?php echo (int)$item->getQtyOrdered() ?></span>
+			<span class="gts-i-prodsearch-country">US</span>
+			<span class="gts-i-prodsearch-language">en</span>
+		</span>
+	<?php endforeach; ?>
+</div>
+<?php /**/ ?>

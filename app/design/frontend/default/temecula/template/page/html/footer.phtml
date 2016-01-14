@@ -12,6 +12,7 @@
                     <li><a class="live-chat" href="#">Live Chat</a></li>
                     <?php //if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
                     <li><a class="order-stat" href="<?php echo Mage::getBaseUrl(); ?>sales/order/history/">Order Status</a></li>
+                    <li><a class="leave-feedback" href="<?php echo Mage::getBaseUrl(); ?>help-us-improve-tmsparts.html">Leave Feedback</a></li>
                     <?php //endif; ?>
                     <?php /** ?>
                       <li><a class="return-canter" href="#">Return Center</a></li>
@@ -91,7 +92,10 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="crystal"></div>
+                    <div class="footer-payment-heartland-wrap">
+						<a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'wysiwyg/footer/Heartland_Secure.jpg' ?>" title="Heartland Secure logo" target="_blank"><img src="<?php echo $this->getSkinUrl('images/footer/HeartlandSecure.jpg') ?>" /></a>
+					</div>
+					<div class="crystal"></div>
                 </div>
                 <script type="text/javascript">decorateGeneric($$('.col05 ul li'), ['first', 'last'])</script>
 
@@ -119,3 +123,29 @@
 		});
 	</script>
 <?php endif ?>
+
+<?php
+/*
+// Google Trusted Stores Badge Code
+$product = Mage::registry('product');
+?>
+<script type="text/javascript">
+	var gts = gts || [];
+	gts.push(["id", 690938]);
+	gts.push(["badge_position", "BOTTOM_RIGHT"]);
+	gts.push(["locale", "en"]);
+	gts.push(["google_base_offer_id", "<?php echo is_object($product) ? $product->getSku() : '' ?>"]);
+	gts.push(["google_base_country", "US"]);
+	gts.push(["google_base_language", "en"]);
+	gts.push(["google_base_subaccount_id", ""]);
+
+	(function() {
+		var gts = document.createElement("script");
+		gts.type = "text/javascript";
+		gts.async = true;
+		gts.src = "https://www.googlecommerce.com/trustedstores/api/js";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(gts, s);
+	})();
+</script>
+<?php /**/ ?>
