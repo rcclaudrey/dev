@@ -1,0 +1,118 @@
+.mobile-search-form {
+	display: none;
+	position: absolute;
+	left: 0;
+    width: 100%;
+	background-color: #aaa;
+}
+.search-mini-form-container {
+	margin: 20px;
+}
+#search_mini_form {
+	display: block;
+    float: none;
+}
+#search_mini_form .search-button {
+	background-color: #000;
+	background-image: none;
+	float: none;
+	height: 27px;
+	line-height: 27px;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	width: auto;
+}
+.form-search button.button span {
+	display: block;
+	background: none;
+}
+.form-search {
+	float: none;
+	/*width: 100%;*/
+}
+.searchautocomplete .form-search {
+	position: relative;
+	float: none;
+	padding-right: 100px;
+}
+.search-mini-form-container .searchautocomplete .searchautocomplete-loader {
+	right: 73px;
+	top: 5px;
+}
+.searchautocomplete .nav-search-in {
+	width: 90px !important;
+}
+.form-search .input-container {
+	position: relative;
+	margin-left: 90px;
+}
+#search.input-text {
+	box-sizing: border-box;
+	display: block;
+	float: none;
+	padding: 5px 70px 5px 5px;
+	width: 100%;
+}
+.search-mini-form-container .searchautocomplete .searchautocomplete-placeholder {
+	background: #fff none repeat scroll 0 0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 10px 10px #5e5e5e;
+	left: 90px !important;
+	position: absolute;
+	top: 22px !important;
+	z-index: 102;
+}
+.search-mini-form-container .searchautocomplete .searchautocomplete-placeholder::before {
+	border-color: transparent transparent #ccc;
+	border-style: solid;
+	border-width: 5px;
+	content: "";
+	height: 0;
+	left: 93px;
+	position: absolute;
+	top: -9px;
+	width: 0;
+}
+.searchautocomplete .nav-search-in {
+    left: 0;
+    position: absolute;
+    z-index: 11;
+    width: 90px !important;
+}
+.searchautocomplete .nav-search-in .category-fake {
+    color: #777;
+    cursor: pointer;
+    float: left;
+    font-size: 11px;
+    height: 20px;
+    margin-top: 6px;
+    padding: 0 25px 0 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+.searchautocomplete .nav-search-in .nav-down-arrow {
+    background: rgba(0, 0, 0, 0) url("../../../images/mirasvit/sprite.png") repeat scroll -26px -34px;
+    display: block;
+    height: 5px;
+    position: absolute;
+    right: 10px;
+    top: 11px;
+    width: 9px;
+}.searchautocomplete .nav-search-in .category {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	color: black;
+	cursor: pointer;
+	height: 29px;
+	left: 0;
+	margin: 0;
+	opacity: 0;
+	outline: 0 none;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	visibility: visible;
+	width: 80px !important;
+}

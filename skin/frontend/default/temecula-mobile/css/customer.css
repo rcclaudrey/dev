@@ -1,0 +1,37 @@
+@media only screen and (max-width: 950px) {
+	.customer-hello {
+		float: none;
+		width: auto;
+		margin: 10px 0;
+	}
+	.customer-hello p.hello {
+		padding: 10px;
+	}
+	#dashboard .col-left {
+		float: none;
+		margin: 10px 0;
+		padding: 0;
+		width: auto;
+	}
+	.my-account-selection, .my-account-selection option {
+		padding: 5px 30px 5px 10px;
+	}
+	.my-account .page-title.title-buttons {
+		width: auto;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.my-account .box-head h2 {
+		padding: 0 10px;
+	}
+}
+@media only screen and (max-width: 500px) {
+	.my-account .form-field-lbl, .my-account .fields label {
+		float: none;
+		margin: 0;
+		text-align: left;
+		width: auto;
+	}
+
+}
+

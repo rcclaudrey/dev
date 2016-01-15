@@ -1,0 +1,251 @@
+.f-right {
+	float:right;
+}
+.f-left {
+	float: left;
+}
+.clear {
+	clear: both;
+}
+.clearer:after {
+	clear: both;
+	text-indent: -10000px;
+	font-size: 0;
+	height: 0;
+	content: "";
+	overflow: hidden;
+}
+
+
+/* Content Columns */
+#onepage #checkout-step-login .col2-set .col-1 {
+    float: right;
+    width: 49%
+}
+#onepage #checkout-step-login .col2-set .col-2 {
+    float: left;
+    width: 49%
+}
+.col2-set .col-1 {
+    float: right;
+    width: 49.8%
+}
+.col2-set .col-1.new-users {
+    background: #e8e8e8;
+}
+.col2-set .col-2 {
+    float: left;
+    width: 50%
+}
+.col2-set .col-narrow {
+    width: 32%;
+}
+.col2-set .col-wide {
+    width: 65%;
+}
+.col3-set .col-1 {
+    float: left;
+    width: 32%;
+}
+.col3-set .col-2 {
+    float: left;
+    width: 32%;
+    margin-left: 2%;
+}
+.col3-set .col-3 {
+    float: right;
+    width: 32%;
+}
+.col4-set .col-1 {
+    float: left;
+    width: 23.5%;
+}
+.col4-set .col-2 {
+    float: left;
+    width: 23.5%;
+    margin: 0 2%;
+}
+.col4-set .col-3 {
+    float: left;
+    width: 23.5%;
+}
+.col4-set .col-4 {
+    float: right;
+    width: 23.5%;
+}
+
+
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = Narrow */
+@media only screen and (max-width: 500px) {
+	.site-width {
+		width: 100%;
+	}
+	.col-left {
+		float: none;
+		width: 100%;
+	}
+	.col-main {
+		float: none;
+		width: 100%;
+	}
+	#catalog .col-left {
+		width: 100%
+	}
+	#catalog .col-main {
+		width: 100%;
+	}
+	#catalog.catalogsearch-result-index .col-main {
+		width: 100%;
+	}
+	.col-right {
+		float: none;
+		width: 100%;
+	}
+	/* 1 Column Layout */
+	.col1-layout .col-main {
+		float: none;
+		width: auto;
+	}
+	/* 2 Columns Layout */
+	.col2-left-layout .col-main {
+		float: none;
+	}
+	.col2-right-layout .col-main {
+	}
+	/* 3 Columns Layout */
+	.col3-layout .col-main {
+		width: 100%;
+	}
+	.col3-layout .col-wrapper {
+		float: none;
+		width: 100%;
+	}
+	.col3-layout .col-wrapper .col-main {
+		float: none;
+	}
+	#onepage #checkout-step-login .col2-set .col-1 {
+		float: none;
+		width: 100%
+	}
+	#onepage #checkout-step-login .col2-set .col-2 {
+		float: none;
+		width: 100%
+	}
+	.col2-set .col-1 {
+		float: none;
+		width: 100%
+	}
+	.col2-set .col-2 {
+		float: none;
+		width: 100%
+	}
+	.col2-set .col-narrow {
+		width: 100%;
+	}
+	.col2-set .col-wide {
+		width: 100%;
+	}
+	.col3-set .col-1 {
+		float: none;
+		width: 100%;
+	}
+	.col3-set .col-2 {
+		float: none;
+		width: 100%;
+		margin-left: 0;
+	}
+	.col3-set .col-3 {
+		float: none;
+		width: 100%;
+	}
+	.col4-set .col-1 {
+		float: none;
+		width: 100%;
+	}
+	.col4-set .col-2 {
+		float: none;
+		width: 100%;
+		margin: 0 10px;
+	}
+	.col4-set .col-3 {
+		float: none;
+		width: 100%;
+	}
+	.col4-set .col-4 {
+		float: none;
+		width: 100%;
+	}
+}
+
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = Medium*/
+@media only screen and (min-width: 500px) and (max-width: 950px) {	.site-width {
+		width: 100%;
+	}
+	/* 3 Columns Layout */
+	.col3-layout .col-main {
+		width: 78%;
+	}
+	.col3-layout .col-wrapper {
+		float: none;
+		width: 100%;
+	}
+	.col3-layout .col-wrapper .col-main {
+		float: none;
+	}
+	#onepage #checkout-step-login .col2-set .col-1 {
+		float: none;
+		width: 100%
+	}
+	#onepage #checkout-step-login .col2-set .col-2 {
+		float: none;
+		width: 100%
+	}
+/*	.col2-set .col-1 {
+		float: none;
+		width: 100%
+	}
+	.col2-set .col-2 {
+		float: none;
+		width: 100%
+	}*/
+/*	.col2-set .col-narrow {
+		width: 100%;
+	}
+	.col2-set .col-wide {
+		width: 100%;
+	}*/
+	.col3-set .col-1 {
+		float: none;
+		width: 100%;
+	}
+	.col3-set .col-2 {
+		float: none;
+		width: 100%;
+		margin-left: 0;
+	}
+	.col3-set .col-3 {
+		float: none;
+		width: 100%;
+	}
+	.col4-set .col-1 {
+		float: none;
+		width: 100%;
+	}
+	.col4-set .col-2 {
+		float: none;
+		width: 100%;
+		margin: 0 10px;
+	}
+	.col4-set .col-3 {
+		float: none;
+		width: 100%;
+	}
+	.col4-set .col-4 {
+		float: none;
+		width: 100%;
+	}
+}

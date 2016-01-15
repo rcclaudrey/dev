@@ -1,0 +1,248 @@
+.act-media img {
+	max-width: 100%;
+}
+.actvity-page .act-con {
+	text-align: justify;
+}
+@media only screen and (max-width: 950px) {
+	.actvity-page .act-con {
+		float: none;
+		width: auto;
+		padding: 0 10px;
+	}
+	.actvity-page .act-media {
+		width: 40%;
+		text-align: center;
+		margin-right: 20px;
+		padding: 0 10px;
+	}
+}
+
+@media only screen and (max-width: 730px) {
+    .actvity-page .act-media {
+        float: none;
+		width: auto;
+        text-align: center;
+    }
+    .actvity-page .act-con {
+        float: none;
+		margin-right: 0;
+        margin-top: 20px;
+        padding: 0px 10px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+
+    .catalog-activity-main-banner {
+        width: 500px;
+    }
+
+    .oem-banner-ads-wrap{
+        display: none;
+    }
+
+    .activity-shop-btns{
+        display: none;
+    }
+
+    .activity-shop-mobile-btns, .shop-all-your-oem {
+        display: block;
+        float: left;
+        text-align: center;
+        width: 49%;
+        margin-top: 10px;
+    }
+
+    .activity-shop-mobile-btns > img {
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    #catalog .col-main {
+        width: 500px;
+    }
+
+    .col2-left-layout .col-main {
+        float: none;
+    }
+
+    #catalog .col-left {
+        width: 500px;
+        clear: both;
+    }
+
+
+    .block-layered-nav #narrow-by-list {
+        float: right;
+        width: 200px;
+        margin-right: 41px;
+    }
+
+    .block-layered-nav,
+    .block-layered-nav #narrow-by-list dt{
+        margin-top: 0px;
+    }
+
+    .block-layered-nav{
+        margin-top: 15px;
+    }
+
+    .block-layered-nav dt {
+        background: none;
+        color: #de1f27;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 8px 0 0;
+    }
+
+    dl#narrow-by-list dd {
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+        border: medium none;
+        margin-bottom: 10px;
+        padding-left: 0;
+        padding-top: 0px;
+    }
+
+    div.block-layered-nav dd a {
+        font-size: 16px;
+        padding: 0 5px 0 0;
+    }
+
+    .amshopby-cat {
+        border-bottom: 2px dotted #cccccc;
+        line-height: 25px;
+        margin-bottom: 0;
+    }
+
+
+    .block-layered-nav dd ol {
+        padding: 0px;
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 730px) {
+    .catalog-activity-main-banner {
+        width: 730px;
+    }
+
+    .oem-banner-ads-wrap{
+        display: none;
+    }
+
+    .activity-shop-btns{
+        display: none;
+    }
+
+    .activity-shop-mobile-btns, .shop-all-your-oem {
+        display: block;
+        float: left;
+        text-align: center;
+        width: 49%;
+        margin-top: 10px;
+    }
+
+    .activity-shop-mobile-btns > img {
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    #catalog .col-main {
+        width: 730px;
+    }
+
+    .col2-left-layout .col-main {
+        float: none;
+    }
+
+    #catalog .col-left {
+        width: 730px;
+        clear: both;
+    }
+
+
+    .block-layered-nav #narrow-by-list {
+        float: right;
+        width: 200px;
+        margin-right: 95px;
+    }
+
+    .block-layered-nav,
+    .block-layered-nav #narrow-by-list dt{
+        margin-top: 0px;
+    }
+
+    .block-layered-nav{
+        margin-top: 15px;
+    }
+
+    .block-layered-nav dt {
+        background: none;
+        color: #de1f27;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 8px 0 0;
+    }
+
+    dl#narrow-by-list dd {
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+        border: medium none;
+        margin-bottom: 10px;
+        padding-left: 0;
+        padding-top: 0px;
+    }
+
+    div.block-layered-nav dd a {
+        font-size: 16px;
+        padding: 0 5px 0 0;
+    }
+
+    .amshopby-cat {
+        border-bottom: 2px dotted #cccccc;
+        line-height: 25px;
+        margin-bottom: 0;
+    }
+
+
+    .block-layered-nav dd ol {
+        padding: 0px;
+    }
+
+}
+@media only screen and (min-width: 730px) and (max-width: 950px) {
+
+
+}
+
+@media only screen and (min-width: 500px) and (max-width: 950px) {
+}
+
+
+.activity-landing-banner-container {}
+.activity-landing-banner-container div {}
+.activity-landing-banner-top {}
+.activity-landing-banner-middle {}
+.activity-landing-banner-bottom {}
+.activity-landing-banner-container a {}
+.activity-landing-banner-container img {
+	max-width: 100%;
+}
+div.activity-landing-banner-middle {
+	margin: 10px 0;
+}
+.activity-landing-banner-middle a {
+	display: inline-block;
+	width: 32%;
+}
+.activity-landing-banner-container .activity-banner-center {
+	margin: 0 2%;
+}
+
+
+.hdr-under {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.oem-banner-ads-wrap img {
+	max-width: 100%;
+}

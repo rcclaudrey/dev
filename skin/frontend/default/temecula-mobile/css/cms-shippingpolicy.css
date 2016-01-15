@@ -1,0 +1,5 @@
+@media only screen and (max-width: 730px) {
+    .cms-shipping-policy table{
+        width: 100% !important;
+    }
+}
