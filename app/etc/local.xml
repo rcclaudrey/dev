@@ -41,9 +41,9 @@
 			<default_setup>
 				<connection>
 					<host><![CDATA[localhost]]></host>
-					<username><![CDATA[devtms_admin]]></username>
+					<username><![CDATA[staging1_magento]]></username>
 					<password><![CDATA[skey2Coll!#]]></password>
-					<dbname><![CDATA[devtms_magento_v5]]></dbname>
+					<dbname><![CDATA[staging1_mage1210]]></dbname>
 					<initStatements><![CDATA[SET NAMES utf8]]></initStatements>
 					<model><![CDATA[mysql4]]></model>
 					<type><![CDATA[pdo_mysql]]></type>
