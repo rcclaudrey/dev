@@ -2,96 +2,104 @@
 /**
  * @var Mage_Page_Block_Html_Header $this
  */
+
+$baseUrl = Mage::getUrl();
+
 ?>
 <div class="prehead prehead12">
-    <div class="prehead-content site-width">
-        <div class="prehead-left get-free-shipping">
-            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-banner')->toHtml(); ?>
-        </div>
+	<div class="prehead-content site-width">
+		<div class="prehead-left get-free-shipping">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-banner')->toHtml(); ?>
+		</div>
 
-        <div class="prehead-right">
-            <?php echo $this->getChildHtml('topSearch') ?>
-            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('socials')->toHtml(); ?>
-            <div class="crystal"></div>
-        </div>
-        <div class="crystal"></div>
-    </div>
+		<div class="prehead-right">
+			<?php echo $this->getChildHtml('topSearch') ?>
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('socials')->toHtml(); ?>
+			<div class="crystal"></div>
+		</div>
+		<div class="crystal"></div>
+	</div>
 </div>
 <div class="head">
-    <div class="header-container site-width">
+	<div class="header-container site-width">
 
-        <div class="header">
-            <?php if ($this->getIsHomePage()): ?>
-                <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
-            <?php else: ?>
-                <a class="logo" href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
-            <?php endif ?>
-            <div class="call-for">
-                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('call-support')->toHtml(); ?>
+		<div class="header">
+			<?php if ($this->getIsHomePage()): ?>
+				<h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+			<?php else: ?>
+				<a class="logo" href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+			<?php endif ?>
+			<div class="call-for">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('call-support')->toHtml(); ?>
 
-            </div>
-            <div class="corner">
-                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('link-dealer-contact')->toHtml(); ?>
+			</div>
+			<div class="corner">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('link-dealer-contact')->toHtml(); ?>
 
-                <div class="header-minicart" id="minicart">
-                    <?php echo $this->getChildHtml('topCart'); ?>
-                </div>
+				<div class="header-minicart" id="minicart">
+					<?php echo $this->getChildHtml('topCart'); ?>
+				</div>
 
-            </div>
-            <div class="crystal"></div>
-            <div class="nav-links">
-                <div class="li-first"></div>
-                <div class="li-last"></div>
+			</div>
+			<div class="crystal"></div>
 
-                <?php echo $this->getChildHtml('topMenu') ?>
+			<div class="nav-links">
+				<div class="li-first"></div>
+				<div class="li-last"></div>
+				<ul class="nav-ul" id="nav"><li class="category-node-11359 level0 nav-1 first level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>street.html"><span>Street</span></a></li><li class="category-node-11360 level0 nav-2 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>cruiser.html"><span>Cruiser</span></a></li><li class="category-node-11361 level0 nav-3 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>dirt.html"><span>Dirt</span></a></li><li class="category-node-11362 level0 nav-4 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>adventure.html"><span>Adventure</span></a></li><li class="category-node-11363 level0 nav-5 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>atv.html"><span>ATV</span></a></li><li class="category-node-11364 level0 nav-6 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>utv.html"><span>UTV</span></a></li><li class="category-node-11365 level0 nav-7 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>scooter.html"><span>Scooter</span></a></li><li class="category-node-11366 level0 nav-8 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>snow.html"><span>Snow</span></a></li><li class="category-node-11367 level0 nav-9 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>h2o.html"><span>H2O</span></a></li><li class="category-node-11368 level0 nav-10 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>casual.html"><span>Casual</span></a></li><li class="category-node-11349 level0 nav-11 level-top parent"><a class="level-top" href="<?php echo $baseUrl ?>oem-parts.html"><span>OEM Parts</span></a></li></ul>
+				<div class="nav-links-loader"></div>
+			</div>
 
-                <?php //appends to dropdown
-                ?>
-                <li class="featured-brands-menu" style="display: none;">
-                    <div id="dd-banner"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dropdown-banner')->toHtml(); ?></div>
-                    <ul>
-                        <li class="headrmenu"><h3>featured brands:</h3></li>                        
-                        <?php echo strip_tags($this->getLayout()->createBlock('cms/block')->setBlockId('featured-brands-dropdown')->toHtml(), '<li><a>'); ?>
-                    </ul>
-                    <div class="crystal"></div>
-                </li>
-                <script type="text/javascript">decorateGeneric($$('.nav-ul li'), ['first', 'last'])</script>
-                <div class="crystal"></div>
-                <script type="text/javascript">
-                    //<![CDATA[
-                    decorateGeneric($$('.nav-ul-sub li'), ['first', 'last'])
-                    function equalHeight(group) {
-                        tallest = 0;
-                        group.each(function () {
-                            thisHeight = jQuery(this).outerHeight();
-                            if (thisHeight > tallest) {
-                                tallest = thisHeight;
-                            }
-                        });
-                        group.outerHeight(tallest);
-                    }
-                    //]]
-                </script>
-                <div class="crystal"></div>
-            </div>
-            <div class="crystal"></div>
-            <div class="quick-access">
+			<div class="crystal"></div>
+			<script type="text/javascript">
+				//<![CDATA[
+				function equalHeight(group) {
+					tallest = 0;
+					group.each(function () {
+						thisHeight = jQuery(this).outerHeight();
+						if (thisHeight > tallest) {
+							tallest = thisHeight;
+						}
+					});
+					group.outerHeight(tallest);
+				}
 
-                <p class="welcome-msg">
-                    <?php echo $this->getAdditionalHtml() ?></p>
-                <?php echo $this->getChildHtml('topLinks') ?>
-                <?php //echo $this->getChildHtml('store_language')  ?>
-            </div>
-            <?php echo $this->getChildHtml('topContainer'); ?>
-        </div>
-    </div>
+				jQuery(document).ready(function () {
+					jQuery.ajax({
+						url: '<?php echo $this->getUrl('common/menu') ?>',
+						dataType: 'html',
+						cache: true,
+						success: function(response, textStatus) {
+							jQuery('.nav-links').html(response);
+							decorateGeneric($$('.nav-ul li'), ['first', 'last']);
+							decorateGeneric($$('.nav-ul-sub li'), ['first', 'last']);
+							<?php // this is from js/varien/menu.js ?>
+							<?php // mainNav("nav", {"show_delay":"100","hide_delay":"100"}); ?>
+							<?php // this is from skin/frontend/default/temecula/js/mainmenu.js ?>
+							prepareMenu();
+						}
+					});
+				});
+				//]]
+			</script>
+
+			<div class="quick-access">
+
+				<p class="welcome-msg">
+					<?php echo $this->getAdditionalHtml() ?></p>
+				<?php echo $this->getChildHtml('topLinks') ?>
+				<?php //echo $this->getChildHtml('store_language')  ?>
+			</div>
+			<?php echo $this->getChildHtml('topContainer'); ?>
+		</div>
+	</div>
 </div>
 
 
 <!--start pop up cart-->
 <div id="add-to-cart-success" style="display:none">
-    <p><span id='add-to-cart-error-msg' class="error-msg">&nbsp;</span></p>
-    <div style="clear:both"></div>
+	<p><span id='add-to-cart-error-msg' class="error-msg">&nbsp;</span></p>
+	<div style="clear:both"></div>
 </div>
 <input type="hidden" value="" name="current_page_items" id="current_page_items" />
 <input type="hidden" value="" name="cart_items" id="cartItems" />
@@ -109,5 +117,5 @@ Mage::getSingleton('core/session')->setPageUrl($urlKey);
 <link rel="stylesheet" type="text/css" href="/js/scrollTop/scrolltotop.css" />
 
 <div class="chatbox">
-    
+
 </div>
