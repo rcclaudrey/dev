@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/conversionpro/AutoComplete.css</stylesheet></action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/template"  name="conversionpro.autocomplete" as="conversionpro_autocomplete" after="-">
+                <action method="setTemplate" ifconfig="conversionpro/autocomplete_settings/autocomplete_enabled">
+                    <template>conversionpro/autocomplete/view.phtml</template>
+                </action>
+            </block>
+            <block type="core/template" name="livesight.footer" as="livesight_footer" after="-">
+                <action method="setTemplate" ifconfig="conversionpro/livesight_settings/livesight_enabled">
+                    <template>conversionpro/livesight/tracking.footer.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <reference name="top.search">
+            <action method="setTemplate" ifconfig="conversionpro/autocomplete_settings/autocomplete_enabled">
+                <template>conversionpro/autocomplete/form.mini.phtml</template>
+            </action>
+        </reference>
+    </default>
+    <checkout_onepage_success>
+        <reference name="before_body_end">
+            <block type="core/template" name="livesight.thankyoupage" as="livesight_thankyoupage" after="-">
+                <action method="setTemplate" ifconfig="conversionpro/livesight_settings/livesight_enabled">
+                    <template>conversionpro/livesight/tracking.thank.you.page.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </checkout_onepage_success>
+    <catalogsearch_include>
+        <!--<reference name="head">
+            <block type="conversionpro/js_head" name="js_head" />
+        </reference>
+        <reference name="js_head">
+            <action method="addJs"><script>conversionpro/uitemp.js</script></action>
+        </reference>-->
+        <reference name="content">
+            <block type="conversionpro/uitemp_content" name="celebros.uitemp.content" as="celebros_uitemp_content">
+                <action method="setTemplate">
+                    <template>conversionpro/uitemp/content.phtml</template> 
+                </action>
+              </block>
+        </reference>
+    </catalogsearch_include>
+    <celebros_hide_content>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <remove name="catalogsearch_advanced_form" />
+            <remove name="search.result" />
+            <remove name="category.products" />
+        </reference>
+    </celebros_hide_content>
+</layout>

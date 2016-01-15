@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+-->
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addJs"><file>amasty/amxsearch/main.js</file></action>
+            <action method="addCss"><stylesheet>css/amasty/amxsearch.css</stylesheet></action>
+        </reference>
+         <reference name="before_body_end">
+            <block type="core/template" name="amxsearch_init" template="amxsearch/init.phtml" />
+        </reference>
+    </default>
+   
+    
+    
+</layout>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   N98
+ * @package    N98_CustomerGroupCheckout
+ */
+ -->
+<config>
+    <modules>
+        <N98_CustomerGroupCheckout>
+            <version>1.1.1</version>
+        </N98_CustomerGroupCheckout>
+    </modules>
+    <global>
+        <blocks>
+            <n98_customergroupcheckout>
+                <class>N98_CustomerGroupCheckout_Block</class>
+            </n98_customergroupcheckout>
+            <adminhtml>
+                <rewrite>
+                    <system_config_form>N98_CustomerGroupCheckout_Block_Adminhtml_System_Config_Form</system_config_form>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <n98_customergroupcheckout>
+                <class>N98_CustomerGroupCheckout_Model</class>
+            </n98_customergroupcheckout>
+            <shipping>
+                <rewrite>
+                    <shipping>N98_CustomerGroupCheckout_Model_Shipping_Shipping</shipping>
+                </rewrite>
+            </shipping>
+        </models>
+    </global>
+    <frontend>
+        <events>
+            <payment_method_is_active>
+                <observers>
+                    <customer_group_check>
+                        <class>n98_customergroupcheckout/payment_observer</class>
+                        <method>methodIsAvailable</method>
+                    </customer_group_check>
+                </observers>
+            </payment_method_is_active>
+        </events>
+    </frontend>
+</config>

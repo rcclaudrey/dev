@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<SMDesign_ColorswatchProductView>
+			<version>4.0.1</version>
+		</SMDesign_ColorswatchProductView>
+	</modules>
+	
+	<global>
+	
+		<models>
+			<colorswatchproductview>
+				<class>SMDesign_ColorswatchProductView_Model</class>
+			</colorswatchproductview>
+		</models>
+			
+		<blocks>
+			<colorswatchproductview><class>SMDesign_ColorswatchProductView_Block</class></colorswatchproductview>
+			<catalog>
+				<rewrite>
+					<product_view_media>SMDesign_ColorswatchProductView_Block_Product_View_Media</product_view_media>
+					<!--product_view_type_configurable>SMDesign_ColorswatchProductView_Block_Product_View_Type_Configurable</product_view_type_configurable-->
+				</rewrite>
+  
+			</catalog>
+
+		</blocks>
+
+		<helpers>
+			<colorswatchproductview><class>SMDesign_ColorswatchProductView_Helper</class></colorswatchproductview>
+			<catalog>
+				<rewrite>
+					<!--image>SMDesign_ColorswatchProductView_Helper_Image</image-->
+					<product>SMDesign_ColorswatchProductView_Helper_Product</product>
+				</rewrite>
+			</catalog>
+		</helpers>
+
+	</global>
+  
+  <frontend>
+     <routers>
+          <colorswatchproductview>
+              <use>standard</use>
+              <args>
+                  <module>SMDesign_ColorswatchProductView</module>
+                  <frontName>colorswatchproductview</frontName>
+              </args>
+          </colorswatchproductview>
+      </routers>
+      
+      <layout>
+           <updates>
+                <colorswatchproductview>
+                      <file>colorswatchproductview.xml</file>
+                </colorswatchproductview>
+           </updates>
+      </layout>
+	  
+	  <events>
+		  <catalog_controller_product_init_after>
+			  <observers>
+			    <catalog_product_view_init_attribute_selection_by_url>
+			      <type>model</type>
+			      <class>colorswatchproductview/observer</class>
+			      <method>initSelection</method>
+			    </catalog_product_view_init_attribute_selection_by_url>
+			  </observers>
+		  </catalog_controller_product_init_after>
+	  </events>
+	  
+  </frontend>
+  
+<!--	START DEFAULTS	-->
+	<default>
+		<smdesign_colorswatch>
+			<general>
+				<show_select_box>0</show_select_box>
+				<update_more_view>1</update_more_view>
+				<swatch_load_type>1</swatch_load_type>
+			</general>
+			
+			<popup_info>
+				<enabled>0</enabled>
+			</popup_info>
+		</smdesign_colorswatch>
+	</default>
+  
+<!--	END DEFAULTS	-->
+</config>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<smdesign_colorswatch>
+			<groups>
+				<general>
+					<fields>
+						<swatch_load_type>
+							<label>Swatches load type</label>
+							<frontend_type>select</frontend_type>
+							<source_model>colorswatchproductview/system_config_source_swatches_load_options</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</swatch_load_type>
+
+						<show_select_box>
+							<label>Show Select boxes</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>22</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Will show/hide default select box</comment>
+						</show_select_box>
+
+						<update_more_view>
+							<label>Update More View images</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>150</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Allow ajax request to change more view images when loading main image</comment>
+						</update_more_view>
+
+					</fields>
+				</general>
+
+				<popup_info translate="label">
+					<label>Popup Info Box Settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>100</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<enabled>
+							<label>Popup Info Box</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>150</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable Popup Info Box when mouse hovers the swatch image</comment>
+						</enabled>
+					</fields>
+				</popup_info> 				
+			</groups>
+		</smdesign_colorswatch>
+	</sections>
+</config>

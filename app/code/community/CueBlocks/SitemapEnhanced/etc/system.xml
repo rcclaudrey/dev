@@ -1,0 +1,928 @@
+<?xml version="1.0"?>
+<!--
+* @package     CueBlocks_SitemapEnhanced
+* @company     CueBlocks
+-->
+<config>
+    <tabs>
+        <cueBlocks translate="label">
+            <label>CueBlocks</label>
+            <sort_order>100</sort_order>
+        </cueBlocks>
+    </tabs>
+    <sections>
+        <sitemap_enhanced translate="label" module="sitemapEnhanced">
+            <label>XML Sitemap Generator &#38; Splitter</label>
+            <tab>cueBlocks</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>80</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <cb_logo>
+                    <frontend_model>sitemapEnhanced/adminhtml_system_config_fieldset_logo</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </cb_logo>
+                <info>
+                    <frontend_model>sitemapEnhanced/adminhtml_system_config_fieldset_info</frontend_model>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </info>
+                <general translate="label">
+                    <label>General Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <usecompression translate="label">
+                            <label>Enable Compression? (yes/no)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>If enabled, all your XML Sitemaps will be compressed using gzip to reduce your
+                                bandwidth consumption. Don't worry, this is 100% Search Engine friendly.
+                            </comment>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </usecompression>
+                        <report_email translate="label">
+                            <label>Email Report Recipient</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Each time the sitemap is generated, we will email an information summary of sitemap
+                                generation to the specified email Id(s).<![CDATA[
+    Each value must be separated by semicolon (<label style="color:red;font-weight:bold;">;</label>)]]>
+                            </comment>
+                        </report_email>
+                        <report_email_identity translate="label">
+                            <label>Email Report Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </report_email_identity>
+                        <!--<use_sep_cat translate="label">-->
+                            <!--<label>Divide Sitemap by Category</label>-->
+                            <!--<frontend_type>select</frontend_type>-->
+                            <!--<source_model>adminhtml/system_config_source_yesno</source_model>-->
+                            <!--<comment>If enabled, for every category will be generated a file contaning his products.-->
+                                <!--Note: the number of product could be higher than the expected.-->
+                                <!--for example in case a product is assigned to more than a category-->
+                            <!--</comment>-->
+                            <!--<sort_order>40</sort_order>-->
+                            <!--<show_in_default>1</show_in_default>-->
+                            <!--<show_in_website>1</show_in_website>-->
+                            <!--<show_in_store>1</show_in_store>-->
+                        <!--</use_sep_cat>-->
+                        <path_map translate="label">
+                            <label>PathMap</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_pathmap</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </path_map>
+                        <!--                         <linkslimit translate="label">
+                                                    <label>Max number of links for file</label>
+                                                    <frontend_type>text</frontend_type>
+                                                    <comment></comment>
+                                                    <sort_order>40</sort_order>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>0</show_in_website>
+                                                    <show_in_store>0</show_in_store>
+                                                </linkslimit>
+                                                <byteslimit translate="label">
+                                                    <label>Max size for file in bytes</label>
+                                                    <frontend_type>text</frontend_type>
+                                                    <comment></comment>
+                                                    <sort_order>50</sort_order>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>0</show_in_website>
+                                                    <show_in_store>0</show_in_store>
+                                                </byteslimit>-->
+                        <!--                           <udpaterobots translate="label">
+                                                    <label>Update Robots.txt</label>
+                                                    <frontend_type>select</frontend_type>
+                                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                                    <sort_order>60</sort_order>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>0</show_in_website>
+                                                    <show_in_store>0</show_in_store>
+                                                </udpaterobots>-->
+                        <!--                           <parse_robots translate="label">
+                                                    <label>Parse Robots.txt</label>
+                                                    <frontend_type>select</frontend_type>
+                                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                                    <comment>Exclude pages in accord with you Robots.txt file.</comment>
+                                                    <sort_order>60</sort_order>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>0</show_in_website>
+                                                    <show_in_store>0</show_in_store>
+                                                </parse_robots>-->
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+ function hideFields(rowId){
+        // hide this JS row
+        if ( $$((rowId))[0] != undefined)
+            $$((rowId))[0].hide();
+    }
+   function setTextareaStyle(textareaId){
+        $(textareaId).setStyle({
+                'height': '100%'
+                });
+   }
+
+
+ </script> ]]>
+
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_general';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var textareaId = groupId +'_report_email';
+
+hideFields(jsRowId);
+setTextareaStyle(textareaId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+                </general>
+                <category translate="label">
+                    <label>Categories Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Include/exclude category pages in XML Sitemap.</comment>
+                            <tooltip>If 'included', a XML sitemap containing only 'category' pages will be generated.
+                                Once generated, this XML Sitemap filename will be appended with '_cat' to help you
+                                identify that this sitemap has 'category' pages in it.
+                            </tooltip>
+                        </enabled>
+                        <changefreq translate="label">
+                            <label>Frequency (Optional)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>How frequently is the content on the category pages likely to change ?</comment>
+                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how
+                                often search engines crawl the category pages.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </changefreq>
+                        <priority translate="label comment">
+                            <label>Priority (Optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                            <tooltip>This indicates priority of your category pages relative to all the other pages on
+                                the site to Search Engines. Assigning a high priority to all the pages will not help
+                                your site's search ranking.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </priority>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+    function addEventObserver(groupId,selectId){
+        $$('#'+groupId+' table').each(function(el) {
+            el.observe('mouseover', function(ev) {
+                fixTooltip(selectId);
+            });
+        });
+        $(selectId).observe('focus', function(ev) {
+            fixTooltip(selectId);
+        });
+
+        $(selectId).observe('blur', function(ev) {
+            fixTooltip(selectId);
+        });
+    }
+    function fixTooltip(selectId){
+        var tooltipId = 'row_'+selectId+'_comment';
+        var isEnabled = $(selectId).value;
+
+        if (isEnabled == '0'){
+            $(tooltipId).setStyle({
+            'height': '100%'
+            });
+        }
+    }
+
+ </script> ]]>
+
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_category';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                        <!--                        <is_separate_category translate="label">
+                                                    <label>Separate files for each category</label>
+                                                    <frontend_type>select</frontend_type>
+                                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                                    <sort_order>30</sort_order>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>1</show_in_website>
+                                                    <show_in_store>1</show_in_store>
+                                                    <comment>This action will assemble categories and their products in different xml files (one for each category). The generation time will be highly increased depending on the number of categories.</comment>
+                                                    <depends>
+                                                        <enabled>1</enabled>
+                                                    </depends>
+                                                </is_separate_category>
+                                                <excluded_category translate="label">
+                                                    <label>Exclude this category:</label>
+                                                    <frontend_type>multiselect</frontend_type>
+                                                    <source_model>sitemapEnhanced/system_config_source_category</source_model>
+                                                    <frontend_model>sitemapEnhanced/adminhtml_system_config_fieldset_category</frontend_model>
+                                                    <sort_order>40</sort_order>
+                                                    <show_in_default>0</show_in_default>
+                                                    <show_in_website>0</show_in_website>
+                                                    <show_in_store>1</show_in_store>
+                                                    <comment>Selected categories and their products will be excluded (and their media files too).</comment>
+                                                    <depends>
+                                                        <is_separate_category>1</is_separate_category>
+                                                    </depends>
+                                                    <can_be_empty>1</can_be_empty>
+                                                </excluded_category>-->
+                    </fields>
+                </category>
+                <product translate="label">
+                    <label>Products Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Include/exclude 'in-stock' product pages in XML Sitemap.</comment>
+                            <tooltip>If 'included', a XML sitemap containing only 'In-Stock Product pages' will be
+                                generated. Once generated, this XML Sitemap filename will be appended with '_prod' to
+                                help you identify that this sitemap has product pages in it.
+                            </tooltip>
+                        </enabled>
+                        <enabled_images>
+                            <label>Include Images Links</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If you select 'yes', extension will include the images on your product pages in
+                                your Product XML Sitemap (using the image sitemaps syntax specified by Google). More
+                                info
+                                <![CDATA[<a target='_blank' href='http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636'>here</a>]]>
+                                .
+                            </comment>
+                            <tooltip>This helps Google (Bing, Yahoo &#38; Yahoo don't support image Sitemaps) discover
+                                images that it might not otherwise find, such as images that are reached via JavaScript
+                                forms.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </enabled_images>
+                        <changefreq translate="label">
+                            <label>Frequency (Optional)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>How frequently is the content on the 'in-stock' product pages likely to change ?
+                            </comment>
+                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how
+                                often search engines crawl the 'in-stock' product pages.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </changefreq>
+                        <priority translate="label comment">
+                            <label>Priority (Optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                            <tooltip>This indicates priority of your 'in-stock' product pages relative to all the other
+                                pages on the site to Search Engines. Assigning a high priority to all the pages will not
+                                help your site's search ranking.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </priority>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_product';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+                </product>
+                <prod_out translate="label">
+                    <label>Products (Out of Stock) Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>31</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Include/exclude 'Out of Stock' product pages in XML Sitemap.</comment>
+                            <tooltip>If 'included', a XML sitemap containing only 'Out of Stock' pages will be
+                                generated. Once generated, this XML Sitemap filename will be appended with '_oos' to
+                                help you identify that this sitemap has 'Out of Stock' product pages in it.
+                            </tooltip>
+                        </enabled>
+                        <enabled_images>
+                            <label>Include Images Links</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If you select 'yes', extension will include the images on your 'out of stock'
+                                product pages in your Product XML Sitemap (using the image sitemaps syntax specified by
+                                Google). More info
+                                <![CDATA[<a target='_blank' href='http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636'>here</a>]]>
+                                .
+                            </comment>
+                            <tooltip>This helps Google (Bing, Yahoo &#38; Yahoo don't support image Sitemaps) discover
+                                images that it might not otherwise find, such as images that are reached via JavaScript
+                                forms.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </enabled_images>
+                        <changefreq translate="label">
+                            <label>Frequency (Optional)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>How frequently is the content on the 'Out of Stock' pages likely to change ?
+                            </comment>
+                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how
+                                often search engines crawl the Out of Stock pages.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </changefreq>
+                        <priority translate="label comment">
+                            <label>Priority (Optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                            <tooltip>This indicates priority of your 'Out of Stock' pages relative to all the other
+                                pages on the site to Search Engines. Assigning a high priority to all the pages will not
+                                help your site's search ranking.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </priority>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_prod_out';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+                </prod_out>
+                <prod_tag translate="label">
+                    <label>Products Tag Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>33</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Include/exclude Tag pages in XML Sitemap.</comment>
+                            <tooltip>If 'included', a XML sitemap containing only 'tag' pages will be generated. Once
+                                generated, this XML Sitemap filename will be appended with '_tags' to help you identify
+                                that this sitemap has 'tag' pages in it.
+                            </tooltip>
+                        </enabled>
+                        <changefreq translate="label">
+                            <label>Frequency (Optional)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>How frequently is the content on the tag pages likely to change ?</comment>
+                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how
+                                often search engines crawl the tag pages.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </changefreq>
+                        <priority translate="label comment">
+                            <label>Priority (Optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                            <tooltip>This indicates priority of your tag pages relative to all the other pages on the
+                                site to Search Engines. Assigning a high priority to all the pages will not help your
+                                site's search ranking.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </priority>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_prod_tag';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+                </prod_tag>
+                <prod_review translate="label">
+                    <label>Products Review Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>34</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Include/exclude Magento Review pages in XML Sitemap.</comment>
+                            <tooltip>If 'included', a XML sitemap containing only the Magento 'review' pages will be
+                                generated. Once generated, this XML Sitemap filename will be appended with '_reviews' to
+                                help you identify that this sitemap has review pages in it.
+                            </tooltip>
+                        </enabled>
+                        <changefreq translate="label">
+                            <label>Frequency (Optional)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>How frequently is the content on the review pages likely to change?</comment>
+                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how
+                                often search engines crawl the review pages.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </changefreq>
+                        <priority translate="label comment">
+                            <label>Priority (Optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                            <tooltip>This indicates priority of your review pages relative to all the other pages on the
+                                site to Search Engines. Assigning a high priority to all the pages will not help your
+                                site's search ranking.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </priority>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_prod_review';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+                </prod_review>
+                <page translate="label">
+                    <label>CMS Pages Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Include/exclude CMS pages in XML Sitemap.</comment>
+                            <tooltip>If 'included', a XML sitemap containing only 'CMS' pages will be generated. Once
+                                generated, this XML Sitemap filename will be appended with '_cms' to help you identify
+                                that this sitemap has CMS pages in it.
+                            </tooltip>
+                        </enabled>
+                        <changefreq translate="label">
+                            <label>Frequency (Optional)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>How frequently is the content on the CMS pages likely to change ?</comment>
+                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how
+                                often search engines crawl the CMS pages.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </changefreq>
+                        <priority translate="label comment">
+                            <label>Priority (Optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                            <tooltip>This indicates priority of your 'CMS' pages relative to all the other pages on the
+                                site to Search Engines. Assigning a high priority to all the pages will not help your
+                                site's search ranking.
+                            </tooltip>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </priority>
+                        <excluded_pages translate="label">
+                            <label>Excluded pages</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <can_be_empty>1</can_be_empty>
+                            <source_model>sitemapEnhanced/system_config_source_cms</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Press the 'Control' key and select the CMS pages that you want to exclude from your
+                                XML Sitemap(s).
+                            </comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </excluded_pages>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_page';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+
+                </page>
+                <!--                <custom_page translate="label">
+                                    <label>Custom Pages Options</label>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>40</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <fields>
+                                        <enabled>
+                                            <label>Enable</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>10</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Include/exclude custom pages in XML Sitemap.</comment>
+                                            <tooltip>If 'included', a XML sitemap containing only 'Custom' pages will be generated. Once generated, this XML Sitemap filename will be appended with '_custom' to help you identify that this sitemap has custom pages in it.</tooltip>
+                                        </enabled>
+                                        <changefreq translate="label">
+                                            <label>Frequency (Optional)</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>sitemapEnhanced/system_config_source_frequency</source_model>
+                                            <sort_order>10</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>How frequently is the content on the custom pages likely to change ?</comment>
+                                            <tooltip>This value is only a hint to Search Engines and may not correlate exactly to how often search engines crawl the Custom pages.</tooltip>
+                                            <depends>
+                                                <enabled>1</enabled>
+                                            </depends>
+                                        </changefreq>
+                                        <priority translate="label comment">
+                                            <label>Priority (Optional)</label>
+                                            <frontend_type>text</frontend_type>
+                                            <backend_model>sitemapEnhanced/system_config_backend_priority</backend_model>
+                                            <sort_order>20</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>The valid range is from 0.0 to 1.0, with 1.0 being the most important.</comment>
+                                            <tooltip>This indicates priority of your 'Custom' pages relative to all the other pages on the site to Search Engines. Assigning a high priority to all the pages will not help your site's search ranking.</tooltip>
+                                            <depends>
+                                                <enabled>1</enabled>
+                                            </depends>
+                                        </priority>
+                                        <links translate="label">
+                                            <label>Page Links:</label>
+                                            <frontend_type>textarea</frontend_type>
+                                            <sort_order>30</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Type your custom links, please separate each link by a semicolon ';'</comment>
+                                            <depends>
+                                                <enabled>1</enabled>
+                                            </depends>
+                                        </links>
+                                    </fields>
+                                </custom_page>-->
+                <generate translate="label">
+                    <label>Auto-Generation Settings (Cron Job)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <comment>If enabled, your XML sitemap(s) will get generated / updated automatically at the
+                                time specified below.
+                            </comment>
+                            <tooltip>&lt;b&gt;Warning:&lt;/b&gt; If you have a large store, then please select a time
+                                when your store sees low traffic (for example 03:00:00). Sitemap generation process
+                                consumes bandwidth and can result in server overload or slow speed, if your server gets
+                                overwhelmed. You must consult your server administrator for server resource availability
+                                and the best time for auto-generation of XML Sitemaps.
+                            </tooltip>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <frequency translate="label">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_cronFrequency</source_model>
+                            <backend_model>sitemapEnhanced/system_config_backend_cron</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>How frequently you would like the XML Sitemap to be generated? More info &lt;a
+                                target='_blank'
+                                href='http://www.magentocommerce.com/wiki/1_-_installation_and_configuration/how_to_setup_a_cron_job'&gt;here&lt;/a&gt;</comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </frequency>
+                        <time translate="label">
+                            <label>Generate/Update the Sitemap at this time.</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </time>
+                        <js>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<script type='text/javascript'>
+
+var groupId = 'sitemapEnhanced_generate';
+var jsRowId = 'tr#row_'+groupId+'_js';
+var selectId = groupId+'_enabled';
+
+hideFields(jsRowId);
+addEventObserver(groupId,selectId);
+
+</script> ]]>
+                            </comment>
+                        </js>
+                    </fields>
+                </generate>
+                <ping translate="label">
+                    <label>Ping Search Engine Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Ping Search Engines</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                We automatically ping search engines to index your XML sitemap(s) each time it's
+                                generated or updated.
+                                However, this doesn't ensure indexing. We strongly recommend that you submit/update the
+                                index sitemap to Google &#38; Bing Webmaster Account.
+                            </comment>
+                        </enabled>
+                        <search_engine translate="label">
+                            <label>Search Engine</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>sitemapEnhanced/system_config_source_searchengine</source_model>
+                            <!--                            <can_be_empty>1</can_be_empty>-->
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Press the 'Control' key and select more than 1 Search Engine you want to ping. 
+                            </comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </search_engine>
+                    </fields>
+                </ping>
+            </groups>
+        </sitemap_enhanced>
+    </sections>
+</config>

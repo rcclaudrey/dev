@@ -1,0 +1,86 @@
+<?php
+$productID = Mage::getSingleton('checkout/session')->getLastAddedProductId(true);
+
+$_product = Mage::getModel('catalog/product')->load($productID);
+
+$_productItem = null;
+
+$session = Mage::getSingleton('checkout/session');
+foreach ($session->getQuote()->getAllItems() as $item) {
+
+    if ($productID == $item->getProductId()) {
+        $_productItem = $item;
+        break;
+    }
+//    
+//    $productID = $item->getProductId();
+//    $productSku = $item->getSku();
+//    $productName = $item->getName();
+//    $productQty = $item->getQty();
+//    echo $productID . "|" . $productSku . "|" . $productName . "|" . $productQty . "<br>";
+}
+?>
+
+
+<div class="block-floating-cart-wrap">
+    <div class="floating-cart">            
+        <div class="continue-shopping"><a href="#" class="continue-shopping-link">Continue Shopping</a></div>
+        <div class="product-brand-name">
+            <div class="product-brand">
+                <?php $_filename = Mage::getBaseDir() . "/media/catalog/product/brands/" . str_replace(' ', '-', strtolower($_product->getAttributeText('ari_brands'))) . ".jpg"; ?>
+                <?php $filename = Mage::getBaseUrl('media') . "catalog/product/brands/" . str_replace(' ', '-', strtolower($_product->getAttributeText('ari_brands'))) . ".jpg"; ?>
+                <?php if (file_exists($_filename)): ?>                    
+                    <img src="<?php echo $filename; ?>" width="150" alt="<?php echo $_product->getAttributeText('ari_brands'); ?>" />                    
+                <?php else: ?>                    
+                    <?php echo $_product->getAttributeText('ari_brands'); ?>                    
+                <?php endif; ?>
+            </div>
+            <div class="product-name"><?php echo $_product->getName(); ?></div>
+            <div class="crystal"></div>
+        </div>
+
+        <div class="product-cart-image-wrap">
+            <div class="product-cart-image">
+                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(220); ?>" width="220" height="220" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />                                
+            </div>
+            <div class="product-attributes">
+                <div class="product-attributes-sku">
+                    <span class="product-attribute-title">SKU #:</span><span class="product-attribute-value"><?php echo $_product->getSku(); ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="product-cart-details">
+            <table class="product-details-tbl">
+                <tr class="product-details-row product-details-row-price">
+                    <td class="product-details-name">Price</td>
+                    <td class="product-details-value"><?php echo Mage::helper('core')->currency($_productItem->getPrice(), true, false); ?></td>
+                    <td><a class="remove-item" href="#">X</a></td>
+                </tr>
+                <tr class="product-details-row product-details-row-subtotal">
+                    <td class="product-details-name">Subtotal <span class="item-qty">(<?php echo $_productItem->getQty(); ?>&nbsp;Item)</span></td>
+                    <td colspan="2"><?php echo Mage::helper('core')->currency($_productItem->getPrice() * $_productItem->getQty(), true, false); ?></td>                    
+                </tr>
+            </table>
+            <div class="product-cart-controls">
+                <button type="button" class="view-cart-btn" onclick="setLocation('<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>')"><span><span>View Cart</span></span></button>
+                <?php //if ($_cartQty && $this->isPossibleOnepageCheckout()): ?>                    
+                <button type="button" class="checkout-cart-btn" title="<?php echo $this->__('Checkout') ?>" class="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>                    
+                <?php //endif ?>                     
+            </div>
+        </div>
+        <div class="crystal"></div>
+        <?php /* $related_products = $_product->getRelatedProductCollection();
+          $related_products->AddStoreFilter();
+          ?>
+          <?php if (count($related_products) > 0): ?>
+          <div class="product-related-items-accessories">
+          <h2>Related Items and Accessories</h2>
+          <ul class="product-related-items-list">
+          <?php foreach ($related_products as $_prod): ?>
+          <li></li>
+          <?php endforeach; ?>
+          </ul>
+          </div>
+          <?php endif; */ ?>
+    </div>
+</div>

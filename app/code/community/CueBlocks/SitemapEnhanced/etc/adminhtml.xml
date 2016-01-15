@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+* @package     CueBlocks_SitemapEnhanced
+* @company     CueBlocks
+-->
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <sitemap_enhanced translate="title" module="sitemapEnhanced">
+                    <title>XML Sitemap Generator &#38; Splitter</title>
+                    <sort_order>190</sort_order>
+                    <children>
+                        <managesitemapenhanced module="sitemapEnhanced">
+                            <title>Manage Sitemap(s)</title>
+                            <action>adminhtml/sitemapEnhanced/</action>
+                            <sort_order>10</sort_order>
+                        </managesitemapenhanced>
+                    </children>
+                    <children>
+                        <settingsitemapenhanced module="sitemapEnhanced">
+                            <title>Settings</title>
+                            <action>adminhtml/system_config/edit/section/sitemap_enhanced/</action>
+                            <sort_order>20</sort_order>
+                        </settingsitemapenhanced>
+                    </children>
+                </sitemap_enhanced>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <sitemap_enhanced translate="title" module="sitemapEnhanced">
+                                <title>XML Sitemap Generator &#38; Splitter</title>
+                                <children>
+                                    <managesitemapenhanced   module="sitemapEnhanced">
+                                        <title>Manage Sitemap(s)</title>
+                                    </managesitemapenhanced>
+                                </children>
+                                <children>
+                                    <settingsitemapenhanced   module="sitemapEnhanced">
+                                        <title>Settings</title>
+                                    </settingsitemapenhanced>
+                                </children>
+                            </sitemap_enhanced>
+                        </children>
+                    </catalog>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <sitemap_enhanced translate="title" module="sitemapEnhanced">
+                                        <title>XML Sitemap Enhanced Settings</title>
+                                    </sitemap_enhanced>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

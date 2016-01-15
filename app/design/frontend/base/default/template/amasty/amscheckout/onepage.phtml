@@ -38,9 +38,6 @@
     $skipShippingMethod = !$this->getChild("shipping_method") || !$this->getChild("shipping_method")->isShow();
     $skipPayment = !$this->getChild("payment") || !$this->getChild("payment")->isShow();
     $skipReview = !$this->getChild("review") || !$this->getChild("review")->isShow();
-
-    $skipCoupon = $hlr->skipCouponSection();
-    $skipGiftCard = $hlr->skipGiftCardSection();
     
 ?>
 <script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
@@ -420,15 +417,6 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
 
                     </div><br/>
                     <?php }?>
-                    <?php if (!$skipGiftCard) {?>
-                    <div class="column-section">
-                        <div class="area-header"></div>
-                        <div class="giftcards"  id="checkout-giftcards">
-                            <?php echo $this->getChildHtml("giftcards") ?>
-                        </div>
-                    </div>
-                    <?php }?>
-                    <?php if (!$skipCoupon) {?>
                     <div class="column-section">
                         <div class="area-header">
                             <div class="amscheckout-img-shadow">
@@ -436,13 +424,10 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
                             </div>
                             <?php echo $this->__("Discount Codes")?>
                         </div>
-                        <div id="coupon_lookup"></div>
                         <div class="coupon"  id="checkout-coupon">
                             <?php echo $this->getChildHtml("coupon") ?>
                         </div>
                     </div>
-                    <?php }?>
-
                 </div>
                 <div class="third-column">
                     <?php if (!$skipReview) {?>
@@ -535,15 +520,6 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
 
                 </div><br/>
                 <?php }?>
-                <?php if (!$skipGiftCard) {?>
-                <div class="column-section">
-                    <div class="area-header"></div>
-                    <div class="giftcards"  id="checkout-giftcards">
-                        <?php echo $this->getChildHtml("giftcards") ?>
-                    </div>
-                </div><br/>
-                <?php }?>
-                <?php if (!$skipCoupon) {?>
                 <div class="column-section">
                     <div class="area-header">
                         <div class="amscheckout-img-shadow">
@@ -551,12 +527,10 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
                         </div>
                         <?php echo $this->__("Discount Codes")?>
                     </div>
-                    <div id="coupon_lookup"></div>
                     <div class="coupon"  id="checkout-coupon">
                         <?php echo $this->getChildHtml("coupon") ?>
                     </div>
                 </div>
-                <?php }?>
                 <?php if (!$skipReview) {?>
                 <div class="column-section">
                     <div class="area-header">
@@ -644,15 +618,6 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
 
                 </div><br/>
                 <?php }?>
-                <?php if (!$skipGiftCard) {?>
-                <div class="column-section">
-                    <div class="area-header"></div>
-                    <div class="giftcards"  id="checkout-giftcards">
-                        <?php echo $this->getChildHtml("giftcards") ?>
-                    </div>
-                </div><br/>
-                <?php }?>
-                <?php if (!$skipCoupon) {?>
                 <div class="column-section">
                     <div class="area-header">
                         <div class="amscheckout-img-shadow">
@@ -660,13 +625,10 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
                         </div>
                         <?php echo $this->__("Discount Codes")?>
                     </div>
-                    <div id="coupon_lookup"></div>
                     <div class="coupon"  id="checkout-coupon">
                         <?php echo $this->getChildHtml("coupon") ?>
                     </div>
                 </div>
-                <?php }?>
-
                 <?php if (!$skipReview) {?>
                 <div class="column-section">
                     <div class="area-header">
@@ -709,22 +671,20 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
                 $('billing:use_for_shipping_yes').click();
             });
 
-        if (typeof(discountForm) == 'object') {
-            discountForm.submit = function (isRemove) {
-                if (isRemove) {
-                     $('remove-coupone').value = "1";
-                 } else {
-                     $('remove-coupone').value = "0";
-                 }
-
-                if ($('coupon_code').value != ""){
-                    showLoading();
-                    ajaxUpdate('<?php print $hlr->getCouponUrl();?>', applyCoupon);
-                }
-
+        discountForm.submit = function (isRemove) {
+            if (isRemove) {
+                 $('remove-coupone').value = "1";
+             } else {
+                 $('remove-coupone').value = "0";
+             }
+             
+            if ($('coupon_code').value != ""){
+                showLoading();
+                ajaxUpdate('<?php print $hlr->getCouponUrl();?>', applyCoupon);
             }
+                
         }
-
+        
         <?php if ($hlr->isAmastyCouponsInstalled()) {?>
         discountForm.cancel = function(couponCnt){
             var form = $('discount-coupon-cancel-form-' + couponCnt);
@@ -800,8 +760,78 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
                 return;
             }
         }
-        
+
         function completeCheckout(){
+            if (payment.currentMethod != 'hps_securesubmit') {
+                    completeCheckoutAfter();
+                    return;
+                }
+
+                if (checkout.loadWaiting != false) return;
+
+                // Use stored card checked, get existing token data
+                if (payment.secureSubmitUseStoredCard()) {
+                    var storedcardId = $('hps_securesubmit_stored_card_select').value;
+                    showLoading();
+//                    checkout.setLoadWaiting('payment');
+                    new Ajax.Request(payment.secureSubmitGetTokenDataUrl, {
+                        method: 'post',
+                        parameters: {storedcard_id: storedcardId},
+                        onSuccess: function(response) {
+                            var data = response.responseJSON;
+                            if (data && data.token) {
+                                $('hps_securesubmit_expiration').value = parseInt(data.token.cc_exp_month);
+                                $('hps_securesubmit_expiration_yr').value = data.token.cc_exp_year;
+                            }
+                            payment.secureSubmitResponseHandler({
+                                token_value:  data.token.token_value,
+                                token_type:   null, // 'supt'?
+                                token_expire: new Date().toISOString(),
+                                card:         {
+                                    number: data.token.cc_last4
+                                }
+                            });
+
+                            completeCheckoutAfter();
+
+                        }.bind(payment),
+                        onFailure: function() {
+                            alert('Unknown error. Please try again.');
+                            hideLoading();
+                        }
+                    });
+                }
+                // Use stored card not checked, get new token
+                else {
+                    var validator = new Validation(payment.form);
+                    if (payment.validate() && validator.validate()) {
+                        showLoading();
+//                        checkout.setLoadWaiting('payment');
+
+                        hps.tokenize({
+                            data: {
+                                public_key: payment.secureSubmitPublicKey,
+                                number: $('hps_securesubmit_cc_number').value,
+                                cvc: $('hps_securesubmit_cc_cid').value,
+                                exp_month: $('hps_securesubmit_expiration').value,
+                                exp_year: $('hps_securesubmit_expiration_yr').value
+                            },
+                            success: function(res){
+                                payment.secureSubmitResponseHandler(res);
+                                completeCheckoutAfter();
+
+                            },
+
+                            error: function(){
+                                payment.secureSubmitResponseHandler(res);
+                                hideLoading();
+                            }
+                        });
+                    }
+                }
+    }
+        
+        function completeCheckoutAfter(){
             if (amscheckoutForm.validator.validate() && !checkoutRunning){
                 showLoading();
                 checkoutRunning = true;
@@ -893,15 +923,7 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
                             
                             
                         } else {
-
-                            if ($('review_lookup')) {
-                                $('review_lookup').innerHTML = config.errorsHtml;
-                            } else {
-                                alert(config.errors);
-                            }
-
-
-
+                            alert(config.errors);
                             hideLoading(); 
                         }
 
@@ -973,18 +995,6 @@ background-image: -webkit-linear-gradient(bottom, <?php print $buttonColorActive
 
         reviewEvents();
         cartEvents();
-        
-        <?php if (Mage::getStoreConfig("amscheckout/default/create_account")){?>
-        if ($('billing:create_account')){
-            $('billing:create_account').click();
-        }
-        <?php }?>
-
-        <?php if (Mage::getStoreConfig("amscheckout/default/newsletter")){?>
-        if ($('is_subscribed')){
-            $('is_subscribed').click();
-        }
-        <?php }?>
         
         <?php if (Mage::helper("amscheckout")->isQuickFirstLoad()) {
         ?>

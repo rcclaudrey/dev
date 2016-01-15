@@ -8,7 +8,6 @@
 <?php 
     $_displayType = $this->getDisplayType();
     $_multiselectEnabled = Mage::helper('amshopby')->getCategoriesMultiselectMode();
-    $_showCount = !$this->getData('hide_counts');
 ?>
 
 <ol <?php if ($this->getCollapsed() && !$this->getHasSelection()) echo 'class="no-display-current"'?>  >
@@ -21,14 +20,14 @@
             <?php if ($_item->getIsSelected()) :?>
                 <?php if ($_multiselectEnabled) echo '<a href="' . $this->urlEscape($_item->getUrl())  .'">' ?>
                 <?php echo $_item->getLabel() ?>
-                <?php if ($_showCount && $_item->getCount()):?>
+                <?php if ($_item->getShowCount()):?>
                     <span class="count">(<?php echo $_item->getCount() ?>)</span>
                 <?php endif;?>
                 <?php if ($_multiselectEnabled) echo '</a>' ?>
             <?php else:?>
                 <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>">
                     <?php echo $_item->getLabel() ?>
-                    <?php if ($_showCount && $_item->getCount()):?>
+                    <?php if ($_item->getShowCount()):?>
                         <span class="count">(<?php echo $_item->getCount() ?>)</span>
                     <?php endif;?>
                 </a>
@@ -40,19 +39,19 @@
         <?php
             $level      = $_item->getLevel();
             $additional = $_item->getIsFolded() ? 'style="display:none"' : '';
-
+            
             $class      = 'amshopby-cat amshopby-cat-level-' . $level;
             if (1 != $level){
                 $class .= ' amshopby-cat-parentid-' . $_item->getParentId();
             }
-
+            
             $showIcon = (1 == $level && $_item->getHasChildren());
             $icon = ($_item->getIsChildSelected()) ? 'minus': 'plus';
         ?>
         <li class="<?php echo $class?>" <?php echo $additional?>>
             <?php if ($showIcon): ?><span id="amshopby-cat-id-<?php echo $_item->getId()?>" class="amshopby-plusminus <?php echo $icon?>"></span><?php endif ?>
             <a <?php if ($_item->getIsSelected()):?>class="amshopby-cat-selected"<?php endif?> href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
-            <?php if ($_showCount && $_item->getCount()):?>
+            <?php if ($_item->getShowCount()):?>
                 <span class="count">(<?php echo $_item->getCount() ?>)</span>
             <?php endif;?>
         </li>
@@ -65,7 +64,7 @@
             <?php foreach ($this->getItems() as $_item): ?>
             <option  value="<?php echo $this->urlEscape($_item->getUrl()) ?>">
                 <?php echo $_item->getLabel() ?>
-                <?php if ($_showCount && $_item->getCount()):?>
+                <?php if ($_item->getShowCount()):?>
                     <span class="count">(<?php echo $_item->getCount() ?>)</span>
                 <?php endif;?>
             </option>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<catalog translate="title" module="catalog">
+			<children>
+				<colorswatch translate="title" module="catalog">
+					<title>SMD ColorSwatch</title>
+					<action>colorswatch/adminhtml_colorswatch/attributes</action>
+					<sort_order>25</sort_order>					
+				</colorswatch>
+			</children>
+		</catalog>
+	</menu>
+	
+
+    
+    
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<smdesign_colorswatch translate="title" module="colorswatch">
+									<title>Config SMDesign Magetno ColorSwatch</title>
+									<sort_order>50</sort_order>
+									</smdesign_colorswatch>
+								</children>
+							</config>
+						</children>
+					</system>
+
+					
+					<catalog translate="title" module="catalog">
+						<children>
+							<colorswatch translate="title">
+							<title>SMDesign Color Swatch</title>
+								<children>
+									<swatch_attributes translate="title">
+										<title>Manage Attributes</title>
+									</swatch_attributes>
+									<swatch_images translate="title">
+										<title>Manage Attribute Images</title>
+									</swatch_images>
+								</children>
+							</colorswatch>
+						</children>
+					</catalog>
+					
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

@@ -1,0 +1,4 @@
+<?php
+class SMDesign_Colorswatch_Block_Adminhtml_Attribute_Accordion_Content extends SMDesign_Colorswatch_Block_Adminhtml_Attribute_Abstract {
+
+}

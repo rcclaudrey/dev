@@ -1,0 +1,27 @@
+<layout version="0.1.0">
+    <contacts_index_index>
+        <reference name='contactForm'>
+            <action method='setTemplate'><template>smartbytes/contact/form.phtml</template></action>
+            <block type="captcha/captcha" name="captcha">
+                <reference name="head">
+                    <action method="addJs"><file>mage/captcha.js</file></action>
+                </reference>
+                <action method="setFormId"><formId>contact_form</formId></action>
+                <action method="setImgWidth"><width>230</width></action>
+                <action method="setImgHeight"><width>50</width></action>
+            </block>
+        </reference>
+    </contacts_index_index>
+    <catalog_product_view>
+        <reference name="product.review.form">
+            <block type="captcha/captcha" name="captcha">
+                <reference name="head">
+                    <action method="addJs"><file>mage/captcha.js</file></action>
+                </reference>
+                <action method="setFormId"><formId>review_form</formId></action>
+                <action method="setImgWidth"><width>230</width></action>
+                <action method="setImgHeight"><width>50</width></action>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>

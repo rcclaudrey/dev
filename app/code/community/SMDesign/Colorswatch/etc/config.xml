@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<SMDesign_Colorswatch>
+			<version>4.5.1</version>
+		</SMDesign_Colorswatch>
+	</modules>
+	
+	<global>
+	
+		<models>
+			<colorswatch>
+				<class>SMDesign_Colorswatch_Model</class>
+				<resourceModel>colorswatch_mysql4</resourceModel> 
+			</colorswatch>
+			<colorswatch_mysql4>
+				<class>SMDesign_Colorswatch_Model_Mysql4</class>
+				<entities>
+					<swatch_images><table>colorswatch_images</table></swatch_images>
+					<attribute_settings><table>colorswatch_attribute_settings</table></attribute_settings>
+				</entities>
+			</colorswatch_mysql4>
+			<catalog_resource_eav_mysql4>
+				<rewrite>
+					<product_type_configurable_attribute_collection>SMDesign_Colorswatch_Model_Resource_Product_Type_Configurable_Attribute_Collection</product_type_configurable_attribute_collection>
+				</rewrite>
+			</catalog_resource_eav_mysql4>
+		</models>
+		<helpers><colorswatch><class>SMDesign_Colorswatch_Helper</class></colorswatch></helpers>
+		<blocks><colorswatch><class>SMDesign_Colorswatch_Block</class></colorswatch></blocks>
+		
+		
+		<resources>
+			<colorswatch_setup>
+				<setup>
+				    <module>SMDesign_Colorswatch</module>
+				</setup>
+			</colorswatch_setup>
+		</resources>
+		
+	</global>
+	
+<!-- START DEFINED BACKEND ROUTE -->
+	<admin>
+		<routers>
+			<adminhtml>
+				<use>admin</use>
+				<args>
+					<modules>
+						<colorswatch>SMDesign_Colorswatch</colorswatch>
+						<frontName>colorswatch</frontName>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+<!-- END DEFINED BACKEND ROUTE -->	
+	
+<!--	START DEFINED MODULE DEFAULT THEME -->
+<!--	<stores>
+		<admin>
+			<design>
+				<theme>
+					<default>colorswatch</default>
+				</theme>
+			</design>
+		</admin>
+	</stores>-->
+<!--	END DEFINED MODULE DEFAULT THEME -->
+
+
+<!--	START UPDATE LAYOUT -->
+
+	<adminhtml>
+		<layout>
+			<updates>
+				<colorswatch>
+					<file>colorswatch.xml</file>
+				</colorswatch>
+			</updates>
+		</layout>
+	</adminhtml>
+	
+	<frontend>
+		<layout>
+			<updates>
+				<colorswatch>
+					<file>colorswatch.xml</file>
+				</colorswatch>
+			</updates>
+		</layout>
+		
+		<routers>
+			<colorswatch>
+				<use>standard</use>
+				<args>
+					<module>SMDesign_Colorswatch</module>
+					<frontName>colorswatch</frontName>
+				</args>
+			</colorswatch> 
+		</routers>
+		
+	</frontend>
+	
+<!--	END UPDATE LAYOUT -->
+
+
+
+
+<!--	START MODULE EVENTS	-->
+	<adminhtml>
+		<events>
+<!--	this event add new attribute type
+			<adminhtml_product_attribute_types>
+			  <observers>
+			    <smdesign_colorswatch_attribute_type>
+			      <type>model</type>
+			      <class>colorswatch/observer_type_attribute</class>
+			      <method>addColorswatchAttributeType</method>
+			    </smdesign_colorswatch_attribute_type>
+			  </observers>
+			</adminhtml_product_attribute_types>
+-->
+		</events>
+	</adminhtml>
+<!--	END MODULE EVENTS	-->
+
+
+<!--	START DEFAULTS	-->
+	<default>
+		<smdesign_colorswatch>
+			<general>
+				<enabled_colorswatch>1</enabled_colorswatch>
+				
+				<swatch_image_size_width>30</swatch_image_size_width>
+				<swatch_image_size_height>30</swatch_image_size_height>
+				<adminhtml_attribute_per_page>20</adminhtml_attribute_per_page>
+			</general>
+		</smdesign_colorswatch>
+	</default>
+  
+<!--	END DEFAULTS	-->
+</config>

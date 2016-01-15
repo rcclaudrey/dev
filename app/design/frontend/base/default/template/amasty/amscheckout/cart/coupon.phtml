@@ -5,11 +5,13 @@
  * @package Amasty_Scheckout
  */
 ?>
+
 <div>
     <div>
         <label class="coupon-code" for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label>
         <input type="hidden" name="remove" id="remove-coupone" value="0" />
         <div>
+
             <input type="text" class="input-text" id="coupon_code" name="coupon_code" value="<?php echo $this->escapeHtml($this->getCouponCode()) ?>" />
 
             <div class="coupon-buttons">

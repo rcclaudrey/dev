@@ -1,0 +1,46 @@
+[11-Dec-2015 09:47:16 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/tms/public_html/app/code/core/Mage/Catalog/Model/Product/Type/Configurable/Price.php on line 85
+[25-Dec-2015 09:30:31 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away' in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php:305
+Stack trace:
+#0 /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php(305): PDO->beginTransaction()
+#1 /home/tms/public_html/lib/Zend/Db/Adapter/Abstract.php(496): Zend_Db_Adapter_Pdo_Abstract->_beginTransaction()
+#2 /home/tms/public_html/lib/Varien/Db/Adapter/Pdo/Mysql.php(226): Zend_Db_Adapter_Abstract->beginTransaction()
+#3 /home/tms/public_html/app/code/core/Mage/Core/Model/Resource/Abstract.php(76): Varien_Db_Adapter_Pdo_Mysql->beginTransaction()
+#4 /home/tms/public_html/app/code/core/Mage/Core/Model/Abstract.php(313): Mage_Core_Model_Resource_Abstract->beginTransaction()
+#5 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(100): Mage_Core_Model_Abstract->save()
+#6 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(106): Celebros_Shell_ProcessChunkCol->r in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php on line 305
+[25-Dec-2015 09:30:31 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away' in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php:305
+Stack trace:
+#0 /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php(305): PDO->beginTransaction()
+#1 /home/tms/public_html/lib/Zend/Db/Adapter/Abstract.php(496): Zend_Db_Adapter_Pdo_Abstract->_beginTransaction()
+#2 /home/tms/public_html/lib/Varien/Db/Adapter/Pdo/Mysql.php(226): Zend_Db_Adapter_Abstract->beginTransaction()
+#3 /home/tms/public_html/app/code/core/Mage/Core/Model/Resource/Abstract.php(76): Varien_Db_Adapter_Pdo_Mysql->beginTransaction()
+#4 /home/tms/public_html/app/code/core/Mage/Core/Model/Abstract.php(313): Mage_Core_Model_Resource_Abstract->beginTransaction()
+#5 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(100): Mage_Core_Model_Abstract->save()
+#6 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(106): Celebros_Shell_ProcessChunkCol->r in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php on line 305
+[25-Dec-2015 09:30:31 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away' in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php:305
+Stack trace:
+#0 /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php(305): PDO->beginTransaction()
+#1 /home/tms/public_html/lib/Zend/Db/Adapter/Abstract.php(496): Zend_Db_Adapter_Pdo_Abstract->_beginTransaction()
+#2 /home/tms/public_html/lib/Varien/Db/Adapter/Pdo/Mysql.php(226): Zend_Db_Adapter_Abstract->beginTransaction()
+#3 /home/tms/public_html/app/code/core/Mage/Core/Model/Resource/Abstract.php(76): Varien_Db_Adapter_Pdo_Mysql->beginTransaction()
+#4 /home/tms/public_html/app/code/core/Mage/Core/Model/Abstract.php(313): Mage_Core_Model_Resource_Abstract->beginTransaction()
+#5 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(100): Mage_Core_Model_Abstract->save()
+#6 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(106): Celebros_Shell_ProcessChunkCol->r in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php on line 305
+[25-Dec-2015 09:30:31 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away' in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php:305
+Stack trace:
+#0 /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php(305): PDO->beginTransaction()
+#1 /home/tms/public_html/lib/Zend/Db/Adapter/Abstract.php(496): Zend_Db_Adapter_Pdo_Abstract->_beginTransaction()
+#2 /home/tms/public_html/lib/Varien/Db/Adapter/Pdo/Mysql.php(226): Zend_Db_Adapter_Abstract->beginTransaction()
+#3 /home/tms/public_html/app/code/core/Mage/Core/Model/Resource/Abstract.php(76): Varien_Db_Adapter_Pdo_Mysql->beginTransaction()
+#4 /home/tms/public_html/app/code/core/Mage/Core/Model/Abstract.php(313): Mage_Core_Model_Resource_Abstract->beginTransaction()
+#5 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(100): Mage_Core_Model_Abstract->save()
+#6 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(106): Celebros_Shell_ProcessChunkCol->r in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php on line 305
+[25-Dec-2015 09:30:40 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away' in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php:305
+Stack trace:
+#0 /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php(305): PDO->beginTransaction()
+#1 /home/tms/public_html/lib/Zend/Db/Adapter/Abstract.php(496): Zend_Db_Adapter_Pdo_Abstract->_beginTransaction()
+#2 /home/tms/public_html/lib/Varien/Db/Adapter/Pdo/Mysql.php(226): Zend_Db_Adapter_Abstract->beginTransaction()
+#3 /home/tms/public_html/app/code/core/Mage/Core/Model/Resource/Abstract.php(76): Varien_Db_Adapter_Pdo_Mysql->beginTransaction()
+#4 /home/tms/public_html/app/code/core/Mage/Core/Model/Abstract.php(313): Mage_Core_Model_Resource_Abstract->beginTransaction()
+#5 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(100): Mage_Core_Model_Abstract->save()
+#6 /home/tms/public_html/app/code/community/Celebros/Celexport/Model/processChunkCol.php(106): Celebros_Shell_ProcessChunkCol->r in /home/tms/public_html/lib/Zend/Db/Adapter/Pdo/Abstract.php on line 305
