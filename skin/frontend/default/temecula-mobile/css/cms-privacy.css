@@ -1,0 +1,28 @@
+@media only screen and (max-width: 730px) {
+    .terms-box {
+        width: 100%;
+        padding: 0px;
+    }    
+
+    .terms-box ul li {        
+        float: left;
+        width: 50%;
+    }
+    .terms-box ul {
+        margin-bottom: 15px;
+        margin-left: 15px;
+        margin-top: 15px;
+        min-height: 160px;
+    }
+
+    .cms-fit-guarantee-for-apparel-html p img{
+        width: 100%;
+    }
+
+    .cms-page-view .col-main img.alignleft {
+        float: none;
+        margin: auto;
+        display: block;
+        
+    }
+}

@@ -1,0 +1,42 @@
+.featured-brand-list{
+    display: inline-block;
+    float: left;    
+}
+
+.featured-brand-list{
+    width: 220px;
+}
+
+#slider_featured_brands{
+    visibility: hidden;
+}
+
+@media only screen and (max-width: 500px) {
+
+    #slider2_container,
+    #slider_featured_brands .brands-grid-featured{
+        /*width: 100%;*/
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 730px) {
+    #slider2_container,
+    #slider_featured_brands .brands-grid-featured{
+        /*width: 100%;*/
+    }
+}
+@media only screen and (min-width: 731px) and (max-width: 950px) {
+    #slider2_container,
+    #slider_featured_brands .brands-grid-featured{
+        /*width: 100%;*/
+    }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 950px) {
+}
+
+.brands-grid-featured {
+	box-sizing: border-box;
+	margin: 0 30px;
+	width: auto;
+}

@@ -1,0 +1,103 @@
+.banner-slider-image{
+    transform: none !important;
+    position: static !important;
+}
+
+#slider1_container,
+.mini-banners{
+    float: none;
+}
+
+.mini-banners{
+    margin-top: 10px !important;
+    margin-bottom: 10px  !important;
+    width: 100%;
+}
+
+.mini-banners li a {
+    display: inline-block;
+    height: 29px;
+    overflow: hidden;
+    width: 106px;
+}
+
+.mini-banners li {
+    margin: 0;
+    display: inline-block;
+}
+
+.mini-banners li a img{
+    position: relative;
+}
+
+.mini-banner-dirt a img{
+    left: -112px !important;
+}
+
+.mini-banner-fitment a img{
+    left: -222px !important;
+}
+
+.mini-banner-oem a img{
+    left: -333px !important;
+}
+
+.mini-banners li a:hover img {
+    top: 0px !important;
+}
+
+ul.mini-banners li{
+    width: 24.5%;
+    text-align: center;
+}
+
+.jssorb03{
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.jssorb03 .prototype,
+.jssorb03 .prototypeav{
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    text-align:center;
+    line-height:21px;
+    color:white;
+    font-size:12px;
+}
+
+.jssorb03 div, .jssorb03 div:hover, .jssorb03 .av
+{
+    background-image: url('../images/home/bullets.png');
+    background-repeat: no-repeat;
+    overflow:hidden;
+    cursor: pointer;
+}
+.jssorb03 div.prototype { background-position: 5px 6px; }
+.jssorb03 div.prototype:hover,
+.jssorb03 .prototypeav { background-position: 5px -11px; }
+.jssorb03 .prototypedn, .jssorb03 .prototypedn:hover { background-position: 5px 6px; }
+
+.slider1_container_uslides{
+    cursor: move;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 320px;
+    overflow: hidden;
+}
+
+
+@media only screen and (max-width: 500px) {
+    ul.mini-banners li {
+        float: left;
+        width: 50%;
+    }
+}
+@media only screen and (min-width: 501px) and (max-width: 730px) {}
+@media only screen and (min-width: 731px) and (max-width: 950px) {}
+@media only screen and (min-width: 500px) and (max-width: 950px) {}

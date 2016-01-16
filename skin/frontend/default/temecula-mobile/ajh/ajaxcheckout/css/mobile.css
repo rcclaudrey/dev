@@ -1,0 +1,14 @@
+.header-minicart {
+    display: inline-block;
+    float: none;
+    margin: 0;
+    background: url("../images/cart.png") no-repeat 8px bottom;
+    height: 52px;
+    min-height: 52px;
+    position: relative;
+    top: -7px;
+}
+
+.top-cart{
+    min-height: 38px;
+}

@@ -1,0 +1,410 @@
+.quick-access{
+    margin: 0px;
+}
+
+.mobile-menu-header {
+    height: 80px;
+}
+
+.site-width {
+    /*width: 100%;*/
+}
+
+.footer{
+    border: none;
+}
+
+.foot-left {
+    background: none;
+    height: auto;
+    position: initial;
+    width: 21%;
+}
+
+
+.foot-right{
+    margin: 0px;
+}
+
+.foot-logo a {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    background: url(../images/footer/tms-logo-footer.png) center center no-repeat;
+}
+
+.foot-logo {
+    min-height: 82px;
+    background: url(../images/footer/bg-logo-footer.gif);
+    margin: 0;
+    width: 44%;
+    float: left;
+    line-height: 82px;
+}
+
+.foot-logo a span{
+    visibility: hidden;
+}
+
+.topfoot{
+    width: 56%;
+    float: left;
+    height: 82px;
+}
+
+.topfoot .block-subscribe{
+    float: none;
+}
+
+.footer-distributor-list a {
+    color: #000;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.footer-distributor-list > li {
+    display: inline;
+    padding-right: 30px;
+}
+
+
+.footer-distributor-list-wrapper {
+    margin: 22px 0;
+}
+
+.cols-con-col ul li a{
+    color: #000;
+    font-size: 12px;
+}
+
+.cols-con-col ul li{
+    padding: 5px 0px;
+}
+
+.cols-con-col h3 {
+    margin: 0 0 15px;
+    padding: 15px 0;
+}
+.cols-con-col {
+    float: left;
+    text-align: left;
+    width: 33.33%;
+}
+
+.col05-footer-banners li {
+    display: inline;
+}
+
+.col05-footer-banners {
+    margin-bottom: 28px;
+    margin-top: 24px;
+}
+
+.copyw {
+    text-transform: uppercase;
+}
+
+.footer-policy-links {
+    margin-top: 10px;
+}
+
+.footer-policy-links a{
+    color: #000;
+    text-transform: uppercase;
+    margin: 0 5px;
+}
+
+
+.absolute-footer-wrap {
+    background-color: #e1e1e1;
+    border-bottom: 2px solid #000;
+    border-top: 2px solid #000;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+#slider1_container,
+.mini-banners{
+    float: none;
+}
+
+.mini-banners{
+    margin-top: 10px !important;
+    margin-bottom: 10px  !important;
+    width: 590px;
+}
+
+.mini-banners li a {
+    display: inline-block;
+    height: 29px;
+    overflow: hidden;
+    width: 109px;
+}
+
+.mini-banners li {
+    margin: 0;
+    display: inline-block;
+}
+
+.mini-banners li a img{
+    position: relative;
+}
+
+.mini-banner-dirt a img{
+    left: -111px !important;
+}
+
+.mini-banner-fitment a img{
+    left: -220px !important;
+}
+
+.mini-banner-oem a img{
+    left: -333px !important;
+}
+
+.mini-banners li a:hover img {
+    top: 0px !important;
+}
+
+ul.mini-banners li{
+    width: 24.5%;
+    text-align: center;
+}
+
+.header .links {
+    float: left;
+    margin-left: 12px;
+}
+
+.mobile-corner-links {
+    color: #c0c0c0;
+    float: right;
+    padding: 14px 14px 0 0;
+}
+
+.mobile-corner-links a{
+    color: #c0c0c0;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.quick-access {
+    background: #2c2c2c;
+}
+
+.page-title {
+    width: auto;
+    padding: 20px 10px;
+    border: none;
+    background-color: #f0f0f0;
+}
+.page-title h1{
+    text-align: center;
+    padding: 0px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.fieldset {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0 25px 15px;
+}
+
+.form-list .input-box{
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.newsletter-subscribe-wrap {
+    margin: auto;
+    width: 400px;
+}
+
+.form-list li.control {
+    margin: 0;
+}
+
+input.input-text,
+textarea {
+    padding: 10px;
+}
+
+.form-list input.input-text,
+.form-list textarea {
+    background-color:#ededed;
+}
+
+.form-field-lbl {
+    position: absolute;
+    font-size: 14px;
+}
+
+.customer-account-create .buttons-set p.back-link {
+    margin: 0;
+}
+
+.customer-account-create .buttons-set {
+    margin: auto;
+    width: 400px;
+}
+
+
+button.button.large span span {
+    background: #da1823;
+}
+.registered-users button.button.large span span,
+.new-users button.button.large span span {
+    background: #393939;
+}
+
+button.button.large span {
+    background: #da1823;
+}
+
+.registered-users button.button.large span,
+.new-users button.button.large span {
+    background: #393939;
+}
+
+.buttons-set .back-link a {
+    background: #f0f0f0;
+    color: #646464;
+    padding: 8px 15px;
+}
+
+#login-form{
+    background: none;
+}
+
+.account-login .registered-users h2,
+.account-login .new-users h2{
+    background: #2c2c2c none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.registered-users .form-list .input-box {
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+}
+
+.registered-users .form-list label {
+    text-align: left;
+}
+
+.account-login .registered-users .buttons-set {
+    margin-right: 0px;
+}
+
+.new-users .buttons-set{
+    margin-top: 20px;
+}
+
+.account-login .content {
+    min-height: 190px;
+}
+
+.account-login .new-users .content{
+    background: #e8e8e8;
+}
+#dashboard .page-title {
+    display: block;
+}
+
+
+.customer-hello p.hello {
+    background: none;
+    color: #fff;
+    float: none;
+    font-size: 25px;
+    margin: 0;
+    padding: 6px 20px;
+    text-transform: uppercase;
+}
+
+.customer-hello {
+    background: #000 none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    padding: 2px 0;
+    position: static;
+    float: right;
+    width: 50%;
+}
+
+#dashboard .col-left {
+    width: 49.5%;
+}
+
+.block-account {
+    position: relative;
+}
+
+#dashboard .col-main {
+    margin: 15px 0 0;
+    width: 100%;
+}
+
+.my-account .form-field-lbl,
+.my-account .fields label {
+    display: block;
+    float: left;
+    line-height: 38px;
+    margin-right: 15px;
+    position: static;
+    text-align: right;
+    text-transform: uppercase;
+    width: 245px;
+    padding: 0;
+    font-size: 14px;
+}
+
+
+.my-account .form-list .input-box{
+    margin-bottom: 5px;
+    text-align: left;
+    width: 45% !important;
+}
+
+.input-box.input-box-change-password {
+    text-align: right !important;
+}
+
+.my-account button.button span span,
+.my-account button.button span {
+    background: #da1823 none repeat scroll 0 0;
+    font-weight: bold;
+    padding: 4px 20px;
+}
+
+.fieldset .legend {
+    background: #f0f0f0;
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.login-banner {
+    margin: 0 0 2px 0;
+}
+
+.wrapper {
+    margin: 2px 0;
+}
+
+.page-title{
+    margin-bottom: 0px;
+    padding: 5px 15px;
+}
+
+.page-title h1{
+    text-align: left;    
+}

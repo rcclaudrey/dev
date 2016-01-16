@@ -1,0 +1,175 @@
+.foot-top {
+    background-color: #000;
+}
+.topfoot{
+    width: 56%;
+    float: left;
+    height: 82px;
+}
+
+.topfoot .block-subscribe{
+    float: none;
+}
+
+.footer-distributor-list a {
+    color: #000;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.footer-distributor-list > li {
+    display: inline;
+    padding-right: 30px;
+}
+
+
+.footer-distributor-list-wrapper {
+    margin: 22px 0;
+}
+
+.foot-logo a {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    background: url(../images/footer/tms-logo-footer.png) center center no-repeat;
+}
+
+.foot-logo {
+    min-height: 82px;
+    background: url(../images/footer/bg-logo-footer.gif);
+    margin: 0;
+    width: 44%;
+    float: left;
+    line-height: 82px;
+}
+
+.foot-logo a span{
+    visibility: hidden;
+}
+
+.cols-con {
+    margin: 10px 0;
+}
+.cols-con > div {
+    float: left;
+    margin: 10px;
+}
+.cols-con h3 {
+    border-bottom: 2px solid #000;
+    padding: 0 10px 5px;
+    text-align: left;
+}
+.cols-con ul {
+    margin: 10px;
+    text-align: left;
+}
+.cols-con li {
+    margin: 5px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.cols-con a,
+.cols-con a:visited {
+    color: #000;
+    font-size: 12px;
+}
+
+.col05-footer-banners li {
+    display: inline;
+}
+
+.col05-footer-banners {
+    margin-bottom: 28px;
+    margin-top: 24px;
+}
+
+.copyw {
+    text-transform: uppercase;
+}
+
+.footer-policy-links {
+    margin-top: 10px;
+}
+
+.footer-policy-links a{
+    color: #000;
+    text-transform: uppercase;
+    margin: 0 5px;
+}
+
+
+.absolute-footer-wrap {
+    background-color: #e1e1e1;
+    border-bottom: 2px solid #000;
+    border-top: 2px solid #000;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.socials-container {
+    margin-bottom: 35px;    
+}
+
+.footer-payment-method-wrap {
+    margin-left: 3%;
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 500px) {
+    .cols-con-col.col01{
+        margin-left: 2px;
+        width: 175px;
+    }
+    .col05-footer-banners img{
+        width: 245px;
+    }
+    .footer-payment-method-wrap{
+        margin-left: 2px;
+    }
+    .foot-top .topfoot .block-subscribe {
+        margin-left: 10px;
+    }
+    .topfoot .block-subscribe .input-box {
+        width: 200px;
+    }
+    .topfoot .block-subscribe input.input-text {
+        width: 170px;
+    }
+    .topfoot .block-subscribe .block-content .actions{
+        margin-top: 3px;
+    }
+
+    .foot-logo a{
+        background-size: 100%;
+    }
+
+    .col05-footer-banners img {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 730px) {
+    .foot-top .topfoot .block-subscribe {
+        margin-left: 15px;
+    }
+    .topfoot .block-subscribe .block-content .actions{
+        margin-top: 3px;
+    }
+}
+@media only screen and (min-width: 730px) and (max-width: 950px) {
+    .cols-con-col.col01,
+    .cols-con-col.col02,
+    .cols-con-col.col03{
+        width: 33%;
+    }
+
+}
+
+@media only screen and (min-width: 500px) and (max-width: 950px) {
+    .col05-footer-banners li {
+        display: inline-block;
+        margin: 10px 0 0;
+    }
+}

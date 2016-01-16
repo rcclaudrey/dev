@@ -1,0 +1,80 @@
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = CART*/
+.checkout-cart-index .page-title {
+	width: auto;
+	padding: 10px;
+}
+.cart-table td {
+	padding: 8px;
+}
+.cart-table h2.product-name {
+    font-size: 14px;
+}
+.cart-table .product-image img {
+	width: 50px;
+	height: 50px;
+}
+#shopping-cart-table input.qty {
+    width: 35px !important;
+    padding: 10px 5px;
+    font-size: 14px;
+    text-align: center;
+}
+#shipping-zip-form .form-list select,
+#shipping-zip-form .form-list .input-text {
+	width: 100%;
+	font-size: 12px;
+}
+#shipping-zip-form .form-list input.input-text {
+	width: 90%;
+}
+#shipping-zip-form .form-list .input-box {
+	text-align: left;
+}
+.cart .discount .discount-form label {
+	font-size: 14px;
+}
+input#coupon_code {
+	width: 80%;
+}
+.cart button.btn-proceed-checkout.btn-checkout {
+	width: 90%;
+	background-position: center center;
+}
+.cart .totals .checkout-types .paypal-or {
+    margin: 10px 0;
+    padding: 10px 0;
+    background-color: #ccc;
+    font-style: italic;
+    font-weight: bold;
+}
+.cart .totals tfoot th strong, .cart .totals tfoot td strong {
+	font-size: 20px;
+}
+.link-wishlist {
+	display: inline-block;
+	width: 17px;
+	height: 17px;
+	margin-top: 10px;
+	background: transparent url("../images/cart/wishlist_small.png") no-repeat scroll 0 0;
+	text-indent: -10000px;
+}
+.cart-collaterals h2 {
+	font-size: 15px;
+}
+#shopping-cart-totals-table tbody tr td {
+	font-size: 15px;
+	font-weight: bold;
+}
+#shopping-cart-totals-table tbody tr td {
+	padding: 10px;
+}
+#shopping-cart-totals-table .a-right.odd {
+	text-align: left !important;
+}
+.cart-collaterals .shipping-form > form {
+	display: inline-block;
+	padding: 0 10px 20px;
+}
+.cart .continue-shop {
+    right: 10px;
+}

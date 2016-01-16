@@ -1,0 +1,194 @@
+.products-grid .product-name {
+    font-size: 14px;
+    margin: 0 0 5px;
+    min-height: 52px;
+}
+
+.breadcrumbs{
+    padding: 10px 10px 0px;    
+}
+.block-layered-nav dt{
+    clear: both;
+}
+
+.layered-nav-label{
+    display: none;
+}
+
+@media only screen and (max-width: 730px) {
+
+    .layered-nav-label{
+        display: block;
+    }
+
+    .layered-nav-label {                
+        cursor: pointer;        
+        background: url(../images/catalog/tms_layered_nav_close.png) no-repeat;
+        margin-left: 12px;
+        width: 250px;
+        height: 45px;
+    }
+
+    .layered-nav-label span{
+        padding: 8px 5px;
+        font-size: 24px;
+        text-transform: uppercase;
+        color: #fff;
+        font-weight: bold;
+        visibility: hidden;
+    }
+
+    .layered-nav-label.visible{
+        background: url(../images/catalog/tms_layered_nav_open.png) no-repeat;
+    }
+
+    #narrow-by-list{
+        display: none;
+    }
+
+    .block-layered-nav #narrow-by-list dt {
+        margin: 10px 0;
+        padding: 0 10px;
+    }
+    .col-left.sidebar,
+    .col-main.catalog-col-main{
+        padding: 0px 10px;
+
+    }
+    div.block-layered-nav div.amshopby-slider div.handle {
+        height: 26px;
+        width: 16px;
+    }
+    .category-title{
+        padding-left: 10px;
+    }
+    #catalog .col-left {
+        width: auto;
+        float: none;
+        padding: 0;
+    }
+    #catalog .col-main {
+        position: static;
+        width: auto;
+        margin: 10px 0;
+        padding: 0;
+    }
+    .col2-left-layout .col-main {
+        float: none;
+    }
+    .block-layered-nav #narrow-by-list {
+        float: right;
+        margin-right: 41px;
+        width: 200px;
+    }
+    .block-layered-nav #narrow-by-list {
+        float: none;
+        margin-right: 0px;
+        width: 98%;
+    }
+    #catalog .products-grid li.item {
+        display: inline-block;
+        width: 46%;
+        float: left;
+    }
+    #catalog .toolbar {
+        margin-top: 0px;
+    }
+    .block-layered-nav.amshopby-filters-left{
+        width: 100%;
+    }
+    a.button.btn-cart {
+        max-width: 200px;
+    }
+    #catalog .products-grid li.item.last .bordwrap {
+        margin-right: 5px;
+    }
+    .products-grid .addcom{
+        text-align: center;
+    }
+    .products-grid .addcom a{
+        display: inline-block;
+        float: none;
+        width: 200px !important;
+        margin-bottom: 5px;
+    }
+    .amshopby-cat,
+    .amasty-image-attribute{
+        padding-left: 10px !important;
+    }
+    div.block-layered-nav dd a.amshopby-attr {
+        margin-left: 10px;
+    }
+    div.block-layered-nav div.amshopby-slider {
+        margin-left: 10px;
+        width: 95%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #catalog .products-grid li.item {
+        display: inline-block;
+        min-width: 158px;
+        float: left;
+        overflow: hidden;
+        width: 50%;
+    }
+
+    .product-image > img {
+        width: 100%;
+        height: auto;
+    }
+
+    .amasty-helmet-type > li,
+    .amasty-brands > li,    
+    .amasty-gender > li{
+        display: inline-block;
+        width: 50%;
+        min-width: 230px;
+    }
+
+    .amasty-size > li {
+        width: auto;
+        min-width: 75px;
+        display: block;
+        float: left;
+    }
+
+    .products-grid .addcom a{        
+        width: 99% !important;        
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 730px) {
+    .amasty-helmet-type > li,
+    .amasty-brands > li,    
+    .amasty-gender > li{
+        display: inline-block;
+        width: 50%;
+        min-width: 230px;
+    }
+
+    .amasty-size > li {
+        width: auto;
+        min-width: 75px;
+        display: block;
+        float: left;
+    }
+}
+
+@media only screen and (min-width: 730px) and (max-width: 950px) {
+    #catalog .products-grid li.item {
+        display: inline-block;
+        width: 49%;
+        float: left;
+    }
+
+    #catalog .col-left {
+        padding-left: 10px;
+    }
+
+    .category-title{
+        padding-left: 10px;
+    }
+}
+
