@@ -137,14 +137,11 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Price_Price14ce extends Mage_Cata
             $filterBlock->setValueFrom($from > 0.01 ? $from : '');
             $filterBlock->setValueTo($to > 0.01 ? $to : '');
 
-            /** @var Amasty_Shopby_Helper_Attributes $attrHelper */
             $this->_getResource()->applyFromToFilter($this, $from, $to);
-            $attrHelper = Mage::helper('amshopby/attributes');
-            if ($attrHelper->lockApplyFilter('price', 'price')) {
-                $this->getLayer()->getState()->addFilter(
-                    $this->_createItem($this->_renderFromToItemLabel($from, $to), $filter)
-                );
-            }
+
+            $this->getLayer()->getState()->addFilter(
+                $this->_createItem($this->_renderFromToItemLabel($from, $to), $filter)
+            );
             
             if ($this->hideAfterSelection()){
                  $this->_items = array();

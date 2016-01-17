@@ -150,13 +150,28 @@ class Amasty_Scheckout_Model_Observer
         return str_replace('<div style="display: none;">:AM_REPLACE</div>', $insert, $html);
     }
     
+    protected function _getLayoutHtml($id){
+        
+        
+        $layout =  Mage::app()->getLayout();
+        $layout->getUpdate()->setCacheId(uniqid("amscheckout_".$id));
+        $update = $layout->getUpdate();
+        $update->load($id);
+        $layout->generateXml();
+        $layout->generateBlocks();
+        $html = $layout->getOutput();
+        $html = str_replace("<form", "<div", $html);
+        $html = str_replace("</form", "</div", $html);
+        return $html;
+    }
+        
     protected function _prepareOnepageShippingMethodHtml($transport){
         $html = $transport->getHtml();
         
         $output = "";
         
         if (! Mage::helper("amscheckout")->isQuickFirstLoad()){
-            $output = Mage::helper("amscheckout")->getLayoutHtml("checkout_onepage_shippingmethod");
+            $output = $this->_getLayoutHtml("checkout_onepage_shippingmethod");
         }
         
         return $this->_insertHtml($html, "checkout-shipping-method-load", $output);
@@ -168,7 +183,7 @@ class Amasty_Scheckout_Model_Observer
         $output = "";
         
         if (! Mage::helper("amscheckout")->isQuickFirstLoad()){
-            $output = Mage::helper("amscheckout")->getLayoutHtml("checkout_onepage_paymentmethod");
+            $output = $this->_getLayoutHtml("checkout_onepage_paymentmethod");
         }
         
         return $this->_insertHtml($html, "co-payment-form", $output);
@@ -180,7 +195,7 @@ class Amasty_Scheckout_Model_Observer
         $output = "";
         
         if (! Mage::helper("amscheckout")->isQuickFirstLoad()){
-            $output = Mage::helper("amscheckout")->getLayoutHtml("checkout_onepage_review");
+            $output = $this->_getLayoutHtml("checkout_onepage_review");
         }
         
         return $this->_insertHtml($html, "checkout-review-load", $output);

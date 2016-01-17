@@ -94,12 +94,12 @@ class Amasty_Rma_Block_Adminhtml_Sales_Order_View_Tab_Rma
     
     public function getRowUrl($item)
     {
-        return $this->getUrl('adminhtml/amrma_request/edit', array('id' => $item->getId()));
+        return $this->getUrl('amrma/adminhtml_request/edit', array('id' => $item->getId()));
     }
     
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/amrma_sales_order/rma', array('_current' => true));
+        return $this->getUrl('amrma/adminhtml_sales_order/rma', array('_current' => true));
     }
     
     public function getTabLabel()

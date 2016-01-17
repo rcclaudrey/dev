@@ -56,7 +56,9 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
     public function getAdvancedCollection()
     {
         if (is_null($this->_advancedCollection)) {
-            $category = $this->_getDataHelper()->getCurrentCategory();
+            $helper = Mage::helper('amshopby');
+            $category = $helper->getCurrentCategory();
+
             $startFrom = Mage::getStoreConfig('amshopby/advanced_categories/start_category');
             switch ($startFrom) {
                 case Amasty_Shopby_Model_Source_Category_Start::START_CHILDREN:
@@ -138,6 +140,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
             ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
             ->addAttributeToFilter('is_active', 1)
+            ->addAttributeToFilter('include_in_menu', 1)
             ->setOrder('position', 'asc')
             ->joinUrlRewrite();
 
@@ -197,14 +200,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
             }
 
             //Add current category
-            //Workaround to load qty properly
-            $current = $this->getChildrenData($startCategory->getParentCategory());
-            foreach ($current as $head) {
-                if ($head['id'] == $startCategory->getId()) {
-                    $data[] = $head;
-                    break;
-                }
-            }
+            $data[] = $this->_prepareItemData($startCategory, 0);
         }
 
         return $data;
@@ -248,6 +244,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
         $categories->addAttributeToSelect('name');
         $categories->addAttributeToSelect('is_anchor');
         $categories->addAttributeToFilter('parent_id', $parentId);
+        $categories->addAttributeToFilter('include_in_menu', 1);
         $categories->addAttributeToFilter('is_active', 1);
         $categories->setOrder('position', 'asc');
 
@@ -325,7 +322,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
         $isFolded   = $level > 1 && $this->getCategory()->getParentId() != $category->getParentId();
         $value = $this->_calculateCategoryValue($category->getId());
 
-        if ($this->_getProductCount($category) || is_null($this->_getProductCount($category))) {
+        if ($category->getProductCount()) {
             $row = array(
                 'label'       => Mage::helper('core')->htmlEscape($category->getName()),
                 'url'         => $this->getCategoryUrl($value),
@@ -336,6 +333,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
                 'parent_id'   => $category->getParentId(),
                 'is_folded'   => $isFolded,
                 'is_selected' => $isSelected,
+                'show_count'  => $this->getCountEnabled(),
             );
         }
         return $row;
@@ -343,7 +341,9 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
 
     protected function _calculateCategoryValue($catId)
     {
-        if ($this->_getDataHelper()->getCategoriesMultiselectMode()) {
+        /** @var Amasty_Shopby_Helper_Data $helper */
+        $helper = Mage::helper('amshopby');
+        if ($helper->getCategoriesMultiselectMode()) {
             $cats = $this->getCategories();
             $p = array_search($catId, $cats);
             if ($p === false) {
@@ -358,6 +358,17 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
         }
     }
 
+    protected function getCountEnabled()
+    {
+        $isEnabled = Mage::getStoreConfig('catalog/layered_navigation/display_product_count');
+        if (is_null($isEnabled)) {
+            // Magento 1.4 has no option
+            $isEnabled = true;
+        }
+
+        return $isEnabled;
+    }
+
     protected function getCategoryUrl($value)
     {
         $this->urlBuilder->changeQuery(array('cat' => $value));
@@ -370,12 +381,10 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
      */
     protected function _getProductCount($category)
     {
-        if ($this->_getDataHelper()->useSolr()) {
-            /** @var Enterprise_Search_Model_Resource_Collection $productCollection */
-//            $productCollection = $this->getLayer()->getProductCollection();
-//            $categoriesCount = $productCollection->getFacetedData('category_ids');
-//            return isset($categoriesCount[$category->getId()]) ? $categoriesCount[$category->getId()] : null;
-            // Disabled, course still buggy
+        /** @var Amasty_Shopby_Helper_Data $helper */
+        $helper = Mage::helper('amshopby');
+        if ($helper->useSolr()) {
+            // not implemented yet
             return null;
         } else {
             return $category->getProductCount();
@@ -384,25 +393,8 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
 
     public function addFacetCondition()
     {
-        $key = 'amshopby_facet_added_category';
-        if (Mage::registry($key)) {
-            return $this;
-        }
-
-        $category = $this->_getDataHelper()->getCurrentCategory();
-        $childrenCategories = $category->getChildrenCategories();
-
-        $useFlat = (bool) Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
-        $categories = ($useFlat)
-            ? array_keys($childrenCategories)
-            : array_keys($childrenCategories->toArray());
-
-        $excludeCats = $this->_getDataHelper()->getCategoriesMultiselectMode() && $this->getCategories();
-        $prefix = $excludeCats ? '{!ex=catt}' : '';
-        $this->getLayer()->getProductCollection()->setFacetCondition($prefix.'category_ids', $categories);
-
-        Mage::register($key, true);
-        return $this;
+        // Not implemented for category filter
+        //parent::addFacetCondition();
     }
     
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
@@ -453,10 +445,8 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
         $layer = $this->getLayer();
         $products = $layer->getProductCollection();
 
-        if ($this->_getDataHelper()->useSolr()) {
-            /** @var Enterprise_Search_Model_Resource_Collection $products */
-            $prefix = $this->_getDataHelper()->useSolr() ? '{!tag=catt}' : '';
-            $products->addFqFilter(array($prefix.'category_ids' => $ids));
+        if (Mage::helper('amshopby')->useSolr()) {
+            $products->addFqFilter(array('category_ids' => $ids));
         } else {
             $products->getSelect()->joinInner(
                 array('cp' => Mage::getResourceModel('catalog/product')->getTable('catalog/category_product')),
@@ -477,27 +467,8 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
         $categories->addAttributeToSelect('name');
         $names = $categories->getColumnValues('name');
 
-        $state = $this->_createItem(implode(', ', $names), $ids);
-
-        if(count($ids) > 1) {
-            $children = array();
-            foreach($ids as $i=>$id) {
-                $exclude = $ids;
-                unset($exclude[$i]);
-                $exclude = implode(',', $exclude);
-
-                $children[] = array(
-                    'label' => $names[$i],
-                    'url' => $this->getCategoryUrl($exclude),
-                );
-            }
-            if (count($children) > 1) {
-                $state->setData('children', $children);
-            }
-        }
-
         $this->getLayer()->getState()->addFilter(
-            $state
+            $this->_createItem(implode(', ', $names), $ids)
         );
     }
 
@@ -514,12 +485,5 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Category extends Amasty_Shopby_Mo
         } while ($ids);
 
         return $allIds;
-    }
-
-    protected function _getDataHelper()
-    {
-        /** @var Amasty_Shopby_Helper_Data $helper */
-        $helper = Mage::helper('amshopby');
-        return $helper;
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+-->
+<config>
+    <translate>
+        <modules>
+            <Amasty_Xsearch>
+                <files>
+                    <default>Amasty_Xsearch.csv</default>
+                </files>
+            </Amasty_Xsearch>
+        </modules>
+    </translate>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amxsearch translate="title" module="amxsearch">
+                                        <title>Amasty Search</title>
+                                    </amxsearch>
+                                </children>
+                            </config>
+                            <xsearch_adminsetting translate="title" module="amxsearch">
+                                <title>Amasty Search</title>
+                            </xsearch_adminsetting>
+                        </children>
+                    </system> 
+                 </children>
+            </admin> 
+        </resources>
+    </acl>
+</config>

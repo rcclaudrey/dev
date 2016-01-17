@@ -57,14 +57,7 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
         
         $paymentMethods = $this->_getPaymentMethods($quote);
         
-        if ($default == 'none'){
-            $ret = NULL;
-        } else if ($default == ''){ //first available
-            $paymentMethods = array_values($paymentMethods);
-
-            if ($ret === NULL && isset($paymentMethods[0]))
-                $ret = $paymentMethods[0]->getCode();
-        } else{
+        if ($default){
             foreach($paymentMethods as $method){
                 
                 if ( $method->getCode() == $default ){
@@ -73,6 +66,11 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
         }
+        
+        $paymentMethods = array_values($paymentMethods);
+
+        if ($ret === NULL && isset($paymentMethods[0]))
+            $ret = $paymentMethods[0]->getCode();
         
         return $ret;
     }
@@ -329,14 +327,6 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
          return Mage::getUrl('amscheckoutfront/onepage/cart',array('_secure'=>true));
     }
     
-    function getGiftCartUrl(){
-         return Mage::getUrl('amscheckoutfront/onepage/giftcart',array('_secure'=>true));
-    }
-
-    function getGiftCartCancelUrl(){
-         return Mage::getUrl('amscheckoutfront/onepage/giftcartcancel',array('_secure'=>true));
-    }
-    
     function getDeleteUrl(){
          return Mage::getUrl('amscheckoutfront/onepage/delete',array('_secure'=>true));
     }
@@ -456,14 +446,6 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
         return !$this->isAllowGuestCheckout() && Mage::getStoreConfig('checkout/options/customer_must_be_logged') == 1;
     }
     
-    function skipCouponSection(){
-        return Mage::getStoreConfig('amscheckout/sections/coupon') != 1;
-    }
-
-    function skipGiftCardSection(){
-        return Mage::getStoreConfig('amscheckout/sections/giftcard') != 1;
-    }
-    
     function getBillingUpdatable(){
         $ret = array();
         
@@ -555,31 +537,17 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
             if ($shippingAddress->getPostcode() !== '-' && $shippingAddress->getPostcode() && !$blockAddress->getPostcode()){
                 $blockAddress->setPostcode($shippingAddress->getPostcode());
             }
-        } else {
-            $blockAddress = $block->getAddress();
-
-           $shippingAddress = $block->getQuote()->getShippingAddress();
-
-            if ($shippingAddress->getCity() == '-'){
-                $blockAddress->setCity("");
-            }
-
-            if ($shippingAddress->getPostcode() == '-'){
-                $blockAddress->setPostcode("");
-            }
         }
-
-        if ($shippingAddress->getTelephone() == '-'){
-            $blockAddress->setTelephone("");
-        }
-
-        if ($shippingAddress->getRegion() == '-'){
-               $blockAddress->setRegion("");
-           }
 
         if ($block instanceof Mage_Checkout_Block_Onepage_Shipping){
+            $collectTotals = $this->initShippingPaymentMethods($block->getQuote());
 
-            $this->initPaymentMethod($block->getQuote());
+            if ($collectTotals)
+            {
+                $block->getQuote()->setTotalsCollectedFlag(false);
+                $block->getQuote()->collectTotals();
+                $block->getQuote()->save();
+            }
 
             if ( ! Mage::helper("amscheckout")->isQuickFirstLoad()){
                 $block->getQuote()->getShippingAddress()->setCollectShippingRates(true);
@@ -587,8 +555,11 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
-    function initPaymentMethod($quote){
+    function initShippingPaymentMethods($quote){
+        $hlr = Mage::helper("amscheckout");
+
         $initPaymentMethod = false;
+        $initShippingMethod = !$quote->getShippingAddress()->getShippingMethod();
 
         try{
             $quote->getPayment()->getMethodInstance();
@@ -596,14 +567,20 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
             $initPaymentMethod = true;
         }
 
+        if ($initShippingMethod){
+            $quote->getShippingAddress()->setShippingMethod($hlr->getDefaultShippingMethod($quote));
+        }
+
         if ($initPaymentMethod) {
             try{
                 $payment = $quote->getPayment();
-                $payment->importData(array("method" => $this->getDefaultPeymentMethod($quote)));
+                $payment->importData(array("method" => $hlr->getDefaultPeymentMethod($quote)));
             } catch (Exception $e){
 
             }
         }
+
+        return $initShippingMethod || $initPaymentMethod;
     }
 
     public function getLayoutType(){
@@ -808,7 +785,7 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
             $ret .= $this->getBeforeControlHtml($_field, array(), FALSE);
             
             
-            $ret .= strtr(Mage::helper('amorderattr')->field(array(
+            $ret .= strtr(Mage::helper('amorderattr')->fields(array(
                 $_field['field_key']
                 )), array(
                "float: left;"  => "",
@@ -836,59 +813,6 @@ class Amasty_Scheckout_Helper_Data extends Mage_Core_Helper_Abstract
 
     function isQuickFirstLoad(){
         return Mage::getStoreConfig('amscheckout/update/quick_load');
-    }
-
-    function _prepareLayoutBeforeUpdate($id, $update){
-        if ($id == 'checkout_onepage_review') {
-
-            $payment = Mage::getSingleton('checkout/type_onepage')
-                        ->getQuote()
-                        ->getPayment();
-            try{
-                $payment->getMethodInstance();
-            } catch (Exception $e){
-                $update->addUpdate('<remove name="payment.form.directpost"/>');
-            }
-        } else if($id == 'checkout_onepage_paymentmethod'){
-
-            if (!$this->skipGiftCardSection() || $this->isShoppingCartOnCheckout())
-                $update->addUpdate('<remove name="giftcardaccount_additional"/>');
-        }
-    }
-
-    public function getProduct($item)
-    {
-        return $item->getProduct();
-    }
-
-    public function getChildProduct($item)
-    {
-        if ($option = $item->getOptionByCode('simple_product')) {
-            return $option->getProduct();
-        }
-        return $this->getProduct($item);
-    }
-
-    public function getProductThumbnail($item)
-    {
-        $product = $this->getChildProduct($item);
-        if (!$product || !$product->getData('thumbnail')
-            || ($product->getData('thumbnail') == 'no_selection')
-            || (Mage::getStoreConfig('checkout/cart/configurable_product_image') == 'parent')) {
-            $product = $this->getProduct($item);
-        }
-        return Mage::helper('catalog/image')->init($product, 'thumbnail');
-    }
-
-    public function getLayoutHtml($id){
-        $layout =  Mage::app()->getLayout();
-        $layout->getUpdate()->setCacheId(uniqid("amscheckout_".$id));
-        $update = $layout->getUpdate();
-        $update->load($id);
-        $this->_prepareLayoutBeforeUpdate($id, $update);
-        $layout->generateXml();
-        $layout->generateBlocks();
-        return$layout->getOutput();
     }
 
 }

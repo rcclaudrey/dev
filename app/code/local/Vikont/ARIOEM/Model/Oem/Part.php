@@ -116,11 +116,13 @@ class Vikont_ARIOEM_Model_Oem_Part
 				$content = Mage::helper('arioem')->decodeHTMLResponse($response['html']);
 
 				$dom = new DOMDocument;
+				libxml_use_internal_errors(true);
 				$dom->loadHTML($content);
+				libxml_clear_errors();
 
 				$searchTableBody = $dom->getElementById('ari_searchResults_GridBody');
 				if(!$searchTableBody) {
-					throw new Exception('No #ari_searchResults_GridBody element found in the response');
+					Mage::logException(new Exception(sprintf('No #ari_searchResults_GridBody element found in the response for brand=%s part=%s', $this->getBrandCode(), $this->getPartNumber())));
 				}
 
 				foreach($searchTableBody->childNodes as $tableRow) {
@@ -247,27 +249,4 @@ class Vikont_ARIOEM_Model_Oem_Part
 
 	}
 
-
-/*
-	public function getPartsAssemblies($modelCode)
-	{
-//	http://partstream.arinet.com/Search/GetModelSearchPartModelAssemblies
-//	?cb=jsonp1448959106400
-//	&arib=HOM
-//	&arisku=13101-MEN-A70
-//	&arim=yFdXLJ6Qe0P2z9iCo64rJA2
-//	&arik=9oiOWqDlvNLyUXT4Qtun
-//	&aril=en-US
-//	&ariv=http%253A%252F%252Ftmsparts.com%252Fvk%252Foem-test.html
-		$response = Mage::helper('arioem/api')->request('Search/GetModelSearchPartModelAssemblies', array(), array(
-			'arib' => $this->getBrandCode(),
-			'arisku' => $this->getPartNumber(),
-			'arim' => $modelCode,
-			'arik' => Mage::getStoreConfig('arioem/api/app_key'),
-			'ariv' => Mage::getStoreConfig('arioem/api/referer_url'),
-		));
-vd($response);
-
-	}
-/**/
 }

@@ -50,7 +50,7 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_Values extends Mage_Adminhtm
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/amshopby_value/edit', array('id' => $row->getValueId()));
+        return $this->getUrl('*/adminhtml_value/edit', array('id' => $row->getValueId()));
     }
 
 }

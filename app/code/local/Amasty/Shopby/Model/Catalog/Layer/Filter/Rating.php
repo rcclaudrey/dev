@@ -7,7 +7,6 @@
 
 class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model_Layer_Filter_Abstract
 {
-	const NOT_RATED_LABEL = 'Not Yet Rated';
 
     /**
      * Class constructor
@@ -24,7 +23,6 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model
         3 => 60,
         4 => 80,
         5 => 100,
-		6 => -1
     );
 
     /**
@@ -58,12 +56,8 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model
             ),
             ''
         );
-		if($minRating == "-1") {
-			$select->where('`rating`.`rating_summary` IS NULL');
-		} else {
-			$select->where('`rating`.`rating_summary` >= ?',
-				$minRating);
-		}
+        $select->where('`rating`.`rating_summary` >= ?',
+            $minRating);
 
         $state = $this->_createItem($this->getLabelHtml($filter), $filter)
                       ->setVar($this->_requestVar);
@@ -92,32 +86,17 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model
      */
     protected function _getItemsData()
     {
-        /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
-        $cache = Mage::helper('amshopby/layer_cache');
-        $cache->setStateKey($this->getLayer()->getStateKey());
-        $key = 'RATING';
-        $data = $cache->getFilterItems($key);
+        $data = array();
+        $count = $this->_getCount();
+        $currentValue = Mage::app()->getRequest()->getQuery($this->getRequestVar());
 
-        if (is_null($data)) {
-            $data = array();
-            $count = $this->_getCount();
-            $currentValue = Mage::app()->getRequest()->getQuery($this->getRequestVar());
-
-            for ($i = 5; $i >= 1; $i--) {
-                $data[] = array(
-                    'label' => $this->getLabelHtml($i),
-                    'value' => ($currentValue == $i) ? null : $i,
-                    'count' => $count[($i - 1)],
-                    'option_id' => $i,
-                );
-            }
-			$data[] = array(
-				'label' => $this->getLabelHtml(6),
-				'value' => ($currentValue == 6) ? null : 6,
-				'count' => $count[5],
-				'option_id' => 6,
-			);
-            $cache->setFilterItems($key, $data);
+        for ($i=5;$i>=1;$i--) {
+            $data[] = array(
+                'label' => $this->getLabelHtml($i),
+                'value' => ($currentValue == $i) ? null : $i,
+                'count' => $count[($i-1)],
+                'option_id' => $i,
+            );
         }
 
         return $data;
@@ -132,7 +111,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model
 
         $connection = $collection->getConnection();
         $connection
-            ->query('SET @ONE :=0, @TWO := 0, @THREE := 0, @FOUR := 0, @FIVE := 0, @NOT_RATED := 0');
+            ->query('SET @ONE :=0, @TWO := 0, @THREE := 0, @FOUR := 0, @FIVE := 0');
 
         $select = clone $collection->getSelect();
         $select->reset(Zend_Db_Select::COLUMNS);
@@ -152,16 +131,15 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model
         );
 
         $columns = new Zend_Db_Expr("
-            IF(`rsc`.`rating_summary` >= 20 AND `rsc`.`rating_summary` < 40, @ONE := @ONE + 1, 0),
+            IF(`rsc`.`rating_summary` <  40, @ONE := @ONE + 1, 0),
             IF(`rsc`.`rating_summary` >= 40 AND `rsc`.`rating_summary` < 60, @TWO := @TWO + 1, 0),
             IF(`rsc`.`rating_summary` >= 60 AND `rsc`.`rating_summary` < 80, @THREE := @THREE + 1, 0),
             IF(`rsc`.`rating_summary` >= 80 AND `rsc`.`rating_summary` < 100, @FOUR := @FOUR + 1, 0),
-            IF(`rsc`.`rating_summary` >= 100, @FIVE := @FIVE + 1, 0),
-            IF(`rsc`.`rating_summary` IS NULL, @NOT_RATED := @NOT_RATED + 1, 0)
+            IF(`rsc`.`rating_summary` >= 100, @FIVE := @FIVE + 1, 0)
         ");
         $select->columns($columns);
         $connection->query($select);
-        $result = $connection->fetchRow('SELECT @ONE, @TWO, @THREE, @FOUR, @FIVE, @NOT_RATED;');
+        $result = $connection->fetchRow('SELECT @ONE, @TWO, @THREE, @FOUR, @FIVE;');
         return array_values($result);
     }
 
@@ -189,9 +167,6 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Rating extends Mage_Catalog_Model
      */
     protected function getLabelHtml($countStars)
     {
-		if($countStars == 6) {
-			return Mage::helper('amshopby')->__(self::NOT_RATED_LABEL);
-		}
         $block = new Mage_Core_Block_Template();
         $block->setStar($countStars);
         $html = $block->setTemplate('amasty/amshopby/rating.phtml')->toHtml();

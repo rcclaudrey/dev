@@ -1,0 +1,18 @@
+<config>
+    <modules>
+        <Ajh_Feedback>
+            <version>0.0.0</version>
+        </Ajh_Feedback>
+    </modules>
+    <frontend>
+        <routers>
+            <ajh_feedback>
+                <use>standard</use>
+                <args>
+                    <module>Ajh_Feedback</module>
+                    <frontName>feedback</frontName>
+                </args>
+            </ajh_feedback>
+        </routers>
+    </frontend>
+</config>

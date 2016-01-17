@@ -1,5 +1,5 @@
-<?php
-
-$this->startSetup();
-$this->run('');
+<?php
+
+$this->startSetup();
+$this->run('');
 $this->endSetup();

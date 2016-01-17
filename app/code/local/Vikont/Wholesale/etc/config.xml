@@ -1,261 +1,261 @@
-<?xml version="1.0"?>
-<config>
-
-	<modules>
-		<Vikont_Wholesale>
-			<version>1.0.1</version>
-		</Vikont_Wholesale>
-	</modules>
-
-
-	<admin>
-		<routers>
-			<wholesale>
-				<use>admin</use>
-				<args>
-					<module>Vikont_Wholesale</module>
-					<frontName>wholesale</frontName>
-				</args>
-			</wholesale>
-		</routers>
-	</admin>
-
-
-	<frontend>
-
-		<routers>
-			<wholesale>
-				<use>standard</use>
-				<args>
-					<module>Vikont_Wholesale</module>
-					<frontName>wholesale</frontName>
-				</args>
-			</wholesale>
-		</routers>
-
-		<layout>
-			<updates>
-				<wholesale module="Vikont_Wholesale">
-					<file>vk_wholesale.xml</file>
-				</wholesale>
-			</updates>
-		</layout>
-
-		<translate>
-			<modules>
-				<Vikont_Wholesale>
-					<files>
-						<default>Vikont_Wholesale.csv</default>
-					</files>
-				</Vikont_Wholesale>
-			</modules>
-		</translate>
-
-		<events>
-<!--            <prepare_catalog_product_collection_prices>
-                <observers>
-                    <wholesale>
-                        <class>wholesale/price</class>
-                        <method>prepareCatalogProductCollectionPrices</method>
-                    </wholesale>
-                </observers>
-            </prepare_catalog_product_collection_prices>-->
-        </events>
-
-	</frontend>
-
-
-	<adminhtml>
-
-		<layout>
-			<updates>
-				<wholesale>
-					<file>vk_wholesale.xml</file>
-				</wholesale>
-			</updates>
-		</layout>
-
-		<translate>
-			<modules>
-				<Vikont_Wholesale>
-					<files>
-						<default>Vikont_Wholesale.csv</default>
-					</files>
-				</Vikont_Wholesale>
-			</modules>
-		</translate>
-
-		<acl>
-			<resources>
-				<all>
-					<title>Allow Everything</title>
-				</all>
-				<admin>
-					<children>
-						<system>
-							<children>
-								<config>
-									<children>
-										<wholesale module="wholesale" translate="title">
-											<title>Wholesale</title>
-											<sort_order>1000</sort_order>
-										</wholesale>
-									</children>
-								</config>
-							</children>
-						</system>
-					</children>
-				</admin>
-			</resources>
-		</acl>
-
-		<events>
-<!--			<catalog_product_save_commit_after>
-				<observers>
-					<wholesale>
-						<class>wholesale/price</class>
-						<method>applyAllRulesOnProduct</method>
-					</wholesale>
-				</observers>
-			</catalog_product_save_commit_after>-->
-		</events>
-
-	</adminhtml>
-
-
-	<global>
-
-		<blocks>
-			<wholesale>
-				<class>Vikont_Wholesale_Block</class>
-			</wholesale>
-		</blocks>
-
-		<helpers>
-			<wholesale>
-				<class>Vikont_Wholesale_Helper</class>
-			</wholesale>
-		</helpers>
-
-		<models>
-			<wholesale>
-				<class>Vikont_Wholesale_Model</class>
-				<resourceModel>wholesale_mysql4</resourceModel>
-			</wholesale>
-		</models>
-
-		<resources>
-			<wholesale_read>
-				<connection>
-					<use>core_read</use>
-				</connection>
-			</wholesale_read>
-			<wholesale_write>
-				<connection>
-					<use>core_write</use>
-				</connection>
-			</wholesale_write>
-			<wholesale_setup>
-				<setup>
-					<module>Vikont_Wholesale</module>
-				</setup>
-				<connection>
-					<use>core_setup</use>
-				</connection>
-			</wholesale_setup>
-		</resources>
-
-		<events>
-			<adminhtml_customer_prepare_save>
-				<observers>
-					<wholesale>
-						<type>singleton</type>
-						<class>Vikont_Wholesale_Model_Observer</class>
-						<method>adminhtml_customer_prepare_save</method>
-					</wholesale>
-				</observers>
-			</adminhtml_customer_prepare_save>
-			<customer_save_after>
-				<observers>
-					<wholesale>
-						<type>singleton</type>
-						<class>Vikont_Wholesale_Model_Observer</class>
-						<method>customer_save_after</method>
-					</wholesale>
-				</observers>
-			</customer_save_after>
-			<core_block_abstract_to_html_before>
-				<observers>
-					<wholesale>
-						<class>Vikont_Wholesale_Model_Observer</class>
-						<method>core_block_abstract_to_html_before</method>
-					</wholesale>
-				</observers>
-			</core_block_abstract_to_html_before>
-
-			<!--prices-->
-<!--			<catalog_product_get_final_price>
-				<observers>
-					<wholesale>
-						<class>wholesale/price</class>
-						<method>processFinalPrice</method>
-					</wholesale>
-				</observers>
-			</catalog_product_get_final_price>
-			<catalog_product_type_configurable_price>
-				<observers>
-					<wholesale>
-						<class>wholesale/price</class>
-						<method>catalogProductTypeConfigurablePrice</method>
-					</wholesale>
-				</observers>
-			</catalog_product_type_configurable_price>-->
-        </events>
-
-
-		<template>
-			<email>
-				<wholesale_email_admin_notify_template translate="label" module="wholesale">
-					<label>Dealer application - Admin notification</label>
-					<file>wholesale_dealerapp_admin.html</file>
-					<type>html</type>
-				</wholesale_email_admin_notify_template>
-				<wholesale_email_customer_notify_template translate="label" module="wholesale">
-					<label>Dealer application - Customer notification</label>
-					<file>wholesale_dealerapp_sent.html</file>
-					<type>html</type>
-				</wholesale_email_customer_notify_template>
-				<wholesale_email_customer_confirm_template translate="label" module="wholesale">
-					<label>Dealer application - Confirmed</label>
-					<file>wholesale_dealerapp_confirmed.html</file>
-					<type>html</type>
-				</wholesale_email_customer_confirm_template>
-				<wholesale_email_customer_decline_template translate="label" module="wholesale">
-					<label>Dealer application - Declined</label>
-					<file>wholesale_dealerapp_declined.html</file>
-					<type>html</type>
-				</wholesale_email_customer_decline_template>
-			</email>
-		</template>
-	</global>
-
-	<default>
-		<wholesale>
-			<general>
-				<enabled>1</enabled>
-			</general>
-			<email>
-				<admin_notify_email></admin_notify_email>
-				<admin_notify_template>wholesale_email_admin_notify_template</admin_notify_template>
-				<customer_notify_template>wholesale_email_customer_notify_template</customer_notify_template>
-				<customer_confirm_template>wholesale_email_customer_confirm_template</customer_confirm_template>
-				<customer_decline_template>wholesale_email_customer_decline_template</customer_decline_template>
-			</email>
-			<order>
-				<ignore_stock_status>1</ignore_stock_status>
-				<dummy_product>wholesale-dummy</dummy_product>
-			</order>
-		</wholesale>
-	</default>
-
-</config>
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_Wholesale>
+			<version>1.0.1</version>
+		</Vikont_Wholesale>
+	</modules>
+
+
+	<admin>
+		<routers>
+			<wholesale>
+				<use>admin</use>
+				<args>
+					<module>Vikont_Wholesale</module>
+					<frontName>wholesale</frontName>
+				</args>
+			</wholesale>
+		</routers>
+	</admin>
+
+
+	<frontend>
+
+		<routers>
+			<wholesale>
+				<use>standard</use>
+				<args>
+					<module>Vikont_Wholesale</module>
+					<frontName>wholesale</frontName>
+				</args>
+			</wholesale>
+		</routers>
+
+		<layout>
+			<updates>
+				<wholesale module="Vikont_Wholesale">
+					<file>vk_wholesale.xml</file>
+				</wholesale>
+			</updates>
+		</layout>
+
+		<translate>
+			<modules>
+				<Vikont_Wholesale>
+					<files>
+						<default>Vikont_Wholesale.csv</default>
+					</files>
+				</Vikont_Wholesale>
+			</modules>
+		</translate>
+
+		<events>
+<!--            <prepare_catalog_product_collection_prices>
+                <observers>
+                    <wholesale>
+                        <class>wholesale/price</class>
+                        <method>prepareCatalogProductCollectionPrices</method>
+                    </wholesale>
+                </observers>
+            </prepare_catalog_product_collection_prices>-->
+        </events>
+
+	</frontend>
+
+
+	<adminhtml>
+
+		<layout>
+			<updates>
+				<wholesale>
+					<file>vk_wholesale.xml</file>
+				</wholesale>
+			</updates>
+		</layout>
+
+		<translate>
+			<modules>
+				<Vikont_Wholesale>
+					<files>
+						<default>Vikont_Wholesale.csv</default>
+					</files>
+				</Vikont_Wholesale>
+			</modules>
+		</translate>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<wholesale module="wholesale" translate="title">
+											<title>Wholesale</title>
+											<sort_order>1000</sort_order>
+										</wholesale>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+		<events>
+<!--			<catalog_product_save_commit_after>
+				<observers>
+					<wholesale>
+						<class>wholesale/price</class>
+						<method>applyAllRulesOnProduct</method>
+					</wholesale>
+				</observers>
+			</catalog_product_save_commit_after>-->
+		</events>
+
+	</adminhtml>
+
+
+	<global>
+
+		<blocks>
+			<wholesale>
+				<class>Vikont_Wholesale_Block</class>
+			</wholesale>
+		</blocks>
+
+		<helpers>
+			<wholesale>
+				<class>Vikont_Wholesale_Helper</class>
+			</wholesale>
+		</helpers>
+
+		<models>
+			<wholesale>
+				<class>Vikont_Wholesale_Model</class>
+				<resourceModel>wholesale_mysql4</resourceModel>
+			</wholesale>
+		</models>
+
+		<resources>
+			<wholesale_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</wholesale_read>
+			<wholesale_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</wholesale_write>
+			<wholesale_setup>
+				<setup>
+					<module>Vikont_Wholesale</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</wholesale_setup>
+		</resources>
+
+		<events>
+			<adminhtml_customer_prepare_save>
+				<observers>
+					<wholesale>
+						<type>singleton</type>
+						<class>Vikont_Wholesale_Model_Observer</class>
+						<method>adminhtml_customer_prepare_save</method>
+					</wholesale>
+				</observers>
+			</adminhtml_customer_prepare_save>
+			<customer_save_after>
+				<observers>
+					<wholesale>
+						<type>singleton</type>
+						<class>Vikont_Wholesale_Model_Observer</class>
+						<method>customer_save_after</method>
+					</wholesale>
+				</observers>
+			</customer_save_after>
+			<core_block_abstract_to_html_before>
+				<observers>
+					<wholesale>
+						<class>Vikont_Wholesale_Model_Observer</class>
+						<method>core_block_abstract_to_html_before</method>
+					</wholesale>
+				</observers>
+			</core_block_abstract_to_html_before>
+
+			<!--prices-->
+<!--			<catalog_product_get_final_price>
+				<observers>
+					<wholesale>
+						<class>wholesale/price</class>
+						<method>processFinalPrice</method>
+					</wholesale>
+				</observers>
+			</catalog_product_get_final_price>
+			<catalog_product_type_configurable_price>
+				<observers>
+					<wholesale>
+						<class>wholesale/price</class>
+						<method>catalogProductTypeConfigurablePrice</method>
+					</wholesale>
+				</observers>
+			</catalog_product_type_configurable_price>-->
+        </events>
+
+
+		<template>
+			<email>
+				<wholesale_email_admin_notify_template translate="label" module="wholesale">
+					<label>Dealer application - Admin notification</label>
+					<file>wholesale_dealerapp_admin.html</file>
+					<type>html</type>
+				</wholesale_email_admin_notify_template>
+				<wholesale_email_customer_notify_template translate="label" module="wholesale">
+					<label>Dealer application - Customer notification</label>
+					<file>wholesale_dealerapp_sent.html</file>
+					<type>html</type>
+				</wholesale_email_customer_notify_template>
+				<wholesale_email_customer_confirm_template translate="label" module="wholesale">
+					<label>Dealer application - Confirmed</label>
+					<file>wholesale_dealerapp_confirmed.html</file>
+					<type>html</type>
+				</wholesale_email_customer_confirm_template>
+				<wholesale_email_customer_decline_template translate="label" module="wholesale">
+					<label>Dealer application - Declined</label>
+					<file>wholesale_dealerapp_declined.html</file>
+					<type>html</type>
+				</wholesale_email_customer_decline_template>
+			</email>
+		</template>
+	</global>
+
+	<default>
+		<wholesale>
+			<general>
+				<enabled>1</enabled>
+			</general>
+			<email>
+				<admin_notify_email></admin_notify_email>
+				<admin_notify_template>wholesale_email_admin_notify_template</admin_notify_template>
+				<customer_notify_template>wholesale_email_customer_notify_template</customer_notify_template>
+				<customer_confirm_template>wholesale_email_customer_confirm_template</customer_confirm_template>
+				<customer_decline_template>wholesale_email_customer_decline_template</customer_decline_template>
+			</email>
+			<order>
+				<ignore_stock_status>1</ignore_stock_status>
+				<dummy_product>wholesale-dummy</dummy_product>
+			</order>
+		</wholesale>
+	</default>
+
+</config>

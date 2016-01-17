@@ -1,181 +1,181 @@
-<?xml version="1.0"?>
-<config>
-
-	<modules>
-		<Vikont_Data2data>
-			<version>1.0</version>
-		</Vikont_Data2data>
-	</modules>
-
-
-	<frontend>
-<!--		<layout>
-			<updates>
-				<data2data>
-					<file>data2data.xml</file>
-				</data2data>
-			</updates>
-		</layout>-->
-
-<!--		<translate>
-			<modules>
-				<Vikont_Data2data>
-					<files>
-						<default>Vikont_Data2data.csv</default>
-					</files>
-				</Vikont_Data2data>
-			</modules>
-		</translate>-->
-	</frontend>
-
-
-	<admin>
-		<routers>
-			<data2data>
-				<use>admin</use>
-				<args>
-					<module>Vikont_Data2data</module>
-					<frontName>data2data</frontName>
-				</args>
-			</data2data>
-		</routers>
-	</admin>
-
-
-	<adminhtml>
-
-<!--		<menu>
-			<catalog>
-				<children>
-					<inventory module="data2data" translate="title">
-						<title>Inventory</title>
-						<sort_order>999</sort_order>
-                        <children>
-                            <viewsku module="data2data" translate="title">
-                                <title>View SKU Table</title>
-                                <sort_order>10</sort_order>
-                                <action>data2data/adminhtml_sku</action>
-                            </viewsku>
-                        </children>
-					</inventory>
-				</children>
-			</catalog>
-		</menu>
-
-		<translate>
-			<modules>
-				<Vikont_Data2data>
-					<files>
-						<default>Vikont_Data2data.csv</default>
-					</files>
-				</Vikont_Data2data>
-			</modules>
-		</translate>
-
-		<acl>
-			<resources>
-				<all>
-					<title>Allow Everything</title>
-				</all>
-				<admin>
-					<children>
-						<catalog>
-							<children>
-								<inventory module="data2data" translate="title">
-                                    <title>Inventory</title>
-									<children>
-										<viewsku module="data2data" translate="title">
-											<title>View SKU Table</title>
-										</viewsku>
-									</children>
-								</inventory>
-							</children>
-						</catalog>
-						<system>
-							<children>
-								<config>
-									<children>
-										<data2data module="data2data" translate="title">
-											<title>Data2data</title>
-											<sort_order>1000</sort_order>
-										</data2data>
-									</children>
-								</config>
-							</children>
-						</system>
-					</children>
-				</admin>
-			</resources>
-		</acl>
-
-		<layout>
-			<updates>
-				<data2data>
-					<file>vikont/data2data.xml</file>
-				</data2data>
-			</updates>
-		</layout>-->
-
-	</adminhtml>
-
-
-	<global>
-
-<!--		<blocks>
-			<data2data>
-				<class>Vikont_Data2data_Block</class>
-			</data2data>
-		</blocks>-->
-
-		<helpers>
-			<data2data>
-				<class>Vikont_Data2data_Helper</class>
-			</data2data>
-		</helpers>
-
-<!--		<models>
-			<data2data>
-				<class>Vikont_Data2data_Model</class>
-				<resourceModel>data2data_mysql4</resourceModel>
-			</data2data>
-			<oemdb>
-				<class>Vikont_Data2data_Model</class>
-				<resourceModel>oemdb_mysql4</resourceModel>
-			</oemdb>
-		</models>-->
-
-		<resources>
-			<data2data_setup>
-				<setup>
-					<module>Vikont_Data2data</module>
-				</setup>
-				<connection>
-					<use>core_setup</use>
-				</connection>
-			</data2data_setup>
-			<data2data_write>
-				<connection>
-					<use>core_write</use>
-				</connection>
-			</data2data_write>
-			<data2data_read>
-				<connection>
-					<use>core_read</use>
-				</connection>
-			</data2data_read>
-		</resources>
-
-		<events>
-		</events>
-	</global>
-
-	<default>
-		<data2data>
-			<general>
-				<enabled>1</enabled>
-				<keeplog>1</keeplog>
-			</general>
-		</data2data>
-	</default>
-
-</config>
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_Data2data>
+			<version>1.0</version>
+		</Vikont_Data2data>
+	</modules>
+
+
+	<frontend>
+<!--		<layout>
+			<updates>
+				<data2data>
+					<file>data2data.xml</file>
+				</data2data>
+			</updates>
+		</layout>-->
+
+<!--		<translate>
+			<modules>
+				<Vikont_Data2data>
+					<files>
+						<default>Vikont_Data2data.csv</default>
+					</files>
+				</Vikont_Data2data>
+			</modules>
+		</translate>-->
+	</frontend>
+
+
+	<admin>
+		<routers>
+			<data2data>
+				<use>admin</use>
+				<args>
+					<module>Vikont_Data2data</module>
+					<frontName>data2data</frontName>
+				</args>
+			</data2data>
+		</routers>
+	</admin>
+
+
+	<adminhtml>
+
+<!--		<menu>
+			<catalog>
+				<children>
+					<inventory module="data2data" translate="title">
+						<title>Inventory</title>
+						<sort_order>999</sort_order>
+                        <children>
+                            <viewsku module="data2data" translate="title">
+                                <title>View SKU Table</title>
+                                <sort_order>10</sort_order>
+                                <action>data2data/adminhtml_sku</action>
+                            </viewsku>
+                        </children>
+					</inventory>
+				</children>
+			</catalog>
+		</menu>
+
+		<translate>
+			<modules>
+				<Vikont_Data2data>
+					<files>
+						<default>Vikont_Data2data.csv</default>
+					</files>
+				</Vikont_Data2data>
+			</modules>
+		</translate>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<catalog>
+							<children>
+								<inventory module="data2data" translate="title">
+                                    <title>Inventory</title>
+									<children>
+										<viewsku module="data2data" translate="title">
+											<title>View SKU Table</title>
+										</viewsku>
+									</children>
+								</inventory>
+							</children>
+						</catalog>
+						<system>
+							<children>
+								<config>
+									<children>
+										<data2data module="data2data" translate="title">
+											<title>Data2data</title>
+											<sort_order>1000</sort_order>
+										</data2data>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+		<layout>
+			<updates>
+				<data2data>
+					<file>vikont/data2data.xml</file>
+				</data2data>
+			</updates>
+		</layout>-->
+
+	</adminhtml>
+
+
+	<global>
+
+<!--		<blocks>
+			<data2data>
+				<class>Vikont_Data2data_Block</class>
+			</data2data>
+		</blocks>-->
+
+		<helpers>
+			<data2data>
+				<class>Vikont_Data2data_Helper</class>
+			</data2data>
+		</helpers>
+
+<!--		<models>
+			<data2data>
+				<class>Vikont_Data2data_Model</class>
+				<resourceModel>data2data_mysql4</resourceModel>
+			</data2data>
+			<oemdb>
+				<class>Vikont_Data2data_Model</class>
+				<resourceModel>oemdb_mysql4</resourceModel>
+			</oemdb>
+		</models>-->
+
+		<resources>
+			<data2data_setup>
+				<setup>
+					<module>Vikont_Data2data</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</data2data_setup>
+			<data2data_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</data2data_write>
+			<data2data_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</data2data_read>
+		</resources>
+
+		<events>
+		</events>
+	</global>
+
+	<default>
+		<data2data>
+			<general>
+				<enabled>1</enabled>
+				<keeplog>1</keeplog>
+			</general>
+		</data2data>
+	</default>
+
+</config>

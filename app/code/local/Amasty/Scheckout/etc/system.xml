@@ -150,82 +150,55 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <payment_method translate="label">
-                            <label>Payment Method</label>
+                        <country translate="label">
+                            <label>Country</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <can_be_empty>1</can_be_empty>
-                            <source_model>amscheckout/system_config_source_payment_allowedmethods</source_model>
-                            <comment>
-
-                            </comment>
-                        </payment_method>
-                        <ship_same_address>
-                            <label>Ship to same address</label>
-                            <comment></comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>5</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </ship_same_address>
-                        <create_account>
-                            <label>Select "Create an account" checkbox</label>
-                            <comment></comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </create_account>
-                        <newsletter>
-                            <label>Select "Sign Up for Newsletter" checkbox</label>
+                            <can_be_empty>1</can_be_empty>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                        </country>
+                        <shipping_method translate="label">
+                            <label>Shipping Method</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </newsletter>
+                            <can_be_empty>1</can_be_empty>
+                            <source_model>amscheckout/shipping_allmethods</source_model>
+                        </shipping_method>
+                        <payment_method translate="label">
+                            <label>Payment Method</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <source_model>adminhtml/system_config_source_payment_allmethods</source_model>
+                            <comment>
+                                <![CDATA[
+                                    <script>
+                                        var amoption = new Element('option');
+                                        
+                                        if ($$('#amscheckout_default_payment_method option[selected=selected]').length == 0)
+                                            amoption.setAttribute('selected', true);
+                                            
+                                        $('amscheckout_default_payment_method').appendChild(amoption)
+                                        
+                                    </script>
+                                ]]>
+                            </comment>
+                        </payment_method>
+                        
                     </fields>
                 </default>
-            <sections>
-                <label>Sections</label>
-                <frontend_type>text</frontend_type>
-                <sort_order>25</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-                <fields>
-                    <coupon translate="label">
-                        <label>Discount Codes</label>
-                        <comment></comment>
-                        <frontend_type>select</frontend_type>
-                        <source_model>adminhtml/system_config_source_yesno</source_model>
-                        <sort_order>10</sort_order>
-                        <show_in_default>1</show_in_default>
-                        <show_in_website>1</show_in_website>
-                        <show_in_store>1</show_in_store>
-                    </coupon>
-                    <giftcard translate="label">
-                        <label>Gift Card</label>
-                        <comment>Available only for magento enterprise version</comment>
-                        <frontend_type>select</frontend_type>
-                        <source_model>adminhtml/system_config_source_yesno</source_model>
-                        <sort_order>20</sort_order>
-                        <show_in_default>1</show_in_default>
-                        <show_in_website>1</show_in_website>
-                        <show_in_store>1</show_in_store>
-                    </giftcard>
-                </fields>
-            </sections>
             <visual>
                     <label>Visual Options</label>
                     <frontend_type>text</frontend_type>

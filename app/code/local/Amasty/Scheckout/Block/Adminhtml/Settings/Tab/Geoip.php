@@ -69,15 +69,15 @@ class Amasty_Scheckout_Block_Adminhtml_Settings_Tab_Geoip extends Mage_Adminhtml
         );
         
         foreach($importTypes as $type){
-            $startUrl = $this->getUrl('*/amscheckout_import/start', array(
+            $startUrl = $this->getUrl('*/adminhtml_import/start', array(
                 'type' => $type
             ));
 
-            $processUrl = $this->getUrl('*/amscheckout_import/process', array(
+            $processUrl = $this->getUrl('*/adminhtml_import/process', array(
                 'type' => $type
             ));
 
-            $commitUrl = $this->getUrl('*/amscheckout_import/commit', array(
+            $commitUrl = $this->getUrl('*/adminhtml_import/commit', array(
                 'type' => $type
             ));
             

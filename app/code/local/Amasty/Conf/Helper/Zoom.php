@@ -61,7 +61,7 @@ class Amasty_Conf_Helper_Zoom extends Mage_Core_Helper_Abstract
              $param['zoom']["gallery"] = 'amasty_gallery';
             $param['zoom']["cursor"] = 'pointer';
             $param['zoom']["galleryActiveClass"] = 'active';
-            $param['zoom']["imageCrossfade"] = false;
+            $param['zoom']["imageCrossfade"] = true;
               
              $param['lightbox']['loop'] = intval(Mage::getStoreConfig('amconf/lightbox/circular_lightbox'));
              $param['lightbox']['prevEffect'] = Mage::getStoreConfig('amconf/lightbox/effect');

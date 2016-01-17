@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('amgeoip/location')}` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=MyISAM
+AUTO_INCREMENT=440001
 ;
 
 CREATE TABLE IF NOT EXISTS `{$installer->getTable('amgeoip/block')}` (
@@ -41,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('amgeoip/block')}` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=MyISAM
+AUTO_INCREMENT=1800001
 ;
 
 ");

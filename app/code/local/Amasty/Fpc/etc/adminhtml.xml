@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Fpc
+ */
+-->
+<config>
+    <translate>
+        <modules>
+            <Amasty_Fpc>
+                <files>
+                    <default>Amasty_Fpc.csv</default>
+                </files>
+            </Amasty_Fpc>
+        </modules>
+    </translate>
+    <menu>
+        <report>
+            <children>
+                <amfpccrawler>
+                    <children>
+                        <amfpc_stats translate="title" module="amfpccrawler">
+                            <title>Pages to Index</title>
+                            <action>adminhtml/amfpclog</action>
+                            <sort_order>40</sort_order>
+                        </amfpc_stats>
+                    </children>
+                </amfpccrawler>
+            </children>
+        </report>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <report>
+                        <children>
+                            <amfpccrawler>
+                                <children>
+                                    <amfpc_log>
+                                        <title>Pages to Index</title>
+                                    </amfpc_log>
+                                </children>
+                            </amfpccrawler>
+                        </children>
+                    </report>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amfpc translate="title" module="amfpc">
+                                        <title>Amasty Full Page Cache</title>
+                                    </amfpc>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

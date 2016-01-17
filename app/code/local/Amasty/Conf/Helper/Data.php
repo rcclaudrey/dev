@@ -8,7 +8,6 @@ class Amasty_Conf_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_USE_SIMPLE_PRICE     = 'amconf/general/use_simple_price';
     const XML_PATH_OPTIONS_IMAGE_SIZE   = 'amconf/list/listimg_size';
-    const ADMIN_OPTION_ITEMS_LIMIT      = 20;
 
     public function getImageUrl($optionId, $width, $height)
     {
@@ -38,10 +37,6 @@ class Amasty_Conf_Helper_Data extends Mage_Core_Helper_Abstract
         }
        
         return $url;
-    }
-
-    public function getLimit(){
-        return self::ADMIN_OPTION_ITEMS_LIMIT;
     }
 
     public function getPlaceholderUrl($attributeId, $width, $height)
@@ -101,24 +96,33 @@ class Amasty_Conf_Helper_Data extends Mage_Core_Helper_Abstract
     */
     public function getSimpleProductWithMinPrice($_product)
     {
-         if($_product->isConfigurable()){
+        if($_product->isConfigurable()){
                 
             $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($_product);
             $collection = $conf->getUsedProductCollection()
                                ->addAttributeToSelect('*')
                                ->addFilterByRequiredOptions()
-                                ->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
                                ->addStoreFilter(Mage::app()->getStore()->getId());
-
             Mage::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($collection);
 
-            $collection->addMinimalPrice()
-						->addFinalPrice()
-						->addTaxPercents();
-			$collection->getSelect()->reset('order');
-			$collection->getSelect()->order('minimal_price','asc');
-
-			return $collection->getFirstItem();
+            $tmp = array(
+                'min_price' => 0,
+                'product'    => null,
+            );
+            
+            foreach($collection as $simple){
+                $price = $simple->getFinalPrice();
+                if($tmp['min_price'] == 0){
+                    $tmp['min_price'] = $price;
+                    $tmp['product'] = $simple;
+                }
+                else if($price < $tmp['min_price']){
+                    $tmp['min_price'] = $price;
+                    $tmp['product'] = $simple;
+                }            
+            }
+            
+            if($tmp['product']) return $tmp['product'];
         }
         
         return  $_product;

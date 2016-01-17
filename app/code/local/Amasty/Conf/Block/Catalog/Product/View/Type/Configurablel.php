@@ -13,7 +13,7 @@ class Amasty_Conf_Block_Catalog_Product_View_Type_Configurablel extends Mage_Cat
     {
         parent::_construct();
 
-        if (version_compare(Mage::getVersion(), '1.9', '>=')){
+        if (version_compare(Mage::getVersion(), '1.8', '>=')){
             $productTag = 'catalog_product_' . $this->getProduct()->getId();
 
             $this->addData(array('cache_lifetime' => false));

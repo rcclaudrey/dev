@@ -25,10 +25,6 @@ class Amasty_Pgrid_Adminhtml_Ampgrid_FieldController extends Mage_Adminhtml_Cont
             )->load($productId);
         }
 
-        if ($field !== 'url_key' && $this->_getStore()->getId() != 0) {
-            $product->setUrlKey(false);
-        }
-
         $this->_product = $product;
     }
     
@@ -150,8 +146,8 @@ class Amasty_Pgrid_Adminhtml_Ampgrid_FieldController extends Mage_Adminhtml_Cont
                     switch ($columnProps[$field]['format']) {
                         case 'numeric':
                             if (false !== strpos($value, '+') || false !== strpos($value, '-')) {
-                                $value = preg_replace('@[^0-9\.+-]@', '', $value);
                                 if (   strpos($value, '+') != (strlen($value) - 1)  &&  strpos($value, '-') != (strlen($value) - 1)  ) {
+                                    $value = preg_replace('@[^0-9\.+-]@', '', $value);
                                     try {
                                         $toEval = '$value = ' . $value . ';';
                                         eval($toEval);
@@ -221,10 +217,8 @@ class Amasty_Pgrid_Adminhtml_Ampgrid_FieldController extends Mage_Adminhtml_Cont
                     $obj->setData('tax_class_id', $obj->getOrigData('tax_class_id'));
 
                     $obj->save();
-                    if (get_class($obj) !== get_class($this->_product)) {
-                        $this->_product->setData('updated_at', Mage::getModel('core/date')->timestamp(time()));
-                        $this->_product->save();
-                    }
+                    $this->_product->setData('updated_at', Mage::getModel('core/date')->timestamp(time()));
+                    $this->_product->save();
                     $this->_initProduct($productId, $field);
                     $obj = $this->_getObject($columnProps[$field]);
                 }

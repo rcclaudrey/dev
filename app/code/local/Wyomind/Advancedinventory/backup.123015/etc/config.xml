@@ -1,0 +1,409 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Wyomind_Advancedinventory>
+            <version>5.1.4</version>
+        </Wyomind_Advancedinventory>
+    </modules>
+    <stores>
+        <admin>
+            <design>
+                <package>
+                    <name>default</name>
+                </package>
+                <theme>
+                    <default>wyomind</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
+    <default>
+        <advancedinventory>
+            <license>
+                <version>5.1.4</version>
+            </license>
+            <setting>
+                <usemultistock>1</usemultistock>
+                <multiple_assignation_enabled>1</multiple_assignation_enabled>
+                <autoassign_order>1</autoassign_order>
+                <order_notification>1</order_notification>
+                <order_notification_from_date>2000-01-01</order_notification_from_date>
+                <disallow_assignation_status>canceled,holded,complete,fraud,closed</disallow_assignation_status>
+                <pos_permissions>*</pos_permissions>
+                <auto_update_stock_status>0</auto_update_stock_status>
+            </setting>
+            <system>
+                <productgrid>Mage_Adminhtml_Block_Catalog_Product_Grid</productgrid>
+                <ordergrid>Mage_Adminhtml_Block_Sales_Order_Grid</ordergrid>
+                <enableproductgrid>1</enableproductgrid>
+                <use_log>1</use_log>
+                <log_history>15</log_history>
+            </system>
+        </advancedinventory>
+    </default>
+    <frontend>
+        <routers>
+            <pointofsale>
+                <use>standard</use>
+                <args>
+                    <module>Wyomind_Advancedinventory</module>
+                    <frontName>Advancedinventory</frontName>
+                </args>
+            </pointofsale>
+        </routers>
+      
+        <translate>
+            <modules>
+                <Wyomind_Advancedinventory>
+                    <files>
+                        <default>Wyomind_Advancedinventory.csv</default>
+                    </files>
+                </Wyomind_Advancedinventory>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <advancedinventory>
+                    <file>advancedinventory.xml</file>
+                </advancedinventory>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        
+        <routers>
+           
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Wyomind_Advancedinventory before="Mage_Adminhtml">Wyomind_Advancedinventory_Adminhtml</Wyomind_Advancedinventory>
+                    </modules>
+                </args> 
+            </adminhtml>
+        </routers>    
+    </admin>
+    <adminhtml>
+        <menu> 
+            <catalog>
+                <children>
+                    <stocks translate="title" module="advancedinventory">
+                        <title>Manage Stocks</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/stocks</action>
+                    </stocks>
+                </children>
+               
+            </catalog>
+            <sales>
+                <children>
+                    <pointofsale translate="title" module="pointofsale">
+                        <title>POS / Warehouses</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/manage</action>
+                        <children>
+                            <grid translate="title" module="pointofsale">
+                                <title>Manage POS / Warehouses</title>
+                                <sort_order>1</sort_order>
+                                <action>adminhtml/manage</action>
+                            </grid>
+                            <permissions translate="title" module="advancedinventory">
+                                <title>Manage Users Permissions</title>
+                                <sort_order>2</sort_order>
+                                <action>adminhtml/permissions</action>
+                            </permissions>
+                            <log translate="title" module="advancedinventory">
+                                <title>Stock movement journal</title>
+                                <sort_order>3</sort_order>
+                                <action>adminhtml/log</action>
+                            </log>
+                        </children>
+                    </pointofsale>
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <catalog>
+                            <children>
+                                <stocks translate="title" module="advancedinventory">
+                                    <title>Manage Stocks</title>
+                                </stocks>
+                                <products translate="title">
+                                    <title>Manage Products</title>
+                                    <children>	                            
+                                        <advancedinventory translate="title" module="advancedinventory">
+                                            <title>Manage Stocks</title>
+                                        </advancedinventory>
+                                    </children>
+                                </products>
+                            </children>
+                        </catalog>
+                        <sales>
+                            <children>
+                                <pointofsale>
+                                   
+                                    <children>
+                                        <permissions translate="title" module="advancedinventory">
+                                            <title>Manage user permissions</title>
+                                        </permissions>
+                                        <log translate="title" module="advancedinventory">
+                                            <title>Stock movement journal</title>
+                                        </log>
+                                    </children>
+                                      
+                                </pointofsale>
+                            </children>
+                        </sales>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <advancedinventory>
+                                            <title>Advanced Inventory</title>
+                                        </advancedinventory>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Wyomind_Advancedinventory>
+                    <files>
+                        <default>Wyomind_Advancedinventory.csv</default>
+                    </files>
+                </Wyomind_Advancedinventory>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <advancedinventory>
+                    <file>advancedinventory.xml</file>
+                </advancedinventory>
+            </updates>
+        </layout>
+        <events>
+           
+            <adminhtml_block_html_before>
+                <observers>
+                    <wyomind_advancedinventory_grid_column>
+                        <type>model</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>addActionColumn</method> 
+                    </wyomind_advancedinventory_grid_column>
+                </observers>
+            </adminhtml_block_html_before>
+            <sales_order_grid_collection_load_before>
+                <observers>
+                    <wyomind_advancedinventory_order_prepare_collection>
+                        <type>model</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>prepareOrderGridCollection</method> 
+                    </wyomind_advancedinventory_order_prepare_collection>
+                </observers>
+            </sales_order_grid_collection_load_before>
+            <sales_order_creditmemo_refund>
+                <observers>
+                    <wyomind_advancedinventory_sales_creditmemo_item_save_after>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>refund</method>
+                    </wyomind_advancedinventory_sales_creditmemo_item_save_after>
+                </observers> 
+            </sales_order_creditmemo_refund> 
+            <catalog_product_prepare_save>
+                <observers>
+                    <wyomind_advancedinventory_catalog_product_prepare_save>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>productSave</method>
+                    </wyomind_advancedinventory_catalog_product_prepare_save>
+                </observers> 
+            </catalog_product_prepare_save> 
+            <admin_system_config_changed_section_advancedinventory>
+                <observers>
+                    <wyomind_advancedinventory_save_config>
+                        <type>model</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>saveConfig</method>
+                    </wyomind_advancedinventory_save_config>
+                </observers>
+            </admin_system_config_changed_section_advancedinventory>
+            <admin_system_config_changed_section_cataloginventory>
+                <observers>
+                    <wyomind_advancedinventory_save_config>
+                        <type>model</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>saveInventory</method>
+                    </wyomind_advancedinventory_save_config>
+                </observers>
+            </admin_system_config_changed_section_cataloginventory>
+        </events> 
+    </adminhtml>
+    <global>
+      
+        
+        <models>
+            <advancedinventory>
+                <class>Wyomind_Advancedinventory_Model</class>
+                <resourceModel>advancedinventory_mysql4</resourceModel>
+            </advancedinventory>
+            <advancedinventory_mysql4>
+                <class>Wyomind_Advancedinventory_Model_Mysql4</class>
+                <entities>
+                    <stock>
+                        <table>advancedinventory_stock</table>
+                    </stock>
+                    <item>
+                        <table>advancedinventory_item</table>
+                    </item>
+                    <log>
+                        <table>advancedinventory_log</table>
+                    </log>
+                </entities>
+            </advancedinventory_mysql4>
+            <bundle>
+                <rewrite>
+                    <product_type>Wyomind_Advancedinventory_Model_Bundle_Product_Type</product_type>
+                </rewrite>
+            </bundle>
+            <cataloginventory>
+                <rewrite>
+                    <stock_item>Wyomind_Advancedinventory_Model_CatalogInventory_Stock_Item</stock_item>
+                </rewrite>
+            </cataloginventory>
+            <catalog_resource>
+                <rewrite>
+                    <product_collection>Wyomind_Advancedinventory_Model_Resource_Product_Collection</product_collection>
+                </rewrite>
+            </catalog_resource>
+            <catalog_resource_eav_mysql4>
+                <rewrite>
+                    <product_collection>Wyomind_Advancedinventory_Model_Resource_Eav_Mysql4_Product_Collection</product_collection>
+                </rewrite>
+            </catalog_resource_eav_mysql4>  
+           
+            <paypal>
+                <rewrite>
+                    <express>Wyomind_Advancedinventory_Model_Paypal_Express</express>
+                </rewrite>
+                <rewrite>
+                    <ipn>Wyomind_Advancedinventory_Model_Paypal_Ipn</ipn>
+                </rewrite>
+            </paypal>
+           
+        </models>
+        <resources>
+            <advancedinventory_setup>
+                <setup>
+                    <module>Wyomind_Advancedinventory</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </advancedinventory_setup>
+            <advancedinventory_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </advancedinventory_write>
+            <advancedinventory_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </advancedinventory_read>
+        </resources>
+        <blocks>
+            <advancedinventory>
+                <class>Wyomind_Advancedinventory_Block</class>
+            </advancedinventory>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tab_inventory>Wyomind_Advancedinventory_Block_Adminhtml_Catalog_Product_Edit_Tab_Inventory</catalog_product_edit_tab_inventory>
+                </rewrite>
+            </adminhtml>
+            
+            <pointofsale>
+                <rewrite>
+                    <adminhtml_manage_grid>Wyomind_Advancedinventory_Block_Adminhtml_Pointofsale_Manage_Grid</adminhtml_manage_grid>
+                    <adminhtml_manage_edit_tabs>Wyomind_Advancedinventory_Block_Adminhtml_Pointofsale_Edit_Tabs</adminhtml_manage_edit_tabs>
+                </rewrite>
+            </pointofsale>
+        </blocks>
+        <helpers>
+            <advancedinventory>
+                <class>Wyomind_Advancedinventory_Helper</class>
+            </advancedinventory>
+        </helpers>
+        <events>
+            
+            <catalog_product_is_salable_after>
+                <observers>
+                    <wyomind_advancedinventory_catalog_product_saleable_observer>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>saleable</method>
+                    </wyomind_advancedinventory_catalog_product_saleable_observer>
+                </observers>
+            </catalog_product_is_salable_after>
+      
+            <m2epro_order_place_success>
+                <observers>
+                    <wyomind_advancedinventory_inventory_assignation_m2e>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>setAssignationM2e</method>
+                    </wyomind_advancedinventory_inventory_assignation_m2e>
+                </observers>
+            </m2epro_order_place_success>
+            <wyomind_advancedinventory_paypal_order_place_success>
+                <observers>
+                    <wyomind_advancedinventory_inventory_assignation>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>setAssignation</method>
+                    </wyomind_advancedinventory_inventory_assignation>
+                </observers>
+            </wyomind_advancedinventory_paypal_order_place_success>
+            <checkout_submit_all_after>
+                <observers>
+                    <wyomind_advancedinventory_checkout_submit_all_after_observer>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>setAssignation</method>
+                    </wyomind_advancedinventory_checkout_submit_all_after_observer>
+                </observers>
+            </checkout_submit_all_after>
+            <sales_order_payment_cancel>
+                <observers>
+                    <wyomind_advancedinventory_sales_order_payment_cancel_observer>
+                        <type>singleton</type>
+                        <class>Wyomind_Advancedinventory_Model_Observer</class>
+                        <method>cancel</method>
+                    </wyomind_advancedinventory_sales_order_payment_cancel_observer>
+                </observers>
+            </sales_order_payment_cancel>
+        </events>
+    </global>
+    <crontab>
+        <jobs>
+            <advancedinventory_clean_log>
+                <schedule>
+                    <cron_expr>*/30 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>advancedinventory/log::clean</model>
+                </run>
+            </advancedinventory_clean_log>
+        </jobs>
+    </crontab>
+</config>

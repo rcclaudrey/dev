@@ -7,47 +7,107 @@
 class Amasty_Conf_Block_Adminhtml_Catalog_Product_Attribute_Edit_Tab_Images extends Mage_Core_Block_Template
 {
     private $_confAttr;
-    protected $_page = 1;
-    protected $_collection;
-    protected $_attrId;
-
+    
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('amasty/amconf/icons/images.phtml');
-        if (Mage::registry('entity_attribute') && Mage::registry('entity_attribute')->getId()) {
-           $this->setAttribute(Mage::registry('entity_attribute')->getId());
+        $this->setTemplate('amasty/amconf/icons.phtml');
+        $this->_doUpload();
+        $this->_confAttr = Mage::getModel('amconf/attribute')->load(Mage::registry('entity_attribute')->getId(), 'attribute_id');
+    }
+    
+    protected function _doUpload()
+    {
+        
+        if (Mage::app()->getRequest()->isPost())
+        {
+            // saving attribute 'use_image' property
+            $confAttr = Mage::getModel('amconf/attribute')->load(Mage::registry('entity_attribute')->getId(), 'attribute_id');
+            if (!$confAttr->getId())
+            {
+                $confAttr->setAttributeId(Mage::registry('entity_attribute')->getId());
+            }
+
+            $confAttr->setUseImage(intval(Mage::app()->getRequest()->getPost('amconf_useimages')));
+            
+            $confAttr->setSmallWidth(intval(Mage::app()->getRequest()->getPost('small_width')));
+            $confAttr->setSmallHeight(intval(Mage::app()->getRequest()->getPost('small_height')));
+            
+            $confAttr->setUseTooltip(intval(Mage::app()->getRequest()->getPost('amconf_usetooltip')));
+            
+            if(intval(Mage::app()->getRequest()->getPost('amconf_usetooltip'))) {
+                $confAttr->setBigWidth(intval(Mage::app()->getRequest()->getPost('big_width')));
+                $confAttr->setBigHeight(intval(Mage::app()->getRequest()->getPost('big_height')));
+            }
+            
+            $confAttr->save();
         }
+
+        $uploadDir = Mage::getBaseDir('media') . DS . 'amconf' . DS . 'images' . DS;
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+                                                    
+        /**
+        * Deleting
+        */
+        $toDelete = Mage::app()->getRequest()->getPost('amconf_icon_delete');
+        if ($toDelete)
+        {
+            foreach ($toDelete as $optionId => $del)
+            {
+                if ($del)
+                {
+                    @unlink($uploadDir . $optionId . '.jpg');
+                }
+            }
+        }
+        
+        /**
+        * Uploading files
+        */
+        if (isset($_FILES['amconf_icon']) && isset($_FILES['amconf_icon']['error']))
+        {
+            foreach ($_FILES['amconf_icon']['error'] as $optionId => $errorCode)
+            {
+                if (UPLOAD_ERR_OK == $errorCode && $confAttr && $confAttr->getId())
+                {
+                    move_uploaded_file($_FILES['amconf_icon']['tmp_name'][$optionId], $uploadDir . $optionId . '.jpg');
+                    if (!file_exists($uploadDir . $optionId . '.jpg'))
+                    {
+                        Mage::getSingleton('catalog/session')->addSuccess($this->__('File was not uploaded. Please check permissions to folder media/amconf/images(need 0777 recursively)'));
+                    }                    
+                }
+            }
+        }
+
     }
-
-    public function setPage($page){
-        $this->_page = $page;
-        return $this;
+    
+    public function getConfAttr()
+    {
+        return $this->_confAttr;
     }
-
-    public function setAttribute($attributeId){
-        $this->_confAttr = Mage::getModel('amconf/attribute')->load($attributeId, 'attribute_id');
-        $this->_attrId = $attributeId;
-
-        $this->getOptionsCollection()->setPageSize(Mage::helper('amconf')->getLimit());
-        $this->getOptionsCollection()->setCurPage((int)$this->_page);
-
-        return $this;
+    
+    private function _resizeImage($basePath, $newPath, $width, $height)
+    {
+        //$basePath - origin file location
+        $imageObj = new Varien_Image($basePath);
+        $imageObj->constrainOnly(TRUE);
+        $imageObj->keepAspectRatio(FALSE);
+        $imageObj->keepFrame(FALSE);
+        //$width, $height - sizes you need (Note: when keepAspectRatio(TRUE), height would be ignored)
+        $imageObj->resize($width, $height);
+        //$newPath - name of resized image
+        $imageObj->save($newPath);
     }
-
+    
     public function getOptionsCollection()
     {
-        if(!$this->_collection){
-            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
-                ->setAttributeFilter( $this->_attrId )
-                ->setPositionOrder('desc', true);
-
-            $limit = Mage::helper('amconf')->getLimit();
-            $optionCollection->getSelect()->limitPage($this->_page,  $limit);
-
-            $this->_collection = $optionCollection;//->load();
-        }
-        return $this->_collection;
+        $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                ->setAttributeFilter(Mage::registry('entity_attribute')->getId())
+                ->setPositionOrder('desc', true)
+                ->load();
+        return $optionCollection;
     }
     
     public function getIcon($option)

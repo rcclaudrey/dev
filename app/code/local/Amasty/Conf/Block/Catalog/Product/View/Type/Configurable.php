@@ -87,7 +87,7 @@ class Amasty_Conf_Block_Catalog_Product_View_Type_Configurable extends Mage_Cata
                             $confData[$strKey]['price_clone_html'] = str_replace('product-price-' . $simple->getId(), 'product-price-' . $this->getProduct()->getId(), $this->getPriceHtml($simple, false, '_clone') . $tierPriceHtml);
 
                             // the price value is required for product list/grid
-                            $confData[$strKey]['price'] = Mage::helper('core')->currency($simple->getFinalPrice(), false, false);
+                            $confData[$strKey]['price'] = $simple->getFinalPrice();
                         }
                         
                         if ($simple->getImage() && $simple->getImage() !="no_selection" && in_array('image', $reloadValues))
@@ -110,9 +110,7 @@ class Amasty_Conf_Block_Catalog_Product_View_Type_Configurable extends Mage_Cata
                             else{
                                 //for changing only after first select 
                             }
-                        }
-                       
-                        
+                        }   
                     }
                 }
                 if (Mage::getStoreConfig('amconf/general/show_clear'))

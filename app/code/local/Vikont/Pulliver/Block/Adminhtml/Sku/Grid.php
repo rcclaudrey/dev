@@ -16,6 +16,10 @@ class Vikont_Pulliver_Block_Adminhtml_Sku_Grid extends Mage_Adminhtml_Block_Widg
 		'd_suzuki' => 'Suzuki',
 		'd_yamaha' => 'Yamaha',
 		'd_troylee' => 'Troy Lee',
+		'd_oakley' => 'Oakley',
+		'd_motonation' => 'MotoNation',
+		'd_leatt' => 'Leatt',
+		'd_bellhelm' => 'Bell Helmets',
 	);
 
 

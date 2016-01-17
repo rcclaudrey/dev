@@ -10,14 +10,12 @@
  * @method string getCond()
  * @method Amasty_Shopby_Model_Page setCats($cats)
  * @method string getCats()
- * @method int getCmsBlockId()
- * @method int getBottomCmsBlockId()
+ * @method int getCmsBlockId
  * @method string getMetaDescr()
  * @method string getMetaKw()
  * @method string getMetaTitle()
  * @method Amasty_Shopby_Model_Page setUrl(string $url)
  * @method string getTitle()
- * @method string getDescription()
  * @method string getUrl()
  * @method boolean getUseCat()
  */

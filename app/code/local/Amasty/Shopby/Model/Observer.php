@@ -105,7 +105,7 @@ class Amasty_Shopby_Model_Observer
 
         $blocks = array();
         foreach ($layout->getAllBlocks() as $b){
-            if (!in_array($b->getNameInLayout(), array('amshopby.navleft', 'amshopby.navleft2','amshopby.navtop','amshopby.navright', 'amshopby.top', 'amshopby.bottom', 'amfinder89'))){
+            if (!in_array($b->getNameInLayout(), array('amshopby.navleft','amshopby.navtop','amshopby.navright', 'amshopby.top', 'amshopby.bottom', 'amfinder89'))){
                 continue;
             }
             $b->setIsAjax(true);
@@ -138,7 +138,11 @@ class Amasty_Shopby_Model_Observer
 
     protected function _removeAjaxParam($html)
     {
-        // TODO: Keeps excess "?" symbol
+        // Now "is_ajax" parameter stripped in URL Builder
+//        $html = preg_replace('@[\?&]?is_ajax=1([^&])@', '$1', $html);
+//        $html = str_replace('is_ajax=1&amp;', '', $html);
+//        $html = str_replace('is_ajax=1&', '', $html);
+
         $html = str_replace('___SID=U', '', $html);
 
         return $html;

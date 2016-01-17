@@ -1,256 +1,269 @@
-<?xml version="1.0"?>
-<config>
-
-	<modules>
-		<Vikont_Pulliver>
-			<version>1.0</version>
-		</Vikont_Pulliver>
-	</modules>
-
-
-	<frontend>
-<!--		<layout>
-			<updates>
-				<pulliver>
-					<file>pulliver.xml</file>
-				</pulliver>
-			</updates>
-		</layout>-->
-
-		<translate>
-			<modules>
-				<Vikont_Pulliver>
-					<files>
-						<default>Vikont_Pulliver.csv</default>
-					</files>
-				</Vikont_Pulliver>
-			</modules>
-		</translate>
-	</frontend>
-
-
-	<admin>
-		<routers>
-			<pulliver>
-				<use>admin</use>
-				<args>
-					<module>Vikont_Pulliver</module>
-					<frontName>pulliver</frontName>
-				</args>
-			</pulliver>
-		</routers>
-	</admin>
-
-
-	<adminhtml>
-
-		<menu>
-			<catalog>
-				<children>
-					<inventory module="pulliver" translate="title">
-						<title>Inventory</title>
-						<sort_order>999</sort_order>
-                        <children>
-                            <viewsku module="pulliver" translate="title">
-                                <title>View SKU Table</title>
-                                <sort_order>10</sort_order>
-                                <action>pulliver/adminhtml_sku</action>
-                            </viewsku>
-                        </children>
-					</inventory>
-				</children>
-			</catalog>
-		</menu>
-
-		<translate>
-			<modules>
-				<Vikont_Pulliver>
-					<files>
-						<default>Vikont_Pulliver.csv</default>
-					</files>
-				</Vikont_Pulliver>
-			</modules>
-		</translate>
-
-		<acl>
-			<resources>
-				<all>
-					<title>Allow Everything</title>
-				</all>
-				<admin>
-					<children>
-						<catalog>
-							<children>
-								<inventory module="pulliver" translate="title">
-                                    <title>Inventory</title>
-									<children>
-										<viewsku module="pulliver" translate="title">
-											<title>View SKU Table</title>
-										</viewsku>
-									</children>
-								</inventory>
-							</children>
-						</catalog>
-						<system>
-							<children>
-								<config>
-									<children>
-										<pulliver module="pulliver" translate="title">
-											<title>Pulliver</title>
-											<sort_order>1000</sort_order>
-										</pulliver>
-									</children>
-								</config>
-							</children>
-						</system>
-					</children>
-				</admin>
-			</resources>
-		</acl>
-
-		<layout>
-			<updates>
-				<pulliver>
-					<file>vikont/pulliver.xml</file>
-				</pulliver>
-			</updates>
-		</layout>
-
-	</adminhtml>
-
-
-	<global>
-
-		<blocks>
-			<pulliver>
-				<class>Vikont_Pulliver_Block</class>
-			</pulliver>
-<!--            <adminhtml>
-                <rewrite>
-                    <catalog_product_grid>Vikont_Pulliver_Block_Adminhtml_Catalog_Product_Grid</catalog_product_grid>
-                </rewrite>
-            </adminhtml>-->
-		</blocks>
-
-		<helpers>
-			<pulliver>
-				<class>Vikont_Pulliver_Helper</class>
-			</pulliver>
-		</helpers>
-
-		<models>
-			<pulliver>
-				<class>Vikont_Pulliver_Model</class>
-				<resourceModel>pulliver_mysql4</resourceModel>
-			</pulliver>
-			<oemdb>
-				<class>Vikont_Pulliver_Model</class>
-				<resourceModel>oemdb_mysql4</resourceModel>
-			</oemdb>
-			<oemdb_mysql4>
-                <class>Vikont_Pulliver_Model_Mysql4</class>
-                <entities>
-                    <sku>
-                        <table>sku</table>
-                    </sku>
-                    <price>
-                        <table>oem_prices</table>
-                    </price>
-                </entities>
-            </oemdb_mysql4>
-<!--			<catalogsearch>
-				<rewrite>
-					<layer>Vikont_Pulliver_Model_Catalogsearch_Layer</layer>
-				</rewrite>
-			</catalogsearch>-->
-		</models>
-
-		<resources>
-			<pulliver_setup>
-				<setup>
-					<module>Vikont_Pulliver</module>
-				</setup>
-				<connection>
-					<use>core_setup</use>
-				</connection>
-			</pulliver_setup>
-			<pulliver_write>
-				<connection>
-					<use>core_write</use>
-				</connection>
-			</pulliver_write>
-			<pulliver_read>
-				<connection>
-					<use>core_read</use>
-				</connection>
-			</pulliver_read>
-
-			<oemdb_read>
-				<connection>
-					<use>oemdb_database</use>
-				</connection>
-            </oemdb_read>
-			<oemdb_write>
-				<connection>
-					<use>oemdb_database</use>
-				</connection>
-            </oemdb_write>
-		</resources>
-
-		<events>
-		</events>
-	</global>
-
-	<default>
-		<pulliver>
-			<general>
-				<enabled>1</enabled>
-				<keeplog>1</keeplog>
-				<import_location>var/import/pulliver</import_location>
-			</general>
-			<lightspeed>
-				<base_url>https://int.lightspeedadp.com/lsapi/Part/</base_url>
-				<username></username>
-				<password></password>
-				<retail>76014846</retail>
-				<warehouse>76166290</warehouse>
-			</lightspeed>
-			<tucker_rocky>
-				<base_url>ftp.tuckerrocky.com</base_url>
-				<username></username>
-				<password></password>
-				<master>itemmstrnew</master>
-				<inventory>invlist</inventory>
-			</tucker_rocky>
-			<troy_lee>
-				<base_url></base_url>
-			</troy_lee>
-			<fox_racing>
-				<base_url>ftp.foxracing.com</base_url>
-				<username></username>
-				<password></password>
-				<remote_filename>ProdInvFile.txt</remote_filename>
-			</fox_racing>
-			<parts_unlimited>
-				<dealer_code></dealer_code>
-				<username></username>
-				<password></password>
-				<login_url>https://www.lemansnet.com/login</login_url>
-				<pricing_url>https://www.lemansnet.com/pricing/2013/pos</pricing_url>
-			</parts_unlimited>
-			<helmet_house>
-				<base_url>ftp.helmethouse.com</base_url>
-				<username></username>
-				<password></password>
-				<remote_filename>xmitinv.csv</remote_filename>
-			</helmet_house>
-			<western_power>
-				<base_url>ftp.wpsstatic.com</base_url>
-				<username>wps</username>
-				<password></password>
-				<remote_filename>Pricing/WPS_Daily_Inventory.csv</remote_filename>
-			</western_power>
-		</pulliver>
-	</default>
-
-</config>
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_Pulliver>
+			<version>1.0</version>
+		</Vikont_Pulliver>
+	</modules>
+
+
+	<frontend>
+<!--		<layout>
+			<updates>
+				<pulliver>
+					<file>pulliver.xml</file>
+				</pulliver>
+			</updates>
+		</layout>-->
+
+		<translate>
+			<modules>
+				<Vikont_Pulliver>
+					<files>
+						<default>Vikont_Pulliver.csv</default>
+					</files>
+				</Vikont_Pulliver>
+			</modules>
+		</translate>
+	</frontend>
+
+
+	<admin>
+		<routers>
+			<pulliver>
+				<use>admin</use>
+				<args>
+					<module>Vikont_Pulliver</module>
+					<frontName>pulliver</frontName>
+				</args>
+			</pulliver>
+		</routers>
+	</admin>
+
+
+	<adminhtml>
+
+		<menu>
+			<catalog>
+				<children>
+					<inventory module="pulliver" translate="title">
+						<title>Inventory</title>
+						<sort_order>999</sort_order>
+                        <children>
+                            <viewsku module="pulliver" translate="title">
+                                <title>View SKU Table</title>
+                                <sort_order>10</sort_order>
+                                <action>pulliver/adminhtml_sku</action>
+                            </viewsku>
+                        </children>
+					</inventory>
+				</children>
+			</catalog>
+		</menu>
+
+		<translate>
+			<modules>
+				<Vikont_Pulliver>
+					<files>
+						<default>Vikont_Pulliver.csv</default>
+					</files>
+				</Vikont_Pulliver>
+			</modules>
+		</translate>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<catalog>
+							<children>
+								<inventory module="pulliver" translate="title">
+                                    <title>Inventory</title>
+									<children>
+										<viewsku module="pulliver" translate="title">
+											<title>View SKU Table</title>
+										</viewsku>
+									</children>
+								</inventory>
+							</children>
+						</catalog>
+						<system>
+							<children>
+								<config>
+									<children>
+										<pulliver module="pulliver" translate="title">
+											<title>Pulliver</title>
+											<sort_order>1000</sort_order>
+										</pulliver>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+		<layout>
+			<updates>
+				<pulliver>
+					<file>vikont/pulliver.xml</file>
+				</pulliver>
+			</updates>
+		</layout>
+
+	</adminhtml>
+
+
+	<global>
+
+		<blocks>
+			<pulliver>
+				<class>Vikont_Pulliver_Block</class>
+			</pulliver>
+<!--            <adminhtml>
+                <rewrite>
+                    <catalog_product_grid>Vikont_Pulliver_Block_Adminhtml_Catalog_Product_Grid</catalog_product_grid>
+                </rewrite>
+            </adminhtml>-->
+		</blocks>
+
+		<helpers>
+			<pulliver>
+				<class>Vikont_Pulliver_Helper</class>
+			</pulliver>
+		</helpers>
+
+		<models>
+			<pulliver>
+				<class>Vikont_Pulliver_Model</class>
+				<resourceModel>pulliver_mysql4</resourceModel>
+			</pulliver>
+			<oemdb>
+				<class>Vikont_Pulliver_Model</class>
+				<resourceModel>oemdb_mysql4</resourceModel>
+			</oemdb>
+			<oemdb_mysql4>
+                <class>Vikont_Pulliver_Model_Mysql4</class>
+                <entities>
+                    <sku>
+                        <table>sku</table>
+                    </sku>
+                    <price>
+                        <table>oem_prices</table>
+                    </price>
+                </entities>
+            </oemdb_mysql4>
+<!--			<catalogsearch>
+				<rewrite>
+					<layer>Vikont_Pulliver_Model_Catalogsearch_Layer</layer>
+				</rewrite>
+			</catalogsearch>-->
+		</models>
+
+		<resources>
+			<pulliver_setup>
+				<setup>
+					<module>Vikont_Pulliver</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</pulliver_setup>
+			<pulliver_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</pulliver_write>
+			<pulliver_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</pulliver_read>
+
+			<oemdb_read>
+				<connection>
+					<use>oemdb_database</use>
+				</connection>
+            </oemdb_read>
+			<oemdb_write>
+				<connection>
+					<use>oemdb_database</use>
+				</connection>
+            </oemdb_write>
+		</resources>
+
+		<events>
+		</events>
+	</global>
+
+	<default>
+		<pulliver>
+			<general>
+				<enabled>1</enabled>
+				<keeplog>1</keeplog>
+				<import_location>var/import/pulliver</import_location>
+			</general>
+			<lightspeed>
+				<base_url>https://int.lightspeedadp.com/lsapi/Part/</base_url>
+				<username></username>
+				<password></password>
+				<retail>76014846</retail>
+				<warehouse>76166290</warehouse>
+			</lightspeed>
+			<tucker_rocky>
+				<base_url>ftp.tuckerrocky.com</base_url>
+				<username></username>
+				<password></password>
+				<master>itemmstrnew</master>
+				<inventory>invlist</inventory>
+			</tucker_rocky>
+			<troy_lee>
+				<base_url></base_url>
+			</troy_lee>
+			<fox_racing>
+				<base_url>ftp.foxracing.com</base_url>
+				<username></username>
+				<password></password>
+				<remote_filename>ProdInvFile.txt</remote_filename>
+			</fox_racing>
+			<parts_unlimited>
+				<dealer_code></dealer_code>
+				<username></username>
+				<password></password>
+				<login_url>https://www.lemansnet.com/login</login_url>
+				<pricing_url>https://www.lemansnet.com/pricing/2013/pos</pricing_url>
+			</parts_unlimited>
+			<helmet_house>
+				<base_url>ftp.helmethouse.com</base_url>
+				<username></username>
+				<password></password>
+				<remote_filename>xmitinv.csv</remote_filename>
+			</helmet_house>
+			<western_power>
+				<base_url>ftp.wpsstatic.com</base_url>
+				<username>wps</username>
+				<password></password>
+				<remote_filename>Pricing/WPS_Daily_Inventory.csv</remote_filename>
+			</western_power>
+			<motonation>
+				<base_url>motonationdealers.com</base_url>
+				<username>mndealers</username>
+				<password></password>
+				<remote_filename>current_inventory/MN_INV.csv</remote_filename>
+			</motonation>
+			<bell_helmets>
+				<base_url>files.brgsports.com</base_url>
+				<username>powersports</username>
+				<password></password>
+				<remote_filename>INVENTORY.txt</remote_filename>
+			</bell_helmets>
+
+		</pulliver>
+	</default>
+
+</config>

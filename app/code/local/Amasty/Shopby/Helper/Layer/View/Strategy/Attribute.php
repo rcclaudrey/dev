@@ -86,7 +86,7 @@ class Amasty_Shopby_Helper_Layer_View_Strategy_Attribute extends Amasty_Shopby_H
 
     protected function getTransferableFields()
     {
-        return array('max_options', 'sort_by', 'sort_featured_first', 'display_type', 'single_choice', 'seo_rel', 'depend_on_attribute', 'comment', 'show_search', 'number_options_for_show_search');
+        return array('max_options', 'sort_by', 'display_type', 'single_choice', 'seo_rel', 'depend_on_attribute', 'comment', 'show_search');
     }
 
     public function getIsExcluded()

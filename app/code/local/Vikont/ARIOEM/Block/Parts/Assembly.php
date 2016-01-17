@@ -51,7 +51,9 @@ class Vikont_ARIOEM_Block_Parts_Assembly extends Mage_Core_Block_Template
 			$content = Mage::helper('arioem')->decodeHTMLResponse($response['html']);
 
 			$dom = new DOMDocument;
+			libxml_use_internal_errors(true);
 			$dom->loadHTML($content);
+			libxml_clear_errors();
 			$assemblyList = $dom->getElementsByTagName('a');
 
 			foreach($assemblyList as $item) {

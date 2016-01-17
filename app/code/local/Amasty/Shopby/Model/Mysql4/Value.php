@@ -10,11 +10,4 @@ class Amasty_Shopby_Model_Mysql4_Value extends Mage_Core_Model_Mysql4_Abstract
     {    
         $this->_init('amshopby/value', 'value_id');
     }
-
-	public function getFeaturedOptionsIds()
-	{
-		$db = $this->getReadConnection();
-		$select = $db->select()->from($this->getMainTable(), 'option_id')->where('is_featured = 1');
-		return $db->fetchCol($select);
-	}
 }

@@ -68,18 +68,4 @@ class Amasty_Pgrid_Model_Eav_Entity_Attribute_Backend_Time_Created extends Mage_
         return $this;
     }
 
-    /**
-     * Returns date format if it matches a certain mask.
-     * @param $date
-     * @return null|string
-     */
-    protected function _getFormat($date)
-    {
-        if (is_string($date) && preg_match('#^\d{4,4}-\d{2,2}-\d{2,2}\s\d{2,2}:\d{2,2}:\d{2,2}$#', $date)
-            || preg_match('#^\d{4,4}-\d{2,2}-\d{2,2}\w{1,1}\d{2,2}:\d{2,2}:\d{2,2}[+-]\d{2,2}:\d{2,2}$#', $date)) {
-            return 'yyyy-MM-dd HH:mm:ss';
-        }
-        return null;
-    }
-
 }

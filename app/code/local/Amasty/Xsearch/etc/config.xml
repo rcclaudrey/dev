@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Xsearch>
+            <version>1.4.1</version>
+        </Amasty_Xsearch>
+    </modules>
+    
+    <admin>
+        <routers>
+            <amxsearch>
+                <use>admin</use>
+                <args>
+                    <module>Amasty_Xsearch</module>
+                    <frontName>amxsearch</frontName>
+                </args>
+            </amxsearch>
+        </routers>
+    </admin>
+    <frontend>
+        <routers>
+            <amxsearchfront>
+                <use>standard</use>
+                <args>
+                    <module>Amasty_Xsearch</module>
+                    <frontName>amxsearchfront</frontName>
+                </args>
+            </amxsearchfront>
+        </routers>
+        <translate>
+            <modules>
+                <Amasty_Xsearch>
+                    <files>
+                        <default>Amasty_Xsearch.csv</default>
+                    </files>
+                </Amasty_Xsearch>
+            </modules>
+        </translate>
+    </frontend>    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Amasty_Xsearch>
+                    <files>
+                        <default>Amasty_Xsearch.csv</default>
+                    </files>
+                </Amasty_Xsearch>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <amxsearch translate="title" module="amxsearch">
+                                            <title>Search</title>
+                                        </amxsearch>
+                                    </children>
+                                </config>
+                                <xsearch_adminsetting translate="title" module="amxsearch">
+                                    <title>Amasty Search</title>
+                                </xsearch_adminsetting>
+                            </children>
+                        </system> 
+                     </children>
+                </admin> 
+            </resources>
+        </acl>
+        
+        <layout>
+            <updates>
+                <amxsearch>
+                    <file>amxsearch.xml</file>
+                </amxsearch>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <global>
+        <models>
+            <amxsearch>
+                <class>Amasty_Xsearch_Model</class>
+                <resourceModel>amxsearch_mysql4</resourceModel>
+            </amxsearch>
+            <amxsearch_mysql4>
+                <class>Amasty_Xsearch_Model_Mysql4</class>
+                <entities>
+                    <fulltext>
+                        <table>am_xsearch_fulltext</table>
+                    </fulltext>
+                </entities>
+            </amxsearch_mysql4>
+            
+            <catalogsearch_mysql4>
+                <rewrite>
+                    <fulltext>Amasty_Xsearch_Model_Fulltext</fulltext>
+                </rewrite>
+            </catalogsearch_mysql4>
+            <catalogsearch_resource>
+                <rewrite>
+                    <fulltext>Amasty_Xsearch_Model_Fulltext</fulltext>
+                </rewrite>
+            </catalogsearch_resource>
+            
+            
+        </models>
+        <resources>
+             <amxsearch_setup>
+                <setup>
+                    <module>Amasty_Xsearch</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amxsearch_setup>
+            <amxsearch_write>
+                <connection><use>core_write</use></connection>
+            </amxsearch_write>
+            <amxsearch_read>
+                <connection><use>core_read</use></connection>
+            </amxsearch_read>
+        </resources>
+        <blocks>
+            <amxsearch>
+                <class>Amasty_Xsearch_Block</class>
+            </amxsearch>
+            <adminhtml>
+                <rewrite>
+                </rewrite>
+            </adminhtml>
+            
+        </blocks>
+        <helpers>
+            <amxsearch>
+                <class>Amasty_Xsearch_Helper</class>
+            </amxsearch>
+        </helpers>
+        <events>
+            <catalogsearch_index_process_start>
+                <observers>
+                    <amxsearch>
+                        <class>amxsearch/observer</class>
+                        <method>onCatalogsearchIndexProcessStart</method>
+                    </amxsearch>
+                </observers>
+            </catalogsearch_index_process_start>
+            <controller_action_predispatch_adminhtml_process_reindexProcess>
+                <observers>
+                    <amxsearch>
+                        <class>amxsearch/observer</class>
+                        <method>onControllerActionPredispatchAdminhtmlProcessReindexProcess</method>
+                    </amxsearch>
+                </observers>
+            </controller_action_predispatch_adminhtml_process_reindexProcess>
+        <admin_system_config_section_save_after>
+                <observers>
+                    <amxsearch>
+                        <class>amxsearch/observer</class>
+                        <method>onAdminSystemConfigSectionSaveAfter</method>
+                    </amxsearch>
+                </observers>
+            </admin_system_config_section_save_after>
+        </events>
+        
+    </global>
+    <frontend>
+        <layout>
+              <updates>
+                  <amxsearch>
+                      <file>amxsearch.xml</file>
+                  </amxsearch>
+              </updates>
+        </layout>
+    </frontend>
+    <default>
+        <amxsearch>
+            <autocomplete>
+                <width>355</width>
+                <min_chars>3</min_chars>
+                <products_limit>4</products_limit>
+                <name_length>50</name_length>
+                <desc_length>100</desc_length>
+                <reviews>1</reviews>
+                
+<add2cart>0</add2cart>
+                
+            </autocomplete>
+            <search>
+                <search_type>1</search_type>
+            </search>
+            <theme>
+                <border>A75E00</border>
+                <hover>eb8a0e</hover>
+                <highlight>EEE</highlight>
+                <color>202020</color>
+                <hover_color>FFF</hover_color>
+            </theme>
+        </amxsearch>
+    </default>
+</config>

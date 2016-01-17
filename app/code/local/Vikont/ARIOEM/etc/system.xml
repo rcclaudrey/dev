@@ -46,6 +46,25 @@
 					</fields>
 				</general>
 
+				<parts translate="label">
+					<label>Landing pages</label>
+					<sort_order>150</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<shortname translate="label">
+							<label>Landing pages URL short path</label>
+							<comment><![CDATA[To be used instead of site.url/arioem/parts URL]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</shortname>
+					</fields>
+				</parts>
+
 
 				<api translate="label">
 					<label>OEM products API</label>

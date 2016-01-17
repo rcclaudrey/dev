@@ -457,15 +457,4 @@ class Amasty_Shopby_Helper_Data extends Amasty_Shopby_Helper_Cached
         }
         return $stores;
     }
-
-    public function getIsCountGloballyEnabled()
-    {
-        $isEnabled = Mage::getStoreConfig('catalog/layered_navigation/display_product_count');
-        if (is_null($isEnabled)) {
-            // Magento 1.4 has no option
-            $isEnabled = true;
-        }
-
-        return $isEnabled;
-    }
 }

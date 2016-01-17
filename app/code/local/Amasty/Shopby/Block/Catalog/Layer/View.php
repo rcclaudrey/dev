@@ -46,11 +46,8 @@ class Amasty_Shopby_Block_Catalog_Layer_View extends Amasty_Shopby_Block_Catalog
         } else {
             $exclude = array();
         }
-
+        
         $this->computeAttributeOptionsData($filters);
-
-
-        $filtersPositions = Mage::helper('amshopby/attributes')->getPositionsAttributes();
 
         // update filters with new properties
         $allSelected = array();
@@ -70,12 +67,8 @@ class Amasty_Shopby_Block_Catalog_Layer_View extends Amasty_Shopby_Block_Catalog
                     }
                 }
             }
-
-            if(is_object($f->getAttributeModel()) && isset($filtersPositions[$f->getAttributeModel()->getAttributeCode()])){
-                $f->setPosition($filtersPositions[$f->getAttributeModel()->getAttributeCode()]);
-            }
         }
-
+        
         //exclude dependant, since 1.4.7
         foreach ($filters as $f){
             $parentAttributes = trim(str_replace(' ', '', $f->getDependOnAttribute()));
@@ -102,7 +95,7 @@ class Amasty_Shopby_Block_Catalog_Layer_View extends Amasty_Shopby_Block_Catalog
         // 1.2.7 exclude some filters from the selected categories
         $filters = $this->excludeFilters($filters, $exclude);
 
-        usort($filters, array(Mage::helper('amshopby/attributes'), 'sortFiltersByOrder'));
+        usort($filters, array($this, 'sortFiltersByOrder'));
 
         $this->_filterBlocks = $filters;
         return $filters;
@@ -213,15 +206,27 @@ class Amasty_Shopby_Block_Catalog_Layer_View extends Amasty_Shopby_Block_Catalog
         return $result;
     }
     
+    public function sortFiltersByOrder($filter1, $filter2) 
+    {
+        if ($filter1->getPosition() == $filter2->getPosition()) {
+            if ($filter1 instanceof Mage_Catalog_Block_Layer_Filter_Category) {
+                return -1;
+            } else
+                if ($filter2 instanceof Mage_Catalog_Block_Layer_Filter_Category) {
+                return 1;
+            }
+
+            return 0;
+        } 
+        return $filter1->getPosition() > $filter2->getPosition() ? 1 : -1;
+    }
+    
     protected function _getFilterableAttributes()
     {
         $attributes = $this->getData('_filterable_attributes');
         if (is_null($attributes)) {
-            $setIds = $this->getLayer()->getProductCollection()->getSetIds();
-
             $settings   = $this->_getDataHelper()->getAttributesSettings();
-            $attributes = Mage::helper('amshopby/attributes')->getFilterableAttributesBySets($setIds);
-
+            $attributes = Mage::helper('amshopby/attributes')->getFilterableAttributes();
             foreach ($attributes as $k => $v){
                 $pos = 'left';
                 if (isset($settings[$v->getId()])){
@@ -361,18 +366,9 @@ class Amasty_Shopby_Block_Catalog_Layer_View extends Amasty_Shopby_Block_Catalog
             Mage::register('queldorei_blocks', $queldorei_blocks);
             return '';
         }
-
-        $this->saveLayerCache();
         
         return $html;
-    }
-
-    protected function saveLayerCache()
-    {
-        /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
-        $cache = Mage::helper('amshopby/layer_cache');
-        $cache->saveLayerCache();
-    }
+    }    
 
     protected function _prepareLayout()
     {

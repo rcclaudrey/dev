@@ -5,7 +5,8 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
     protected static $_itemNumbers2ids = null;
     protected static $_skus2ids = null;
     protected static $_sku2ItemNumber = array();
-    protected static $_distributorFieldNames = array(
+
+	protected static $_distributorFieldNames = array(
         'PU' => 'punlim',
         'TR' => 'trocky',
         'WP' => 'wpower',
@@ -21,9 +22,11 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
         'TL' => 'troylee',
         'OK' => 'oakley',
         'MT' => 'motonation',
-        'LB' => 'leatt'
+        'LB' => 'leatt',
+		'BL' => 'bellhelm',
     );
-    protected static $supplierCodes = array(
+
+	protected static $supplierCodes = array(
         'canam' => 'BRP',
         'honda' => 'HOM',
         'honda' => 'HONPE',
@@ -34,9 +37,13 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
         'kawasaki' => 'KUS'
     );
 
+
+
     public static function getDistributorFieldNames() {
         return self::$_distributorFieldNames;
     }
+
+
 
     public static function loadMagentoIds($attributeCode) {
         $attribute = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
@@ -64,12 +71,16 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
         unset($values);
     }
 
+
+
     public static function getIdBySku($sku) {
         if (!self::$_skus2ids) {
             self::loadMagentoIds('sku');
         }
         return array_search($sku, self::$_skus2ids);
     }
+
+
 
     public static function getSkuById($id) {
         if (!self::$_skus2ids) {
@@ -81,6 +92,8 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
         return null;
     }
 
+
+
     public static function getIdByItemNumber($itemNumber) {
         if (!self::$_itemNumbers2ids) {
             self::loadMagentoIds('sku');
@@ -90,6 +103,8 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
         }
         return null;
     }
+
+
 
     public static function loadDistributorParts($distributorID) {
         $resource = Mage::getSingleton('core/resource');
@@ -102,6 +117,8 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
             Mage::logException($e);
         }
     }
+
+
 
     public static function getSkuByItemNumber($distributorID, $itemNumber) {
         if (!in_array($distributorID, self::$_distributorFieldNames) && isset(self::$_distributorFieldNames[$distributorID])
@@ -116,6 +133,8 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
         return isset(self::$_sku2ItemNumber[$distributorID][$itemNumber]) ? self::$_sku2ItemNumber[$distributorID][$itemNumber] : false;
     }
 
+
+
     public function updateOEMtable($data) {
         $resource = Mage::getSingleton('core/resource');
         $connection = $resource->getConnection('oemdb_read');
@@ -129,6 +148,8 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
             Mage::logException($e);
         }
     }
+
+
 
     public function delete($from, $field = null, $ids = null) {
         $resource = Mage::getSingleton('core/resource');

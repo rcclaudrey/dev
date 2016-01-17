@@ -42,6 +42,12 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
 //        $this->getOnepage()->getQuote()->setTotalsCollectedFlag(false);
 //        $this->getOnepage()->getQuote()->collectTotals();
 //        $this->getOnepage()->getQuote()->save();
+
+        if (!$quote->getShippingAddress()->getShippingMethod()){
+            $hlr = Mage::helper("amscheckout");
+            $this->getRequest()->setPost('shipping_method', $hlr->getDefaultShippingMethod($quote));
+            $this->saveShippingMethodAction();
+        }
     }
     
     protected function _amSavePaymentMethod(){
@@ -55,7 +61,7 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         if ($this->_expireAjax()) {
             return;
         }
-        
+
         $updatedSection = $this->getRequest()->getPost('updated_section', null);
         
         if ($this->getRequest()->isPost()) {
@@ -68,12 +74,23 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
             
             $amResponse = Mage::getModel("amscheckout/response");
             $this->_response = $amResponse;
-            
+
             $this->_skip_generate_html = true;
-            
+
+
+
+
             $this->_amSavePaymentMethod();
 
+//            if ($completeOrder) {
+//                                       var_dump(1234);
+//                                                                                   exit;
+//                                   }
+
+
             if ($completeOrder) {
+
+
                 $this->_amSaveBilling();
                 $this->_amSaveShippingMethod();
                 $this->_amSavePaymentMethod();
@@ -100,6 +117,9 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
                 }
             }
             
+            $collectTotals = Mage::helper("amscheckout")->initShippingPaymentMethods($this->getOnepage()->getQuote());
+            
+                                
             $this->getOnepage()->getQuote()->setTotalsCollectedFlag(false);
             
             if (!$this->checkRestrictions()){
@@ -109,8 +129,11 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
                 $this->saveOrderAction();
             }
             
-            $this->getOnepage()->getQuote()->collectTotals();
-
+            if ($collectTotals) {
+                $this->getOnepage()->getQuote()->collectTotals();
+                $this->getOnepage()->getQuote()->save();
+            }
+            
             $this->_skip_generate_html = false;
             
             $this->_response = $beforeResponse;
@@ -126,9 +149,9 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         $isRestricted = false;
         $shippingMethod = $this->getOnepage()->getQuote()->getShippingAddress()->getShippingMethod();
         
-        $isRestricted = $isRestricted || strpos($shippingMethod, 'error') || empty($shippingMethod);
+        $isRestricted = $isRestricted || strpos($shippingMethod, 'error');
         
-        return $this->getOnepage()->getQuote()->isVirtual() ? true : !($isRestricted);
+        return !($isRestricted);
     }
     
     protected function _mwRewardPoints(){
@@ -413,6 +436,8 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         $postMethod = $this->getRequest()->getParam('method');
         
         $amResponse = $this->_saveSteps(FALSE);
+
+
         
         $paymentMethod = $this->getOnepage()->getQuote()->getPayment()->getMethod();
         if (
@@ -420,48 +445,18 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
             $paymentMethod == 'sagepaydirectpro' ||
             $paymentMethod == 'sagepayform'
         ){
-//            if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
-//                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-//                if ($diff = array_diff($requiredAgreements, $postedAgreements)) {
-//
-//                    $_POST['method'] = $postMethod;
-//
-//                    $amResponse = $this->_saveSteps(TRUE);
-//                }
-//            }
+            if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
+                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
+                if ($diff = array_diff($requiredAgreements, $postedAgreements)) {
                     
                     $_POST['method'] = $postMethod;
-            $this->_amSaveBilling();
-            
-            if ($postMethod == 'register' && $this->getOnepage()->customerEmailExists()){
-//                var_dump(123);
-//                exit;
-                $amResponse->setError(Mage::helper('checkout')->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.'));
+                    
+                    $amResponse = $this->_saveSteps(TRUE);
+                }
             }
-
-
             
             if ($amResponse->getErrorsCount() == 0){
                 
-                $_POST['method'] = $postMethod;
-
-                Mage::getSingleton('checkout/session')->setAmscheckoutIsSubscribed(Mage::app()->getRequest()->getParam('is_subscribed', false) == true);
-
-//                $this->_amSaveBilling();
-
-
-//                var_dump($this->getOnepage()->getQuote()->debug());
-//                var_dump($this->getOnepage()->getQuote()->getPasswordHash());
-//
-//                $this->getOnepage()->getQuote()->setData('checkout_method', $postMethod);
-//                $this->getOnepage()->getQuote()->save();
-//
-//                var_dump($this->getOnepage()->getQuote()->getPasswordHash());
-//                exit;
-
-//                var_dump($this->getOnepage()->getQuote()->getCheckoutMethod());
-//                        exit;
-
                 if ($paymentMethod == 'sagepayserver') {
                     $this->_forward('saveOrder', 'serverPayment', 'sgps', $this->getRequest()->getParams());
                     return;
@@ -486,28 +481,21 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
 //                    "ajax_url" => $url
 //                );
             } else {
-                $messagesBlock = $this->getLayout()->getMessagesBlock();
-
-                foreach($amResponse->getErrors() as $error){
-                    $messagesBlock->addError($error);
-                }
-
                 $res = array(
                     "status" => "error",
-                    "errorsHtml" => $messagesBlock->toHtml(),
                     "errors" => implode("\n", $amResponse->getErrors())
                 );
             }
         
         } else {
-            
+
         $_POST['method'] = $postMethod;
-        
+
         $amResponse = $this->_saveSteps(TRUE);
-        
+
         $redirectUrl = $amResponse->getRedirect();
         
-        
+
         if ($redirectUrl){
             $res = array(
                 "redirect_url" => $redirectUrl
@@ -518,15 +506,8 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
                 "status" => "ok"
             );
         } else {
-            $messagesBlock = $this->getLayout()->getMessagesBlock();
-
-            foreach($amResponse->getErrors() as $error) {
-                $messagesBlock->addError($error);
-            }
-
             $res = array(
                 "status" => "error",
-                "errorsHtml" => $messagesBlock->toHtml(),
                 "errors" => implode("\n", $amResponse->getErrors())
             );
         }
@@ -576,7 +557,7 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         
         if (!$this->_skip_generate_html){
             $this->getLayout()->getUpdate()->setCacheId(uniqid("amscheckout_shipping"));
-            $output = Mage::helper("amscheckout")->getLayoutHtml("checkout_onepage_shippingmethod");
+            $output = parent::_getShippingMethodsHtml();
         }
         
         return $output;
@@ -589,7 +570,7 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         if (!$this->_skip_generate_html){
             
             $this->getLayout()->getUpdate()->setCacheId(uniqid("amscheckout_payment"));
-            $output = Mage::helper("amscheckout")->getLayoutHtml("checkout_onepage_paymentmethod");
+            $output = parent::_getPaymentMethodsHtml();
         }
         
         return $output;
@@ -600,9 +581,15 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         $output = "";
         
         if (!$this->_skip_generate_html){
+
             $this->getLayout()->getUpdate()->setCacheId(uniqid("amscheckout_review"));
             
-            $output = Mage::helper("amscheckout")->getLayoutHtml("checkout_onepage_review");
+            $layout = $this->getLayout();
+            $update = $layout->getUpdate();
+            $update->load('checkout_onepage_review');
+            $layout->generateXml();
+            $layout->generateBlocks();
+            $output = $layout->getOutput();
         }
         
         return $output;
@@ -615,24 +602,15 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         if (!$this->_skip_generate_html){
             Mage::app()->getRequest()->setActionName('coupon');
             $this->getLayout()->getUpdate()->setCacheId(uniqid("amscheckout_coupon"));
-
-            $output = Mage::helper("amscheckout")->getLayoutHtml("amscheckout_onepage_coupon");
+            $layout = $this->getLayout();
+            $update = $layout->getUpdate();
+            $update->load('amscheckout_onepage_coupon');
+            $layout->generateXml();
+            $layout->generateBlocks();
+            $output = $layout->getOutput();
+            return $output;
         }
         
-        return $output;
-    }
-    
-    protected function _getGiftCardHtml()
-    {
-        $output = "";
-
-        if (!$this->_skip_generate_html){
-            Mage::app()->getRequest()->setActionName('add');
-            $this->getLayout()->getUpdate()->setCacheId(uniqid("amscheckout_giftcardaccount"));
-
-            $output = Mage::helper("amscheckout")->getLayoutHtml("amscheckout_onepage_giftcardaccount");
-        }
-
         return $output;
     }
     
@@ -643,8 +621,13 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
         
         if (!$this->_skip_generate_html && $hlr->isShoppingCartOnCheckout() && !$hlr->isMergeShoppingCartCheckout()){
             $this->getLayout()->getUpdate()->setCacheId(uniqid("amscheckout_cart"));
-
-            $output = Mage::helper("amscheckout")->getLayoutHtml("amscheckout_cart");
+            $layout = $this->getLayout();
+            $update = $layout->getUpdate();
+            $update->load('amscheckout_cart');
+            $layout->generateXml();
+            $layout->generateBlocks();
+            $output = $layout->getOutput();
+            return $output;
         }
         
         return $output;
@@ -689,6 +672,8 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
             )
         );
         
+//        $success = &$response["html"]["coupon"]["success"];
+//        $error = &$response["html"]["coupon"]["error"];
         $output = &$response["html"]["coupon"]["output"];
         
         $messagesBlock = $this->getLayout()->getMessagesBlock();
@@ -724,8 +709,7 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
                     $messagesBlock->addSuccess($this->__('Coupon code was canceled.'));
                 }
                 $output = $this->_getCouponHtml();
-
-                $this->getOnepage()->getQuote()->setTotalsCollectedFlag(false);
+                
                 $this->getOnepage()->getQuote()->collectTotals();
                 $this->getOnepage()->getQuote()->save();
                 
@@ -747,98 +731,6 @@ class Amasty_Scheckout_OnepageController extends Mage_Checkout_OnepageController
                 
         
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
-    }
-
-    protected function _renderGiftCart(&$response){
-        $this->getOnepage()->getQuote()->collectTotals();
-        $this->getOnepage()->getQuote()->save();
-
-        $response["html"]["giftcard"]["output"] = $this->_getGiftCardHtml();
-
-        $response["html"]["review"] = $this->_getReviewHtml();
-        $response["html"]["payment_method"] = $this->_getPaymentMethodsHtml();
-    }
-
-    public function giftcartAction(){
-        $response = array(
-                    "html" => array(
-                        "giftcard" => array(
-                            "message" => NULL,
-                            "output" => NULL
-                        )
-                    )
-                );
-
-        $messagesBlock = $this->getLayout()->getMessagesBlock();
-
-        $data = $this->getRequest()->getPost();
-        if (isset($data['giftcard_code'])) {
-            $code = $data['giftcard_code'];
-            try {
-                if (strlen($code) > Enterprise_GiftCardAccount_Helper_Data::GIFT_CARD_CODE_MAX_LENGTH) {
-                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Wrong gift card code.'));
-                }
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
-                    ->loadByCode($code)
-                    ->addToCart();
-
-                $this->_renderGiftCart($response);
-
-                $messagesBlock->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->escapeHtml($code))
-                );
-            } catch (Mage_Core_Exception $e) {
-                Mage::dispatchEvent('enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code));
-                $messagesBlock->addError(
-                    $e->getMessage()
-                );
-            } catch (Exception $e) {
-                $messagesBlock->addError($this->__('Cannot apply gift card.'));
-            }
-        }
-
-        $response["html"]["giftcard"]["message"] = $messagesBlock->toHtml();
-
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
-    }
-
-    public function giftcartcancelAction(){
-        $response = array(
-                    "html" => array(
-                        "giftcard" => array(
-                            "message" => NULL,
-                            "output" => NULL
-                        )
-                    )
-                );
-
-        $messagesBlock = $this->getLayout()->getMessagesBlock();
-
-        if ($code = $this->getRequest()->getParam('code')) {
-            try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
-                    ->loadByCode($code)
-                    ->removeFromCart();
-
-                $this->_renderGiftCart($response);
-
-                $messagesBlock->addSuccess(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('core')->escapeHtml($code))
-                );
-            } catch (Mage_Core_Exception $e) {
-                $messagesBlock->addError(
-                    $e->getMessage()
-                );
-            } catch (Exception $e) {
-                $messagesBlock->addError($this->__('Cannot remove gift card.'));
-            }
-
-        }
-
-        $response["html"]["giftcard"]["message"] = $messagesBlock->toHtml();
-
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
-
     }
 }
 ?>

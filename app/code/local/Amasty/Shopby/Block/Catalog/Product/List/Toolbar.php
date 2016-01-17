@@ -22,11 +22,7 @@ class Amasty_Shopby_Block_Catalog_Product_List_Toolbar extends Mage_Catalog_Bloc
             return;
         }
 
-        $pager = $this->getChild($this->_pagerAlias);
-        if (!is_object($pager)) {
-            return;
-        }
-        $template = $pager->getTemplate();
+        $template = $this->getChild($this->_pagerAlias)->getTemplate();
 
         /** @var Amasty_Shopby_Block_Catalog_Pager $newPager */
         $newPager = $this->getLayout()->createBlock('amshopby/catalog_pager', $this->_pagerAlias);
@@ -48,7 +44,7 @@ class Amasty_Shopby_Block_Catalog_Product_List_Toolbar extends Mage_Catalog_Bloc
     private function skip()
     {
         $r = Mage::app()->getRequest();
-        if (in_array($r->getModuleName(), array('supermenu', 'supermenuadmin', 'catalogsearch','tag', 'catalogsale','catalognew', 'highlight')))
+        if (in_array($r->getModuleName(), array('supermenu', 'supermenuadmin', 'catalogsearch','tag', 'catalogsale','catalognew')))
             return true;
             
         return false;

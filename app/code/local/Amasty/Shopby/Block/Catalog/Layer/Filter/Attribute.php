@@ -61,7 +61,6 @@ class Amasty_Shopby_Block_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_B
             }
 
             $item['rel'] = $this->getSeoRel() ? ' rel="nofollow" ' : '';
-            $item['is_featured'] = $itemObject->getIsFeatured();
 
             $items[] = $item;
         }
@@ -74,8 +73,6 @@ class Amasty_Shopby_Block_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_B
 
         // add less/more
         $max = $this->getMaxOptions();
-		$featuredItems = array();
-		$standartItems = array();
         $i   = 0;
         foreach ($items as $k => $item){
             $style = '';
@@ -83,27 +80,7 @@ class Amasty_Shopby_Block_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_B
                 $style = 'style="display:none" class="amshopby-attr-' . $this->getRequestValue() . '"';
             }
             $items[$k]['style'] = $style;
-			$items[$k]['default_sort'] = $i;
-			$items[$k]['featured_sort'] = $i;
-			if($item['is_featured']) {
-				$featuredItems[] = $items[$k];
-			} else {
-				$standartItems[] = $items[$k];
-			}
         }
-		if($this->getSortFeaturedFirst() && count($featuredItems) > 0) {
-			usort($featuredItems, array($this, '_sortByName'));
-			$items = array_merge($featuredItems,$standartItems);
-			$i = 0;
-			foreach($items as $k=>$item) {
-				$style = '';
-				if ($max && (++$i > $max)){
-					$style = 'style="display:none" class="amshopby-attr-' . $this->getRequestValue() . '"';
-				}
-				$items[$k]['style'] = $style;
-				$items[$k]['featured_sort'] = $i;
-			}
-		}
         $this->setShowLessMore($max && ($i > $max));
 
         $this->setData($cacheKey, $items);
@@ -155,6 +132,23 @@ class Amasty_Shopby_Block_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_B
             }
         }
 
+        // Simulate native Filterable (no results) behavior
+        $attr = $this->getAttributeModel();
+        $filterableMode = $attr->getIsFilterable();
+        if ($filterableMode == 2) {
+            $anyPositive = false;
+            foreach ($this->getItems() as $item) {
+                /** @var Amasty_Shopby_Model_Catalog_Layer_Filter_Item $item */
+                if ($item->getCount()) {
+                    $anyPositive = true;
+                    break;
+                }
+            }
+            if (!$anyPositive) {
+                return 0;
+            }
+        }
+
         $cnt     = parent::getItemsCount();
         $showAll = !Mage::getStoreConfig('amshopby/general/hide_one_value');
         return ($cnt > 1 || $showAll) ? $cnt : 0;
@@ -172,15 +166,5 @@ class Amasty_Shopby_Block_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_B
 
         $url = $urlBuilder->getUrl();
         return $url;
-    }
-
-    public function getShowSearch()
-    {
-        return
-            parent::getShowSearch() &&
-            (
-                !$this->getNumberOptionsForShowSearch() ||
-                $this->getNumberOptionsForShowSearch() <= count($this->getItemsAsArray())
-            );
     }
 }

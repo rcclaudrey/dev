@@ -25,8 +25,10 @@ class Vikont_ARIOEM_Controller_Router extends Mage_Core_Controller_Varien_Router
 			$request->setRouteName('arioem');
 			$request->setModuleName('Vikont_ARIOEM');
 			$request->setControllerModule('Vikont_ARIOEM');
-			$request->setControllerName('parts');
-			$request->setActionName('index');
+			$controllerName = 'parts'; // empty($pathParts[1]) ? 'index' : $pathParts[1];
+			$request->setControllerName($controllerName);
+			$actionName = 'index'; // empty($pathParts[2]) ? 'index' : $pathParts[2];
+			$request->setActionName($actionName);
 			$request->setDispatched(true);
 
 			$brand = empty($pathParts[1]) ? false : $pathParts[1];
@@ -37,7 +39,7 @@ class Vikont_ARIOEM_Controller_Router extends Mage_Core_Controller_Varien_Router
 			Mage::register('oem_part_number', $partNumber);
 			$request->setParam('partNumber', $partNumber);
 
-			$controllerClassName = $this->_validateControllerClassName('Vikont_ARIOEM', 'parts');
+			$controllerClassName = $this->_validateControllerClassName('Vikont_ARIOEM', $controllerName);
 			$controllerInstance = Mage::getControllerInstance($controllerClassName, $request, $front->getResponse());
 			$controllerInstance->dispatch('index');
 

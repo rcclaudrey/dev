@@ -74,6 +74,9 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 			$url .= ((false === strpos($url, '?')) ? '?' : '&' ) . http_build_query($params);
 		}
 
+		if(@$_GET['debug'] == 'print') vd($url);
+		if(@$_GET['debug'] || Mage::registry('vd')) Mage::log($url);
+
 		curl_setopt_array($ch, array(
 			CURLOPT_URL => $url,
 			CURLOPT_VERBOSE => 0,
@@ -137,7 +140,9 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 			$content = $this->decodeHTMLResponse($content);
 
 			$dom = new DOMDocument;
+			libxml_use_internal_errors(true);
 			$dom->loadHTML($content);
+			libxml_clear_errors();
 
 			$select = $dom->getElementById('ari_brands');
 			if(!$select) {

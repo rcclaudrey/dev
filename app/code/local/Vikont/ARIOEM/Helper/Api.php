@@ -67,7 +67,9 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 			$url = $baseUrl . $path
 				. (count($mandatoryParams) ? '/'.implode('/', $mandatoryParams) : '')
 				. (count($optionalParams) ? '?' . ($this->prepareQuery($optionalParams)) : '');
-			if(Mage::registry('vd')) Mage::log($url);
+
+			if(@$_GET['debug'] == 'print') vd($url);
+			if(@$_GET['debug'] || Mage::registry('vd')) Mage::log($url);
 		}
 
 		$ch = curl_init();
@@ -88,6 +90,9 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 			}
 
 			$response = curl_exec($ch);
+
+			if(@$_GET['debug'] == 'print') vd($response);
+			if(@$_GET['debug'] || Mage::registry('vd')) Mage::log($response);
 
 			if(false !== $response) {
 				break;
@@ -147,7 +152,7 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 		$result = array();
 
 		if(!isset($params[self::ARI_LANGUAGE_CODE_PARAM_NAME])) {
-			$params[self::ARI_LANGUAGE_CODE_PARAM_NAME] = $params[self::ARI_LANGUAGE_CODE_PARAM_VALUE];
+			$params[self::ARI_LANGUAGE_CODE_PARAM_NAME] = self::ARI_LANGUAGE_CODE_PARAM_VALUE;
 		}
 
 		foreach($params as $key => $value) {

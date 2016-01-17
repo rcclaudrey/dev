@@ -364,7 +364,6 @@
 				</parts_unlimited>
 
 
-
                 <helmet_house translate="label">
                     <label>Helmet House</label>
                     <sort_order>700</sort_order>
@@ -417,7 +416,6 @@
 				</helmet_house>
 
 
-
                 <western_power translate="label">
                     <label>Western Power Sports</label>
                     <sort_order>800</sort_order>
@@ -468,6 +466,110 @@
 						</remote_filename>
 					</fields>
 				</western_power>
+
+
+				<motonation translate="label">
+                    <label>Motonation</label>
+                    <sort_order>900</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+						<h1 translate="label">
+							<label>Remote FTP Storage</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h1>
+						<base_url translate="label">
+							<label>FTP Server name</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment><![CDATA[]]></comment>
+						</base_url>
+						<username translate="label">
+							<label>User name</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</username>
+						<password translate="label">
+							<label>Password</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</password>
+						<remote_filename translate="label">
+							<label>Inventory file name &amp; path</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</remote_filename>
+					</fields>
+				</motonation>
+
+
+				<bell_helmets translate="label">
+                    <label>Bell Helmets</label>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+						<h1 translate="label">
+							<label>Remote FTP Storage</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h1>
+						<base_url translate="label">
+							<label>FTP Server name</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment><![CDATA[]]></comment>
+						</base_url>
+						<username translate="label">
+							<label>User name</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</username>
+						<password translate="label">
+							<label>Password</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</password>
+						<remote_filename translate="label">
+							<label>Inventory file name &amp; path</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</remote_filename>
+					</fields>
+				</bell_helmets>
 
 			</groups>
 		</pulliver>

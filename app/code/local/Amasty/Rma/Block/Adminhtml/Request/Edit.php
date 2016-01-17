@@ -40,7 +40,7 @@ class Amasty_Rma_Block_Adminhtml_Request_Edit extends Mage_Adminhtml_Block_Widge
         
         $this->_formScripts[] = " function saveAndContinueEdit(){ editForm.submit($('edit_form').action + 'continue/edit') } ";
         
-        $allowUrl = Mage::helper("adminhtml")->getUrl("adminhtml/amrma_request/allow", array(
+        $allowUrl = Mage::helper("adminhtml")->getUrl("amrma/adminhtml_request/allow", array(
             'id' => $this->_getRmaRequest()->getId()
         ));
                 

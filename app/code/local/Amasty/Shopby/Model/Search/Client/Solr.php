@@ -19,24 +19,12 @@ class Amasty_Shopby_Model_Search_Client_Solr extends Enterprise_Search_Model_Cli
     protected function splitFq($fqString)
     {
         $parts = explode(' AND ', $fqString);
-        $catsTagged = false;
         foreach ($parts as &$part) {
             // keep only one tag at the beginning
             if (preg_match('/{!tag=([^}]+)}/', $part, $match)) {
                 $part = $match[0] . str_replace($match[0], '', $part);
-                if (strpos($part, '{!tag=catt}') === 0) {
-                    $catsTagged = true;
-                }
             }
         }
-        if ($catsTagged) {
-            $parts = array_filter($parts, array($this, 'filterExcludeUntaggedCat'));
-        }
         return $parts;
-    }
-
-    protected function filterExcludeUntaggedCat($part)
-    {
-        return strpos($part, 'category_ids:') !== 0;
     }
 }

@@ -51,7 +51,23 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_General extends Mage_Adminht
             $this->_prepareFieldsetBlocks();
         }
 
-        $this->_prepareFieldsetSeo();
+        $fldSet3 = $this->_form->addFieldset('amshopby_seo', array('legend'=> $this->__('Search Engines Optimization')));
+        $fldSet3->addField('seo_nofollow', 'select', array(
+            'label'     => $this->__('Robots NoFollow Tag'),
+            'name'      => 'seo_nofollow',
+            'values'    => $this->yesno,
+        ));
+        $fldSet3->addField('seo_noindex', 'select', array(
+            'label'     => $this->__('Robots NoIndex Tag'),
+            'name'      => 'seo_noindex',
+            'values'    => $this->yesno,
+        ));
+        $fldSet3->addField('seo_rel', 'select', array(
+            'label'     => $this->__('Rel NoFollow'),
+            'name'      => 'seo_rel',
+            'values'    => $this->yesno,
+            'note'      => $this->__('For the links in the left navigation'),
+        ));
 
         $this->_prepareFieldsetSpecial();
 
@@ -112,40 +128,10 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_General extends Mage_Adminht
                 'values'    => $this->yesno,
             ));
 
-            $fldSet->addField('number_options_for_show_search', 'text', array(
-                'label'     => $this->__('Minimum items to show Search Box'),
-                'name'      => 'number_options_for_show_search',
-                'note'      => $this->__('0 - display Search Box anytime'),
-            ));
-
             $fldSet->addField('max_options', 'text', array(
                 'label'     => $this->__('Number of unfolded options'),
                 'name'      => 'max_options',
                 'note'      => $this->__('Applicable for `Labels Only`, `Images only` and `Labels and Images` display types. Zero means all options are unfolded')
-            ));
-
-            $fldSet->addField('sort_by', 'select', array(
-                'label'     => $this->__('Sort Options By'),
-                'name'      => 'sort_by',
-                'values'    => array(
-                    array(
-                        'value' => 0,
-                        'label' => $this->__('Position')
-                    ),
-                    array(
-                        'value' => 1,
-                        'label' => $this->__('Name')
-                    ),
-                    array(
-                        'value' => 2,
-                        'label' => $this->__('Product Quantities')
-                    )),
-            ));
-
-            $fldSet->addField('sort_featured_first', 'select', array(
-                'label'     => $this->__('When folded, display featured options first'),
-                'name'      => 'sort_featured_first',
-                'values'    => $this->yesno,
             ));
         }
 
@@ -154,6 +140,24 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_General extends Mage_Adminht
             'label'     => $this->__('Hide quantities'),
             'name'      => 'hide_counts',
             'values'    => $this->yesno
+        ));
+
+        $fldSet->addField('sort_by', 'select', array(
+            'label'     => $this->__('Sort Options By'),
+            'name'      => 'sort_by',
+            'values'    => array(
+                array(
+                    'value' => 0,
+                    'label' => $this->__('Position')
+                ),
+                array(
+                    'value' => 1,
+                    'label' => $this->__('Name')
+                ),
+                array(
+                    'value' => 2,
+                    'label' => $this->__('Product Quatities')
+                )),
         ));
 
         $fldSet->addField('collapsed', 'select', array(
@@ -187,36 +191,21 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_General extends Mage_Adminht
         ));
     }
 
-    protected function _prepareFieldsetSeo()
-    {
-        $fldSet3 = $this->_form->addFieldset('amshopby_seo', array('legend'=> $this->__('Search Engines Optimization')));
-        $fldSet3->addField('seo_nofollow', 'select', array(
-            'label'     => $this->__('Robots NoFollow Tag'),
-            'name'      => 'seo_nofollow',
-            'values'    => $this->yesno,
-        ));
-        $fldSet3->addField('seo_noindex', 'select', array(
-            'label'     => $this->__('Robots NoIndex Tag'),
-            'name'      => 'seo_noindex',
-            'values'    => $this->yesno,
-        ));
-        $fldSet3->addField('seo_rel', 'select', array(
-            'label'     => $this->__('Rel NoFollow'),
-            'name'      => 'seo_rel',
-            'values'    => $this->yesno,
-            'note'      => $this->__('For the links in the left navigation'),
-        ));
-        $fldSet3->addField('disable_seo_url', 'select', array(
-            'label'     => $this->__('Keep as GET parameter in URL'),
-            'name'      => 'disable_seo_url',
-            'values'    => $this->yesno,
-            'note'      => $this->__('SEO URL mode will not affect this filter if set "Yes"'),
-        ));
-    }
-
     protected function _prepareFieldsetSpecial()
     {
         $fldSet = $this->_form->addFieldset('amshopby_special', array('legend'=> $this->__('Special Cases')));
+
+        $fldSet->addField('include_in', 'text', array(
+            'label'     => $this->__('Include Only In Categories'),
+            'name'      => 'include_in',
+            'note'      => $this->__('Comma separated list of the categories IDs like 17,4,25'),
+        ));
+
+        $fldSet->addField('exclude_from', 'text', array(
+            'label'     => $this->__('Exclude From Categories'),
+            'name'      => 'exclude_from',
+            'note'      => $this->__('Comma separated list of the categories IDs like 17,4,25'),
+        ));
 
         if (!$this->isDecimal()) {
             $fldSet->addField('single_choice', 'select', array(
@@ -233,20 +222,6 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_General extends Mage_Adminht
                 'note'      => $this->__('Each product that will be displayed should contain ALL selected options'),
             ));
         }
-
-        $fldSet->addField('include_in', 'text', array(
-            'label'     => $this->__('Include Only In Categories'),
-            'name'      => 'include_in',
-            'note'      => $this->__('Comma separated list of the categories IDs like 17,4,25'),
-            'after_element_html' => $this->__('<div class="field-tooltip"><div>' . 'You can also use Landing Page URL aliases here like "red-sport-cars".' . '</div></div>'),
-        ));
-
-        $fldSet->addField('exclude_from', 'text', array(
-            'label'     => $this->__('Exclude From Categories'),
-            'name'      => 'exclude_from',
-            'note'      => $this->__('Comma separated list of the categories IDs like 17,4,25'),
-            'after_element_html' => $this->__('<div class="field-tooltip"><div>' . 'You can also use Landing Page URL aliases here like "red-sport-cars".' . '</div></div>'),
-        ));
 
         $fldSet->addField('depend_on', 'text', array(
             'label'     => $this->__('Show only when one of the following options are selected'),
@@ -279,9 +254,6 @@ class Amasty_Shopby_Block_Adminhtml_Filter_Edit_Tab_General extends Mage_Adminht
                 ->addFieldMap('single_choice', 'single_choice')
                 ->addFieldMap('use_and_logic', 'use_and_logic')
                 ->addFieldDependence('use_and_logic', 'single_choice', 0)
-                ->addFieldMap('show_search', 'show_search')
-                ->addFieldMap('number_options_for_show_search', 'number_options_for_show_search')
-                ->addFieldDependence('number_options_for_show_search', 'show_search', 1)
                 ;
         }
 

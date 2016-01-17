@@ -27,6 +27,7 @@ class Amasty_Shopby_Helper_Layer_View_Strategy_Price extends Amasty_Shopby_Helpe
         $this->filter->setFromToWidget(Mage::getStoreConfig('amshopby/general/price_from_to'));
         $this->filter->setAttributeCode('price');
         $this->filter->setSeoRel($this->_getDataHelper()->getSeoPriceRelNofollow());
+        $this->filter->setData('hide_counts', !Mage::getStoreConfig('catalog/layered_navigation/display_product_count'));
     }
 
     protected function setTemplate()
