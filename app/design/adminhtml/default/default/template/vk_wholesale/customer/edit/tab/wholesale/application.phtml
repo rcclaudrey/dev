@@ -1,0 +1,90 @@
+<?php
+
+$address = $this->getAddress();
+$helper = Mage::helper('wholesale');
+
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+		<h4 class="icon-head head-customer-view"><?php echo $this->__('Dealer Application') ?></h4>
+	</div>
+    <fieldset>
+		<?php if($this->hasApplication()): ?>
+			<?php $data = $this->getApplicationData() ?>
+			<table cellspacing="2" class="box-left">
+				<tr>
+					<td><?php echo $this->__('Sent at') ?></td>
+					<td><?php echo $helper->value($data->getData('date_sent')) ?></td>
+				</tr>
+
+				<tr>
+					<td class="ws-horseparator" colspan="2"><h4><?php echo $this->__('Survey data') ?></h4></td>
+				</tr>
+
+				<tr>
+					<td><?php echo $this->__('Business experience') ?></td>
+					<td><?php echo nl2br($helper->value($data->getData('business_experience_term'))) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Amount spent in the last year') ?></td>
+					<td><?php echo nl2br($helper->value($data->getData('amount_spent_for_parts'))) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Brands being serviced') ?></td>
+					<td><?php echo nl2br($helper->value($data->getData('brands_serviced'))) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Switch reason') ?></td>
+					<td><?php echo nl2br($helper->value($data->getData('switch_reason'))) ?></td>
+				</tr>
+
+				<tr>
+					<td class="ws-horseparator" colspan="2"><h4><?php echo $this->__('Address Information') ?></h4></td>
+				</tr>
+
+				<tr>
+					<td><?php echo $this->__('Company') ?></td>
+					<td><?php echo $helper->value($address->getCompany()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Company Parts Representative') ?></td>
+					<td><?php echo $helper->value($address->getName()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Address') ?></td>
+					<td><?php echo $helper->value(implode(' ', $address->getStreet())) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('City') ?></td>
+					<td><?php echo $helper->value($address->getCity()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('State/Province') ?></td>
+					<td><?php echo $helper->value($address->getRegion()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Zip/Postal Code') ?></td>
+					<td><?php echo $helper->value($address->getPostcode()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Country') ?></td>
+					<td><?php echo $helper->value($address->getCountry()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Telephone number') ?></td>
+					<td><?php echo $helper->value($address->getTelephone()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Fax number') ?></td>
+					<td><?php echo $helper->value($address->getFax()) ?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->__('Email') ?></td>
+					<td><?php echo $helper->value($address->getEmail()) ?></td>
+				</tr>
+			</table>
+		<?php else: ?>
+			<p><?php echo $this->__('No application has even been sent') ?></p>
+		<?php endif ?>
+    </fieldset>
+</div>

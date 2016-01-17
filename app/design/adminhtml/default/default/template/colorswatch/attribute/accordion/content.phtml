@@ -1,0 +1,324 @@
+
+
+<?php 
+
+	$_optionCollection = Mage::getModel('colorswatch/attribute')->setModel($this->getModel())->getOptions()->setStoreFilter();
+?>
+<div>
+<input type="hidden" name="visible_attributes[]" value="<?php echo $this->getModel()->getAttributeId()?>" />
+	
+<table cellpadding="0" cellspacing="0" class="tableSwatch">
+
+ <tr class="initialSet">
+    <td>
+		
+      <div class="enableColorswatch">
+        <label>Enable Color Swatches for this attribute</label>
+		<input name="enable_colorswatch[<?php echo $this->getModel()->getAttributeId()?>]" type="checkbox" value="1" <?php if (Mage::getModel('colorswatch/attribute_settings')->getConfig($this->getModel()->getAttributeId(), 'enable_colorswatch')) {  ?> checked <?php } ?> />
+	  </div>
+      
+      <div class="allowAtribut">
+      <label>Allow attribute to change main image</label>
+	  <input name="allow_attribute_to_change_main_image[<?php echo $this->getModel()->getAttributeId()?>]" type="checkbox" value="1" <?php if (Mage::getModel('colorswatch/attribute_settings')->getConfig($this->getModel()->getAttributeId(), 'allow_attribute_to_change_main_image')) {  ?> checked <?php } ?> />
+      </div> 
+    
+    </td>
+ </tr>
+
+ 
+
+ <tr>
+   <td>
+<div style="width:980px;">
+	
+	<div class="swatchWrapper">
+
+     <div class="swatch-mainSettings">
+     
+     <h4>Swatch image - settings</h4>
+     
+     <table cellpadding="0" cellspacing="0" width="100%" id="colorswatch-attribute-<?php echo $this->getModel()->getAttributeId()?>">
+     
+        <tr class="desc">
+           <td width="110" style="padding-left:10px;" align="left">Name</td>
+           <td width="250" align="right">Upload Image</td>
+           <td width="75" align="right" style="padding-right:4px;">Preview</td>
+           <td style="padding-left:30px;">Delete</td>
+        </tr>
+        
+        <?php $rowIndex = -1; foreach ($_optionCollection as $option) : $rowIndex++;
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getAttributeId(), $option->getOptionId());
+		$_colorswatchImage = $_colorswatch->getImage();?>
+        
+     <!-- repeat -->   
+         <tr class="swatchEdit changeColor <?php echo ($rowIndex%2 ? 'secondRow' : '') ?>">
+           <td align="left" class="name"><?php echo $option->getData('value')?></td>
+           <td align="right">
+           
+           <div class="upload-image-wrapper">
+           <?php /*
+				<span id="image_base-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>-span"></span>
+				<a id="image_base-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>-a" href="#" onclick="return false" class="add-change-cancelBt"> 
+				<?php if ($_colorswatchImage->getSwatchImage()->isImageExsist()) : ?>
+                Browse image
+				<?php else : ?>
+                Add image
+                <?php endif; ?>
+                </a>
+                */ ?>
+				<input class="file" type="file"  name="image_base-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>" id="image_base-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>" />
+			</div>
+            
+            <br class="clearfloat" />
+            <input title="mouse hover text" class="titleText"  type="text" name="option_description[<?php echo $option->getData('attribute_id')?>][<?php echo $option->getData('option_id')?>]" value="<?php echo $_colorswatch->getData('swatch_description');?>" />
+          
+                       
+           </td>
+           <td align="right">
+			   <?php if ($_colorswatchImage->getSwatchImage()->isImageExsist()) : ?>
+               <img src="<?php echo  $_colorswatchImage->getSwatchImage()->resize(40, 40) ?>" alt="Image preview&nbsp;" />
+               <?php else : ?>
+               <img src="/skin/adminhtml/default/default/images/no-image.jpg" width="44" height="44" alt="No image preview" />
+               <?php endif; ?>
+           </td>
+           <td style="padding-left:35px;">
+              
+               <?php if ($_colorswatchImage->getSwatchImage()->isImageExsist()) : ?>
+		  <input type="checkbox" value="1" name="delete_image_base[<?php echo $option->getAttributeId()?>][<?php echo $option->getOptionId()?>]" />
+		  <?php endif; ?>
+           
+           </td>
+        </tr>
+     <!-- end repeat -->   
+     
+     <?php endforeach; ?>
+     
+     </table>
+     
+   </div>  
+   
+   <a href="#" class="advancedBt"  id="show-advance-<?php echo $this->getModel()->getAttributeId()?>" onclick="
+   $('swatch-optionalSettings-div-<?php echo $this->getModel()->getAttributeId()?>').setStyle({opacity:0, display:'block'});
+      $('swatch-optionalSettings-div-<?php echo $this->getModel()->getAttributeId()?>').fade({duration:1, from:0, to:1});
+    this.style.display='none'; return false;"><b>ADVANCED SETTINGS</b> (optional)</a>
+   
+   <!-- END MAIN SETTINGS -->   
+
+
+<!-- OPTIONAL SETTINGS -->
+
+   <div class="swatch-optionalSettings" id="swatch-optionalSettings-div-<?php echo $this->getModel()->getAttributeId()?>" style="display:none">
+   
+   
+     <h4>Swatch image - optional settings<a href="#" class="closeAdvanced" onclick="
+    
+    $('swatch-optionalSettings-div-<?php echo $this->getModel()->getAttributeId()?>').fade({duration:0.5, from:1, to:0, afterFinish:function() {
+    		$('swatch-optionalSettings-div-<?php echo $this->getModel()->getAttributeId()?>').setStyle({display:'none'}); 
+   			$('show-advance-<?php echo $this->getModel()->getAttributeId()?>').setStyle({display:'block'});
+
+    } });
+    return false;
+       
+    ">close x</a></h4>
+    
+     <?php
+Mage::getModel('colorswatch/session')->setModel($this->getModel());
+echo $this->getLayout()->createBlock('colorswatch/adminhtml_attribute_accordion_tabs', 'colorswatch_attribute_accordion_tabs')->setModel($this->getModel())->toHtml();  
+     
+     ?>
+     
+     <script type="text/javascript">
+     
+     
+     $$('#grid_tab_<?php echo $this->getModel()->getAttributeId()?> a.tab-item-link').each(function(element, index) {
+       $(element).observe('click', function(event) {
+          var tabClicked = Event.findElement(event, 'a');
+          grid_tab_<?php echo $this->getModel()->getAttributeId()?>JsTabs.hideAllTabsContent();
+          for(tab=0 ; tab< grid_tab_<?php echo $this->getModel()->getAttributeId()?>JsTabs.tabs.length; tab++){
+            currentTab = grid_tab_<?php echo $this->getModel()->getAttributeId()?>JsTabs.tabs[tab];
+            currentTabContent = grid_tab_<?php echo $this->getModel()->getAttributeId()?>JsTabs.getTabContentElementId(currentTab);
+            if (tabClicked.id != currentTab.id) {
+              $(currentTab).removeClassName('active');
+              $(currentTabContent).setStyle({display:'none'});
+            }
+          }
+          
+       })
+     });
+	 
+	 
+		 new SMDesignColorswatchAdminGrid(<?php echo $this->getModel()->getAttributeId()?>);
+
+     </script>
+     
+     
+   
+     <?php /*
+           <ul class="tabs-horiz" id="grid_tab">              
+                <li><a href="#" rel="grid_tab_ordered_products">Active Image</a></li>
+                <li><a href="#" rel="grid_tab_reviewed_products" >Hover Image</a></li>
+                <li><a href="#" rel="grid_tab_new_customers">Disabled Image</a></li>           
+           </ul>
+          
+      
+           
+          <br class="clearfloat" /> 
+          
+       <div id="grid_tab_content">
+          
+        <div  style="display: none;" class="tabcontent" id="grid_tab_ordered_products_content">   
+           
+            <table cellpadding="0" cellspacing="0" width="100%">
+     
+                <tr class="desc">
+                   <td width="250" align="right">Upload Image</td>
+                   <td width="75" align="right" style="padding-right:4px;">Preview</td>
+                   <td style="padding-left:30px;">Delete</td>
+                </tr>
+     <?php foreach ($_optionCollection as $option) : 
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getAttributeId(), $option->getOptionId());
+		$_colorswatchImage = $_colorswatch->getImage();?>              
+             <!-- repeat -->   
+                 <tr class="swatchEdit changeColor optionalEdit">
+                   <td align="right">
+                   
+                      <div class="upload-image-wrapper">
+				         <span id="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>-span"></span>
+				         <a id="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>-a" href="#" onclick="return false" class="add-change-cancelBt">Add image</a>
+				          <input class="file" type="file" name="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>" id="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>"  />
+			            </div>    
+                        
+                   </td>
+                   <td align="right">
+					   <?php if ($_colorswatchImage->getActiveImage()->isImageExsist()) : ?>
+                       <img src="<?php echo  $_colorswatchImage->getActiveImage()->resize(40, 40) ?>" alt="Image preview&nbsp;" />
+                       <?php else : ?>
+                        <img src="/skin/adminhtml/default/default/images/no-image.jpg" width="44" height="44" alt="No image preview" />
+						<?php endif; ?>
+                   </td>
+                   <td style="padding-left:35px;">
+                   
+                       <?php if ($_colorswatchImage->getActiveImage()->isImageExsist()) : ?>
+		  <input type="checkbox" value="1" name="delete_image_active[<?php echo $option->getAttributeId()?>][<?php echo $option->getOptionId()?>]" />
+		  <?php endif; ?>
+                   
+                   </td>
+                </tr>
+             <!-- end repeat -->              
+           <?php endforeach; ?> 
+     </table>
+             
+    </div> 
+    
+    
+    <div  style="display: none;" class="tabcontent" id="grid_tab_reviewed_products_content">
+    
+     <table cellpadding="0" cellspacing="0" width="100%">
+     
+        <tr class="desc">
+           <td width="250" align="right">Upload Image</td>
+           <td width="75" align="right" style="padding-right:4px;">Preview</td>
+           <td style="padding-left:30px;">Delete</td>
+        </tr>
+      <?php foreach ($_optionCollection as $option) : 
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getAttributeId(), $option->getOptionId());
+		$_colorswatchImage = $_colorswatch->getImage();?>     
+     <!-- repeat -->   
+         <tr class="swatchEdit changeColor optionalEdit">
+           <td align="right">
+           
+              <div class="upload-image-wrapper">
+				<span id="image_hover-<?php echo $option->getAttributeId()?>-<?php echo $option->getData('option_id')?>-span"></span>
+				<a id="image_hover-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>-a" href="#" onclick="return false" class="add-change-cancelBt">Add image</a>
+				<input class="file" type="file" name="image_hover-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>" id="image_hover-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>" />
+			</div>
+                     
+           </td>
+           <td align="right">
+			   <?php if ($_colorswatchImage->getHoverImage()->isImageExsist()) : ?>
+               <img src="<?php echo  $_colorswatchImage->getHoverImage()->resize(44, 44) ?>" alt="Image preview&nbsp;" />
+               <?php else : ?>
+               <img src="/skin/adminhtml/default/default/images/no-image.jpg" width="44" height="44" alt="No image preview" />
+               <?php endif; ?>
+           
+           </td>
+           <td style="padding-left:35px;"> <?php if ($_colorswatchImage->getHoverImage()->isImageExsist()) : ?>
+		  <input type="checkbox" value="1" name="delete_image_hover[<?php echo $option->getAttributeId()?>][<?php echo $option->getOptionId()?>]" />
+		  <?php endif; ?></td>
+        </tr>
+     <!-- end repeat -->   
+      <?php endforeach; ?> 
+     </table>
+    
+    </div>
+    
+    
+    <div style="display: none;" id="grid_tab_new_customers_content" class="tabcontent">
+    
+     <table cellpadding="0" cellspacing="0" width="100%">
+     
+        <tr class="desc">
+           <td width="250" align="right">Upload Image</td>
+           <td width="75" align="right" style="padding-right:4px;">Preview</td>
+           <td style="padding-left:30px;">Delete</td>
+        </tr>
+      <?php foreach ($_optionCollection as $option) : 
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getAttributeId(), $option->getOptionId());
+		$_colorswatchImage = $_colorswatch->getImage();?>     
+     <!-- repeat -->   
+         <tr class="swatchEdit changeColor optionalEdit">
+           <td align="right">
+           
+              <div class="upload-image-wrapper">
+				<span id="image_disabled-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>-span"></span>
+				<a id="image_disabled-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>-a" href="#" onclick="return false" class="add-change-cancelBt">Add image</a>
+				<input class="file" type="file" name="image_disabled-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>" id="image_disabled-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>" />
+			</div>      
+           </td>
+           <td align="right">
+               <?php if ($_colorswatchImage->getDisabledImage()->isImageExsist()) : ?>
+           		<img src="<?php echo  $_colorswatchImage->getDisabledImage()->resize(44, 44) ?>" alt="Image preview&nbsp;" />
+               <?php else : ?> 
+               <img src="/skin/adminhtml/default/default/images/no-image.jpg" width="44" height="44" alt="No image preview" />
+               <?php endif; ?> 
+           </td>
+           <td style="padding-left:35px;"> <?php if ($_colorswatchImage->getDisabledImage()->isImageExsist()) : ?>
+		  <input type="checkbox" value="1" name="delete_image_disabled[<?php echo $option->getAttributeId()?>][<?php echo $option->getOptionId()?>]" />
+		  <?php endif; ?></td>
+        </tr>
+     <!-- end repeat -->   
+     <?php endforeach; ?> 
+     </table>
+    
+    </div>
+   
+    
+ </div>
+   
+<!-- END OPTIONAL SETTINGS --> 
+*/ ?>
+     
+</div>
+	
+    
+ </div>  
+ 
+ </div> 
+    
+ </td>
+ </tr>
+ </table>   
+<?php /*
+	<ul class="swatch-preview-<?php echo $option->getData('attribute_id')?> colorswatch-preview">
+	<?php foreach ($_optionCollection as $option) : 
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getData('attribute_id'), $option->getData('option_id'));
+		$_colorswatchImage = $_colorswatch->getImage();
+	?>
+	<li class="colorswatch-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>"><img src="<?php echo  $_colorswatchImage->getSwatchImage()->resize(30, 30) ?>" alt="Image preview&nbsp;" title="<?php echo $_colorswatchImage->getDescription() ?>" /></li>
+	<?php endforeach; ?>
+	</ul>
+    
+	<br class="clear" />
+*/ ?>
+ <p>You can use #{image} which will be replaced with swatch image</p>
+</div>

@@ -1,0 +1,46 @@
+<?php
+$_optionCollection = $this->getOptionCollection();
+
+?>
+
+
+<table id="colorswatch-attribute-active-<?php echo $this->getModel()->getAttributeId()?>" cellpadding="0" cellspacing="0" width="100%">
+     
+                <tr class="desc">
+                   <td width="250" align="right">Upload Image</td>
+                   <td width="75" align="right" style="padding-right:4px;">Preview</td>
+                   <td style="padding-left:30px;">Delete</td>
+                </tr>
+     <?php $rowIndex = -1; foreach ($_optionCollection as $option) : $rowIndex++;
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getAttributeId(), $option->getOptionId());
+		$_colorswatchImage = $_colorswatch->getImage();?>              
+             <!-- repeat -->   
+                 <tr class="swatchEdit changeColor optionalEdit <?php echo ($rowIndex%2 ? 'secondRow' : '') ?>">
+                   <td align="right" >
+                   
+                      <div class="upload-image-wrapper">
+				         <?php /*<span id="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>-span"></span>
+				         <a id="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>-a" href="#" onclick="return false" class="add-change-cancelBt">Add image</a>
+				          */ ?>
+				          <input class="file" type="file" name="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>" id="image_active-<?php echo $option->getAttributeId()?>-<?php echo $option->getOptionId()?>"  />
+			            </div>    
+                        
+                   </td>
+                   <td align="right">
+					   <?php if ($_colorswatchImage->getActiveImage()->isImageExsist()) : ?>
+                       <img src="<?php echo  $_colorswatchImage->getActiveImage()->resize(40, 40) ?>" alt="Image preview&nbsp;" />
+                       <?php else : ?>
+                        <img src="/skin/adminhtml/default/default/images/no-image.jpg" width="44" height="44" alt="No image preview" />
+						<?php endif; ?>
+                   </td>
+                   <td style="padding-left:35px;">
+                   
+                       <?php if ($_colorswatchImage->getActiveImage()->isImageExsist()) : ?>
+		  <input type="checkbox" value="1" name="delete_image_active[<?php echo $option->getAttributeId()?>][<?php echo $option->getOptionId()?>]" />
+		  <?php endif; ?>
+                   
+                   </td>
+                </tr>
+             <!-- end repeat -->              
+           <?php endforeach; ?> 
+     </table>

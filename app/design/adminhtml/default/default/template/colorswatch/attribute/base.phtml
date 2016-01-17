@@ -1,0 +1,148 @@
+ <style type="text/css">
+       
+       
+        .group:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+      
+        
+        .tabs { list-style: none; }
+        .tabs li { display: inline; }
+        .tabs li a { color: black; float: left; display: block; padding: 4px 10px; margin-left: -1px; position: relative; left: 1px; background: white; text-decoration: none; }
+        .tabs li a:hover { background: #ccc; }
+        
+        
+        /* Generic styles & example one */
+        
+        .tabbed-area { margin: 0 0 120px 0; }
+        .box-wrap { position: relative; min-height: 250px; }
+        .tabbed-area div div { background: white; padding: 20px; min-height: 250px; position: absolute; top: -1px; left: 0; width: 100%; }
+        .tabbed-area div div, .tabs li a { border: 1px solid #ccc; }
+
+.colorswatch-toolbar {
+padding-bottom:25px;
+}
+.colorswatch-pagin {
+  text-align:center;
+  
+  float:left;
+  margin-right:50px;
+}
+.colorswatch-pagin li {
+  float:left;
+  width:30px;
+  height:30px;
+  display:block;
+  line-height:30px;
+  border:1px solid #FFF;
+}
+.colorswatch-pagin li.current {
+  color:#F11;
+  border:1px solid #EA7601;
+}
+#search-wrapper {
+float:right;
+}
+    </style>
+    
+    
+<script type="text/javascript">
+    var allHTMLTags = new Array();
+    function getElementByClass(theClass) {
+    	var allHTMLTags=document.getElementsByTagName("*");
+    	for (i=0; i<allHTMLTags.length; i++) { if (allHTMLTags[i].className==theClass) { allHTMLTags[i].style.display='block'; } }
+    }
+</script>
+    
+
+<div class="colorswatch_attribute_accordion">
+
+<div class="colorswatch-toolbar">
+  <?php if ($this->attributeCounter > 0 && ceil($this->attributeCounter/$this->attributePerPage) > 1) : ?>
+  <ul class="colorswatch-pagin">
+    <?php if ($this->currentPage > 1) : ?>
+       <li ><a href="<?php echo $this->getUrl('*/*/*') ?>page_id/<?php echo $this->currentPage-1; ?>">prev</a></li>
+     <?php else : ?>
+       <li >&nbsp;</li>
+    <?php endif; ?>
+    
+    <?php foreach (range(1, ceil($this->attributeCounter/$this->attributePerPage)) as $pager) : ?>
+      <?php if ($pager == $this->currentPage) : ?>
+      <li class="current" ><span><?php echo $pager; ?></span></li>
+      <?php else : ?>
+      <li ><a href="<?php echo $this->getUrl('*/*/*') ?>page_id/<?php echo $pager; ?>"><?php echo $pager; ?></a></li>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    
+    <?php if ($this->currentPage != ceil($this->attributeCounter/$this->attributePerPage)) : ?>
+       <li ><a href="<?php echo $this->getUrl('*/*/*') ?>page_id/<?php echo $this->currentPage+1; ?>">next</a></li>
+    <?php endif; ?>
+    
+  </ul>
+  <?php endif; ?>
+  <div id="search-wrapper">
+    <label>Search ;</label>
+    <input type="text" name="search" id="search" value="<?php echo $this->searchTream ?>" />
+    <button type="button" onclick="location.href='<?php echo $this->getUrl('/*/*/*')?>search/'+document.getElementById('search').value;">Search</button>
+  </div>
+</div>
+<br class="clearfloat" />
+
+<form id="colorswatch-attribute-form" action="<?php echo $this->getFormAction() ?>" method="post" enctype="multipart/form-data" onsubmit="alert('test'); return removeEmptyElement(this);">
+<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey()?>" />
+
+  <?php echo $this->getChildHtml('colorswatch_attribute_accordion'); ?>
+
+</form>
+
+</div>
+<script type="text/javascript">
+
+	var fakeFileUpload = document.createElement('div');
+	fakeFileUpload.className = 'fakefile';
+	fakeFileUpload.appendChild(document.createElement('input'));
+	var aElement = document.createElement('A');
+	aElement.className = 'add-change-cancelBt';
+	
+//	image.src='pix/button_select.gif';
+  aElement.innerHTML = 'Browse';
+  fakeFileUpload.appendChild(aElement);
+	var x = document.getElementsByTagName('input');
+	for (var i=0;i<x.length;i++) {
+		if (x[i].type != 'file') continue;
+//		if (x[i].parentNode.className != 'fileinputs') continue;
+		x[i].className = 'file hidden';
+		var clone = fakeFileUpload.cloneNode(true);
+		
+		clone.childNodes[1].name = x[i].name + "-a";
+		clone.childNodes[1].inputElement = x[i];
+		x[i].parentNode.appendChild(clone);
+		x[i].relatedElement = clone.getElementsByTagName('input')[0];
+		x[i].relatedElement.readOnly = true;
+		x[i].onchange = x[i].onmouseout = function () {
+		  
+			this.relatedElement.value = this.value;
+			if (this.relatedElement.value == '') {
+			  this.relatedElement.parentNode.getElementsByTagName('a')[0].innerHTML = 'Browse';
+			} else {
+			  aElement =  this.relatedElement.parentNode.getElementsByTagName('A')[0];
+			  aElement.innerHTML = 'Cancel';
+			  aElement.onclick = function(inputEl) {
+			    this.inputElement.value = '';
+			    this.parentNode.getElementsByTagName('input')[0].value = '';
+			    this.innerHTML = "Browse";
+			    this.parentNode.style.zIndex = 1;
+			    this.onclick = function() {}
+			  };
+			  this.relatedElement.parentNode.style.zIndex = 5;
+			}
+			
+		}
+
+ 		Event.observe(x[i], 'mouseover', function() {
+ 		  $(this.relatedElement.parentNode).addClassName('hover');
+ 		} );
+ 		Event.observe(x[i], 'mouseout', function() {
+ 		  $(this.relatedElement.parentNode).removeClassName('hover');
+ 		} );
+		
+	}
+</script>

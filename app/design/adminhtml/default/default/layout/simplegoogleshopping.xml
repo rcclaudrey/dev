@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_simplegoogleshopping_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>simplegoogleshopping/updater.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="simplegoogleshopping/adminhtml_simplegoogleshopping" name="simplegoogleshopping" />
+        </reference>
+    </adminhtml_simplegoogleshopping_index>
+    <adminhtml_simplegoogleshopping_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>simplegoogleshopping/simplegoogleshopping.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>simplegoogleshopping/AutoComplete.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>simplegoogleshopping/simplegoogleshopping.css</name>
+            </action>
+            
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/lib/codemirror.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/theme/default.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/lib/codemirror.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/xml/xml.js</name>
+            </action>
+        </reference>
+    </adminhtml_simplegoogleshopping_edit>
+    <adminhtml_simplegoogleshopping_showreport>
+        
+        <reference name='root'>
+            <action method='setTemplate'>
+                <tpl>empty.phtml</tpl>
+            </action>
+        </reference>
+        
+        <reference name='head'>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>simplegoogleshopping/simplegoogleshopping.css</name>
+            </action>
+        </reference>
+      
+        <reference name='content'>
+            <block type="simplegoogleshopping/adminhtml_report" name="sgs_report"/>    
+        </reference>
+            
+    </adminhtml_simplegoogleshopping_showreport>
+    <adminhtml_simplegoogleshopping_library>
+        
+        <reference name='root'>
+            <action method='setTemplate'>
+                <tpl>simplegoogleshopping/empty.phtml</tpl>
+            </action>
+        </reference>
+       
+        <reference name='content'>
+            <block type="simplegoogleshopping/adminhtml_library" name="sgs_library"/>    
+        </reference>
+            
+    </adminhtml_simplegoogleshopping_library>
+    <adminhtml_simplegoogleshopping_taxonomy>
+        
+        <reference name='root'>
+            <action method='setTemplate'>
+                <tpl>simplegoogleshopping/empty.phtml</tpl>
+            </action>
+        </reference>
+       
+        <reference name='content'>
+            <block type="simplegoogleshopping/adminhtml_taxonomy" name="sgs_taxonomy"/>    
+        </reference>
+            
+    </adminhtml_simplegoogleshopping_taxonomy>
+    <adminhtml_simplegoogleshopping_sample>
+        <reference name='root'>
+            <action method='setTemplate'>
+                <tpl>empty.phtml</tpl>
+            </action>
+        </reference>
+        <reference name="head">
+                 
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/lib/codemirror.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/theme/default.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/lib/codemirror.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/xml/xml.js</name>
+            </action>
+        </reference>
+       
+       
+        <reference name='content'>
+          
+            <block type="simplegoogleshopping/adminhtml_sample" name="sgs_sample"/>    
+           
+            <block type="core/text" name="codemirror_script">
+                <action method="setText">
+                    <text>
+                        <![CDATA[
+                         <script language='javascript'>
+                                 sHtml=document.getElementById('CodeMirror');
+                                 if(typeof sHtml != 'undefined'){
+                                     var myCodeMirror = CodeMirror(function(elt) {
+                                         sHtml.parentNode.replaceChild(elt, sHtml)}, {
+                                         value: sHtml.value,
+                                         mode:  'xml',
+                                         readOnly: true
+
+                                     })
+                                    }
+
+                             </script>]]>
+                    </text>
+                </action>
+            </block>
+        </reference>
+            
+    </adminhtml_simplegoogleshopping_sample>
+   
+    <adminhtml_simplegoogleshopping_updater>
+        
+        <reference name='root'>
+            <action method='setTemplate'>
+                <tpl>simplegoogleshopping/empty.phtml</tpl>
+            </action>
+        </reference>
+       
+        <reference name='content'>
+            <block type="simplegoogleshopping/adminhtml_updater" name="sgs_sample"/>    
+        </reference>
+            
+    </adminhtml_simplegoogleshopping_updater>
+</layout>

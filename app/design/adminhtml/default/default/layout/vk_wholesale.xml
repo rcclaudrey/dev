@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+	<default>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>vk_wholesale/css/wholesale.css</name>
+			</action>
+		</reference>
+	</default>
+
+
+	<adminhtml_customer_edit>
+		<reference name="customer_edit_tabs">
+			<action method="addTab">
+				<name>customer_edit_tab_wholesale</name>
+				<block>wholesale/adminhtml_customer_edit_tab_wholesale</block>
+			</action>
+		</reference>
+	</adminhtml_customer_edit>
+
+</layout>

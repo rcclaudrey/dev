@@ -1,0 +1,42 @@
+<?php
+$_optionCollection = $this->getOptionCollection();
+
+?>
+
+     <table id="colorswatch-attribute-hover-<?php echo $this->getModel()->getAttributeId()?>" cellpadding="0" cellspacing="0" width="100%">
+     
+        <tr class="desc">
+           <td width="250" align="right">Upload Image</td>
+           <td width="75" align="right" style="padding-right:4px;">Preview</td>
+           <td style="padding-left:30px;">Delete</td>
+        </tr>
+      <?php $rowIndex = -1; foreach ($_optionCollection as $option) : $rowIndex++;
+		$_colorswatch = Mage::getModel('colorswatch/swatch_images')->getSwatchImage($option->getAttributeId(), $option->getOptionId());
+		$_colorswatchImage = $_colorswatch->getImage();?>     
+     <!-- repeat -->   
+         <tr class="swatchEdit changeColor optionalEdit <?php echo ($rowIndex%2 ? 'secondRow' : '') ?>">
+           <td align="right">
+           
+              <div class="upload-image-wrapper">
+				<?php /*<span id="image_hover-<?php echo $option->getAttributeId()?>-<?php echo $option->getData('option_id')?>-span"></span>
+				<a id="image_hover-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>-a" href="#" onclick="return false" class="add-change-cancelBt">Add image</a>
+				*/ ?>
+				<input class="file" type="file" name="image_hover-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>" id="image_hover-<?php echo $option->getData('attribute_id')?>-<?php echo $option->getData('option_id')?>" />
+			</div>
+                     
+           </td>
+           <td align="right">
+			   <?php if ($_colorswatchImage->getHoverImage()->isImageExsist()) : ?>
+               <img src="<?php echo  $_colorswatchImage->getHoverImage()->resize(44, 44) ?>" alt="Image preview&nbsp;" />
+               <?php else : ?>
+               <img src="/skin/adminhtml/default/default/images/no-image.jpg" width="44" height="44" alt="No image preview" />
+               <?php endif; ?>
+           
+           </td>
+           <td style="padding-left:35px;"> <?php if ($_colorswatchImage->getHoverImage()->isImageExsist()) : ?>
+		  <input type="checkbox" value="1" name="delete_image_hover[<?php echo $option->getAttributeId()?>][<?php echo $option->getOptionId()?>]" />
+		  <?php endif; ?></td>
+        </tr>
+     <!-- end repeat -->   
+      <?php endforeach; ?> 
+     </table>

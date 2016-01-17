@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_colorswatch_index>
+			<reference name="content">
+				<block type="colorswatch/adminhtml_welcome" template="colorswatch/welcome.phtml" name="colorswatch.welcome" />
+			</reference>
+    </adminhtml_colorswatch_index>
+    
+	<colorswatch_adminhtml_colorswatch_attributes>
+    <!--adminhtml_colorswatch_attributes-->
+  		<reference name="head">
+  			<action method="addCss"><stylesheet>colorswatch.css</stylesheet></action>
+  			<action method="addJs"><script>colorswatch/adminhtml/grid.js</script></action>
+  		</reference>
+		
+			<reference name="content">
+<!--				<block type="colorswatch/adminhtml_attribute_base" template="colorswatch/attribute/base.phtml" name="colorswatch.attribute.base" />-->
+				<block type="colorswatch/adminhtml_attribute_base"  template="colorswatch/attribute/base.phtml" name="colorswatch.attribute.base" >
+				
+				</block>
+			</reference>
+    </colorswatch_adminhtml_colorswatch_attributes>    
+  
+    
+</layout>
