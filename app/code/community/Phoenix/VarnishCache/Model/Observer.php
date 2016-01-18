@@ -1,9 +1,9 @@
 <?php
 /**
  * PageCache powered by Varnish
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -11,10 +11,10 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to support@phoenix-media.eu so we can send you a copy immediately.
- * 
+ *
  * @category   Phoenix
  * @package    Phoenix_VarnishCache
- * @copyright  Copyright (c) 2011-2014 PHOENIX MEDIA GmbH (http://www.phoenix-media.eu)
+ * @copyright  Copyright (c) 2011-2015 PHOENIX MEDIA GmbH (http://www.phoenix-media.eu)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -312,7 +312,6 @@ class Phoenix_VarnishCache_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Phoenix_VarnishCache_Model_Observer
      */
-/*  Jarett's Edit
     public function showVclUpdateMessage(Varien_Event_Observer $observer)
     {
         try {
@@ -336,7 +335,7 @@ class Phoenix_VarnishCache_Model_Observer
         }
 
         return $this;
-    } End Jarett's Edit */
+    }
 
     /**
      * Set no-cache cookie for messages if messages have not been cleared before shutdown.
@@ -417,5 +416,13 @@ class Phoenix_VarnishCache_Model_Observer
                 $session->setData('_form_key', $formKey);
             }
         }
+    }
+
+    /**
+     * set the environment cookie after currency switch
+     */
+    public function setEnvironmentCookie()
+    {
+        Mage::helper('varnishcache/environment')->setEnvironmentCookie();
     }
 }
