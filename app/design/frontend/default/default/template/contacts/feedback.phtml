@@ -1,0 +1,101 @@
+<?php ?>
+
+<div class="feedback-idea-container">
+
+    <div class="feedback-header">
+        <div class="feedback-p1">
+            Tell us what you think of our site, if it's good, bad or just missing something.<br/>
+            We value your opinion and want you to have an awesome experience with us.
+        </div>
+        <div class="feedback-p2">
+            If you have any questions about your Order or Product please contact our support team at <span class="feedback-contact-email tms-red">contact&commat;temeculamotorsports&period;com</span>
+        </div>
+
+        <div class="feedback-email">
+            <form class="" action="" method="post">
+                <div class="feedback-form-fields" for="feedback-email">
+                    <label class="feedback-form-label">Email (Optional)</label>
+                    <input type="text" name="email" id="feedback-email" class="feedback-field" />
+                </div>
+                <div class="feedback-form-fields">
+                    <label class="feedback-form-label" for="feedback-feedback">Message (feedback only, please)</label>
+                    <textarea name="feedback" id="feedback-feedback" class="feedback-field"></textarea>
+                    <div class="notification-message tms-red"></div>
+                </div>
+
+                <div class="feedback-form-control">
+                    <button type="button" class="submit-feedback" id="send-feedback"><span>Submit</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#send-feedback").click(function () {
+            jQuery.ajax({
+                url: "<?php echo Mage::getBaseUrl(); ?>feedback/feedback/submit/",
+                data: "email=" + jQuery("#feedback-email").val() + "&feedback=" + jQuery("#feedback-feedback").val(),
+                type: "post",
+                beforeSend: function () {
+                    if (jQuery("#feedback-feedback").val() === '') {
+                        jQuery(".notification-message").html("*Required Field");
+                        jQuery("#feedback-feedback").css({
+                            border: 'solid 1px #FE202B'
+                        });
+                        return false;
+                    } else {
+                        jQuery(".notification-message").html("");
+                        jQuery("#feedback-feedback").css({
+                            border: 'solid 1px #515151'
+                        });
+                    }
+
+                    jQuery("body").append("<div id='cart-overlay' />");
+                    jQuery("body").append("<div id='contest-overlay-content' />");
+
+                    jQuery("#contest-overlay-content").append('<div class="contest-terms-mainwrap" />');
+                    jQuery(".contest-terms-mainwrap").html('<div class="overlay-message">Processing ...</div>');
+
+                    jQuery(".contest-terms-mainwrap").css({
+                        height: '150px',
+                        minHeight: '150px'
+                    });
+
+                    jQuery("#contest-overlay-content").css({
+                        width: '350px',
+                        top: '250px'
+                    });
+
+                    jQuery("#contest-overlay-content").css({
+                        marginLeft: '-' + (jQuery("#contest-overlay-content").width() / 2) + 'px'
+                    });
+
+                    jQuery("#cart-overlay").click(function () {
+                        overlay.hide();
+                    });
+
+                },
+                success: function (resp) {
+                    jQuery(".contest-terms-mainwrap").html('<div class="overlay-message">Thank you for your feedback!</div><div class="close-overlay-wrap"><button type="button" class="close-overlay" onclick="overlay.hide();">Close</button></div>');
+                }
+            });
+
+            overlay = {
+                hide: function () {
+                    jQuery("#contest-overlay-content").fadeOut("fast", function () {
+                        jQuery("#contest-overlay-content").remove();
+                        jQuery("#cart-overlay").fadeOut("fast", function () {
+                            jQuery("#cart-overlay").remove();
+                            window.location = '<?php echo Mage::getBaseUrl(); ?>';
+                        });
+
+                    });
+                }
+            }
+
+        });
+    });
+</script>

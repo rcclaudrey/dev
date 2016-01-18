@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+
+ <PRODUCT_TYPE_configurable translate="label" module="catalog">
+	 
+		<reference name="head">
+			<action method="addCss" ifconfig="smdesign_colorswatch/general/enabled_colorswatch"><stylesheet>css/colorswatch.css</stylesheet></action>
+			<action method="addJs" ifconfig="smdesign_colorswatch/general/enabled_colorswatch"><script>colorswatch/colorswatch-product-config.js</script></action>
+			<!--action method="addItem" ifconfig="smdesign_colorswatch/general/enabled_colorswatch"><type>skin_js</type><name>js/scp_product_extension.js</name></action-->
+		</reference>
+ 
+		<reference name="product.info.options.configurable">
+			<action method="setTemplate" ifconfig="smdesign_colorswatch/general/enabled_colorswatch"><template>colorswatch/catalog/product/view/type/options/configurable.phtml</template></action>
+		</reference>
+		
+		
+	<!--	
+	<reference name="head">
+		<action method="addCss" ifconfig="smdesign_colorswatch/general/enabled_colorswatch"><stylesheet>css/colorswatch.css</stylesheet></action>
+		<action method="addJs" ifconfig="smdesign_colorswatch/general/enabled_colorswatch"><script>colorswatch/colorswatch.js</script></action>
+	</reference>
+	<reference name="product.info.options.wrapper">
+		<block type="colorswatchproductview/product_view_selection" name="colorswatch.selection.wrapper" as="colorswatch_selection_wrapper" template="colorswatch/product/view/selection.phtml"  />
+	</reference>
+	-->
+ </PRODUCT_TYPE_configurable>
+ 
+</layout>
