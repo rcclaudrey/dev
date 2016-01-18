@@ -7400,3 +7400,18 @@ a.leave-feedback {
 a.return-center {
     background-position: 0px -132px !important;
 }
+
+#rma-login-form .col2-set{
+    padding: 20px;
+}
+
+#rma-login-form .content{
+    min-height: 160px;
+}
+
+#rma-login-form .buttons-set2 {
+    text-align: right;
+}
+#rma-login-form .registered-users {
+    width: 535px;
+}
