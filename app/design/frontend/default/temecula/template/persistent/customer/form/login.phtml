@@ -41,7 +41,7 @@
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('login-banner')->toHtml();?>
     </div>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
-        <?php echo $this->getBlockHtml('formkey'); ?>
+        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
         <div class="col2-set">
 	        <div class="col-2 registered-users">
 
