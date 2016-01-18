@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Shopgo_GTM>
-      <active>true</active>
+      <active>false</active>
       <codePool>community</codePool>
     </Shopgo_GTM>
   </modules>
