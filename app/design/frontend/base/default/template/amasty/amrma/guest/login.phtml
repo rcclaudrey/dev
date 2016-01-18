@@ -12,6 +12,7 @@
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     
     <form method="post" action="<?php print $this->getLoginPostUrl();?>" id="login-form">
+    <?php echo $this->getBlockHtml('formkey') ?>
         <div class="col2-set">
             <div class="col-1 registered-users">
                 <div class="content">
