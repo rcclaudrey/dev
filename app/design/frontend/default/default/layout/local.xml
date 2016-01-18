@@ -40,7 +40,11 @@
             <!-- Remove 'Advanced Search' -->
             <action method="removeLinkByUrl">
                 <url helper="catalogsearch/getAdvancedSearchUrl" />
-            </action>                        
+            </action>
+            <!-- Remove 'Contact Us' -->
+            <action method="removeLinkByUrl">
+        <url helper="contact/getContactsUrl" />
+    </action>
         </reference>
     </default>
 </layout>
