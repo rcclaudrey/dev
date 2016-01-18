@@ -574,7 +574,7 @@ input.input-text:focus, select:focus, textarea:focus {
     text-align: left;
 }
 .amscheckout-item{
-	line-height:10px !important;
+    line-height:10px !important;
 }
 
 .form-list label.required {
@@ -1918,7 +1918,7 @@ ul.socials li {
     color: #fff;
     background: #000;
     font-weight: bold;
-     /* text-transform: uppercase; */
+    /* text-transform: uppercase; */
     display: inline;
     padding: 6px 15px
 }
@@ -1981,7 +1981,7 @@ ul.socials li {
     display: inline-block;
     vertical-align: top;
     font-size: 13px
-    
+
 }
 .block-layered-nav .currently .value {
     display: block;
@@ -7386,11 +7386,11 @@ a.leave-feedback {
 }
 
 .footer-payment-heartland-wrap {
-	float: right;
-	margin: 10px 10px 0 0;
+    float: right;
+    margin: 10px 10px 0 0;
 }
 .footer-payment-heartland-wrap a img {
-	height: 43px;
+    height: 43px;
 }
 
 a.leave-feedback {
@@ -7414,4 +7414,13 @@ a.return-center {
 }
 #rma-login-form .registered-users {
     width: 535px;
+}
+
+.amrmafront-guest-login #login-form {
+    background: none !important;
+}
+
+.amrmafront-guest-login .col2-set .col-1 {
+    float: none; 
+    width: 100%;
 }

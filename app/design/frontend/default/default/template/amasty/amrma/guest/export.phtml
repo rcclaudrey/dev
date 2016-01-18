@@ -1,0 +1,96 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+?>
+<style>
+    @media print
+    {    
+        .no-print, .no-print *
+        {
+            display: none !important;
+        }
+    }
+    
+    .am-details .label{
+        padding-right: 20px;
+    }
+</style>
+<?php
+    $_request = $this->getRmaRequest();
+?>
+<div>
+    <h1>
+        <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+    </h1>
+</div>
+<div>
+    <h2><?php print $this->__("RMA Return Info")?></h2>
+</div>
+<div>
+    <table class="am-details">
+        <tr>
+            <td class="label"><?php print $this->__("Date")?></td>
+            <td><?php print $this->getDate($_request->getCreatedAt())?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php print $this->__("ID")?></td>
+            <td><?php print $_request->getId()?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php print $this->__("Order ID")?></td>
+            <td><?php print $_request->getIncrementId()?></td>
+        </tr>
+        <tr>
+            <td class="label"><?php print $this->__("Code")?></td>
+            <td><?php print $_request->getCode()?></td>
+        </tr>
+    </table>
+</div><br/>
+<div>
+                <table style="width: 100%;">
+                    <tr>
+            <th><b><?php print $this->__("Customer Address")?></b></th>
+            <th><b><?php print $this->__("Return Department Address")?></b></th>
+                    </tr>
+                    <tr>
+            <td><?php print $this->getCustomerAddress();?></td>
+            <td><?php print $this->getReturnAddress();?></td>
+                    </tr>
+                </table>
+</div><br/>
+<div>
+    <h2><?php print $this->__("Items")?></h3>
+</div>
+<table class="data-table" id="my-returns-items-table">
+    <col />
+    <col />
+    <col width="30" />
+    <thead>
+        <tr>
+            <th><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            
+            <th><?php echo $this->__('Qty') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getItems() as $key=>$item): ?>
+        <tr>
+            <td>
+                <?php echo $this->escapeHtml($item->getName()) ?>
+            </td>
+            <td><?php echo $this->escapeHtml($item->getSku()) ?></span></td>
+            
+            <td><?php echo $this->escapeHtml($item->getQty()); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+    </table>
+<div style="padding-top: 20px; text-align: center;">
+    
+    <button type="button" class="button no-print " onclick="window.print()" style=""><span><span><span><?php print $this->__("Print")?></span></span></span></button>
+    <button type="button" class="button no-print " onclick="window.close()" style=""><span><span><span><?php print $this->__("Close")?></span></span></span></button>
+</div>
