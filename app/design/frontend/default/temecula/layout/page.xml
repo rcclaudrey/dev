@@ -66,6 +66,9 @@
                     <script>varien/form.js</script>
                 </action>
                 <action method="addJs">
+                    <script>varien/menu.js</script>
+                </action>
+                <action method="addJs">
                     <script>mage/translate.js</script>
                 </action>
                 <action method="addJs">
@@ -76,7 +79,7 @@
                 <action method="addJs">
                     <script>jQuery/jquery-1.10.2.min.js</script>
                 </action>
-
+                
                 <action method="addItem">
                     <type>skin_js</type>
                     <name>js/navigation.js</name>
@@ -84,19 +87,23 @@
                 <action method="addItem">
                     <type>skin_js</type>
                     <name>js/popup/cart.js</name>
-                </action>
+                </action>                               
+                <action method="addItem">
+                    <type>skin_js</type>
+                    <name>js/mainmenu.js</name>
+                </action>                               
                 <action method="addItem">
                     <type>skin_js</type>
                     <name>js/cartheader.js</name>
-                </action>
+                </action>                               
                 <action method="addItem">
                     <type>skin_js</type>
                     <name>js/addtocart.js</name>
-                </action>
+                </action>                               
                 <action method="addItem">
                     <type>skin_js</type>
                     <name>js/pages.js</name>
-                </action>
+                </action>                               
 
                 <block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
                 <action method="addCss">
@@ -136,7 +143,7 @@
                     <if>lt IE 8</if>
                 </action>
 
-
+               
 
                 <action method="addCss">
                     <stylesheet>css/widgets.css</stylesheet>
@@ -184,11 +191,11 @@
 
             <!-- Vendors -->
             <block type="page/html_header" name="vendor_header" as="vendor_header">
-                <block type="page/template_links" name="vendor.top.links" as="topLinks"/>
-                <block type="core/text_list" name="vendor.top.menu" as="vendortopMenu" translate="label">
+                <block type="page/template_links" name="vendor.top.links" as="topLinks"/>                
+                <block type="core/text_list" name="vendor.top.menu" as="vendortopMenu" translate="label">                    
                     <block type="page/html_topmenu" name="vendor.catalog.topnav" template="vendor/page/html/topmenu.phtml"/>
                 </block>
-
+                
                 <action method="setTemplate">
                     <template>vendor/page/html/vendor-head.phtml</template>
                 </action>
@@ -196,7 +203,7 @@
 <!--            <block type="page/html_footer" name="vendor_footer" as="vendor_footer">
                 <action method="setTemplate">
                     <template>vendor/page/html/vendor-footer.phtml</template>
-                </action>
+                </action>                 
             </block>-->
             <!-- Vendors -->
 
