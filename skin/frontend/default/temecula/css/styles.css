@@ -7392,3 +7392,11 @@ a.leave-feedback {
 .footer-payment-heartland-wrap a img {
 	height: 43px;
 }
+
+a.leave-feedback {
+    background-position: 0 -44px !important;
+}
+
+a.return-center {
+    background-position: 0px -132px !important;
+}
