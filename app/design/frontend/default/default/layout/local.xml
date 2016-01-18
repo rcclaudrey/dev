@@ -41,10 +41,6 @@
             <action method="removeLinkByUrl">
                 <url helper="catalogsearch/getAdvancedSearchUrl" />
             </action>
-            <!-- Remove 'Contact Us' -->
-            <action method="removeLinkByUrl">
-        <url helper="contact/getContactsUrl" />
-    </action>
         </reference>
     </default>
 </layout>
