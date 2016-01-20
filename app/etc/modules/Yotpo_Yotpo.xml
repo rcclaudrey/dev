@@ -3,7 +3,7 @@
 <config>
     <modules>
         <Yotpo_Yotpo>
-            <active>false</active>
+            <active>true</active>
             <codePool>community</codePool>
         </Yotpo_Yotpo>
     </modules>
