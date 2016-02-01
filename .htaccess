@@ -20,6 +20,7 @@
 
     #AddType x-mapp-php5 .php
     #AddHandler x-mapp-php5 .php
+    SetEnvIf X-Forwarded-Proto https HTTPS=on
 
 ############################################
 ## default index file

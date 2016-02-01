@@ -41,9 +41,9 @@
 			<default_setup>
 				<connection>
 					<host><![CDATA[localhost]]></host>
-					<username><![CDATA[devtms_admin]]></username>
-					<password><![CDATA[skey2Coll!#]]></password>
-					<dbname><![CDATA[devtms_magento_v5]]></dbname>
+					<username><![CDATA[devtmspa_user]]></username>
+					<password><![CDATA[hN0Abd5MVu~w]]></password>
+					<dbname><![CDATA[devtmspa_mag]]></dbname>
 					<initStatements><![CDATA[SET NAMES utf8]]></initStatements>
 					<model><![CDATA[mysql4]]></model>
 					<type><![CDATA[pdo_mysql]]></type>
@@ -54,9 +54,9 @@
 			<oemdb_database>
 				<connection>
 				<host><![CDATA[localhost]]></host>
-				<username><![CDATA[devtms_admin]]></username>
-				<password><![CDATA[skey2Coll!#]]></password>
-				<dbname><![CDATA[devtms_oem]]></dbname>
+				<username><![CDATA[devtmspa_user]]></username>
+				<password><![CDATA[hN0Abd5MVu~w]]></password>
+				<dbname><![CDATA[devtmspa_oem]]></dbname>
 				<model>mysql4</model>
 				<type>pdo_mysql</type>
 		<active>1</active>
