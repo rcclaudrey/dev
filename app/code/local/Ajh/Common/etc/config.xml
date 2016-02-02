@@ -12,7 +12,18 @@
             </common>
         </helpers>
     </global>
-    <admin>
+    <frontend>
+        <routers>
+            <common>
+                <use>standard</use>
+                <args>
+                    <module>Ajh_Common</module>
+                    <frontName>common</frontName>
+                </args>
+            </common>
+        </routers>
+    </frontend>
+<!--    <admin>
         <routers>
             <common>
                 <use>admin</use>
@@ -22,5 +33,5 @@
                 </args>
             </common>
         </routers>
-    </admin>
+    </admin>-->
 </config>
