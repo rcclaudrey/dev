@@ -66,7 +66,7 @@ $baseUrl = Mage::getUrl();
 
 				jQuery(document).ready(function () {
 					jQuery.ajax({
-						url: '<?php echo $this->getUrl('common/menu') ?>',
+						url: '<?php echo $this->getUrl('tmsmenu/menu') ?>',
 						dataType: 'html',
 						cache: true,
 						success: function(response, textStatus) {
