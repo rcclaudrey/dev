@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+        <Ajh_TmsMenu>
+            <version>0.0.1</version>
+        </Ajh_TmsMenu>
+   </modules>
+    <global>
+        <helpers>
+            <tmsmenu>
+                <class>Ajh_TmsMenu_Helper</class>
+            </tmsmenu>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <tmsmenu>
+                <use>admin</use>
+                <args>
+                    <module>Ajh_TmsMenu</module>
+                    <frontName>tmsmenu</frontName>
+                </args>
+            </tmsmenu>
+        </routers>
+    </admin>
+</config>

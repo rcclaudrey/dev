@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ajh_TmsMenu>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ajh_TmsMenu>
+    </modules>
+</config>
