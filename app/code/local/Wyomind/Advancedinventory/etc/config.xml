@@ -3,7 +3,7 @@
 <config>
     <modules>
         <Wyomind_Advancedinventory>
-            <version>5.1.4</version>
+            <version>5.1.5</version>
         </Wyomind_Advancedinventory>
     </modules>
     <stores>
@@ -21,7 +21,7 @@
     <default>
         <advancedinventory>
             <license>
-                <version>5.1.4</version>
+                <version>5.1.5</version>
             </license>
             <setting>
                 <usemultistock>1</usemultistock>
@@ -44,13 +44,13 @@
     </default>
     <frontend>
         <routers>
-            <pointofsale>
+            <advancedinventory>
                 <use>standard</use>
                 <args>
                     <module>Wyomind_Advancedinventory</module>
-                    <frontName>Advancedinventory</frontName>
+                    <frontName>advancedinventory</frontName>
                 </args>
-            </pointofsale>
+            </advancedinventory>
         </routers>
       
         <translate>

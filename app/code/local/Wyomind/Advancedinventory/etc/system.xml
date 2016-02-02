@@ -131,6 +131,18 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_notification>
+                        <admin_order_notification translate="label comment">
+                            <label>Customer service</label>
+                            <comment>
+                                 <![CDATA[<span class="notice">Display a notification when orders are not assigned to multiple inventories</span>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </admin_order_notification>
+                        
                         <order_notification_from_date translate="label comment">
                             <label>Start date for order assignation</label>
                             <comment>

@@ -35,14 +35,14 @@
     <?php
     $multistockEnabled = true;
     $_readonly_ai = ' disabled="disabled" ';
-    if (!in_array($this->getProduct()->getTypeId(), array("configurable", "bundle", "grouped")))
+    if (!in_array($this->getProduct()->getTypeId(), array("configurable", "bundle", "grouped","virtual")))
         $disabled = (Mage::getStoreConfig("advancedinventory/setting/auto_update_stock_status")) ? 'disabled' : '';
     ?>
 <?php else: ?>
     <?php
     $multistockEnabled = false;
     $_readonly_ai = '';
-    if (!in_array($this->getProduct()->getTypeId(), array("configurable", "bundle", "grouped")))
+    if (!in_array($this->getProduct()->getTypeId(), array("configurable", "bundle", "grouped","virtual")))
         $disabled = (Mage::getStoreConfig("advancedinventory/setting/auto_update_stock_status")) ? 'disabled' : '';
     ?>
 <?php endif; ?>

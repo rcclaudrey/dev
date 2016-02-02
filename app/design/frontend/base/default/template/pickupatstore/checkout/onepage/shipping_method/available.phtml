@@ -70,7 +70,7 @@ $_debug = false;
                     <?php if (Mage::getStoreConfig('carriers/pickupatstore/date')): ?>
 
                         <?php
-                        echo "<script type='javascript'>";
+                        echo "<script type='text/javascript'>";
                         $maxdays = Mage::getStoreConfig("carriers/pickupatstore/scheduleahead");
                         $minimum_delay = Mage::getStoreConfig("carriers/pickupatstore/minimaldelay") * 60;
                         $currentTime = Mage::getSingleton('core/date')->gmtTimestamp();
@@ -105,7 +105,7 @@ $_debug = false;
 
                     <?php if (Mage::getStoreConfig('carriers/pickupatstore/time') && Mage::getStoreConfig("carriers/pickupatstore/date")): ?>
                         <?php
-                        echo "<script type='javascript'>";
+                        echo "<script type='text/javascript'>";
                         $data = array();
                         $range = Mage::getStoreConfig("carriers/pickupatstore/timerange"); // @TODO -> configuration > system
                         for ($h = 0; $h <= 24; $h++) {
@@ -114,7 +114,7 @@ $_debug = false;
                                 $h_formated = str_pad($h, 2, 0, STR_PAD_LEFT);
                                 $m_formated = str_pad($m, 2, 0, STR_PAD_LEFT);
 
-                                ($time == $h_formated . ':' . $m_formated ) ? $selected = " selected " : $selected = null;
+                               
                                 $data[] = "{'value':'$h_formated:$m_formated','label':'" . date(Mage::getStoreConfig("carriers/pickupatstore/timeformat"), $t) . "'}";
                                 if ($h == 24)
                                     break;
@@ -341,7 +341,7 @@ $_debug = false;
     </div>
 
 
-    <script type = "text/javascript"  src = "http<?php if (Mage::app()->getStore()->isCurrentlySecure()) echo "s" ?>://maps.googleapis.com/maps/api/js?sensor=false&v=3" ></script>
+    <script type = "text/javascript"  src = "//maps.googleapis.com/maps/api/js?sensor=false&v=3" ></script>
     <script type="text/javascript">
 
     <?php echo $pos->renderJs(); ?>

@@ -37,6 +37,7 @@ class Wyomind_Advancedinventory_Model_Observer {
                     if (!Mage::helper('sales')->canSendNewOrderEmail($storeId))
                         return;
                     foreach ($result->assignation_warehouses as $warehouse_id) {
+
                         // Get the destination email addresses to send copies to
                         $emails = explode(',', trim(Mage::getModel('pointofsale/pointofsale')->load($warehouse_id)->getInventoryNotification()));
 
@@ -72,14 +73,21 @@ class Wyomind_Advancedinventory_Model_Observer {
 
                             $mailer = Mage::getModel('core/email_template_mailer');
                             $emailInfo = Mage::getModel('core/email_info');
-                            $emailInfo->addTo($emails[0], $customerName);
-                            if (count($emails) > 0) {
+
+                            if (count($emails) > 0 && count(array_unique($result->assignation_warehouses)) == 1) {
+                                $emailInfo->addTo($emails[0], $customerName);
+
                                 $c = 0;
                                 foreach ($emails as $email) {
                                     if ($c > 0)
                                         $emailInfo->addBcc($email);
+                                    echo $email;
                                     $c++;
                                 }
+                            }
+                            else {
+
+                                $emailInfo->addTo(Mage::getStoreConfig("advancedinventory/setting/admin_order_notification"));
                             }
                             $mailer->addEmailInfo($emailInfo);
 
@@ -95,6 +103,7 @@ class Wyomind_Advancedinventory_Model_Observer {
                                 'payment_html' => $paymentBlockHtml
                                     )
                             );
+
                             $mailer->send();
                         }
                     }
@@ -189,7 +198,7 @@ class Wyomind_Advancedinventory_Model_Observer {
             if (isset($assignation_stock_new[$item->getProductId()]))
                 $assignation_stock_new[$item->getProductId()] = array_reverse($assignation_stock_new[$item->getProductId()], true);
         }
-        
+
 
         $additional = array("action" => "Order creditmemo", "type" => "Backend", "store_id" => $order->getStoreId(), "order_id" => $order->getId());
         Mage::helper('advancedinventory/data')->increaseStock($orderedItems, $assignation_stock_origin, $additional);
@@ -424,7 +433,7 @@ class Wyomind_Advancedinventory_Model_Observer {
         $is_admin = $permissions->isAdmin();
 
 
-        if (!in_array($product->getTypeId(), array("configurable", "bundle", "grouped"))) {
+        if (!in_array($product->getTypeId(), array("configurable", "bundle", "grouped", "virtual"))) {
 
             if ($store_id || !$is_admin) {
 
@@ -540,6 +549,8 @@ class Wyomind_Advancedinventory_Model_Observer {
                     } else {
                         $updatedData['stock_data']['is_in_stock'] = 0;
                     }
+                    $stockStatus = ($updatedData['stock_data']['is_in_stock'] == 1) ? true : false;
+                } else {
                     $stockStatus = ($updatedData['stock_data']['is_in_stock'] == 1) ? true : false;
                 }
             } else {

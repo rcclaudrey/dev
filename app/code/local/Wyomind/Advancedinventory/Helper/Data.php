@@ -248,7 +248,57 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
 
             $places = Mage::getModel('pointofsale/pointofsale')->getPlacesByStoreId($order->getStoreId());
 
-            if (Mage::getStoreConfig("advancedinventory/setting/multiple_assignation_enabled")) {
+
+            foreach ($places as $place) {
+                $this->log .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
+                $this->log .= "* Checking warehouse : " . $place->getName() . " [" . $place->getStoreCode() . "]\r\n";
+
+                $cnt = 0;
+
+                foreach ($orderedItems as $item) {
+                    if (Mage::getModel('advancedinventory/stock')->getMultiStockEnabledByProductId($item["id"])) {
+                        $this->log .= ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\r\n";
+                        $this->log .= "* * Checking rules for " . $item['sku'] . "[ID:" . $item["id"] . "], ordered qty :" . $item["qty"] . "\r\n";
+                        $rules = $this->getAssignationRules($place->getUseAssignationRules(), $place->getInventoryAssignationRules());
+                        foreach ($this->getRules($rules) as $rule) {
+                            $this->log .= "* * * Checking rule '" . trim($rule) . "' \r\n";
+                            if ($rule == '*' || $this->addressMatch($rule, $destination, false)) {
+                                $this->log .="* * * * This rule macth!\r\n";
+
+                                $available = $this->checkProductAvailability($item, $place, false, false, $places);
+                                if ($available == 2) {
+                                    $cnt++;
+                                    if ($cnt == count($orderedItems)) {
+                                        break 3;
+                                    }
+                                    continue 2;
+                                } else {
+                                    $this->assignation_warehouses = array();
+                                    $this->assignation_stock = array();
+                                    continue 3;
+                                }
+                            } else {
+                                $this->log .= "* * * * This rule doesn't match!\r\n";
+                            }
+                        }
+                    } else {
+
+                        $this->log .= "* * Multi-stock is not managed\r\n";
+                        $inventory = Mage::getModel('cataloginventory/stock_item')->loadByProduct($item["id"]);
+
+                        if (($inventory->getManageStock() && !$inventory->getUse_config_manage_stock()) || ($inventory->getUse_config_manage_stock() && Mage::getStoreConfig("cataloginventory/item_options/manage_stock"))) {
+                            $new_qty = $inventory->getQty() - $item["qty"];
+                            $this->log .= "* * * Stock decremented (Qty : $new_qty)\r\n";
+                        } else {
+                            $this->log .= "* * * Stock is not managed\r\n";
+                        }
+                    }
+                }
+            }
+
+
+
+            if (Mage::getStoreConfig("advancedinventory/setting/multiple_assignation_enabled") && !count($this->assignation_warehouses)) {
 
                 foreach ($orderedItems as $item) {
                     $this->log .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n"
@@ -288,50 +338,10 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
                         }
                     }
                 }
-            }else {
-
-                foreach ($places as $place) {
-                    $this->log .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
-                    $this->log .= "* Checking warehouse : " . $place->getName() . " [" . $place->getStoreCode() . "]\r\n";
-
-                    foreach ($orderedItems as $item) {
-                        if (Mage::getModel('advancedinventory/stock')->getMultiStockEnabledByProductId($item["id"])) {
-                            $this->log .= ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\r\n";
-                            $this->log .= "* * Checking rules for " . $item['sku'] . "[ID:" . $item["id"] . "], ordered qty :" . $item["qty"] ."\r\n";
-                            $rules = $this->getAssignationRules($place->getUseAssignationRules(), $place->getInventoryAssignationRules());
-                            foreach ($this->getRules($rules) as $rule) {
-                                $this->log .= "* * * Checking rule '" . trim($rule) . "' \r\n";
-                                if ($rule == '*' || $this->addressMatch($rule, $destination, false)) {
-                                    $this->log .="* * * * This rule macth!\r\n";
-								
-                                    $available = $this->checkProductAvailability($item, $place, false, false, $places);
-								     if ($available == 2) {
-									    continue 2;
-                                    } else {
-                                        $this->assignation_warehouses = array();
-                                        $this->assignation_stock = array();
-                                        continue 3;
-                                    }
-                                } else {
-                                    $this->log .= "* * * * This rule doesn't match!\r\n";
-                                }
-                            }
-                        } else {
-
-                            $this->log .= "* * Multi-stock is not managed\r\n";
-                            $inventory = Mage::getModel('cataloginventory/stock_item')->loadByProduct($item["id"]);
-
-                            if (($inventory->getManageStock() && !$inventory->getUse_config_manage_stock()) || ($inventory->getUse_config_manage_stock() && Mage::getStoreConfig("cataloginventory/item_options/manage_stock"))) {
-                                $new_qty = $inventory->getQty() - $item["qty"];
-                                $this->log .= "* * * Stock decremented (Qty : $new_qty)\r\n";
-                            } else {
-                                $this->log .= "* * * Stock is not managed\r\n";
-                            }
-                        }
-                    }
-                   
-                }
             }
+
+
+
             $this->log .= "\r\n-----------------------------------------------------------------------------\r\n";
             $this->log .= "ASSIGNED TO : " . implode(",", $this->assignation_warehouses);
             $this->log .= "\r\n-----------------------------------------------------------------------------\r\n";
@@ -349,11 +359,12 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
 
             $this->decreaseStock($orderedItems, $this->assignation_stock, array("action" => "Order placed", "type" => $type, "store_id" => $order->getStoreId(), "order_id" => $order->getId(), "warehouses" => $this->assignation_warehouses));
         }
-       
+
         return $this;
     }
 
-    public function checkProductAvailability($item, $place, $mutiple_assignation = true, $pickup = false, $places) {
+    public function checkProductAvailability($item, $place,
+            $mutiple_assignation = true, $pickup = false, $places = array()) {
 
         $ordered_qty = 0;
 
@@ -404,7 +415,7 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
                     }
 
                     $rtn = 2;
-                } elseif ($qty <= 0 && $useDefaultConfigBackOrder && $defaultBackOrdeValue) {
+                } elseif ($qty < 0 && $useDefaultConfigBackOrder && $defaultBackOrdeValue) {
                     $this->log .= "Backorder allowed!\r\n";
                     if (trim($place->getGroup()) != '') {
                         foreach ($places as $p) {
@@ -418,7 +429,7 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
                         $this->assignation_warehouses[] = $place->getPlaceId();
                     }
                     $rtn = 2;
-                } elseif ($qty <= 0 && !$useDefaultConfigBackOrder && $backOrderAllowed) {
+                } elseif ($qty < 0 && !$useDefaultConfigBackOrder && $backOrderAllowed) {
                     $this->log .= "Backorder allowed!\r\n";
                     if (trim($place->getGroup()) != '') {
                         foreach ($places as $p) {
@@ -481,68 +492,73 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
         return $rtn;
     }
 
-    public function decreaseStock($orderedItems, $assignation = array(), $additional = array(), $sign = 1) {
+    public function decreaseStock($orderedItems, $assignation = array(),
+            $additional = array(), $sign = 1) {
+        if (isset($additional["warehouses"])) {
+            $warehouses = $additional["warehouses"];
+        } else {
+            $warehouses = array();
+        }
+        Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", $additional['action'], "S#" . $additional["store_id"] . ",O#" . $additional["order_id"], "Assigned to : " . implode(", ", $warehouses));
 
-        Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", $additional['action'], "S#" . $additional["store_id"] . ",O#" . $additional["order_id"], "Assigned to : " . implode(", ", $additional["warehouses"]));
 
-       
 
-            foreach ($orderedItems as $orderedItem) {
+        foreach ($orderedItems as $orderedItem) {
 
-                try {
+            try {
 
-                    $stock = Mage::getModel('advancedinventory/stock')->getStocksByProductIdAndStoreId($orderedItem['id'])->getFirstItem();
-                    if ($stock->getManageLocalStock()) {
-                        $total_qty = 0;
+                $stock = Mage::getModel('advancedinventory/stock')->getStocksByProductIdAndStoreId($orderedItem['id'])->getFirstItem();
+                if ($stock->getManageLocalStock()) {
+                    $total_qty = 0;
 
-                        foreach ($assignation[$orderedItem['id']] as $wh_id => $qty) {
+                    foreach ($assignation[$orderedItem['id']] as $wh_id => $qty) {
 
-                            $model = Mage::getModel('advancedinventory/stock')->getStockByProductIdAndPlaceId($orderedItem['id'], $wh_id);
-                            if ($model->getManageStock()) {
-                                $model_data = array(
-                                    'quantity_in_stock' => $model->getQuantityInStock() - $sign * $qty,
-                                    'product_id' => $orderedItem['id'],
-                                    'place_id' => $wh_id,
-                                    'localstock_id' => $stock->getStockProductId(),
-                                    "id" => $model->getId()
-                                );
+                        $model = Mage::getModel('advancedinventory/stock')->getStockByProductIdAndPlaceId($orderedItem['id'], $wh_id);
+                        if ($model->getManageStock()) {
+                            $model_data = array(
+                                'quantity_in_stock' => $model->getQuantityInStock() - $sign * $qty,
+                                'product_id' => $orderedItem['id'],
+                                'place_id' => $wh_id,
+                                'localstock_id' => $stock->getStockProductId(),
+                                "id" => $model->getId()
+                            );
 
-                                if ($qty != 0) {
+                            if ($qty != 0) {
 
-                                    Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", "Assignation updated", "S#" . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'] . ",W#$wh_id", "Assigned qty : $qty ");
-                                    Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", "Qty updated", "S#" . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'] . ",W#$wh_id", "Qty : " . $model->getQuantityInStock() . " -> " . ($model->getQuantityInStock() - $sign * $qty));
-                                }
-
-                                $model->setData($model_data)->save();
-
-                                $total_qty+=$qty;
+                                Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", "Assignation updated", "S#" . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'] . ",W#$wh_id", "Assigned qty : $qty ");
+                                Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", "Qty updated", "S#" . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'] . ",W#$wh_id", "Qty : " . $model->getQuantityInStock() . " -> " . ($model->getQuantityInStock() - $sign * $qty));
                             }
-                        }
-                        $inventory = Mage::getModel('cataloginventory/stock_item')->loadByProduct($orderedItem['id']);
 
-                        $new_qty = $inventory->getQty() - $sign * $total_qty;
-                        if ($new_qty != $inventory->getQty())
-                            Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", "Total qty updated", "S#" . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'], "Qty : " . (int) $inventory->getQty() . " -> " . ($new_qty), $additional['user']);
+                            $model->setData($model_data)->save();
 
-                        $inventory->setQty($new_qty)->save();
-                    } else {
-                        $inventory = Mage::getModel('cataloginventory/stock_item')->loadByProduct($orderedItem['id']);
-                        if (($inventory->getManageStock() && !$inventory->getUse_config_manage_stock()) || ($inventory->getUse_config_manage_stock() && Mage::getStoreConfig("cataloginventory/item_options/manage_stock"))) {
-                            $new_qty = $inventory->getQty() - $sign * $orderedItem['qty'];
-                            if ($new_qty != $inventory->getQty())
-                                Mage::helper('advancedinventory/log')->insertRow($additional["type"] . "order", "Total qty updated", "S# : " . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'], "Qty : " . (int) $inventory->getQty() . " -> " . ($new_qty), $additional['user']);
-
-                            $inventory->setQty($new_qty)->save();
+                            $total_qty+=$qty;
                         }
                     }
-                } catch (Exception $exception) {
-                    Mage::log('Advanced Inventory says :' . $exception->getMessage(), Zend_Log::ERR);
+                    $inventory = Mage::getModel('cataloginventory/stock_item')->loadByProduct($orderedItem['id']);
+
+                    $new_qty = $inventory->getQty() - $sign * $total_qty;
+                    if ($new_qty != $inventory->getQty())
+                        Mage::helper('advancedinventory/log')->insertRow($additional["type"] . " order", "Total qty updated", "S#" . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'], "Qty : " . (int) $inventory->getQty() . " -> " . ($new_qty), $additional['user']);
+
+                    $inventory->setQty($new_qty)->save();
+                } else {
+                    $inventory = Mage::getModel('cataloginventory/stock_item')->loadByProduct($orderedItem['id']);
+                    if (($inventory->getManageStock() && !$inventory->getUse_config_manage_stock()) || ($inventory->getUse_config_manage_stock() && Mage::getStoreConfig("cataloginventory/item_options/manage_stock"))) {
+                        $new_qty = $inventory->getQty() - $sign * $orderedItem['qty'];
+                        if ($new_qty != $inventory->getQty())
+                            Mage::helper('advancedinventory/log')->insertRow($additional["type"] . "order", "Total qty updated", "S# : " . $additional["store_id"] . ",O#" . $additional["order_id"] . ",P#" . $orderedItem['id'], "Qty : " . (int) $inventory->getQty() . " -> " . ($new_qty), $additional['user']);
+
+                        $inventory->setQty($new_qty)->save();
+                    }
                 }
+            } catch (Exception $exception) {
+                Mage::log('Advanced Inventory says :' . $exception->getMessage(), Zend_Log::ERR);
             }
-        
+        }
     }
 
-    public function increaseStock($orderedItems, $assignation, $additional = array()) {
+    public function increaseStock($orderedItems, $assignation,
+            $additional = array()) {
 
         $this->decreaseStock($orderedItems, $assignation, $additional, -1);
     }
@@ -572,7 +588,7 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
         $this->log = "\r\n* Checking availability for quote #" . Mage::getSingleton('checkout/session')->getQuote()->getId() . "\r\n";
 
 
-		$_places = array();
+        $_places = array();
         foreach ($places as $place) {
             $this->log .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
             $this->log .= "* Checking warehouse : " . $place->getName() . " [" . $place->getStoreCode() . "]\r\n";

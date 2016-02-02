@@ -19,7 +19,7 @@
             <block type="core/text" name="googlemap">
                 <action method="setText">
                     <text>
-           <![CDATA[<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>]]>
+           <![CDATA[<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>]]>
                     </text>
                 </action>
             </block>			

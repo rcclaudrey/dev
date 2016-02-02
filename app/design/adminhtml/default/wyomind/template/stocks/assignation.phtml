@@ -115,7 +115,7 @@ foreach ($orderedItems as $item) {
                                     <td style="display:<?php echo $display ?>" align='center' width='35' class='multistock_disabled'><?php echo Mage::helper('advancedinventory')->__("X") ?></td>
                                 <?php
                                 endif;
-                                if ($data[$c["id"]][$p->getId()])
+                                if (isset($data[$c["id"]][$p->getId()]) && $data[$c["id"]][$p->getId()])
                                     $qty = $data[$c["id"]][$p->getId()];
                                 else
                                     $qty = 0;

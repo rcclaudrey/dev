@@ -19,15 +19,18 @@ class Wyomind_Advancedinventory_Block_Adminhtml_Sales_Order_Renderer_Assignation
         $items = Mage::helper('advancedinventory/data')->getOrderedItems($row);
         foreach ($items as $item) {
             $qty = 0;
-            foreach ($data[$item["id"]] as $wh => $q) {
 
-                if ($q > 0) {
-                    if (!isset($warehouses[$wh]))
-                        $warehouses[$wh] = 0;
-                    $warehouses[$wh] += $q;
-                }
-                $qty+=$q;
-            };
+            if (isset($data[$item["id"]]) && is_array($data[$item["id"]])) {
+                foreach ($data[$item["id"]] as $wh => $q) {
+
+                    if ($q > 0) {
+                        if (!isset($warehouses[$wh]))
+                            $warehouses[$wh] = 0;
+                        $warehouses[$wh] += $q;
+                    }
+                    $qty+=$q;
+                };
+            }
             if ($item['qty'] > $qty && Mage::getModel('advancedinventory/stock')->getMultiStockEnabledByProductId($item['id'])) {
                 $warnings++;
             }

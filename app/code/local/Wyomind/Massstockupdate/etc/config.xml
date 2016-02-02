@@ -3,13 +3,13 @@
 <config>
     <modules>
         <Wyomind_Massstockupdate>
-            <version>3.9.1</version>
+            <version>3.9.2</version>
         </Wyomind_Massstockupdate>
     </modules>
     <default>
         <massstockupdate>
             <license>
-                <version>3.9.1</version>
+                <version>3.9.2</version>
             </license>
             
             <import>

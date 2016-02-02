@@ -1,5 +1,4 @@
 <?php
-
 class Wyomind_Advancedinventory_RssController extends Mage_Core_Controller_Front_Action {
 
     public function StockAction() {
