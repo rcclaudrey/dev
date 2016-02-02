@@ -22,7 +22,7 @@ class Ajh_TmsMenu_MenuController extends Mage_Core_Controller_Front_Action
 //		header('Cache-Control: max-age=432000, public, must-revalidate');
 		header('Cache-Control: max-age=432000, public');
 //		setcookie('expires', $expires);
-
+header('Access-Control-Allow-Origin: ' . Mage::getUrl('',array('_secure'=>true)); 
 		echo $res;
 		die;
 	}
