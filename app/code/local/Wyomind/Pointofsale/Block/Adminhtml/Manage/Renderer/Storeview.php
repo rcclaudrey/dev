@@ -24,7 +24,7 @@ class Wyomind_Pointofsale_Block_Adminhtml_Manage_Renderer_Storeview extends Mage
                         }
                     }
                 }
-                echo "</div>";
+                echo "<div>";
             }
         }
     }

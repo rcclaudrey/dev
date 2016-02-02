@@ -94,13 +94,14 @@ class Wyomind_Pickupatstore_Model_Carrier_Pickup extends Mage_Shipping_Model_Car
 
                 if (!in_array(Mage::app()->getRequest()->getActionName(), array("saveBilling", "saveShipping"))) {
                     $quote = Mage::getSingleton('checkout/session')->getQuote();
-                    if (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date') && Mage::getStoreConfig('carriers/pickupatstore/time'))
-                        $address.=" " . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($quote->getPickupDatetime()) . " ";
+                    if (Mage::getStoreConfig('carriers/pickupatstore/dropdown')) {
+                        if (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date') && Mage::getStoreConfig('carriers/pickupatstore/time'))
+                            $address.=" " . Mage::helper('pickupatstore')->__('Your pickup time: ') . Mage::helper('pickupatstore')->formatDatetime($quote->getPickupDatetime()) . " ";
 
-                    elseif (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date'))
-                        $address.=" " . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($quote->getPickupDate()) . " ";
+                        elseif (Mage::getSingleton('core/session')->getPickupatstore() && Mage::getStoreConfig('carriers/pickupatstore/date'))
+                            $address.=" " . Mage::helper('pickupatstore')->__('Your pickup date: ') . Mage::helper('pickupatstore')->formatDate($quote->getPickupDatetime()) . " ";
+                    }
                 }
-
                 $method->setMethodTitle($address);
 
                 $method->setPrice($handling_fee);
@@ -110,7 +111,7 @@ class Wyomind_Pickupatstore_Model_Carrier_Pickup extends Mage_Shipping_Model_Car
                 $result->append($method);
             }
         }
-     
+
         if ($ai_enabled)
             Mage::log($ai_helper->log, null, "Pickup@Store.log");
 

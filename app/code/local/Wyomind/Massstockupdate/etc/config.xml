@@ -3,13 +3,13 @@
 <config>
     <modules>
         <Wyomind_Massstockupdate>
-            <version>3.8.0</version>
+            <version>3.9.1</version>
         </Wyomind_Massstockupdate>
     </modules>
     <default>
         <massstockupdate>
             <license>
-                <version>3.8.0</version>
+                <version>3.9.1</version>
             </license>
             
             <import>
@@ -41,13 +41,13 @@
     </frontend>
     <admin>
         <routers>
-            <massstockupdate>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Wyomind_Massstockupdate</module>
-                    <frontName>massstockupdate</frontName>
+                    <modules>
+                        <Wyomind_Massstockupdate after="Mage_Adminhtml">Wyomind_Massstockupdate_Adminhtml</Wyomind_Massstockupdate>
+                    </modules>
                 </args>
-            </massstockupdate>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>
@@ -59,7 +59,7 @@
                             <massstockupdate translate="title" module="massstockupdate">
                                 <title>Mass Stock Update</title>
                                 <sort_order>1</sort_order>
-                                <action>massstockupdate/adminhtml_import</action>
+                                <action>adminhtml/imports</action>
                             </massstockupdate>
                         </children>
                     </convert>

@@ -9,13 +9,13 @@
 <config>
     <modules>
         <Wyomind_Notificationmanager>
-            <version>2.0.0</version> 
+            <version>2.0.1</version> 
         </Wyomind_Notificationmanager> 
     </modules> 
     <default>
         <notificationmanager>
             <notificationmanager>
-                <version>2.0.0</version>
+                <version>2.0.1</version>
                 <action_required>1</action_required>
             </notificationmanager>
         </notificationmanager>
@@ -31,17 +31,7 @@
             </notificationmanager>
         </routers>  
     </frontend>
-    <admin>
-        <routers>
-            <notificationmanager>
-                <use>admin</use>
-                <args>
-                    <module>Wyomind_Notificationmanager</module>
-                    <frontName>notificationmanager</frontName>
-                </args>
-            </notificationmanager>
-        </routers>
-    </admin>
+   
     <global>
         <resources>
             <notificationmanager_setup>

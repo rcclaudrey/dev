@@ -14,7 +14,9 @@ class Wyomind_Advancedinventory_Adminhtml_StocksController extends Mage_Adminhtm
         $this->_initAction()
                 ->renderLayout();
     }
-
+	protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/stocks');
+    }
     public function treeviewAction() {
         $type = Mage::app()->getRequest()->getParam("type");
         $productId = Mage::app()->getRequest()->getParam("productid");
@@ -40,7 +42,7 @@ class Wyomind_Advancedinventory_Adminhtml_StocksController extends Mage_Adminhtm
                     'id': 'g" . $storegroup->getId() . "-p" . $productId . "',
                     'txt': '<b>" . $storegroup->getName() . " (" . $qty . ")</b>',
                     'onopenpopulate' : myOpenPopulate,
-                    'openlink' : '" . Mage::getUrl('advancedinventory/adminhtml_stocks/treeview', array("type" => "stores", 'instanceid' => $storegroup->getId(), "productid" => $productId)) . "',
+                    'openlink' : '" . Mage::getUrl('*/stocks/treeview', array("type" => "stores", 'instanceid' => $storegroup->getId(), "productid" => $productId)) . "',
                     'canhavechildren' : true
                     }";
             }
@@ -56,7 +58,7 @@ class Wyomind_Advancedinventory_Adminhtml_StocksController extends Mage_Adminhtm
                     'id': 's" . $store->getId() . "-p" . $productId . "',
                     'txt': '" . $store->getName() . " (" . (int) $qty . ")',
                     'onopenpopulate' : myOpenPopulate,
-                    'openlink' : '" . Mage::getUrl('advancedinventory/adminhtml_stocks/treeview', array("type" => "pos", 'instanceid' => $store->getId(), "productid" => $productId)) . "',
+                    'openlink' : '" . Mage::getUrl('*/stocks/treeview', array("type" => "pos", 'instanceid' => $store->getId(), "productid" => $productId)) . "',
                     'canhavechildren' : true
                     }";
             }

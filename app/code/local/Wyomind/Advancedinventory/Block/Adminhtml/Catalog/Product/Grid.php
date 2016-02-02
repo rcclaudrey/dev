@@ -7,8 +7,6 @@ Class Wyomind_Advancedinventory_Block_Adminhtml_Catalog_Product_Grid extends Mag
         $this->setUseAjax(false);
     }
 
-    public function getGridUrl() {
-        return $this->getUrl('*/*/index', array('_current' => true));
-    }
+   
 
 }

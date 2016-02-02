@@ -14,7 +14,9 @@ class Wyomind_Advancedinventory_Adminhtml_LogController extends Mage_Adminhtml_C
         $this->_initAction()
                 ->renderLayout();
     }
-
+	protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/pointofsale/log');
+    }
     public function massDeleteAction() {
 
 

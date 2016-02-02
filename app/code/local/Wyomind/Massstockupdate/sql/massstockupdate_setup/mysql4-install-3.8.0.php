@@ -20,11 +20,11 @@ $installer->run("
   `custom_rules` text,
   `identifier_code` text,
   `file_system_type` int(1) DEFAULT 0,
-  `use_sftp` INT(1) DEFAULT '0',
+  `use_sftp` INT(1) DEFAULT \'0\',
   `ftp_host` VARCHAR(300) DEFAULT NULL,
   `ftp_login` VARCHAR(300) DEFAULT NULL,
   `ftp_password` VARCHAR(300) DEFAULT NULL,
-  `ftp_active` INT(1) DEFAULT '0',
+  `ftp_active` INT(1) DEFAULT \'0\',
   `ftp_dir` VARCHAR(300) DEFAULT NULL,
   PRIMARY KEY (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

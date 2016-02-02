@@ -138,17 +138,19 @@ function findPlace(myAddress) {
                 updateList('*');
                 h = 0;
                 coord = new Array;
-                for (val in results[0].geometry.location) {
-                    coord[h] = results[0].geometry.location[val]
-                    h++;
-                }
+                coord[0] = results[0].geometry.location.lat();
+                coord[1] = results[0].geometry.location.lng();
+//                for (val in results[0].geometry.location) {
+//                    coord[h] = results[0].geometry.location[val]
+//                    h++;
+//                }
 
                 myLatLng = new google.maps.LatLng(coord[0], coord[1]);
 
                 i = 0;
 
                 stores.each(function(s) {
-                    s.distance = Distance(coord[0], coord[1], s.position.k, s.position.A)
+                     s.distance = Distance(coord[0], coord[1], s.position.lat(), s.position.lng())
                 })
                 storeTemp = new Array();
                 storeTemp = stores.sortBy(function(s) {

@@ -55,6 +55,12 @@ document.observe("dom:loaded", function() {
     $('ftp_dir').observe('change', function() {
         previewer();
     });
+    $('file_type').observe('change', function() {
+        previewer();
+    });
+    $('xpath_to_product').observe('change', function() {
+        previewer();
+    });
     /*$('auto_set_managestock').observe('change', function(){
      previewer();
      })*/
@@ -168,6 +174,8 @@ function previewer() {
     data.file = file;
     data.file_system_type = $('file_system_type').value;
     data.file_path = $('file_path').value;
+    data.xpath = $('xpath_to_product').value;
+    data.file_type = $('file_type').value;
     data.ftp_host = $('ftp_host').value;
     data.ftp_login = $('ftp_login').value;
     data.ftp_password = $('ftp_password').value;

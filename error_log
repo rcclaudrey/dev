@@ -1,0 +1,9 @@
+[28-Jan-2016 17:25:31 UTC] PHP Fatal error:  Allowed memory size of 1073741824 bytes exhausted (tried to allocate 72 bytes) in /home/devtmspa/public_html/lib/Zend/Db/Statement/Pdo.php on line 289
+[29-Jan-2016 17:42:48 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 17:43:37 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 18:26:56 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 20:37:45 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 20:37:47 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 20:37:48 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 20:37:48 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39
+[29-Jan-2016 20:37:58 UTC] PHP Fatal error:  Call to undefined function vd() in /home/devtmspa/public_html/app/code/local/Vikont/Fitment/controllers/CheckController.php on line 39

@@ -2,7 +2,7 @@
 
 class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
 
-    public $_log;
+    public $log;
 
     public function getStockStatus($stock) {
 
@@ -170,7 +170,7 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
                 $orderedItems[$item->getProductId()]['sku'] = $item->getSku();
 
                 if ($item->getParentItemId() != null && $items[$i - 1]->getProductType() == "configurable")
-                    $orderedItems[$item->getProductId()]['qty'] = $item->getQtyOrdered() - $item->getQtyRefunded() - $items[$i - 1]->getQtyCanceled();
+                    $orderedItems[$item->getProductId()]['qty'] = $item->getQtyOrdered() - $items[$i - 1]->getOrigData('qty_refunded') - $items[$i - 1]->getQtyCanceled();
                 else {
 
                     $orderedItems[$item->getProductId()]['qty'] = $item->getQtyOrdered() - $item->getQtyRefunded() - $item->getQtyCanceled();
@@ -572,7 +572,7 @@ class Wyomind_Advancedinventory_Helper_Data extends Mage_Core_Helper_Abstract {
         $this->log = "\r\n* Checking availability for quote #" . Mage::getSingleton('checkout/session')->getQuote()->getId() . "\r\n";
 
 
-
+		$_places = array();
         foreach ($places as $place) {
             $this->log .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
             $this->log .= "* Checking warehouse : " . $place->getName() . " [" . $place->getStoreCode() . "]\r\n";

@@ -7,14 +7,14 @@ class Wyomind_Advancedinventory_Model_CatalogInventory_Stock_Item extends Mage_C
     public function checkQty($qty) {
 
         $productQty = $qty;
-        if (Mage::getStoreConfig("advancedinventory/setting/usemultistock") && Mage::app()->getStore()->getStoreId() > 0) {
+        if (Mage::getStoreConfig("advancedinventory/setting/usemultistock") && (Mage::app()->getStore()->getStoreId() > 0 || Mage::getSingleton('adminhtml/session_quote')->getQuote()->getStoreId())) {
 
 
             $productId = $this->getProductId();
 
 
             if (Mage::app()->getStore()->isAdmin())
-                $stores = Mage::getModel('pointofsale/pointofsale')->getPlaces();
+                $stores = Mage::getModel('pointofsale/pointofsale')->getPlacesByStoreId(Mage::getSingleton('adminhtml/session_quote')->getQuote()->getStoreId());
             else
                 $stores = Mage::getModel('pointofsale/pointofsale')->getPlacesByStoreId(Mage::app()->getStore()->getStoreId());
 
@@ -64,7 +64,7 @@ class Wyomind_Advancedinventory_Model_CatalogInventory_Stock_Item extends Mage_C
 
     public function checkQtyFinal($productQty) {
 
-        if (!$this->getManageStock() || Mage::app()->getStore()->isAdmin()) {
+        if (!$this->getManageStock()) {
             return true;
         }
 
@@ -148,7 +148,7 @@ class Wyomind_Advancedinventory_Model_CatalogInventory_Stock_Item extends Mage_C
 
             $result->setHasError(true)
                     ->setMessage(Mage::helper('cataloginventory')->__('This product is currently out of stock.'))
-                    ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products are currently out of stock'))
+                    ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products are currently out of stock.'))
                     ->setQuoteMessageIndex('stock');
             $result->setItemUseOldQty(true);
             return $result;
@@ -167,7 +167,7 @@ class Wyomind_Advancedinventory_Model_CatalogInventory_Stock_Item extends Mage_C
 
                 $productId = $this->getProductId();
                 if (Mage::app()->getStore()->isAdmin())
-                    $stores = Mage::getModel('pointofsale/pointofsale')->getPlaces();
+                    $stores = Mage::getModel('pointofsale/pointofsale')->getPlacesByStoreId(Mage::getSingleton('adminhtml/session_quote')->getQuote()->getStoreId());
                 else
                     $stores = Mage::getModel('pointofsale/pointofsale')->getPlacesByStoreId(Mage::app()->getStore()->getStoreId());
 

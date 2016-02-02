@@ -110,14 +110,41 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import_Edit_Tab_Setting extends Ma
         $fieldset->addField('file_path', 'text', array(
             'name' => 'file_path',
             'value' => $model->getFilePath(),
-            'label' => Mage::helper('massstockupdate')->__('Path to csv file'),
+            'label' => Mage::helper('massstockupdate')->__('Path to file'),
             "required" => true,
         ));
+        
+        
+        $fieldset->addField('file_type', 'select', array(
+            'name' => 'file_type',
+            'value' => $model->getFileType(),
+            'label' => Mage::helper('massstockupdate')->__('File type'),
+            "required" => true,
+            'values' => array(
+                array(
+                    'value' => 0,
+                    'label' => 'CSV'
+                ),
+                array(
+                    'value' => 1,
+                    'label' => 'XML'
+                )
+            ),
+        ));
+        
+        $fieldset->addField('xpath_to_product', 'text', array(
+            'name' => 'xpath_to_product',
+            'value' => $model->getXpathToProduct(),
+            'label' => Mage::helper('massstockupdate')->__('Xpath to products'),
+            "required" => true,
+        ));
+        
+        
         $fieldset->addField('file_separator', 'select', array(
             'name' => 'file_separator',
             'value' => $model->getFileSeparator(),
             'label' => Mage::helper('massstockupdate')->__('Field separator'),
-            "required" => true,
+            "required" => false,
             'options' => array(
                 ';' => ';',
                 ',' => ',',
@@ -129,7 +156,7 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import_Edit_Tab_Setting extends Ma
             'name' => 'file_enclosure',
             'value' => $model->getFileEnclosure(),
             'label' => Mage::helper('massstockupdate')->__('Field enclosure'),
-            "required" => true,
+             "required" => true,
             'options' => array(
                 "none" => 'none',
                 '"' => '"',
@@ -244,6 +271,10 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import_Edit_Tab_Setting extends Ma
                 ->addFieldMap('use_custom_rules', 'use_custom_rules')
                 ->addFieldMap('custom_rules', 'custom_rules')
                 ->addFieldMap('file_system_type', 'file_system_type')
+                ->addFieldMap('file_type', 'file_type')
+                ->addFieldMap('file_separator', 'file_separator')
+                ->addFieldMap('file_enclosure', 'file_enclosure')
+                ->addFieldMap('xpath_to_product', 'xpath_to_product')
                 ->addFieldMap('use_sftp', 'use_sftp')
                 ->addFieldMap('ftp_host', 'ftp_host')
                 ->addFieldMap('ftp_login', 'ftp_login')
@@ -257,8 +288,10 @@ class Wyomind_Massstockupdate_Block_Adminhtml_Import_Edit_Tab_Setting extends Ma
                 ->addFieldDependence('ftp_active', 'file_system_type', 1)
                 ->addFieldDependence('ftp_active', 'use_sftp', 0)
                 ->addFieldDependence('ftp_dir', 'file_system_type', 1)
-                ->addFieldDependence('custom_rules', 'use_custom_rules', 1));
-            
+                ->addFieldDependence('custom_rules', 'use_custom_rules', 1)
+                ->addFieldDependence('file_enclosure', 'file_type', 0)
+                ->addFieldDependence('file_separator', 'file_type', 0)
+                ->addFieldDependence('xpath_to_product', 'file_type', 1));
         }
         
         

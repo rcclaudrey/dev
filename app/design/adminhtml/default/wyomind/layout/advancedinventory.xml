@@ -11,13 +11,13 @@
        
          
     </default>
-    <advancedinventory_adminhtml_log_index>
+    <adminhtml_log_index>
         <reference name="content">
             <block type="advancedinventory/adminhtml_log" name="log" />
         </reference>
-    </advancedinventory_adminhtml_log_index> 
+    </adminhtml_log_index> 
     
-    <advancedinventory_adminhtml_stocks_index>
+    <adminhtml_stocks_index>
 
         <reference name="head">
             <action method="addItem">
@@ -38,7 +38,7 @@
                 </block>    
             </block>
         </reference>
-    </advancedinventory_adminhtml_stocks_index>
+    </adminhtml_stocks_index>
 
     <adminhtml_catalog_product_edit>
         <reference name="head">
@@ -100,7 +100,7 @@
         </reference>
     </adminhtml_sales_order_view>
     
-    <advancedinventory_adminhtml_permissions_index>
+    <adminhtml_permissions_index>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
@@ -110,7 +110,7 @@
         <reference name="content">
             <block type="advancedinventory/adminhtml_pointofsale_permissions" name="permissions" />
         </reference>
-    </advancedinventory_adminhtml_permissions_index>
+    </adminhtml_permissions_index>
     <adminhtml_sales_order_creditmemo_new>
         <reference name='order_items'>
             <action method="addItemRender">
