@@ -9,6 +9,14 @@ $cssPath = Mage::getDesign()->getFilename('arioem/oem-part.css', array(
 
 $cssContent = addslashes(str_replace("\n", '', file_get_contents($cssPath)));
 
+$customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+$wholesaleGroupIds = explode(',', Mage::getStoreConfig('arioem/wholesale/groups'));
+$userIsWholesale = in_array($customerGroupId, $wholesaleGroupIds);
+
+$oemPartJsPath = $userIsWholesale
+	?	$this->getJsUrl('arioem/oem-part-ws.js')
+	:	$this->getJsUrl('arioem/oem-part.js');
+
 ?>
 
 <div class="arioem-assembly-container">
@@ -24,7 +32,7 @@ $cssContent = addslashes(str_replace("\n", '', file_get_contents($cssPath)));
 		});
 
 		document.write('<script type="text/javascript" src="<?php echo rtrim(Mage::getStoreConfig('arioem/api/api_url'), '/') ?>/?appKey=<?php echo Mage::getStoreConfig('arioem/api/app_key') ?>"></scr'+'ipt>');
-		document.write('<script type="text/javascript" src="<?php echo $this->getJsUrl('arioem/oem-part.js') ?>"></scr'+'ipt>');
+		document.write('<script type="text/javascript" src="<?php echo $oemPartJsPath ?>"></scr'+'ipt>');
 		document.write('<style><?php echo $cssContent ?></style>');
 	}
 

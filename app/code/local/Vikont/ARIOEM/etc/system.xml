@@ -205,7 +205,7 @@ A JavaScript object field declaration syntax having ARI names as keys and desire
 
 				<check translate="label">
 					<label>API Check</label>
-					<sort_order>10000</sort_order>
+					<sort_order>500</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>0</show_in_website>
 					<show_in_store>0</show_in_store>
@@ -238,6 +238,26 @@ A JavaScript object field declaration syntax having ARI names as keys and desire
 						</app_key>
 					</fields>
 				</check>
+
+
+				<wholesale translate="label">
+					<label>Wholesale groups</label>
+					<sort_order>500</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+                        <groups translate="label">
+							<label>Hide prices for customer groups</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_customer_group_multiselect</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</groups>
+					</fields>
+				</wholesale>
 
 			</groups>
 		</arioem>

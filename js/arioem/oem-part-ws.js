@@ -5,26 +5,21 @@ function layoutToolTip(){
 }
 
 function layoutTable(){
+	jQuery(".listTD:eq(7)").remove(); // stock
+	jQuery(".listTD:eq(5)").hide(); // online price
+	jQuery(".listTD:eq(4)").remove(); // MSRP
+
+	jQuery('.ariPLCart').remove();
+	jQuery('.ariPLMSRP').remove();
+	jQuery('.ariPLPrice').hide(); // jQuery('.ariPLPrice').remove();
+
 	var tbl = jQuery('#ariPartList table');
-	if(jQuery(".listTD:eq(5)" ).text() !== 'Stock Status'){
-		jQuery(".listTD:eq(7)" ).text('Stock Status'); // Add column Stock Status
-		jQuery(".listTD:eq(4)" ).text('Retail Price'); // Rename Column
-		jQuery(".listTD:eq(5)" ).text('Web Price'); // Rename Column
+	jQuery.moveColumn(tbl, 0, 6); // Move checkbox to last column.
 
-		jQuery.moveColumn(tbl, 0, 7); // Move checkbox to last column.
-		jQuery.moveColumn(tbl, 5, 3); // Move Qty to 4th.
-		jQuery.moveColumn(tbl, 3, 6); // Move Qty to 6th.
-		jQuery.moveColumn(tbl, 7, 5); // Move Stock Status to 5th.
+	jQuery(".listTD:eq(0)").attr('width', '5%');
+	jQuery(".listTD:eq(5)").attr('width', '5%');
 
-		/* Adjust column width. */
-		jQuery(".listTD:eq(0)" ).attr('width', '5%');
-		jQuery(".listTD:eq(2)" ).attr('width', '40%');
-		jQuery(".listTD:eq(3)" ).attr('width', '10%');
-		jQuery(".listTD:eq(4)" ).attr('width', '10%');
-		jQuery(".listTD:eq(5)" ).attr('width', '19%');
-
-		populateStockStatus();
-	}
+	jQuery(".listTD:eq(5), .ariPLMulti").css({'text-align':'center'});
 
 	var partNumber = location.search.substr(1);
 	if(partNumber) {
@@ -32,46 +27,7 @@ function layoutTable(){
 				background: '#FFB872',
 				'font-weight': 'bold'
 			});
-	/*
-		var partTag = jQuery('span:contains("' + partNumber + '")').closest('tr').children('.ariPLTag').text();
-		jQuery('.ariHotSpot[tag="' + partTag + '"]').css({
-			border: 'solid 3px orange',
-	//		background: '#FFB872',
-	//		'font-weight': 'bold',
-	//		width: 'auto',
-	//		height: 'auto',
-	//		color: '#000'
-		});
-	//	jQuery('.ariHotSpot[tag="' + partTag + '"]').text(partTag);
-	/**/
 	}
-}
-
-function populateStockStatus(){
-	var brand = extractBrandFromURL();
-	var shipping = '';
-	if (brand === 'Honda' || brand === 'Kawasaki' || brand === 'Suzuki_Motor_of_America%2c_Inc' || brand === 'Yamaha' || brand === 'Honda_Power_Equipment'){
-		shipping = 'Usually ships in 1-3 days';
-	} else if (brand === 'Sea-Doo' || brand === 'Polaris' || brand === 'Victory' || brand === 'Can-Am_(Bombardier)'){
-		shipping = 'Usually ships in 5-7 days';
-	}
-
-	var table = jQuery('#ariPartList table');
-	table.find('tbody tr').each(function(){
-		if (jQuery(this).find('.listTD.ariPLMulti').is(':has(input)')){
-			jQuery(this).find('.listTD.ariPLCart').append(shipping);
-		}
-	});
-
-	jQuery('.ariToolTipMSRP').text(shipping); // For diagram Tooltip Text.
-}
-
-function deleteStockStatus(){
-	var table = jQuery('#ariPartList table');
-
-	table.find('tbody tr').each(function(){
-		jQuery(this).find('.listTD.ariPLCart span').remove();
-	});
 }
 
 function createSidebar(){
@@ -121,8 +77,8 @@ function createSidebar(){
 }
 
 function addFullScrnBtn(){
-	jQuery( ".ariMultiCartWrapper:eq(3)" ).remove();
-	jQuery( ".ariMultiCartWrapper:eq(2)" ).remove();
+	jQuery( ".ariMultiCartWrapper:eq(3)").remove();
+	jQuery( ".ariMultiCartWrapper:eq(2)").remove();
 
 	jQuery( ".wishlist-btn").remove();
 	jQuery('<img class="wishlist-btn" src="/media/images/oem-parts/btn-wishlist.jpg" title="Wishlist" style="margin-right: 7px;" />').insertBefore('.ariMultiCartWrapper .ariparts_btnMultiCart');
@@ -136,7 +92,7 @@ function addTopRightButtons(){
 	addBannersBelowSidebar();
 	removeBannersBottom();
 	changeText();
-	layoutTable();
+//	layoutTable();
 	layoutToolTip();
 	addShippingFYI();
 }
@@ -202,7 +158,7 @@ function createTriggerNewModelBtn(){
 		jQuery( "#assembly-menu" ).empty();
 		jQuery('#ari_Assemblies_jl ul').remove();
 		createSidebar();
-		layoutTable();
+//		layoutTable();
 	});
 }
 
@@ -279,5 +235,17 @@ jQuery(document).ready(function(){
 				cols.eq(from).detach().insertAfter(cols.last());
 		});
 	};
+
 	createSidebar();
+
+	var detailsTableWatcher = setInterval(function() {
+		if(document.getElementById('ariPartList')) {
+			layoutTable();
+			clearInterval(detailsTableWatcher);
+		} else {
+			// just wait
+		}
+	}, 3000);
+
 });
+
