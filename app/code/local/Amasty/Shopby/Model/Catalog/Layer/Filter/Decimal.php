@@ -15,19 +15,17 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Decimal extends Amasty_Shopby_Mod
 
     public function getItemsCount()
     {
-        $min = $this->getMinValue();
-        $max = $this->getMaxValue();
+        $cnt = parent::getItemsCount();
 
-        $noneVariant = is_null($min) || is_null($max);
-        $oneHiddenVariant = ($min == $max) && Mage::getStoreConfig('amshopby/general/hide_one_value');
-
-        if ($noneVariant || $oneHiddenVariant) {
-            $count = 0;
+        if ($this->calculateRanges()) {
+            $hide = Mage::getStoreConfig('amshopby/general/hide_one_value') && $cnt == 1;
         } else {
-            $count = parent::getItemsCount();
+            $min = $this->getMinValue();
+            $max = $this->getMaxValue();
+            $hide = $min == $max;
         }
 
-        return $count;
+        return $hide ? 0 : $cnt;
     }
 
     public function getSettings()
@@ -94,6 +92,12 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Decimal extends Amasty_Shopby_Mod
         }
         elseif ($this->calculateRanges()){
             $this->_items = array($this->_createItem('', 0, 0));
+        }
+
+        if (!$this->calculateRanges()) {
+            /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
+            $cache = Mage::helper('amshopby/layer_cache');
+            $cache->limitLifetime(Amasty_Shopby_Helper_Layer_Cache::LIFETIME_SESSION);
         }
 
         return $this;

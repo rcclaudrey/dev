@@ -90,6 +90,12 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Price_Price17ce extends Amasty_Sh
             $this->_items = array($this->_createItem('', 0, 0));
         }
 
+        if (!$this->calculateRanges()) {
+            /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
+            $cache = Mage::helper('amshopby/layer_cache');
+            $cache->limitLifetime(Amasty_Shopby_Helper_Layer_Cache::LIFETIME_SESSION);
+        }
+
         return $this;
     }
     

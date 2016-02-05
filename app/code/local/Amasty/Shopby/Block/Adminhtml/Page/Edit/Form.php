@@ -65,9 +65,18 @@ class Amasty_Shopby_Block_Adminhtml_Page_Edit_Form extends Mage_Adminhtml_Block_
                 'label'     => $hlp->__('Title'),
                 'name'      => 'title',
             ));
+            $fldInfo->addField('description', 'textarea', array(
+                'label'     => $hlp->__('Description'),
+                'name'      => 'description',
+            ));
             $fldInfo->addField('cms_block_id', 'select', array(
-                'label'     => $hlp->__('CMS block'),
+                'label'     => $hlp->__('Top CMS block'),
                 'name'      => 'cms_block_id',
+                'values'    => $cmsBlocks,
+            ));
+            $fldInfo->addField('bottom_cms_block_id', 'select', array(
+                'label'     => $hlp->__('Bottom CMS block'),
+                'name'      => 'bottom_cms_block_id',
                 'values'    => $cmsBlocks,
             ));
 

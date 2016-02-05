@@ -9,19 +9,19 @@
 <config>
     <modules>
         <Amasty_Rma>
-            <version>1.3.3</version>
+            <version>1.3.4</version>
         </Amasty_Rma>
     </modules>
     
     <admin>
         <routers>
-            <amrma>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Amasty_Rma</module>
-                    <frontName>amrma</frontName>
+                    <modules>
+                        <Amasty_Rma after="Mage_Adminhtml">Amasty_Rma_Adminhtml</Amasty_Rma>
+                    </modules>
                 </args>
-            </amrma>
+            </adminhtml>
         </routers>
     </admin>
 
@@ -65,12 +65,12 @@
                             <amrma_request translate="title">
                                 <title>Requests</title>
                                 <sort_order>500</sort_order>
-                                <action>amrma/adminhtml_request</action>
+                                <action>adminhtml/amrma_request</action>
                             </amrma_request>
                             <amrma_status translate="title">
                                 <title>Statuses</title>
                                 <sort_order>900</sort_order>
-                                <action>amrma/adminhtml_status</action>
+                                <action>adminhtml/amrma_status</action>
                             </amrma_status>
                         </children>
                     </amrma>

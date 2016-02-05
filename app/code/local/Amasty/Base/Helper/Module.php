@@ -35,15 +35,19 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
         if ($feedXml && $feedXml->channel && $feedXml->channel->item) 
         {
             foreach ($feedXml->channel->item as $item) {
-                if (!array_key_exists((string)$item->code, $feedData)) {
-                    $feedData[(string)$item->code] = array(
-                        'name'    => (string)$item->title,
-                        'url'     => (string)$item->link,
-                        'version' => (string)$item->version,
-                    );
+                $code = (string)$item->code;
+
+                if (!isset($feedData[$code])){
+                    $feedData[$code] = array();
                 }
+
+                $feedData[$code][(string)$item->title] = array(
+                    'name'    => (string)$item->title,
+                    'url'     => (string)$item->link,
+                    'version' => (string)$item->version,
+                );
             }
-            
+
             if ($feedData) 
             {
                 Mage::app()->saveCache(serialize($feedData), self::EXTENSIONS_PATH);

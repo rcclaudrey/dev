@@ -26,7 +26,7 @@ abstract class Amasty_Shopby_Helper_Layer_View_Strategy_Modeled extends Amasty_S
         parent::prepare();
 
         $this->transferModelData();
-        $this->filter->setData('hide_counts', !Mage::getStoreConfig('catalog/layered_navigation/display_product_count') || ($this->model && $this->model->getHideCounts()));
+        $this->filter->setData('hide_counts', !$this->_getDataHelper()->getIsCountGloballyEnabled() || ($this->model && $this->model->getHideCounts()));
     }
 
     protected function setCollapsed()
@@ -80,16 +80,27 @@ abstract class Amasty_Shopby_Helper_Layer_View_Strategy_Modeled extends Amasty_S
 
         $exclude = false;
 
+        /** @var Amasty_Xlanding_Model_Page $currentLanding */
+        $currentLanding = Mage::registry('amlanding_page');
+
         $includeCategories = $this->model->getIncludeInArray();
         if ($includeCategories) {
             if (!in_array($categoryId, $includeCategories)) {
-                $exclude = true;
+                $landingIncluded = $currentLanding && in_array($currentLanding->getIdentifier(), $includeCategories);
+                if (!$landingIncluded) {
+                    $exclude = true;
+                }
             }
         }
 
         if (!$exclude) {
             $excludeCategories = $this->model->getExcludeFromArray();
             if (in_array($categoryId, $excludeCategories)) {
+                $exclude = true;
+            }
+
+            $landingExcluded = $currentLanding && in_array($currentLanding->getIdentifier(), $excludeCategories);
+            if ($landingExcluded) {
                 $exclude = true;
             }
         }

@@ -112,10 +112,16 @@ class Amasty_Shopby_Block_Top extends Mage_Core_Block_Template
         if ($page->getCmsBlockId()) {
             $this->setCategoryCmsBlock($category, $page->getCmsBlockId());
         }
+        if ($page->getBottomCmsBlockId()) {
+            $this->addBottomCmsBlock($page->getBottomCmsBlockId());
+        }
+
         if ($page->getTitle()) {
             $category->setData('name', $page->getTitle());
         }
-
+        if ($page->getDescription()) {
+            $category->setData('description', $page->getDescription());
+        }
         return true;
 
     }
@@ -276,23 +282,36 @@ class Amasty_Shopby_Block_Top extends Mage_Core_Block_Template
 
     protected function addBottomCmsBlocks()
     {
-        $blocks = array();
+        $currentBrand = $this->getCurrentBrandPageBrand();
+
         foreach ($this->options as $opt) {
             /** @var Amasty_Shopby_Model_Value $opt */
             if (!$opt->getShowOnList()){
-                continue;
+                if (!$currentBrand || $currentBrand->getId() != $opt->getId()) {
+                    continue;
+                }
             }
 
             $bottomBlockId = $opt->getCmsBlockBottomId();
             if ($bottomBlockId) {
-                /** @var Mage_Cms_Block_Block $block */
-                $block = $this->getLayout()->createBlock('cms/block');
-                $block->setBlockId($bottomBlockId);
-                $blocks[] = $block;
+                $this->addBottomCmsBlock($bottomBlockId);
             }
         }
+    }
 
-        Mage::register('amshopby_bottom_cms', $blocks);
+    protected function addBottomCmsBlock($cmsBlockId)
+    {
+        $blocks = Mage::registry('amshopby_bottom_cms');
+        if (!$blocks) {
+            $blocks = array();
+        }
+
+        /** @var Mage_Cms_Block_Block $block */
+        $block = $this->getLayout()->createBlock('cms/block');
+        $block->setBlockId($cmsBlockId);
+        $blocks[] = $block;
+
+        Mage::register('amshopby_bottom_cms', $blocks, true);
     }
 
     protected function changeCategoryData(Mage_Catalog_Model_Category $category)
@@ -330,7 +349,8 @@ class Amasty_Shopby_Block_Top extends Mage_Core_Block_Template
                 $descriptions[] = $opt->getCurrentDescr();
             }
 
-            if ($opt->getCmsBlockId()) {
+            if ($opt->getCmsBlockId() && is_null($cmsBlockId)) {
+                // Keep only first matched CMS block due to standard template limitation
                 $cmsBlockId = $opt->getCmsBlockId();
             }
 

@@ -16,7 +16,7 @@ class Amasty_Shopby_Helper_Cached extends Mage_Core_Helper_Abstract
         Mage::app()->getCacheInstance()->invalidateType('amshopby');
     }
 
-    public function load($key)
+    protected function load($key)
     {
         if (array_key_exists($key, $this->lightCache)) {
             return $this->lightCache[$key];
@@ -37,16 +37,16 @@ class Amasty_Shopby_Helper_Cached extends Mage_Core_Helper_Abstract
         }
     }
 
-    public function save($data, $key)
+    protected function save($data, $key, $lifetime = null)
     {
         $this->saveLite($data, $key);
 
         if ($this->isCacheEnabled()) {
-            $this->_saveCache(serialize($data), $this->makeCacheKey($key), array(self::CACHE_TAG));
+            $this->_saveCache(serialize($data), $this->makeCacheKey($key), array(self::CACHE_TAG), $lifetime);
         }
     }
 
-    public function saveLite($data, $key)
+    protected function saveLite($data, $key)
     {
         $this->lightCache[$key] = $data;
     }

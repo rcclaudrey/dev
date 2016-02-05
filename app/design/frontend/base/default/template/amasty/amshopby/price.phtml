@@ -85,51 +85,29 @@ if (count($this->getItems()) == 1){
                 $min *= $step;
             }
 
-            /*
-             * Holds state of initial price position
-             */
-            $initialState = false;
-
             $valueLabel = $this->getValueLabel();
             $valuePlacement = $this->getValuePlacement();
 
             if (!is_numeric($fromValue)){
                 $fromValue = $min;
-                $initialState = true;
             }
-
-            /*
-             *    User changed price in text boxes
-             */
-            if ($fromValue <= $min) {
-                $initialState = true;
-            }
+            $sliderFrom = max($min, $fromValue);
 
             if (!is_numeric($toValue)) {
                 $toValue = $max;
             }
+            $sliderTo = min($max, $toValue);
 
-            $from = min($fromValue, $min);
-            $to   = max($toValue, $max);
-
-            if ($from < 0.01 && $to < 0.01){
-                $to = sprintf('%.00f', $to);
-            }
-
-
-            $firstOffset =  ($max > 0.01 && !$initialState) ? $fromValue : null;
-            $secondOffset = ($to && $max > 0.01 && $toValue < $max) ? $toValue : null;
-
-            $params = implode(',', array($firstOffset, $secondOffset, $to, $prefix, $from, $step));
+            $params = implode(',', array($sliderFrom, $sliderTo, $max, $prefix, $min, $step));
         ?>
 
         <?php /* Current selection only */ ?>
         <?php if ($sliderType == 0) : ?>
             <?php if (!$useCustomSlider) : ?>
                 <div id="<?php echo $prefix?>" class="amshopby-slider">
-                    <div class="handle selected" style="left:<?php echo $firstOffset ?>px;"></div>
-                    <span id="<?php echo $prefix?>-slider-bar" class="amshopby-slider-bar" style="left: <?php echo ($firstOffset)?>px; width: <?php echo ($secondOffset - $firstOffset - 1)?>px">&nbsp;</span>
-                    <div class="handle" style="left:<?php echo $secondOffset ?>px;"></div>
+                    <div class="handle selected"></div>
+                    <span id="<?php echo $prefix?>-slider-bar" class="amshopby-slider-bar">&nbsp;</span>
+                    <div class="handle"></div>
                 </div>
             <?php else : ?>
                 <div id="<?php echo $prefix ?>-ui" class="amshopby-slider-ui"></div>
@@ -152,16 +130,16 @@ if (count($this->getItems()) == 1){
         <?php if ($sliderType == 1) : ?>
             <?php if (!$useCustomSlider) : ?>
                 <div id="<?php echo $prefix?>" class="amshopby-slider">
-                    <div class="handle selected" style="left:<?php echo $firstOffset ?>px"></div>
-                    <span id="<?php echo $prefix?>-slider-bar" class="amshopby-slider-bar" style="left: <?php echo ($firstOffset)?>px; width: <?php echo ($secondOffset - $firstOffset - 1)?>px">&nbsp;</span>
-                    <div class="handle" style="left:<?php echo $secondOffset ?>px"></div>
+                    <div class="handle selected"></div>
+                    <span id="<?php echo $prefix?>-slider-bar" class="amshopby-slider-bar">&nbsp;</span>
+                    <div class="handle"></div>
                 </div>
             <?php else : ?>
                 <div id="<?php echo $prefix ?>-ui" class="amshopby-slider-ui"></div>
             <?php endif; ?>
 
-            <div class="amshopby-slider-price amshopby-slider-price-from"><?php echo amshopby_render_label($valuePlacement, $valueLabel, $from) ?></div>
-            <div class="amshopby-slider-price amshopby-slider-price-to"><?php echo amshopby_render_label($valuePlacement, $valueLabel, $to) ?></div>
+            <div class="amshopby-slider-price amshopby-slider-price-from"><?php echo amshopby_render_label($valuePlacement, $valueLabel, $min) ?></div>
+            <div class="amshopby-slider-price amshopby-slider-price-to"><?php echo amshopby_render_label($valuePlacement, $valueLabel, $max) ?></div>
             <div class="amshopby-slider-price-range">
                     <span id="<?php echo $prefix?>-from-slider"><?php echo $fromValue ?></span>&nbsp;-&nbsp;
                     <span id="<?php echo $prefix?>-to-slider"><?php echo $toValue ?></span>

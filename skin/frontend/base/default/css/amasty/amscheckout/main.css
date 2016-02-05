@@ -39,6 +39,10 @@
     margin-bottom: 10px;
 }
 
+.amscheckout .two-columns .first-column{
+    width: 49%;
+}
+
 .amscheckout .one-columns .first-column{
     float: left;
     width: 100%;
@@ -53,7 +57,8 @@
 .amscheckout .shipping,
 .amscheckout .shipping-method,
 .amscheckout .payment-method,
-.amscheckout .coupon
+.amscheckout .coupon,
+.amscheckout .giftcards
 {
     padding: 0px 10px;
 }
@@ -441,13 +446,13 @@
 }
 
 
-.amscheckout caption, 
+/*.amscheckout caption, 
 .amscheckout th, 
 .amscheckout td, 
 .amscheckout .data-table th, 
 .amscheckout .data-table td{
     text-align: left;
-}
+}*/
 
 .amscheckout-control>label[for="billing:month"]{
     display: none;
@@ -488,6 +493,11 @@
     position: relative;
 }
 
+#amscheckout-onepage .cart-table{
+    width: 100%;
+    float: none;
+}
+
 @media only screen and (max-width: 1100px) {
     .amscheckout .three-columns .first-column,
     .amscheckout .three-columns .second-column
@@ -513,6 +523,15 @@
     }
 }
 
+@media only screen and (max-width: 599px){
+    #amscheckout-cart .cart .button{
+        float: none;
+        margin: 0;
+        width: 32%;
+        height: 70px;
+    }
+}
+
 #review-processing,
 #payment-method-processing,
 #shipping-method-processing{
@@ -529,4 +548,13 @@ label.required em, span.required em{
 
 .amscheckout-control [for='billing:gender']{
     display: none;
+}
+.amscheckout-main ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.giftcard-code-check{
+    float: left;
 }

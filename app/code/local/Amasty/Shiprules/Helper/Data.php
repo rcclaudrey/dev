@@ -113,5 +113,12 @@ class Amasty_Shiprules_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $newPrice;
     }
-         
+
+    public function getPromotionsCartLink()
+    {
+        $promotionsCartUrl = Mage::helper('adminhtml')->getUrl('adminhtml/promo_quote');
+        $link = '<a href="' . $promotionsCartUrl . '">Promotions / Shopping Cart Rules</a>';
+
+        return $link;
+    }
 }

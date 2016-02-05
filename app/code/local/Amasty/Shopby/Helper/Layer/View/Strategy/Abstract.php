@@ -34,6 +34,7 @@ abstract class Amasty_Shopby_Helper_Layer_View_Strategy_Abstract
         $this->filter->setCollapsed($this->setCollapsed());
         $this->filter->setHasSelection($this->setHasSelection());
         $this->filter->setPosition($this->setPosition());
+        $this->filter->setData('hide_counts', !$this->_getDataHelper()->getIsCountGloballyEnabled());
     }
 
     public function getIsExcluded()

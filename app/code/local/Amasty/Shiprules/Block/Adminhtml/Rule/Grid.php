@@ -89,7 +89,7 @@ class Amasty_Shiprules_Block_Adminhtml_Rule_Grid extends Mage_Adminhtml_Block_Wi
         'actions'   => array(
             array(
                 'caption' => Mage::helper('catalog')->__('Duplicate'),
-                'url'     => array('base' => 'amshiprules/adminhtml_rule/duplicate'),
+                'url'     => array('base' => 'adminhtml/amshiprules_rule/duplicate'),
                 'field'   => 'rule_id'
             )
         ),

@@ -19,7 +19,7 @@ class Amasty_Pgrid_Block_Adminhtml_System_Config_Date extends Mage_Adminhtml_Blo
         );
         $date->setData($data);
         $date->setValue($element->getValue(), $format);
-        $date->setFormat('yyyy-M-dd');
+        $date->setFormat('yyyy-MM-dd');
         $date->setForm($element->getForm());
 
         return $date->getElementHtml();

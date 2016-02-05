@@ -45,6 +45,6 @@ class Amasty_Shopby_Block_Adminhtml_Value_Edit extends Mage_Adminhtml_Block_Widg
     {
         /** @var Amasty_Shopby_Model_Value $value */
         $value = Mage::registry('amshopby_value');
-        return $this->getUrl('amshopby/adminhtml_filter/edit', array('id' => $value->getFilterId()));
+        return $this->getUrl('adminhtml/amshopby_filter/edit', array('id' => $value->getFilterId()));
     }
 }

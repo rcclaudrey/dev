@@ -9,10 +9,10 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Price extends Amasty_Shopby_Model
     /**
      * Display Types
      */
-    const DT_DEFAULT    = 0;
-    const DT_DROPDOWN   = 1;
-    const DT_FROMTO     = 2;
-    const DT_SLIDER     = 3;
+    const DT_DEFAULT = 0;
+    const DT_DROPDOWN = 1;
+    const DT_FROMTO = 2;
+    const DT_SLIDER = 3;
 
     public function _srt($a, $b)
     {
@@ -24,22 +24,22 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Price extends Amasty_Shopby_Model
     {
         $ranges = array();
         $collection = Mage::getModel('amshopby/range')->getCollection()
-            ->setOrder('price_frm','asc')
+            ->setOrder('price_frm', 'asc')
             ->load();
-            
-        $rate = Mage::app()->getStore()->getCurrentCurrencyRate(); 
-        foreach ($collection as $range){
-            $from = $range->getPriceFrm()*$rate;
-            $to = $range->getPriceTo()*$rate;
-            
+
+        $rate = Mage::app()->getStore()->getCurrentCurrencyRate();
+        foreach ($collection as $range) {
+            $from = $range->getPriceFrm() * $rate;
+            $to = $range->getPriceTo() * $rate;
+
             $ranges[$range->getId()] = array($from, $to);
         }
-        
-        if (!$ranges){
+
+        if (!$ranges) {
             echo "Please set up Custom Ranges in the Admin > Catalog > Improved Navigation > Ranges";
             exit;
         }
-        
+
         return $ranges;
     }
 
@@ -63,9 +63,16 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Price extends Amasty_Shopby_Model
     public function getItemsCount()
     {
         $cnt = parent::getItemsCount();
-        $checkForOne = $this->calculateRanges() && Mage::getStoreConfig('amshopby/general/hide_one_value');
 
-        return ($cnt == 1 && $checkForOne) ? 0 : $cnt;
+        if ($this->calculateRanges()) {
+            $hide = Mage::getStoreConfig('amshopby/general/hide_one_value') && $cnt == 1;
+        } else {
+            $min = $this->getMinValue();
+            $max = $this->getMaxValue();
+            $hide = $min == $max;
+        }
+
+        return $hide ? 0 : $cnt;
     }
 
     public function addFacetCondition()

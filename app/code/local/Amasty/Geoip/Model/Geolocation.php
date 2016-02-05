@@ -13,7 +13,7 @@ class Amasty_Geoip_Model_Geolocation extends Varien_Object
         /* @var Amasty_Geoip_Model_Import $geoIpModel */
         $geoIpModel = Mage::getModel('amgeoip/import');
         if ($geoIpModel->isDone()) {
-            $longIP = ip2long($ip);
+            $longIP = sprintf("%u", ip2long($ip));
 
             if (!empty($longIP)) {
                 $db = Mage::getSingleton('core/resource')->getConnection('core_read');

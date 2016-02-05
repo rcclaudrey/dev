@@ -283,6 +283,9 @@ class Amasty_Shopby_Controller_Router extends Mage_Core_Controller_Varien_Router
             }
 
             if (!$urlRewrite->getId()){
+                if (is_array($catReqPath)) {
+                    $catReqPath = current($catReqPath);
+                }
                 throw new Mage_Core_Controller_Varien_Exception("Routing: Cannot forward to category view page: " . $catReqPath);
             }
         }

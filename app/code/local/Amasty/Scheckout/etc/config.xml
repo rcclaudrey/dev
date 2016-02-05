@@ -9,19 +9,20 @@
 <config>
     <modules>
         <Amasty_Scheckout>
-            <version>2.9.5</version>
+            <version>2.9.8</version>
         </Amasty_Scheckout>
     </modules>
     <admin>
         <routers>
-            <amscheckout>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Amasty_Scheckout</module>
-                    <frontName>amscheckout</frontName>
+                    <modules>
+                        <Amasty_Scheckout after="Mage_Adminhtml">Amasty_Scheckout_Adminhtml</Amasty_Scheckout>
+                    </modules>
                 </args>
-            </amscheckout>
+            </adminhtml>
         </routers>
+
     </admin>
     <frontend>
         <routers>
@@ -58,7 +59,7 @@
                 <children>
                     <amscheckout_adminsetting translate="title">
                         <title>Amasty One Step Checkout</title>
-                        <action>amscheckout/adminhtml_settings</action>
+                        <action>adminhtml/amscheckout_settings/index</action>
                         <sort_order>300</sort_order>
                     </amscheckout_adminsetting>
                 </children>
@@ -162,6 +163,11 @@
             <amscheckout>
                 <class>Amasty_Scheckout_Block</class>
             </amscheckout>
+                                            <enterprise_giftcardaccount>
+                <rewrite>
+                    <checkout_cart_total>Amasty_Scheckout_Block_Checkout_Cart_Total</checkout_cart_total>
+                </rewrite>
+            </enterprise_giftcardaccount>
         </blocks>
         
         <helpers>
@@ -200,11 +206,11 @@
         <controller_action_predispatch_amscheckoutfront_onepage_checkout>
                     <observers>
                         <captcha_guest>
-                            <class>captcha/observer</class>
+                            <class>amscheckout/captcha_observer</class>
                             <method>checkGuestCheckout</method>
                         </captcha_guest>
                         <captcha_register>
-                            <class>captcha/observer</class>
+                            <class>amscheckout/captcha_observer</class>
                             <method>checkRegisterCheckout</method>
                         </captcha_register>
                     </observers>
@@ -241,7 +247,16 @@
                 <payment_methods>1</payment_methods>
                 <quick_load>0</quick_load>
             </update>
-        <visual>
+            <default>
+                <ship_same_address>1</ship_same_address>
+                <create_account>0</create_account>
+                <newsletter>0</newsletter>
+            </default>
+            <sections>
+                <coupon>1</coupon>
+                <giftcard>0</giftcard>
+            </sections>
+            <visual>
                 <theme>48C27C</theme>
                 <text>000001</text>
                 <button>f26222</button>

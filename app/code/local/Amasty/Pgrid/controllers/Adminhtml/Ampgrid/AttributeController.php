@@ -13,6 +13,7 @@ class Amasty_Pgrid_Adminhtml_Ampgrid_AttributeController extends Mage_Adminhtml_
         $block = $this->getLayout()->createBlock('ampgrid/adminhtml_catalog_product_grid_attributes', '',array('attributes_key'=>$attributesKey));
         if ($block) {
             echo $block->toHtml();
+            die;
         }
     }
 

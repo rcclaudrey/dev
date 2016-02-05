@@ -53,11 +53,7 @@ class Amasty_Shopby_Block_Catalog_Pager extends Mage_Page_Block_Html_Pager
         $currentUrl = $this->_getCurrentUrl();
         $prevPageNum = $this->getCurrentPage() - 1;
 
-        if ($prevPageNum == 1) {
-            $result = preg_replace('/\Wp=\d+/', '', $currentUrl);
-        } else {
-            $result = preg_replace('/(\W)p=\d+/', '$1p=' . $prevPageNum, $currentUrl);
-        }
+        $result = preg_replace('/(\W)p=\d+/', '$1p=' . $prevPageNum, $currentUrl);
 
         return $result;
     }

@@ -16,17 +16,17 @@
                     <children>
                         <filters translate="title" module="amshopby"> 
                             <title>Filters</title>
-                            <action>amshopby/adminhtml_filter</action>
+                            <action>adminhtml/amshopby_filter/index</action>
                             <sort_order>10</sort_order>
                         </filters>
                         <ranges translate="title" module="amshopby"> 
                             <title>Price Ranges</title>
-                            <action>amshopby/adminhtml_range</action>
+                            <action>adminhtml/amshopby_range/index</action>
                             <sort_order>20</sort_order>
                         </ranges>
                         <pages translate="title" module="amshopby"> 
                             <title>Pages</title>
-                            <action>amshopby/adminhtml_page</action>
+                            <action>adminhtml/amshopby_page/index</action>
                             <sort_order>25</sort_order>
                         </pages>                            
                         <settings translate="title" module="amshopby"> 
@@ -36,7 +36,7 @@
                         </settings>
                         <!--migrations translate="title" module="amshopby">
                             <title>Migrations</title>
-                            <action>amshopby/adminhtml_migration</action>
+                            <action>adminhtml/amshopby_migration/index</action>
                             <sort_order>40</sort_order>
                         </migrations-->
                     </children>

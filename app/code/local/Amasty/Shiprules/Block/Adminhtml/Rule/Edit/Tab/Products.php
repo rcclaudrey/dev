@@ -57,7 +57,7 @@ class Amasty_Shiprules_Block_Adminhtml_Rule_Edit_Tab_Products
         
         $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('*/adminhtml_rule/newActionHtml/form/rule_actions_fieldset'));
+            ->setNewChildUrl($this->getUrl('*/amshiprules_rule/newActionHtml/form/rule_actions_fieldset'));
 
         $fieldset = $form->addFieldset('rule_actions_fieldset', array(
             'legend'=> $hlp->__('Select products or leave blank for all products')

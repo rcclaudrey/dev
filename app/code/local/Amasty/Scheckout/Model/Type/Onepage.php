@@ -144,7 +144,7 @@
 
             if (!$this->getQuote()->getCustomerId() && self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
                 if ($this->_customerEmailExists($address->getEmail(), Mage::app()->getWebsite()->getId())) {
-                    return array('error' => 1, 'message' => $this->_customerEmailExistsMessage);
+                    return array('error' => 1, 'message' => Mage::helper('checkout')->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.'));
                 }
             }
 
@@ -206,11 +206,12 @@
         {
             parent::_prepareNewCustomerQuote();
             
-            if (Mage::app()->getRequest()->getParam('is_subscribed', false)) {
+            $isSubscribed = Mage::app()->getRequest()->getParam('is_subscribed', false) || Mage::getSingleton('checkout/session')->getAmscheckoutIsSubscribed();
+            if ($isSubscribed) {
                 $quote      = $this->getQuote();
                 $customer = $quote->getCustomer();
                 $customer->setIsSubscribed(1);
-
+                Mage::getSingleton('checkout/session')->setAmscheckoutIsSubscribed(true);
             } 
         }
         
@@ -218,11 +219,21 @@
         {
             parent::_prepareGuestQuote();
             
-            if (Mage::app()->getRequest()->getParam('is_subscribed', false)) {
+            $isSubscribed = Mage::app()->getRequest()->getParam('is_subscribed', false) || Mage::getSingleton('checkout/session')->getAmscheckoutIsSubscribed();
+            if ($isSubscribed) {
                 $quote = $this->getQuote();
                 
                 Mage::getModel('newsletter/subscriber')->subscribe($quote->getBillingAddress()->getEmail());
+
+                Mage::getSingleton('checkout/session')->setAmscheckoutIsSubscribed(true);
             } 
+        }
+
+        function customerEmailExists()
+        {
+            $address = $this->getQuote()->getBillingAddress();
+
+            return $this->_customerEmailExists($address->getEmail(), Mage::app()->getWebsite()->getId());
         }
     }
 ?>

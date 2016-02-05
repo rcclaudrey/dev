@@ -74,26 +74,36 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Stock extends Mage_Catalog_Model_
      */
     protected function _getItemsData()
     {
-    	$data = array();
-    	$status = $this->_getCount();
-    	
-    	$in_stock = array_keys($status);
-    	$out_stock = array_values($status);
+        /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
+        $cache = Mage::helper('amshopby/layer_cache');
+        $cache->setStateKey($this->getLayer()->getStateKey());
+        $key = 'STOCK';
+        $data = $cache->getFilterItems($key);
 
-        $currentValue = Mage::app()->getRequest()->getQuery($this->getRequestVar());
-    	
-    	$data[] = array(
-        	'label' => Mage::helper('amshopby')->__('In Stock'),
-            'value' => ($currentValue == self::FILTER_IN_STOCK) ? null : self:: FILTER_IN_STOCK,
-            'count' => $in_stock[0],
-            'option_id' => self:: FILTER_IN_STOCK,
-		);
-		$data[] = array(
-        	'label' => Mage::helper('amshopby')->__('Out of Stock'),
-            'value' => ($currentValue == self::FILTER_OUT_OF_STOCK) ? null : self:: FILTER_OUT_OF_STOCK,
-            'count' => $out_stock[0],
-            'option_id' => self:: FILTER_OUT_OF_STOCK,
-		);
+        if (is_null($data)) {
+            $data = array();
+            $status = $this->_getCount();
+
+            $in_stock = array_keys($status);
+            $out_stock = array_values($status);
+
+            $currentValue = Mage::app()->getRequest()->getQuery($this->getRequestVar());
+
+            $data[] = array(
+                'label' => Mage::helper('amshopby')->__('In Stock'),
+                'value' => ($currentValue == self::FILTER_IN_STOCK) ? null : self:: FILTER_IN_STOCK,
+                'count' => $in_stock[0],
+                'option_id' => self:: FILTER_IN_STOCK,
+            );
+            $data[] = array(
+                'label' => Mage::helper('amshopby')->__('Out of Stock'),
+                'value' => ($currentValue == self::FILTER_OUT_OF_STOCK) ? null : self:: FILTER_OUT_OF_STOCK,
+                'count' => $out_stock[0],
+                'option_id' => self:: FILTER_OUT_OF_STOCK,
+            );
+            $cache->setFilterItems($key, $data);
+        }
+
         return $data;
     }
 
@@ -110,7 +120,6 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Stock extends Mage_Catalog_Model_
         $select->reset(Zend_Db_Select::ORDER);
         $select->reset(Zend_Db_Select::LIMIT_COUNT);
         $select->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $select->reset(Zend_Db_Select::WHERE);
         $select->distinct(false);
 
         $select->columns('stock_status.stock_status AS salable');

@@ -73,7 +73,7 @@ class Amasty_Shopby_Block_Adminhtml_Value_Edit_Form extends Mage_Adminhtml_Block
         ));
 
         $fldSet->addField('featured_order', 'text', array(
-            'label'     => $this->__('Featured Order'),
+            'label'     => $this->__('Position in the "Featured" block'),
             'name'      => 'featured_order',
         ));
     }

@@ -9,29 +9,12 @@
     $hlr = $this->helper("amscheckout");
     $messages = $hlr->getQuoteItemMessages($this->getItem());
 ?>
-<?php
-
-$_item = $this->getItem();
-
-$isOEMProduct = Mage::helper('core')->isModuleEnabled('Vikont_ARIOEM')
-		&& Vikont_ARIOEM_Helper_Cart::isOemProduct($_item->getProductId());
-
-if($isOEMProduct) {
-	$itemName = $this->escapeHtml($_item->getName());
-//	$itemURL = $_item->getRedirectUrl();
-//	$hasProductURL = true;
-} else {
-	$itemName = $this->escapeHtml($this->getProductName());
-//	$itemURL = $this->getProductUrl();
-//	$hasProductURL = $this->hasProductUrl();
-}
-
-?>
+<?php $_item = $this->getItem()?>
 <tr class="amscheckout-item">
     <td>
-        <div class="product-name"><?php if ($hlr->showThumbnail()) {?><img src="<?php
-            echo Mage::helper('catalog/image')->init($_item->getProduct(), 'thumbnail')->resize(40);
-        ?>"/><?php } echo $this->escapeHtml($itemName) ?></div>
+        <div class="product-name"><?php if ($hlr->showThumbnail()) {?><img src="<?php 
+            echo $hlr->getProductThumbnail($_item)->resize($hlr->getThumbnailSize());
+        ?>"/><?php } echo $this->htmlEscape($this->getProductName()) ?></div>
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>

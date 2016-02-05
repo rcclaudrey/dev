@@ -140,6 +140,11 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_M
                 $this->addState($currentVals);
             }
 
+            if (count($currentVals) > 1) {
+                /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
+                $cache = Mage::helper('amshopby/layer_cache');
+                $cache->limitLifetime(Amasty_Shopby_Helper_Layer_Cache::LIFETIME_SESSION);
+            }
         }
         return $this;
     }
@@ -167,7 +172,6 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_M
                     $this->getRequestVar() => $exclude,
                     Mage::getBlockSingleton('page/html_pager')->getPageVarName() => null // exclude current page from urls
                 );
-                //$url = Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
                 $url = Mage::helper('amshopby/url')->getFullUrl($query);
 
                 $text .= $option['label'] . " ";
@@ -222,10 +226,13 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_M
         /** @var Amasty_Shopby_Helper_Data $helper */
         $helper = Mage::helper('amshopby');
 
-        $key = $this->getLayer()->getStateKey().'_'.$this->_requestVar;
-        $data = $helper->load($key);
+        /** @var Amasty_Shopby_Helper_Layer_Cache $cache */
+        $cache = Mage::helper('amshopby/layer_cache');
+        $cache->setStateKey($this->getLayer()->getStateKey());
+        $key = 'A_' . $this->_requestVar;
+        $data = $cache->getFilterItems($key);
 
-        if ($data === false) {
+        if (is_null($data)) {
             if ($helper->useSolr()) {
                 $engine = Mage::getResourceSingleton('enterprise_search/engine');
                 $fieldName = $engine->getSearchEngineFieldName($attribute, 'nav');
@@ -271,11 +278,12 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_M
                         'value'     => $itemValue,
                         'count'     => $cnt,
                         'option_id' => $option['value'],
+                        'is_featured'  => (int) Mage::helper('amshopby/attributes')->getIsOptionFeatured($option['value']),
                     );
                 }
             }
 
-            $helper->save($data, $key);
+            $cache->setFilterItems($key, $data);
         }
 
         return $data;
@@ -292,6 +300,7 @@ class Amasty_Shopby_Model_Catalog_Layer_Filter_Attribute extends Amasty_Shopby_M
                 $itemData['count']
             );
             $item->setOptionId($itemData['option_id']);
+            $item->setIsFeatured($itemData['is_featured']);
             $items[] = clone $item;
         }
         $this->_items = $items;

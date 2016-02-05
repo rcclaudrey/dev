@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Amasty_Geoip>
-            <version>1.0.2</version>
+            <version>1.0.5</version>
         </Amasty_Geoip>
     </modules>
     <global>
@@ -72,13 +72,13 @@
 
     <admin>
         <routers>
-            <amgeoip>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Amasty_Geoip</module>
-                    <frontName>amgeoip</frontName>
+                    <modules>
+                        <Amasty_Geoip after="Mage_Adminhtml">Amasty_Geoip_Adminhtml</Amasty_Geoip>
+                    </modules>
                 </args>
-            </amgeoip>
+            </adminhtml>
         </routers>
     </admin>
 
@@ -105,8 +105,8 @@
     <default>
         <amgeoip>
             <general>
-                <location_file_url>http://amasty.com/media/downloads/geoip/GeoLiteCity-Location.csv</location_file_url>
-                <block_file_url>http://amasty.com/media/downloads/geoip/GeoLiteCity-Blocks.csv</block_file_url>
+                <location_file_url>https://amasty.com/media/downloads/geoip/GeoLite2-City-Locations-en.csv</location_file_url>
+                <block_file_url>https://amasty.com/media/downloads/geoip/GeoLite2-City-Blocks-IPv4.csv</block_file_url>
             </general>
         </amgeoip>
     </default>

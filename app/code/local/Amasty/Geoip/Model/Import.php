@@ -12,17 +12,16 @@ class Amasty_Geoip_Model_Import extends Mage_Core_Model_Abstract
     protected $_rowsPerTransaction = 10000;
 
     protected $_geoipRequiredFiles = array(
-        'block' => 'GeoLiteCity-Blocks.csv',
-        'location' => 'GeoLiteCity-Location.csv'
+        'block'    => 'GeoLite2-City-Blocks-IPv4.csv',
+        'location' => 'GeoLite2-City-Locations-en.csv'
     );
 
     protected $_modelsCols = array(
         'block'    => array(
-            'start_ip_num', 'end_ip_num', 'geoip_loc_id'
+            'start_ip_num', 'end_ip_num', 'geoip_loc_id', 'postal_code', 'latitude', 'longitude'
         ),
         'location' => array(
-            'geoip_loc_id', 'country', 'region', 'city', 'postal_code',
-            'latitude', 'longitude', 'dma_code', 'area_code'
+            'geoip_loc_id', 'country', 'city'
         )
     );
 
@@ -258,6 +257,17 @@ class Amasty_Geoip_Model_Import extends Mage_Core_Model_Abstract
 
     protected function _importItem($table, $tmpTableName, &$data)
     {
+        if ($table == 'block' && is_array($data) && isset($data[0])) {
+            list($ip, $mask) = explode('/', $data[0]);
+            $ip2long = ip2long($ip);
+            $min = ($ip2long >> (32 - $mask))  << (32 - $mask);
+            $max = $ip2long | ~(-1 << (32 - $mask));
+            $newData = array($min, $max, $data[1], $data[6], $data[7], $data[8]);
+            $data = $newData;
+        } elseif($table == 'location' && is_array($data)) {
+            $newData = array($data[0], $data[4], $data[10]);
+            $data = $newData;
+        }
         $write = Mage::getSingleton('core/resource')->getConnection('core_write');
 
         $query = 'insert into `' . $tmpTableName . '`' .

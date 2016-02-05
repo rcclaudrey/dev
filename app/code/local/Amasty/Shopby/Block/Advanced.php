@@ -22,7 +22,7 @@ class Amasty_Shopby_Block_Advanced extends Mage_Catalog_Block_Navigation
      */
     public function drawOpenCategoryItem($category, $level = 0)
     {
-        if ($this->_isExcluded($category->getId()) || !$category->getIsActive() || !$category->getIncludeInMenu()) {
+        if ($this->_isExcluded($category->getId()) || !$category->getIsActive()) {
             return '';
         }
 
@@ -67,8 +67,8 @@ class Amasty_Shopby_Block_Advanced extends Mage_Catalog_Block_Navigation
         $inPath = in_array($category->getId(), $currentCategory->getPathIds());
         $showAsAll = $showAll && ($showDepth == 0 || $showDepth > $level + 1);
         if ($inPath || $showAsAll) {
-
-            $children = $this->_getCategoryCollection()->addIdFilter($category->getChildren());
+            $childrenIds = $category->getChildren();
+            $children = $this->_getCategoryCollection()->addIdFilter($childrenIds);
             $this->_getFilterModel()->addCounts($children);
             $children = $this->asArray($children);
 
@@ -155,7 +155,6 @@ class Amasty_Shopby_Block_Advanced extends Mage_Catalog_Block_Navigation
             ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
             ->addAttributeToFilter('is_active', 1)
-            ->addAttributeToFilter('include_in_menu', 1)
             ->setOrder('position', 'asc')
             ->joinUrlRewrite();
 

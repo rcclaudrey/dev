@@ -28,6 +28,14 @@ class Amasty_Shopby_Model_Url_Builder
     /** @var Mage_Catalog_Model_Category|int */
     public $category;
 
+	/** @var int */
+	protected $filterUrlSortMode = Amasty_Shopby_Model_Source_Url_SortMode::MODE_CODE;
+
+	/**
+	 * @var array
+	 */
+	protected  $attributesPositions;
+
     public function reset()
     {
         /** @var Amasty_Shopby_Helper_Data $helper */
@@ -44,6 +52,8 @@ class Amasty_Shopby_Model_Url_Builder
 
         // Configuration parameters
         $this->brandAttributeCode = Mage::getStoreConfig('amshopby/brands/attr');
+        $this->filterUrlSortMode = Mage::getStoreConfig('amshopby/seo/sort_attributes_in_url');
+		$this->attributesPositions = Mage::helper('amshopby/attributes')->getPositionsAttributes();
     }
 
     public function clearQuery()
@@ -165,22 +175,33 @@ class Amasty_Shopby_Model_Url_Builder
                 sort($v);
             }
         }
-
-        uksort($this->effectiveQuery, array($this, 'compareParamsPriority'));
+		uksort($this->effectiveQuery, array($this, 'compareParamsPriority'));
     }
 
     protected function compareParamsPriority($a, $b)
     {
-        if ($a == $this->brandAttributeCode) {
-            return -1;
-        } else if ($b == $this->brandAttributeCode) {
-            return 1;
-        }
-
         if ($a == 'is_ajax') {
             return 1;
         } else if ($b == 'is_ajax') {
             return -1;
+        }
+
+		if($this->filterUrlSortMode == Amasty_Shopby_Model_Source_Url_SortMode::MODE_POSITION) {
+			if(isset($this->attributesPositions[$a]) && isset($this->attributesPositions[$b])) {
+				if($this->attributesPositions[$a] < $this->attributesPositions[$b]){
+					return -1;
+				} elseif($this->attributesPositions[$a] == $this->attributesPositions[$b]) {
+					return 0;
+				} else {
+					return 1;
+				}
+			}
+		} else {
+            if ($a == $this->brandAttributeCode) {
+                return -1;
+            } else if ($b == $this->brandAttributeCode) {
+                return 1;
+            }
         }
 
         return strcmp($a, $b);
@@ -219,7 +240,7 @@ class Amasty_Shopby_Model_Url_Builder
             {
                 $attrCode = str_replace(array('_', '-'), Mage::getStoreConfig('amshopby/seo/special_char'), $origAttrCode);
 
-                if (isset($options[$attrCode])){ // it is filterable attribute
+                if (isset($options[$attrCode]) && $options[$attrCode]){ // it is filterable attribute
                     if ($this->mode == Amasty_Shopby_Model_Source_Url_Mode::MODE_SHORT) {
                         $part = $this->getUrlHelper()->_formatAttributePartShort($attrCode, $ids);
                     } else {
