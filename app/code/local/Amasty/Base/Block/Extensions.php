@@ -67,28 +67,13 @@ class Amasty_Base_Block_Extensions extends Mage_Adminhtml_Block_System_Config_Fo
             $moduleName = substr($moduleCode, strpos($moduleCode, '_') + 1);
         }
 
-        $baseKey = (string)Mage::getConfig()->getNode('modules/' . $moduleCode . '/baseKey');
-
         $allExtensions = Amasty_Base_Helper_Module::getAllExtensions();
-
+            
         $status = '<a  target="_blank"><img src="'.$this->getSkinUrl('images/ambase/ok.gif').'" title="'.$this->__("Installed").'"/></a>';
 
         if ($allExtensions && isset($allExtensions[$moduleCode])){
+            $ext = $allExtensions[$moduleCode];
 
-            $ext = array();
-
-            if (is_array($allExtensions[$moduleCode]) && !array_key_exists('name', $allExtensions[$moduleCode])){
-
-                if (!empty($baseKey) && isset($allExtensions[$moduleCode][$baseKey])){
-                    $ext = $allExtensions[$moduleCode][$baseKey];
-
-                } else {
-                    $ext = end($allExtensions[$moduleCode]);
-                }
-            } else {
-                $ext = $allExtensions[$moduleCode];
-            }
-            
             $url     = $ext['url'];
             $name    = $ext['name'];
             $lastVer = $ext['version'];
