@@ -1,0 +1,142 @@
+/*
+	Shopping List of OEM module
+*/
+.arioem-shopList {
+	margin: 20px 0;
+	padding: 10px 0;
+	border-top: 7px solid #DFDFDF;
+	border-bottom: 7px solid #DFDFDF;
+}
+.arioem-shopList-title {
+	border-bottom: 2px solid #000;
+	font-family: sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 30px;
+	padding: 0 0 10px;
+	text-transform: uppercase;
+}
+.arioem-shopList table {
+	width: 100%;
+	margin: 15px 0;
+	border: 3px solid #000;
+}
+.arioem-shopList thead {
+	background: transparent url("images/partcenter/partlist-header-bg-1.png") repeat scroll 0 0;
+}
+.arioem-shopList thead tr {}
+.arioem-shopList thead td {
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 20px 10px;
+	vertical-align: middle;
+	text-transform: uppercase;
+}
+.arioem-shopList tbody {}
+.arioem-shopList tbody tr {}
+.arioem-shopList tbody tr.arioem-even {
+	background-color: #eeeeee;
+}
+.arioem-shopList tbody td {
+	font-size: 12px;
+	font-weight: bold;
+	padding: 10px;
+	vertical-align: middle;
+}
+.arioem-shopList tfoot {
+	background-color: #c7c7c7;
+}
+.arioem-shopList tfoot tr {}
+.arioem-shopList tfoot td {
+	padding: 20px;
+	border-top: 5px solid #000;
+	text-align: right;
+	vertical-align: middle;
+}
+
+.arioem-shopList-descr {
+	text-transform: uppercase;
+}
+.arioem-shopList-sku {
+	color: #8c8c8c;
+}
+.arioem-shopList-price {
+	width: 100px;
+	text-align: right;
+	color: #bd0401;
+}
+.arioem-shopList-stock {
+	width: 150px;
+}
+.arioem-shopList-qty {
+	text-align: center;
+	width: 52px;
+}
+.arioem-shopList-qty input {
+	font-family: arial;
+	font-size: 16px;
+	padding: 5px 10px;
+	text-align: center;
+	vertical-align: middle;
+	width: 30px;
+}
+.arioem-shopList-subtotal {
+	width: 100px;
+	text-align: right;
+	color: #bd0401;
+}
+.arioem-shopList-remove {
+	width: 30px;
+	text-align: center;
+}
+.arioem-shopList-remove span {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: transparent url("images/partcenter/remove-cross-in-square.png") no-repeat scroll 50% 50%;
+	color: transparent;
+	cursor: pointer;
+}
+.arioem-shopList .arioem-shopList-noItem {
+	padding: 20px 0;
+	font-size: 14px;
+	text-align: center;
+	text-transform: uppercase;
+	color: #888;
+}
+.arioem-shopList-gTotal-label {
+	color: #777;
+	font-size: 22px;
+	font-weight: bold;
+	margin-right: 20px;
+	vertical-align: middle;
+	text-transform: uppercase;
+}
+.arioem-shopList-gTotal-value {
+	font-size: 30px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+.arioem-shopping-list-footer {
+	margin: 10px 0 0;
+	text-align: right;
+}
+.arioem-shopping-list-footer button {
+	margin: 0 10px;
+	padding: 0 10px;
+	line-height: 35px;
+	border: 2px solid #14100f;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #232122;
+	color: #fff;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+button.arioem-shopping-list-update {}
+button.arioem-shopping-list-clear {}
+button.arioem-shopping-list-checkout {
+	border: 2px solid #c01c23;
+	background-color: #de1f27;
+}

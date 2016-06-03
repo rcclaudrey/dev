@@ -1,0 +1,12 @@
+<?php if(count($data)): ?>
+	<?php foreach($data as $brandCode => $partNumbers): ?>
+		<div class="wsqo-item-check">
+			<span class="wsqo-item-check-brand"><?php echo htmlspecialchars(Brands::getBrandByCode($brandCode)) ?></span>
+			<?php foreach($partNumbers as $partNumber): ?>
+				<strong><?php echo htmlspecialchars($partNumber) ?></strong>
+			<?php endforeach ?>
+		</div>
+	<?php endforeach ?>
+<?php else: ?>
+	<span class="wsqo-item-check-notfound"><?php echo __('No parts found for this part number') ?></span>
+<?php endif ?>

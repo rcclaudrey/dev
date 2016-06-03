@@ -10,7 +10,7 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 	const MAGE_CACHE_GROUP = 'ariapi';
 	const MAGE_CACHE_TAG = 'ari';
 
-	const ARI_API_RETRY_MAX_COUNT = 10;
+	const ARI_API_RETRY_MAX_COUNT = 1;
 	const ARI_API_RETRY_TIME = 100;
 
 	const ARI_LANGUAGE_CODE_PARAM_NAME = 'aril';
@@ -34,8 +34,8 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 		'AssemblyInfo' => 'RestAPI/AssemblyInfo',
 		'AssemblyInfoNoHotSpot' => 'RestAPI/AssemblyInfoNoHotSpot',
 		'AssemblyImage' => 'RestAPI/AssemblyImage',
-		'hotspots' => 'RestAPI/hotspots',
-		'partinfo' => 'RestAPI/partinfo',
+		'hotspots' => 'RestAPI/Hotspots',
+		'partinfo' => 'RestAPI/PartInfo',
 
 //		'' => 'RestAPI/',
 		// these is not needed actually as the path can be passed right from the calling function
@@ -43,12 +43,37 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 //		'partModels' => 'Search/GetModelSearchModelsForPrompt',
 	);
 
+	protected static $_requiringBase64encoding = array(
+			'RestAPI/ModelAutoComplete' => array(1),	// /{brandCode}/{modelName}/{numberOfResults}  modelName
+			'RestAPI/SearchModel' => array(1),			// /{brandCode}/{model}/{page}/{pageSize} model
+			'RestAPI/SearchPartModels' => array(1),		// /{brandCode}/{sku}/{page}/{pageSize} sku
+			'RestAPI/PartAutoComplete' => array(1),		// /{brandCode}/{partSku}/{numberOfResults} partSku
+			'RestAPI/SearchParts' => array(1),			// /{brandCode}/{search}/{page}/{pageSize} search
+			'RestAPI/SearchPartsWithinModel' => array(1, 2),	// /{brandCode}/{modelSearch}/{partSearch}/{page}/{pageSize} modelSearch partSearch
+			'RestAPI/SearchPartModelsFiltered' => array(1, 2),	// /{brandCode}/{sku}/{modelName}/{page}/{pageSize} sku modelName
+		);
+
 
 	public function setApiMode($mode = 'check')
 	{
 		$this->_settingsPath = $mode;
 
 		return $this;
+	}
+
+
+
+	public function base64EncodeModified($value)
+	{
+		$res = base64_encode($value);
+
+		$res = str_replace('+', '-', $res);
+		$res = str_replace('/', '_', $res);
+
+		$equalsCount = substr_count($res, '=');
+		$res = str_replace('=', '', $res) . (int)$equalsCount;
+
+		return $res;
 	}
 
 
@@ -62,11 +87,32 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 		if('APIEndPoint' == $path) {
 			$url = trim(Mage::getStoreConfig('arioem/' . $this->_settingsPath . '/api_endpoint_url'));
 		} else {
-			$baseUrl = trim(Mage::getStoreConfig('arioem/' . $this->_settingsPath . '/stream_endpoint'), ' /') . '/';
 			$path = isset(self::$_apiActionToRequestPath[$path]) ? self::$_apiActionToRequestPath[$path] : $path;
-			$url = $baseUrl . $path
-				. (count($mandatoryParams) ? '/'.implode('/', $mandatoryParams) : '')
-				. (count($optionalParams) ? '?' . ($this->prepareQuery($optionalParams)) : '');
+			$action = trim($path, '/');
+			$encodedParams = array_values($mandatoryParams);
+
+			foreach($encodedParams as $index => $value)
+			if (	isset(self::$_requiringBase64encoding[$action])
+				&&	in_array($index, self::$_requiringBase64encoding[$action])
+			) {
+				$encodedParams[$index] = $this->base64EncodeModified($value);
+			} else {
+				$encodedParams[$index] = urlencode($value);
+			}
+
+			$url = trim(Mage::getStoreConfig('arioem/' . $this->_settingsPath . '/stream_endpoint'), ' /') . '/' . $action
+				. (	count($encodedParams)
+					?	'/' . implode('/', $encodedParams)
+					:	''
+				)
+				. (	count($optionalParams)
+					?	'?' . http_build_query($optionalParams)
+					:	''
+				);
+
+//			$url = $baseUrl . $path
+//				. (count($mandatoryParams) ? '/'.implode('/', $mandatoryParams) : '')
+//				. (count($optionalParams) ? '?' . ($this->prepareQuery($optionalParams)) : '');
 
 			if(@$_GET['debug'] == 'print') vd($url);
 			if(@$_GET['debug'] || Mage::registry('vd')) Mage::log($url);
@@ -84,7 +130,7 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 		$error = false;
 		$contentType = '';
 
-		for($retry = 1; $retry < self::ARI_API_RETRY_MAX_COUNT; $retry++) {
+		for($retry = 1; $retry <= self::ARI_API_RETRY_MAX_COUNT; $retry++) {
 			if($error) {
 				usleep(self::ARI_API_RETRY_TIME);
 			}
@@ -102,6 +148,8 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 		}
 
 		if(false !== $error) {
+vd($error);
+die;
 			throw new Exception('CURL error: ' . $error);
 //			return null;
 		} else {
@@ -111,7 +159,6 @@ class Vikont_ARIOEM_Helper_Api extends Mage_Core_Helper_Abstract
 		curl_close($ch);
 
 		if('APIEndPoint' == $path) {
-
 			Mage::getConfig()->saveConfig('arioem/' . $this->_settingsPath . '/stream_endpoint', $response);
 			return $response;
 		} elseif(strtolower($contentType) == 'image/gif') {

@@ -1,0 +1,1028 @@
+/*
+	Common fixes
+*/
+.arioem-content .category-title h1 {
+	width: auto;
+	margin: 12px 0;
+	padding: 8px 0;
+	line-height: 41px;
+	font-size: 37px;
+	text-align: center;
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.28);
+	font-weight: bold;
+	color: #FFF;
+	text-transform: none;
+	text-shadow: 2px 2px #787878 !important;
+}
+
+
+.arioem-subcategory-header {
+	float: left;
+	margin: 20px 0 0;
+	padding: 10px 20px;
+	background: url("images/oem-header-bg-inv.png") repeat scroll 0 0 transparent;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: "Helvetica";
+	color: #fff;
+	text-transform: uppercase;
+}
+
+.arioem-brand-header.category-title {
+	background: url("images/page-title-bg.jpg") repeat scroll 0 0 transparent;
+	border: 0 none !important;
+	margin-bottom: 10px;
+	padding: 0;
+}
+
+
+
+/*
+	Part Selector header
+*/
+.arioem-content {
+	box-sizing: border-box;
+}
+.arioem-step-active {}
+
+.arioem-step-control {
+	margin: 10px 0;
+	padding: 10px 0;
+	border-bottom: 7px solid #dedede;
+	border-top: 7px solid #dedede;
+}
+.arioem-step-control .arioem-step-selected {
+	background: none;
+}
+.arioem-step-control > li {
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	width: 24%;
+	margin-right: 1%;
+	border: 4px solid #000;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.arioem-step-control > li.last {
+	margin-right: 0;
+}
+.arioem-step-control > li {
+	background: url('images/partcenter/bg6x6-gray.png') repeat scroll transparent;
+	cursor: default;
+}
+.arioem-step-control > li.arioem-step-active {
+	background-image: url('images/partcenter/bg6x6-red.png');
+	cursor: pointer;
+}
+.arioem-step-control > li .arioem-step-control-header-reset {
+	height: 23px;
+	cursor: pointer;
+}
+li.arioem-step-selected .arioem-step-control-header-reset {
+	background: url('images/partcenter/reset.jpg') no-repeat right bottom scroll transparent;
+}
+.arioem-step-control-header-title {
+	margin: 2px;
+	padding: 8px 0;
+	background: #000 none repeat scroll 0 0;
+	color: #fff;
+	font-family: tahoma;
+	font-size: 23px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+.arioem-step-control-header-content {
+	min-height: 100px;
+	line-height: 100px;
+}
+.arioem-step-control-header-content > span {
+	margin: 0 2px;
+}
+.arioem-step-control .arioem-step-selected .arioem-step-control-header-content {
+	background: none;
+}
+.arioem-step-control-brand {}
+.arioem-step-control-brand .arioem-step-control-header-content span {
+	display: block;
+	min-height: 100px;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+.arioem-step-control-brand .arioem-step-control-header-content {
+	background: url('images/partcenter/select-brand.png') 50% 100% no-repeat scroll transparent;
+}
+.arioem-step-control-brand.arioem-step-active .arioem-step-control-header-content {
+	background-image: url('images/partcenter/select-brand-red.png');
+}
+.arioem-step-control-brand-arcticcat { background-image: url("logos/named/arcticcat.jpg") }
+.arioem-step-control-brand-canam { background-image: url("logos/named/canam.jpg") }
+.arioem-step-control-brand-honda { background-image: url("logos/named/honda.jpg") }
+.arioem-step-control-brand-hondape { background-image: url("logos/named/hondape.jpg") }
+.arioem-step-control-brand-kawasaki { background-image: url("logos/named/kawasaki.jpg") }
+.arioem-step-control-brand-polaris { background-image: url("logos/named/polaris.jpg") }
+.arioem-step-control-brand-seadoo { background-image: url("logos/named/seadoo.jpg") }
+.arioem-step-control-brand-slingshot { background-image: url("logos/named/slingshot.jpg") }
+.arioem-step-control-brand-suzuki { background-image: url("logos/named/suzuki.jpg") }
+.arioem-step-control-brand-victory { background-image: url("logos/named/victory.jpg") }
+.arioem-step-control-brand-yamaha { background-image: url("logos/named/yamaha.jpg") }
+
+.arioem-step-control-vehicle {}
+.arioem-step-control-vehicle .arioem-step-control-header-content {
+	background: url('images/partcenter/select-vehicle.png') 50% 100% no-repeat scroll transparent;
+}
+.arioem-step-control-vehicle.arioem-step-active .arioem-step-control-header-content {
+	background-image: url('images/partcenter/select-vehicle-red.png');
+}
+
+.arioem-step-control-vehicle-atv { background-image: url('vehicles/atv.png') }
+.arioem-step-control-vehicle-fl { background-image: url('vehicles/fl.png') }
+.arioem-step-control-vehicle-crosscountry { background-image: url('vehicles/crosscountry.png') }
+.arioem-step-control-vehicle-generator { background-image: url('vehicles/generator.png') }
+.arioem-step-control-vehicle-jetboat { background-image: url('vehicles/jetboat.png') }
+.arioem-step-control-vehicle-motorcycle { background-image: url('vehicles/motorcycle.png') }
+.arioem-step-control-vehicle-ranger { background-image: url('vehicles/ranger.png') }
+.arioem-step-control-vehicle-razor { background-image: url('vehicles/razor.png') }
+.arioem-step-control-vehicle-scooter { background-image: url('vehicles/scooter.png') }
+.arioem-step-control-vehicle-slingshot { background-image: url('vehicles/slingshot.png') }
+.arioem-step-control-vehicle-snow { background-image: url('vehicles/snow.png') }
+.arioem-step-control-vehicle-spyder { background-image: url('vehicles/spyder.png') }
+.arioem-step-control-vehicle-utv { background-image: url('vehicles/utv.png') }
+.arioem-step-control-vehicle-watercraft { background-image: url('vehicles/watercraft.png') }
+
+.arioem-step-control-vehicle .arioem-step-control-header-content span {
+	display: block;
+	height: 20px;
+	padding: 80px 0 0;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	background-position: 50% 20%;
+	background-repeat: no-repeat;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.arioem-step-control-year {}
+.arioem-step-control-year .arioem-step-control-header-content {
+	background: url('images/partcenter/select-year.png') 50% 100% no-repeat scroll transparent;
+}
+.arioem-step-control-year.arioem-step-active .arioem-step-control-header-content {
+	background-image: url('images/partcenter/select-year-red.png');
+}
+.arioem-step-control-year .arioem-step-control-header-content span {
+	display: inline-block;
+	line-height: 42px;
+	font-size: 40px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+.arioem-step-control-year .arioem-step-control-header-content span.arioem-step-control-year-smaller {
+	line-height: 32px;
+	font-size: 30px;
+}
+.arioem-step-control-year .arioem-step-control-header-content span.arioem-step-control-year-smallest {
+	line-height: 22px;
+	font-size: 20px;
+}
+
+.arioem-step-control-model {}
+.arioem-step-control-model .arioem-step-control-header-content {
+	background: url('images/partcenter/select-model.png') 50% 100% no-repeat scroll transparent;
+}
+.arioem-step-control-model.arioem-step-active .arioem-step-control-header-content {
+	background-image: url('images/partcenter/select-model-red.png');
+}
+
+.arioem-step-content {
+	margin: 10px 0;
+	border: medium none;
+}
+.arioem-step-content.arioem-step-active {
+	display: block;
+}
+.arioem-step-content > li {
+	display: none;
+	border: 1px solid #000;
+}
+.arioem-step-content > li.arioem-step-active {
+	display: block;
+}
+.arioem-step-content-title {
+	margin: 2px;
+	padding: 16px 20px;
+	font-size: 20px;
+	background-color: #000;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+/*
+	Brand list block
+*/
+.arioem-step-content-brand ul {
+	clear: both;
+	margin: 0 0 20px;
+	padding: 20px 0;
+	border: none;
+	text-align: center;
+}
+.arioem-step-content-brand li {
+	display: inline-block;
+	margin: 10px;
+	position: relative;
+	text-align: center;
+}
+.arioem-step-content-brand li img {
+	max-width: 170px;
+	max-height: 100px;
+	border: 2px solid transparent;
+	/*opacity: 0.6;*/
+	cursor: pointer;
+	vertical-align: middle;
+}
+.arioem-step-content-brand li img:hover {
+	/*opacity: 1;*/
+	/*transition: opacity 0.25s ease-in-out 0s;*/
+	border-color: #ED1427;
+}
+
+.arioem-step-content-vehicle .arioem-step-content-content ul {
+	padding: 20px;
+	text-align: center;
+}
+.arioem-step-content-vehicle .arioem-step-content-content li {
+	display: inline-block;
+	width: 120px;
+	min-height: 35px;
+	margin: 10px;
+	padding: 90px 10px 10px;
+	border: 2px solid transparent;
+	background: no-repeat scroll 50% 20% transparent;
+	font-size: 14px;
+	vertical-align: top;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.arioem-step-content-vehicle .arioem-step-content-content li:hover {
+	border-color: #ED1427;
+}
+.arioem-step-content-content li.arioem-step-content-vehicle-atv {	background-image: url('vehicles/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-crosscountry {	background-image: url('vehicles/crosscountry.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-fl {	background-image: url('vehicles/fl.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-generator {	background-image: url('vehicles/generator.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-jetboat {	background-image: url('vehicles/jetboat.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-motorcycle {	background-image: url('vehicles/motorcycle.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-ranger {	background-image: url('vehicles/ranger.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-razor {	background-image: url('vehicles/razor.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-scooter {	background-image: url('vehicles/scooter.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-slingshot {	background-image: url('vehicles/slingshot.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-snow {	background-image: url('vehicles/snow.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-spyder {	background-image: url('vehicles/spyder.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-utv {	background-image: url('vehicles/utv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-watercraft {	background-image: url('vehicles/watercraft.png') }
+
+
+
+
+.arioem-step-content-content li.arioem-step-content-vehicle-arcticcat-atv { background-image: url('vehicles/arcticcat/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-arcticcat-rov { background-image: url('vehicles/arcticcat/rov.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-canam-atv { background-image: url('vehicles/canam/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-canam-spyder { background-image: url('vehicles/canam/spyder.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-canam-side_by_side { background-image: url('vehicles/canam/side_by_side.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-honda-atv { background-image: url('vehicles/honda/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-honda-scooter { background-image: url('vehicles/honda/scooter.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-honda-motorcycle { background-image: url('vehicles/honda/motorcycle.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-honda-h2o { background-image: url('vehicles/honda/h2o.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-hondape-generator { background-image: url('vehicles/honda/generator.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-kawasaki-atv { background-image: url('vehicles/kawasaki/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-kawasaki-motorcycle { background-image: url('vehicles/kawasaki/motorcycle.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-kawasaki-side_by_side { background-image: url('vehicles/kawasaki/side_by_side.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-kawasaki-h2o { background-image: url('vehicles/kawasaki/h2o.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-atv { background-image: url('vehicles/polaris/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-boat { background-image: url('vehicles/polaris/boat.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-h2o { background-image: url('vehicles/polaris/h2o.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-generator { background-image: url('vehicles/polaris/generator.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-ranger { background-image: url('vehicles/polaris/ranger.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-razor { background-image: url('vehicles/polaris/razor.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-polaris-slingshot { background-image: url('vehicles/polaris/slingshot.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-seadoo-h2o { background-image: url('vehicles/seadoo/h2o.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-suzuki-atv { background-image: url('vehicles/suzuki/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-suzuki-motorcycle { background-image: url('vehicles/suzuki/motorcycle.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-suzuki-scooter { background-image: url('vehicles/suzuki/scooter.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-victory-motorcycle { background-image: url('vehicles/victory/motorcycle.png') }
+
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-atv { background-image: url('vehicles/yamaha/atv.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-jetboat { background-image: url('vehicles/yamaha/jetboat.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-generator { background-image: url('vehicles/yamaha/generator.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-motorcycle { background-image: url('vehicles/yamaha/motorcycle.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-scooter { background-image: url('vehicles/yamaha/scooter.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-side_by_side { background-image: url('vehicles/yamaha/side_by_side.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-snowmobile { background-image: url('vehicles/yamaha/snowmobile.png') }
+.arioem-step-content-content li.arioem-step-content-vehicle-yamaha-h2o { background-image: url('vehicles/yamaha/h2o.png') }
+
+
+
+
+
+.arioem-step-content-year .arioem-step-content-content ul {
+	display: inline-block;
+	padding: 10px 20px 10px 10px;
+	vertical-align: top;
+}
+.arioem-step-content-year .arioem-step-content-content li {
+	min-width: 50px;
+	padding: 5px 15px;
+	border: 1px solid transparent;
+	font-size: 16px;
+	text-align: center;
+	cursor: pointer;
+}
+.arioem-step-content-year .arioem-step-content-content li:hover {
+	border-color: #ED1427;
+}
+
+.arioem-step-content-model .arioem-step-content-content ul {
+	display: inline-block;
+	padding: 10px 20px 10px 10px;
+	vertical-align: top;
+}
+.arioem-step-content-model .arioem-step-content-content li {
+	padding: 5px 15px;
+	border: 1px solid transparent;
+	font-size: 16px;
+	cursor: pointer;
+}
+.arioem-step-content-model .arioem-step-content-content li:hover {
+	border-color: #ED1427;
+}
+
+.arioem-step-control-model .arioem-step-control-header-content > span span {
+	display: inline-block;
+	height: auto;
+	line-height: 20px;
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ASSEMBLY BLOCK */
+.arioem-step-content-assembly {}
+li.arioem-step-content-assembly {
+	border: none;
+}
+.arioem-step-content-assembly-sidebar {
+	float: left;
+	width: 200px;
+	margin-right: 10px;
+	border: 2px solid #000;
+}
+.arioem-step-content-assembly-sidebar-title1 {
+	margin: 2px 2px 0;
+	padding: 12px 10px;
+	background: url("images/partcenter/bg-darkgray.png") repeat scroll;
+	font-size: 14px;
+	font-family: tahoma;
+	font-weight: bold;
+	color: #fff;
+	text-transform: uppercase;
+}
+.arioem-step-content-assembly-sidebar-modelname {
+	margin: 0 2px;
+	padding: 20px 10px;
+	background-color: #e7e7e7;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+}
+.arioem-step-content-assembly-sidebar-reset {
+	padding: 0 0 10px;
+	background-color: #e7e7e7;
+	text-align: center;
+}
+.arioem-step-content-assembly-sidebar-reset span{
+	display: inline-block;
+	width: 112px;
+	height: 23px;
+	background: transparent url("images/partcenter/reset-vehicle.jpg") no-repeat scroll 0 0;
+	cursor: pointer;
+}
+.arioem-step-content-assembly-sidebar-title2 {
+	padding: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #000;
+	color: #fff;
+	text-transform: uppercase;
+}
+.arioem-step-content-assembly-sidebar-assemblylist {
+	padding: 20px 0;
+	overflow: hidden;
+}
+.arioem-step-content-assembly-sidebar-assemblylist > li {
+	font-size: 12px;
+	padding: 10px 20px;
+	cursor: pointer;
+}
+.arioem-step-content-assembly-sidebar-assemblylist > li:hover {
+	color: #fff;
+	background-color: #ED1427;
+}
+.arioem-step-content-assembly-grid {
+
+}
+.arioem-step-content-assembly-grid ul {
+	margin: 0 -10px 20px 214px;
+}
+.arioem-step-content-assembly-grid ul > li {
+	display: inline-block;
+	width: 175px;
+	margin: 0 9px 10px 0;
+	border: 1px solid #000;
+	vertical-align: top;
+	cursor: pointer;
+}
+.arioem-step-content-assembly-grid ul > li:hover {
+	border-color: #ED1427;
+}
+.arioem-step-content-assembly-listItem-image {
+	height: 175px;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+.arioem-step-content-assembly-listItem-name {
+	padding: 10px 5px;
+	line-height: 30px;
+	overflow: hidden;
+	text-align: center;
+	background-color: #ececec;
+}
+.arioem-step-content-assembly-grid ul > li:hover .arioem-step-content-assembly-listItem-name {
+	color: #fff;
+	background-color: #ED1427;
+}
+.arioem-step-content-assembly-listItem-name span {
+	display: inline-block;
+	width: 100%;
+	line-height: 15px;
+	font-size: 12px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+
+
+
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = PART LIST */
+
+.arioem-step-content-part {}
+li.arioem-step-content-part {
+	border: none;
+}
+arioem-step-content-part-topleft {
+
+}
+.arioem-step-content-part-shoppingfor {
+	margin: 10px 0;
+	border: 1px solid #000;
+	color: #fff;
+}
+.arioem-step-content-part-shoppingfor > div {
+	margin: 1px;
+	padding: 13px 16px;
+	line-height: 20px;
+	background-image: url("images/partcenter/vehicle-title-bg.png");
+}
+.arioem-step-content-part-resetAssembly {
+	position: absolute;
+	right: 16px;
+	top: 8px;
+	display: block;
+	width: 87px;
+	height: 24px;
+	border: 1px solid #aaa;
+	background: url("images/partcenter/view-all-diagram.png") no-repeat scroll 50% 50%;
+	cursor: pointer;
+}
+.arioem-step-content-part-shoppingfor-label {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 16px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-shoppingfor-value {
+	display: inline-block;
+	margin-left: 20px;
+	vertical-align: middle;
+	font-size: 20px;
+	text-transform: uppercase;
+}
+
+.arioem-step-content-part-assemblyList {
+	float: left;
+	box-sizing: border-box;
+	width: 45%;
+	padding: 1px;
+	background-color: #000;
+	color: #fff;
+}
+.arioem-step-content-part-assemblyList > div {
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	height: 88px;
+	padding: 13px 16px 0;
+	border: 1px solid #fff;
+}
+.arioem-step-content-part-assemblyList label {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-select {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 3px 10px;
+}
+.arioem-step-content-part-select option {}
+.arioem-step-content-part-topright {
+	box-sizing: border-box;
+	float: right;
+	width: 55%;
+	padding: 0 0 0 10px;
+}
+.arioem-step-content-part-topright-reset {
+	float: left;
+	border: 5px solid #B03236;
+	cursor: pointer;
+}
+.arioem-step-content-part-topright-reset > span {
+	display: block;
+	margin: 2px;
+	background: url("images/partcenter/bg-big-gray.png") repeat scroll 0 0 transparent;
+}
+.arioem-step-content-part-topright-reset span span {
+	display: block;
+	height: 76px;
+	width: 200px;
+	background: transparent url("images/partcenter/reset-vehicle-big.png") no-repeat scroll 50% 50%;
+}
+.arioem-step-content-part-topright-buttons {
+	padding-left: 224px;
+}
+.arioem-step-content-part-topright-buttons span {
+	display: block;
+	box-sizing: border-box;
+	overflow: hidden;
+	height: 40px;
+	padding: 0 0 0 43px;
+	border: 2px solid #000;
+	line-height: 40px;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+span.arioem-step-content-part-topright-chat {
+	margin: 0 0 10px;
+	background: #242424 url("images/partcenter/chat-with-oem-spec.png") no-repeat scroll 0 50%;
+	color: #fff;
+}
+span.arioem-step-content-part-topright-tips {
+	background: #c6c6c6 url("images/partcenter/oem-finder-tips.png") no-repeat scroll 0 50%;
+	font-size: 15px;
+}
+
+.arioem-step-content-part-img {
+	position: relative;
+	float: left;
+	box-sizing: border-box;
+	width: 45%;
+	margin: 10px 0;
+	background-color: #3f3f3f;
+}
+.arioem-step-content-part-img > span {
+	display: inline-block;
+	float: right;
+	width: 40px;
+	height: 40px;
+	margin: 5px 10px 10px 0;
+	border: 1px solid #7f7f7f;
+	cursor: pointer;
+}
+.arioem-step-content-part-img-enlarge {
+	background: url("images/partcenter/gray-plus.png") no-repeat scroll 50% 50%;
+}
+.arioem-step-content-part-img-reduce {
+	background: url("images/partcenter/gray-minus.png") no-repeat scroll 50% 50%;
+}
+span.arioem-step-content-part-img-wideMode {
+	width: auto;
+	padding: 0 10px;
+	line-height: 40px;
+	background:none;
+}
+span.arioem-step-content-part-img-wideMode > span {
+	display: inline-block;
+	line-height: 14px;
+	vertical-align: middle;
+	text-align: left;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #FFF;
+}
+span.arioem-step-content-part-img-print {
+	float: left;
+	width: auto;
+	margin-left: 10px;
+	padding: 0 0 0 50px;
+	line-height: 40px;
+	background: transparent url("images/partcenter/print-diagram.png") no-repeat scroll 8px 50%;
+}
+span.arioem-step-content-part-img-print span {
+	display: inline-block;
+	width: 60px;
+	line-height: 12px;
+	vertical-align: middle;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #fff;
+}
+span.arioem-step-content-part-img-howToUse {
+	position: relative;
+	float: left;
+	width: auto;
+	line-height: 40px;
+	padding: 0 10px;
+}
+span.arioem-step-content-part-img-howToUse span {
+	display: inline-block;
+	line-height: 14px;
+	vertical-align: middle;
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-howToUse-popup {
+	display: none;
+	position: absolute;
+	left: 0;
+	bottom: 50px;
+	width: 200px;
+	height: auto;
+	padding: 15px 20px;
+	border: 1px solid #aaa;
+	border-radius: 10px;
+	line-height: 18px;
+	font-size: 12px;
+	text-align: justify;
+	background-color: palegoldenrod;
+}
+span.arioem-step-content-part-img-howToUse:hover .arioem-step-content-part-img-howToUse-popup {
+	display: block;
+}
+
+.arioem-step-content-part-img-scrollArea {
+	margin: 10px;
+	height: 550px;
+	overflow: hidden;
+	background-color: #fff;
+	cursor: url("images/partcenter/openhand.cur"), default;
+}
+.arioem-step-content-part-img-scrollArea-content {
+	position: relative;
+}
+.arioem-step-content-part-img-scrollArea-content img {
+	width: 100%;
+}
+.arioem-step-content-part-img-scrollArea-content-hotspots {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.arioem-hotspot {
+	position: absolute;
+	display: block;
+	border: 1px solid red;
+	color: transparent;
+	cursor: pointer;
+}
+.arioem-hotspot-hover,
+.arioem-hotspot:hover {
+	background-color: lightpink;
+	opacity: 0.6;
+	color: transparent;
+}
+.arioem-hotspot.arioem-preSelected {
+	background-color: #D95F6A;
+	opacity: 0.6;
+}
+.arioem-step-content-part-img-popup {
+	display: none;
+	position: absolute;
+	left: 50px;
+	top: 100px;
+	min-width: 200px;
+	padding: 0 0 5px;
+	border: 2px solid #000;
+	background: url("images/partcenter/img-popup-bg.png") repeat;
+	z-index: 10;
+}
+.arioem-step-content-part-img-popup > div {
+	margin: 5px 12px;
+}
+.arioem-step-content-part-img-popup > div.arioem-last {
+	margin-bottom: 12px;
+	line-height: 30px;
+}
+.arioem-step-content-part-img-popup span {
+	vertical-align: middle;
+}
+div.arioem-step-content-part-img-popup-header {
+	margin: 1px !important;
+	padding: 5px;
+	background-color: #000;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #fff;
+}
+.arioem-step-content-part-img-popup-label {
+	display: inline-block;
+	width: 50px;
+	margin-right: 10px;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup-partNo {
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup-msrp {
+	font-size: 12px;
+	font-weight: bold;
+}
+.arioem-step-content-part-img-popup-price {
+	font-size: 18px;
+	font-weight: bold;
+	color: #b33742;
+}
+.arioem-step-content-part-img-popup-qtyInStock {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup-InStock {
+	color: #4f864f;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup-outOfStock {
+	color: red;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup label {
+	color: #555555;
+	margin-right: 5px;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+.arioem-step-content-part-img-popup input {
+	width: 40px;
+	height: 22px;
+	padding: 2px 5px;
+	border: 2px solid #555;
+	font-size: 16px;
+	/*font-weight: bold;*/
+	text-align: center;
+	vertical-align: middle;
+}
+.arioem-step-content-part-img-popup-addto {
+	white-space: nowrap;
+}
+.arioem-step-content-part-img-popup-addToCart {
+	display: inline-block;
+	box-sizing: border-box;
+	height: 30px;
+	margin: 0 0 0 3px;
+	padding: 0 5px 0 35px;
+	border: 2px solid #c01c23;
+	background: #de1f27 url("images/partcenter/cart-25x22.png") no-repeat scroll 5px 50%;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	vertical-align: middle;
+	color: #fff;
+	cursor: pointer;
+}
+.arioem-step-content-part-img-popup-viewInPL {
+	margin: 20px 0 0;
+	padding-top: 7px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	color: #de1f27;
+	cursor: pointer;
+}
+.arioem-step-content-part-img-popup-viewInPL:hover {
+	text-decoration: underline;
+}
+
+.arioem-step-content-part-partlist {
+	box-sizing: border-box;
+	position: relative;
+	float: right;
+	width: 55%;
+	height: 627px;
+	margin: 10px 0;
+	padding: 0 0 0 10px;
+}
+.arioem-step-content-part-partlist > table {
+	display: block;
+	/*height: 560px;*/
+	border: solid 2px #000;
+	background-color: #000;
+}
+.arioem-step-content-part-partlist table td {
+	box-sizing: border-box;
+}
+.arioem-step-content-part-partlist thead {
+}
+.arioem-step-content-part-partlist thead td {
+	padding: 10px 2px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #fff !important;
+	text-align: left;
+	vertical-align: middle;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-partlist tbody {
+	position: relative;
+	display: block;
+	height: 508px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background-color: #fff;
+}
+.arioem-step-content-part-partlist tbody tr {
+	display: block;
+	cursor: pointer;
+}
+.arioem-step-content-part-partlist tr.arioem-partlist-tr-hover,
+.arioem-step-content-part-partlist tbody tr:hover {
+	background-color: #CDE1C8;
+}
+.arioem-step-content-part-partlist tbody .arioem-inCart {
+	background-color: gold;
+}
+.arioem-step-content-part-partlist tbody .arioem-selected {
+	background-color: lightblue;
+}
+.arioem-step-content-part-partlist tbody .arioem-preSelected {
+	background-color: #D95F6A;
+}
+.arioem-step-content-part-partlist tbody td {
+	padding: 10px 2px;
+	vertical-align: middle;
+}
+.arioem-step-content-part-partlist .arioem-even {
+	background-color: #D7D7D7;
+	border-top: solid 1px #B2B2B2;
+	border-bottom: solid 1px #B2B2B2;
+}
+.arioem-step-content-part-partlist .arioem-partlist-tag {
+	width: 40px;
+	text-align: center;
+}
+.arioem-step-content-part-partlist .arioem-partlist-descr {
+	width: 200px;
+}
+.arioem-partlist-descr > span {
+	display: block;
+}
+.arioem-step-content-part-partlist .arioem-partlist-partNo {
+	font-weight: bold;
+	color: #8c8c8c;
+}
+.arioem-step-content-part-partlist .arioem-partlist-msrp {
+	width: 55px;
+}
+.arioem-step-content-part-partlist .arioem-partlist-price {
+	width: 55px;
+	color: #D95F6A;
+}
+.arioem-step-content-part-partlist .arioem-partlist-stock {
+	width: 80px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.arioem-partlist-stock .arioem-instock {
+	color: #448948;
+}
+.arioem-partlist-stock .arioem-outofstock {
+	color: #D95F6A;
+}
+.arioem-step-content-part-partlist .arioem-partlist-qty {
+	text-align: center;
+	width: 40px;
+}
+.arioem-partlist-qty input {
+	width: 30px;
+	text-align: center;
+}
+.arioem-step-content-part-partlist .arioem-partlist-select {
+	width: 20px;
+	text-align: center;
+}
+.arioem-partlist-select input {
+	cursor: pointer;
+}
+.arioem-step-content-part-partlist .arioem-partlist-nla {
+	font-weight: bold;
+	color: #D95F6A;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-partlist .arioem-partlist-na {
+	font-weight: bold;
+	color: #D95F6A;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-partlist .arioem-partlist-superseded {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	vertical-align: bottom;
+	background: url('images/partcenter/alert-16x16.png') 50% 50% no-repeat;
+	cursor: pointer;
+}
+.arioem-step-content-part-partlist .arioem-partlist-hidePrice {}
+.arioem-partlist-seePriceInCartPopup {
+	position: absolute;
+	display: none;
+	left: 20px;
+	top: 130px;
+	z-index:10;
+	box-sizing: border-box;
+	width: 270px;
+	padding: 5px 10px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	background-color: palegoldenrod;
+}
+.arioem-partlist-seePriceInCartPopup.oempart-visible {
+	display: block;
+}
+.arioem-partlist-seePriceInCartPopup p {
+	margin: 5px 0;
+}
+.arioem-partlist-seePriceInCartPopup h5 {
+	margin: 10px 0 5px;
+	font-weight: bold;
+}
+
+
+.arioem-step-content-part-partlist-bottom {
+	margin: 10px 0;
+}
+.arioem-step-content-part-partlist-addToCart {
+	float: right;
+	display: block;
+	width: 180px;
+	height: 52px;
+	padding: 0 0 0 35px;
+	border: 2px solid #c01c23;
+	background: #de1f27 url("images/partcenter/cart-25x22.png") no-repeat scroll 15px 50%;
+	font-size: 16px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #fff;
+	cursor: pointer;
+}

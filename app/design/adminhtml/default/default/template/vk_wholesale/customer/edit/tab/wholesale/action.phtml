@@ -1,0 +1,15 @@
+<?php
+
+$helper = Mage::helper('wholesale');
+$customer = Mage::registry('current_customer');
+$dealerStatus = $customer->getData(Vikont_Wholesale_Helper_Data::ATTR_DEALER_STATUS);
+
+?>
+<div class="">
+	<?php if(Vikont_Wholesale_Model_Source_Dealer_Status::CANDIDATE == $dealerStatus): ?>
+		<button onclick="document.location='<?php echo $this->getUrl('*/*/status', array('id' => $customer->getId(), 'action' => 'approve')) ?>'" class=""><?php echo $this->__('Approve') ?></button>
+		<button onclick="document.location='<?php echo $this->getUrl('*/*/status', array('id' => $customer->getId(), 'action' => 'decline')) ?>'" class=""><?php echo $this->__('Decline') ?></button>
+	<?php elseif(Vikont_Wholesale_Model_Source_Dealer_Status::APPROVED == $dealerStatus): ?>
+		<button onclick="document.location='<?php echo $this->getUrl('*/*/status', array('id' => $customer->getId(), 'action' => 'terminate')) ?>'" class=""><?php echo $this->__('Terminate') ?></button>
+	<?php endif ?>
+</div>

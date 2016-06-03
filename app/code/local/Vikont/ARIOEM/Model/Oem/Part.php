@@ -6,9 +6,15 @@ class Vikont_ARIOEM_Model_Oem_Part
 	protected $_brandCode = null;
 	protected $_partNumber = null;
 	protected $_partInfo = null;
+	protected $_apiPartInfo = null;
+	protected $_modelPartInfo = null;
 	protected $_models = null;
+	protected $_oemAPI = null;
+	protected $_assemblyImageUrl = null;
 
 	protected static $_brands = array(
+		'acat' => 'Arctic Cat',
+		'arcticcat' => 'Arctic Cat',
 		'canam' => 'Can Am',
 		'can-am' => 'Can Am',
 		'honda' => 'Honda',
@@ -18,11 +24,29 @@ class Vikont_ARIOEM_Model_Oem_Part
 		'polaris' => 'Polaris',
 		'sea-doo' => 'Sea-Doo',
 		'seadoo' => 'Sea-Doo',
+		'slingshot' => 'Slingshot',
 		'suzuki' => 'Suzuki',
 		'victory' => 'Victory',
 		'yamaha' => 'Yamaha',
 	);
 
+	protected static $_brands2shortcode = array(
+		'acat' => 'ARC',
+		'arcticcat' => 'ARC',
+		'canam' => 'BRP',
+		'can-am' => 'BRP',
+		'honda' => 'HOM',
+		'hondape' => 'HONPE',
+		'honda-pe' => 'HONPE',
+		'kawasaki' => 'KUS',
+		'polaris' => 'POL',
+		'sea-doo' => 'BRP_SEA',
+		'seadoo' => 'BRP_SEA',
+		'slingshot' => 'SLN',
+		'suzuki' => 'SUZ',
+		'victory' => 'VIC',
+		'yamaha' => 'YAM',
+	);
 
 
 	public function getBrand()
@@ -33,7 +57,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 				$brand = Mage::app()->getRequest()->getParam('brand');
 			}
 			$this->_brand = $brand;
-			$this->_brandCode = Mage::helper('arioem')->brandName2Code($this->_brand);
+			$this->_brandCode = Vikont_ARIOEM_Helper_Data::brandName2Code($this->_brand);
 		}
 
 		return $this->_brand;
@@ -71,11 +95,11 @@ class Vikont_ARIOEM_Model_Oem_Part
 	public function getPartNumber()
 	{
 		if(null === $this->_partNumber) {
-			$partNumber = strtoupper(Mage::registry('oem_part_number'));
+			$partNumber = Mage::registry('oem_part_number');
 			if(!$partNumber) {
 				$partNumber = Mage::app()->getRequest()->getParam('partNumber');
 			}
-			$this->_partNumber = str_replace(array(':', '/', '\\', '"', '\''), '', $partNumber);
+			$this->_partNumber = strtoupper(str_replace(array(':', '/', '\\', '"', '\''), '', $partNumber));
 		}
 
 		return $this->_partNumber;
@@ -91,73 +115,64 @@ class Vikont_ARIOEM_Model_Oem_Part
 
 
 
+	public function getAPIPartInfo()
+	{
+		if (null === $this->_apiPartInfo) {
+			$response = Mage::helper('arioem/api')->request('SearchParts', array(
+					'brandCode' => $this->getBrandCode(),
+					'partNumber' => $this->getPartNumber(),
+				), array());
+
+			if ($response && isset($response['Data']['Results'][0])) {
+				$this->_apiPartInfo = $response['Data']['Results'][0];
+			}
+		}
+		return $this->_apiPartInfo;
+	}
+
+
+
 	public function getPartInfo()
 	{
 		if(null === $this->_partInfo) {
-//	http://partstream.arinet.com/Search?
-//	cb=jsonp1448652343912
-//	&arib=HOM
-//	&part=13101-MEN-A70
-//	&page=1
-//	&arik=9oiOWqDlvNLyUXT4Qtun
-//	&aril=en-US
-//	&ariv=http%253A%252F%252Ftmsparts.com%252Fvk%252Foem-test.html
+			$this->getAPIPartInfo();
 
-			$response = Mage::helper('arioem/api')->request('Search', array(), array(
-				'arib' => $this->getBrandCode(),
-				'part' => $this->getPartNumber(),
-				'arik' => Mage::getStoreConfig('arioem/api/app_key'),
-				'ariv' => Mage::getStoreConfig('arioem/api/referer_url'),
-			));
+			$this->_partInfo = array(
+				'name' => $this->_apiPartInfo['Description'],
+				'part_id' => $this->_apiPartInfo['PartId'],
+				'superseded' => $this->_apiPartInfo['IsSuperseded'],
+				'nla' => $this->_apiPartInfo['NLA'],
+				'has_models' => $this->_apiPartInfo['HasModels'],
+			);
 
-			$partInfo = false;
+			$dbData = Mage::helper('arioem/OEM')->getOEMCostData($this->getBrandCode(), $this->getPartNumber());
 
-			if(isset($response['html']) && $response['html']) {
-				$content = Mage::helper('arioem')->decodeHTMLResponse($response['html']);
+			if ($dbData && $dbData['available']) {
+				$this->_partInfo = array_merge($partInfo, array(
+					'available' => true,
+//					'id' => $dbData['id'],
+					'supplier_code' => $dbData['supplier_code'],
+					'name' => $dbData['part_name'], // overriding the name in case TMS corrected that
 
-				$dom = new DOMDocument;
-				libxml_use_internal_errors(true);
-				$dom->loadHTML($content);
-				libxml_clear_errors();
+					'cost' => $dbData['cost'],
+					'msrp' => $dbData['msrp'],
+					'price' => $dbData['price'],
+					'hide_price' => $dbData['hide_price'],
 
-				$searchTableBody = $dom->getElementById('ari_searchResults_GridBody');
-				if(!$searchTableBody) {
-					Mage::logException(new Exception(sprintf('No #ari_searchResults_GridBody element found in the response for brand=%s part=%s', $this->getBrandCode(), $this->getPartNumber())));
-				}
+					'inv_local' => $dbData['inv_local'],
+					'inv_wh' => $dbData['inv_wh'],
 
-				foreach($searchTableBody->childNodes as $tableRow) {
-					$partInfo = array();
+					'length' => $dbData['dim_length'],
+					'width' => $dbData['dim_width'],
+					'height' => $dbData['dim_height'],
+					'weight' => $dbData['weight'],
+					'oversized' => $dbData['oversized'],
 
-					foreach($tableRow->childNodes as $rowCell) {
-	//	ari_searchResults_Column_Content_PartNum
-	//	ari_searchResults_Column_Content_IsSuperceeded
-	//	ari_searchResults_Column_Content_Assembly
-	//	ari_searchResults_Column_Content_WhereUsed
-	//	ari_searchResults_Column_Content_Price x 2 MSRP / Online Price
-	//	ari_searchResults_Column_Content_AddToCart name="...?...&ariprice=107.70..."
-						if(!$rowCell->attributes) continue;
-						$className = $rowCell->attributes->getNamedItem('class')->value;
-						$cellPurpose = strtolower(substr(stristr($className, 'ari_searchresults_column_content_'), strlen('ari_searchresults_column_content_')));
-						$cellValue = trim($rowCell->textContent, "\n\l\r ");
-
-						if($cellPurpose == 'price') {
-							$cellValue = trim($cellValue, '$');
-
-							if(!isset($partInfo['msrp'])) {
-								$cellPurpose = 'msrp';
-							}
-						}
-
-						$partInfo[$cellPurpose] = $cellValue;
-					}
-
-					unset($partInfo['whereused']);
-					unset($partInfo['addtocart']);
-				}
+					'image_url' => $dbData['image_url'],
+				));
 			} else {
-				// no response or error response received
+				$this->_partInfo['available'] = false;
 			}
-			$this->_partInfo = $partInfo;
 		}
 
 		return $this->_partInfo;
@@ -165,10 +180,18 @@ class Vikont_ARIOEM_Model_Oem_Part
 
 
 
+	public function isAvailable()
+	{
+		$this->getPartInfo();
+		return $this->_partInfo['available'];
+	}
+
+
+
 	public function getName()
 	{
 		$this->getPartInfo();
-		return $this->_partInfo['assembly'];
+		return $this->_partInfo['name'];
 	}
 
 
@@ -183,70 +206,102 @@ class Vikont_ARIOEM_Model_Oem_Part
 
 
 
+	public function getAPI()
+	{
+		if (null === $this->_oemAPI) {
+			$arioemConfig = array();
+			require_once MAGENTO_ROOT . '/arioem/creds.php';
+			require_once MAGENTO_ROOT . '/arioem/translate.php';
+			$arioemConfig['SITE_ROOT'] = MAGENTO_ROOT;
+
+			$this->_oemAPI = new Vikont_ARIOEMAPI($arioemConfig);
+		}
+		return $this->_oemAPI;
+	}
+
+
+
+	public function requestAPI($params)
+	{
+		try {
+			$response = $this->getAPI()->dispatch($params);
+		} catch (Exception $e) {
+			Mage::logException($e);
+			return false;
+		}
+
+		return $response;
+	}
+
+
+
 	public function getModels()
 	{
 		if(null === $this->_models) {
-// http://partstream.arinet.com/
-// Search/GetModelSearchModelsForPrompt
-// ?cb=jsonp1448918621924
-// &arib=HOM
-// &arisku=13101-MEN-A70
-// &modelName=
-// &arik=9oiOWqDlvNLyUXT4Qtun
-// &aril=en-US
-// &ariv=http%253A%252F%252Ftmsparts.com%252Fvk%252Foem-test.html
-// ariPsSearchResultsByPartPromptContentItem
-			$response = Mage::helper('arioem/api')->request('Search/GetModelSearchModelsForPrompt', array(), array(
-				'arib' => $this->getBrandCode(),
-				'arisku' => $this->getPartNumber(),
-				'arik' => Mage::getStoreConfig('arioem/api/app_key'),
-				'ariv' => Mage::getStoreConfig('arioem/api/referer_url'),
+			$response = $this->requestAPI(array(
+				'action' => 'part-models',
+				'brandCode' => $this->getBrandCode(),
+				'sku' => $this->getPartNumber(),
+				'page' => 1,
+				'pageSize' => 100,
 			));
 
-			$result = array();
-
-			if(isset($response['html']) && $response['html']) {
-				$content = Mage::helper('arioem')->decodeHTMLResponse($response['html']);
-
-				$dom = new DOMDocument;
-				$dom->loadHTML($content);
-
-				$modelsContent = $dom->getElementById('ariPSSearchResultsPromptDataContainer');
-				if(!$modelsContent) {
-					throw new Exception('No #ariPSSearchResultsPromptDataContainer element found in the response');
-				}
-
-				foreach($modelsContent->getElementsByTagName('a') as $anchor) {
-					if('ariPsSearchResultsByPartPromptContentItem' != $anchor->attributes->getNamedItem('class')->value) {
-						continue;
-					}
-
-					$modelId = $anchor->attributes->getNamedItem('modelid')->value;
-					$slug = $anchor->attributes->getNamedItem('slug')->value;
-					$modeluTag = $anchor->attributes->getNamedItem('modelutag')->value;
-					$modelName = '';
-
-					$childrenSpan = $anchor->getElementsByTagName('span');
-					if($childrenSpan->length) {
-						$span = $childrenSpan->item(0);
-						$modelName = $span->textContent;
-					}
-
-					$result[$modelId] = array(
-						'tag' => $modeluTag,
-						'slug' => $slug,
-						'name' => $modelName,
-					);
-				}
-			} else {
-				// no response received
+			if ($response) {
+				$this->_models = $response['res'];
 			}
-
-			$this->_models = $result;
 		}
 
 		return $this->_models;
+	}
 
+
+	public static function getBrandNameByShortname($shortname)
+	{
+		return isset(self::$_brands[$shortname])
+			?	self::$_brands[$shortname]
+			:	$shortname;
+	}
+
+
+
+	public function getAssemblyImageUrl($width = 500)
+	{
+		if(null === $this->_assemblyImageUrl) {
+			if ($this->_partInfo['image_url']) {
+				$this->_assemblyImageUrl = $this->_partInfo['image_url'];
+			} else {
+				$models = $this->getModels();
+				if(!count($models)) return false;
+
+				$response = $this->requestAPI(array(
+					'action' => 'part-model-assemblies',
+					'brandCode' => $this->getBrandCode(),
+					'modelId' => $models[0]['id'],
+					'sku' => $this->getPartNumber(),
+				));
+
+				if ($response) {
+					try {
+						$this->_assemblyImageUrl = $this->getAPI()
+	//						->setDebugMode(true)
+							->processImage(array(
+									'brandCode' => $this->getBrandCode(),
+									'parentId' => $models[0]['id'],
+									'assemblyId' => $response['res'][0]['id'],
+									'width' => $width,
+								));
+					} catch (Exception $e) {
+						Mage::logException($e);
+						return false;
+					}
+				}
+
+				Mage::helper('arioem/OEM')->saveImageUrl($this->_partInfo['id'], $this->_assemblyImageUrl);
+				$this->_partInfo['image_url'] = $this->_assemblyImageUrl;
+			}
+		}
+
+		return $this->_assemblyImageUrl;
 	}
 
 }

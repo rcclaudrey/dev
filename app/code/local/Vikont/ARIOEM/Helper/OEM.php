@@ -18,11 +18,34 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 		'suzuki',
 		'yamaha',
 		'troylee',
-		'oakley',
-		'motonation',
-		'leatt',
-		'bellhelm',
 	);
+
+	protected static $_TMS2ARI = array(
+		'ARC' => 'AC',
+		'HOM' => array('HO', 'HW'), // honda common; ARI doesn't separate Honda Watercraft from common Honda
+		'HONPE' => 'HP', // Honda Power Equipment
+		'KUS' => 'KA',
+		'POL' => 'PO',
+		'BRP' => 'SD',
+		'SUZ' => 'SU',
+		'YAM' => 'YA',
+		'SLN' => 'SL',
+	);
+
+	protected static $_ARI2TMS = array(
+		'AC' => 'ARC',
+		'HO' => 'HOM',
+		'HW' => 'HOM',
+		'HP' => 'HONPE',
+		'KA' => 'KUS',
+		'PO' => 'POL',
+		'SD' => 'BRP',
+		'SU' => 'SUZ',
+		'YA' => 'YAM',
+		'SL' => 'SLN',
+	);
+
+	protected static $_filteredItems = null;
 
 
 
@@ -53,19 +76,6 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 
 
 
-	protected static $_TMS2ARI = array(
-		'HOM' => array('HO', 'HW'), // honda common; ARI doesn't separate Honda Watercraft from common Honda
-		'HONPE' => 'HP', // Honda Power Equipment
-		'KUS' => 'KA',
-		'POL' => 'PO',
-		'BRP_SEA' => 'SD',
-		'SUZ' => 'SU',
-		'YAM' => 'YA',
-	);
-//<option value="VIC">Victory</option>
-
-
-
 	public function getOEMCost($brand, $partNumber)
 	{
 		if(isset(self::$_TMS2ARI[$brand])) {
@@ -93,13 +103,27 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 
 
 
-	public function getOEMCostData($partNumber)
+	public function getOEMCostData($brand, $partNumber)
 	{
+		if(!$brand || !$partNumber) {
+			return false;
+		}
+
+		$brand = isset(self::$_ARI2TMS[$brand])
+			?	$brand
+			:	(	isset(self::$_TMS2ARI[$brand])
+					?	(	is_array(self::$_TMS2ARI[$brand])
+							?	reset(self::$_TMS2ARI[$brand])
+							:	self::$_TMS2ARI[$brand]
+						)
+					:	$brand
+				);
+
 		$sql = 'SELECT * FROM ' . self::getResource()->getTableName('oemdb/cost')
-				.' WHERE part_number="' . addslashes($partNumber) . '"';
+				.' WHERE supplier_code="'.addslashes($brand).'" AND part_number="' . addslashes($partNumber) . '" LIMIT 1';
 
 		try {
-			$result = self::getConnection('oemdb_read')->fetchAll($sql);
+			$result = self::getConnection('oemdb_read')->fetchRow($sql);
 		} catch (Exception $e) {
 			Mage::logException($e);
 			$result = false;
@@ -131,6 +155,85 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 		}
 
 		return $result;
+	}
+
+
+
+	public static function saveImageUrl($rowId, $imageUrl)
+	{
+		if(!$rowId) {
+			return false;
+		}
+
+		$sql = 'UPDATE ' . self::getResource()->getTableName('oemdb/cost')
+				. ' SET image_url="' . addslashes($imageUrl) . '"'
+				. ' WHERE id=' . addslashes($rowId);
+
+		try {
+			$result = self::getConnection('oemdb_read')->query($sql);
+		} catch (Exception $e) {
+			Mage::logException($e);
+			$result = false;
+		}
+	}
+
+
+
+	public static function TMS2ARI($brandCode)
+	{
+		return array_search(strtoupper($brandCode), self::$_ARI2TMS);
+	}
+
+
+
+	/**
+	 * Return customer quote OEM items
+	 *
+	 * @return array
+	 */
+	public static function getCartOEMItems()
+	{
+		if(null === self::$_filteredItems) {
+			self::$_filteredItems = array();
+			$oemAttrSetId = Mage::getStoreConfig('arioem/add_to_cart/oem_product_attr_set_id');
+			$items = Mage::getSingleton('checkout/session')->getQuote()->getAllVisibleItems();
+			$configHelper = Mage::helper('catalog/product_configuration');
+
+			foreach($items as $item) {
+				if($oemAttrSetId == $item->getProduct()->getAttributeSetId()) {
+					self::$_filteredItems[$item->getId()] = array(
+						'sku' => $item->getSku(),
+						'name' => $item->getName(),
+						'price' => $item->getPrice(),
+						'rowTotal' => $item->getRowTotal(),
+						'qty' => $item->getQty(),
+						'options' => Vikont_ARIOEM_Helper_Data::indexArray($configHelper->getCustomOptions($item), 'option_id'),
+					);
+				}
+			}
+		}
+
+		return self::$_filteredItems;
+	}
+
+
+
+	public static function getSortedCartOEMItems()
+	{
+		$res = array();
+		$brandOptionId = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
+		$partNumberOptionId = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
+
+		foreach(self::getCartOEMItems() as $item) {
+			$brand = $item['options'][$brandOptionId]['value'];
+			$brandCode = Vikont_ARIOEM_Helper_Data::brandName2Code($brand);
+			if(!isset($res[$brandCode])) {
+				$res[$brandCode] = array();
+			}
+			$res[$brandCode][] = $item['options'][$partNumberOptionId]['value'];
+		}
+
+		return $res;
 	}
 
 }

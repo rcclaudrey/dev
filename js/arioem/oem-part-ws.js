@@ -4,22 +4,35 @@ function layoutToolTip(){
 	jQuery("#ariHotSpotToolTipQtyLabel").text('Qty:');
 }
 
-function layoutTable(){
-	jQuery(".listTD:eq(7)").remove(); // stock
-	jQuery(".listTD:eq(5)").hide(); // online price
-	jQuery(".listTD:eq(4)").remove(); // MSRP
+function adjustTable() {
+	var detailsTableWatcher = setInterval(function() {
+		if(document.getElementById('ariPartList')) {
+			layoutTable();
+			clearInterval(detailsTableWatcher);
+		} else {
+			// just wait
+		}
+	}, 1000);
+}
 
-	jQuery('.ariPLCart').remove();
-	jQuery('.ariPLMSRP').remove();
-	jQuery('.ariPLPrice').hide(); // jQuery('.ariPLPrice').remove();
+function layoutTable() {
+	if(jQuery(".listTD:eq(0)").text().toLowerCase() != 'tag') {
+		jQuery("#ariPartList").css({display: 'none'});
 
-	var tbl = jQuery('#ariPartList table');
-	jQuery.moveColumn(tbl, 0, 6); // Move checkbox to last column.
+		jQuery(".listTD:eq(7)").remove(); // stock
+		jQuery(".listTD:eq(5)").hide(); // online price
+	//	jQuery(".listTD:eq(4)").remove(); // MSRP
 
-	jQuery(".listTD:eq(0)").attr('width', '5%');
-	jQuery(".listTD:eq(5)").attr('width', '5%');
+		jQuery('.ariPLCart').remove();
+	//	jQuery('.ariPLMSRP').remove();
+		jQuery('.ariPLPrice').hide(); // jQuery('.ariPLPrice').remove();
 
-	jQuery(".listTD:eq(5), .ariPLMulti").css({'text-align':'center'});
+		var tbl = jQuery('#ariPartList table');
+		jQuery.moveColumn(tbl, 0, 7); // Move checkbox to last column.
+
+		jQuery(".listTD:eq(0)").attr('width', '5%');
+		jQuery(".listTD:eq(6)").attr('width', '5%');
+	}
 
 	var partNumber = location.search.substr(1);
 	if(partNumber) {
@@ -28,14 +41,16 @@ function layoutTable(){
 				'font-weight': 'bold'
 			});
 	}
+
+	jQuery('#ariPartList').css({display: 'block'});
 }
 
-function createSidebar(){
+function createSidebar() {
 	var myVar =  setInterval(function() {
 		var clonedUL;
 
 		if (jQuery('#ari_Assemblies_jl').is(':has(ul)') && jQuery( "#assembly-menu" ).is(':has(ul)') == false){
-			jQuery( "#assembly-menu" ).append( "<div id='sidebarTitle'>CURRENTLY SHOPPING FOR PARTS:</div>");
+			jQuery( "#assembly-menu" ).append( "<div id='sidebarTitle'>CURRENTLY SHOPPING PARTS FOR:</div>");
 
 			var queryParts = decodeURIComponent(location.hash).substr(2).replace(/_/g, ' ').split('/');
 			var modelNameParts = queryParts[1].split('VIN#');
@@ -74,6 +89,8 @@ function createSidebar(){
 		}
 
 	}, 3000);
+
+	adjustTable();
 }
 
 function addFullScrnBtn(){
@@ -182,10 +199,12 @@ function createTriggerDropdownBox(){
 
 
 function assemblyClick(index) {
+//	jQuery("#ariPartList").css({display: 'none'});
 	jQuery('#ari_Assemblies_jl li[rel="' + index + '"]').click();
 	createSidebar();
 	createTriggerNewModelBtn();
 	createTriggerDropdownBox();
+	adjustTable();
 };
 
 
@@ -237,15 +256,5 @@ jQuery(document).ready(function(){
 	};
 
 	createSidebar();
-
-	var detailsTableWatcher = setInterval(function() {
-		if(document.getElementById('ariPartList')) {
-			layoutTable();
-			clearInterval(detailsTableWatcher);
-		} else {
-			// just wait
-		}
-	}, 3000);
-
 });
 

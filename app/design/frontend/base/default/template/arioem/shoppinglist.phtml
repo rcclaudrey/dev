@@ -1,0 +1,162 @@
+<?php
+
+$coreHelper = Mage::helper('core');
+
+$list = $this->getList();
+$isAjax = $this->isAjax();
+
+$brandOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
+$yearOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_year_option_id');
+$modelOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_model_option_id');
+$partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
+
+?>
+<?php if(!$isAjax): ?>
+<div class="arioem-shopList">
+	<div class="arioem-shopList-title"><?php echo $this->__('Shopping List') ?></div>
+	<table>
+		<thead>
+			<tr>
+				<td class="arioem-shopList-descr"><?php echo $this->__('Part Name') ?></td>
+				<td class="arioem-shopList-price"><?php echo $this->__('Unit price') ?></td>
+				<td class="arioem-shopList-stock"><?php echo $this->__('Stock status') ?></td>
+				<td class="arioem-shopList-qty"><?php echo $this->__('Qty') ?></td>
+				<td class="arioem-shopList-subtotal"><?php echo $this->__('Subtotal') ?></td>
+				<td class="arioem-shopList-remove"><?php echo $this->__('Remove') ?></td>
+			</tr>
+		</thead>
+		<tbody>
+<?php endif ?>
+			<?php if(count($this->getItems())): ?>
+				<?php $even = false; ?>
+				<?php foreach($this->getItems() as $itemId => $item): ?>
+					<tr class="<?php echo $even ? 'arioem-even' : '' ?>">
+						<td class="arioem-shopList-descr"><?php echo htmlspecialchars($item['name']) ?></td>
+							<?php /* ?>
+							<span class="arioem-shopList-partNo"><?php echo $item['options'][$partNumberOptionId]['print_value'] ?></span>
+							<span class="arioem-shopList-brand"><?php echo $item['options'][$brandOptionId]['print_value'] ?></span>
+							<span class="arioem-shopList-model"><?php echo $item['options'][$modelOptionId]['print_value'] ?></span>
+							<span class="arioem-shopList-year"><?php echo $item['options'][$yearOptionId]['print_value'] ?></span>
+							<?php /**/ ?>
+						<td class="arioem-shopList-price"><?php echo $coreHelper->formatPrice($item['price'], false) ?></td>
+						<td class="arioem-shopList-stock"><?php // echo htmlspecialchars($item['availability']) ?></td>
+						<td class="arioem-shopList-qty"><input name="<?php echo (int)$itemId ?>" value="<?php echo (int)$item['qty'] ?>"/></td>
+						<td class="arioem-shopList-subtotal"><?php echo $coreHelper->formatPrice($item['rowTotal'], false) ?></td>
+						<td class="arioem-shopList-remove"><span onclick="oemShoppingList.deleteItem(<?php echo (int)$itemId ?>)">X</span></td>
+					</tr>
+				<?php $even = !$even; ?>
+				<?php endforeach ?>
+			<?php else: ?>
+					<tr class="<?php echo $even ? 'arioem-even' : '' ?>">
+						<td class="arioem-shopList-noItem" colspan="6"><?php echo $this->__('No items in your Shopping List yet') ?></td>
+					</tr>
+			<?php endif ?>
+<?php if(!$isAjax): ?>
+		</tbody>
+	</table>
+	<div class="arioem-shopping-list-footer">
+		<button class="arioem-shopping-list-update" onclick="oemShoppingList.updateQtys(this)"><?php echo $this->__('Update Qtys') ?></button>
+		<button class="arioem-shopping-list-clear" onclick="oemShoppingList.clear()"><?php echo $this->__('Clear Shopping List') ?></button>
+		<button class="arioem-shopping-list-checkout" onclick="oemShoppingList.checkout()"><span><?php echo $this->__('Checkout') ?></span></button>
+	</div>
+</div>
+<?php endif ?>
+<script>
+
+var OEMShoppingList = function() {return function($) { return {
+	config: {
+		baseURL: '',
+		checkoutURL: '',
+		cartURL: '',
+		loaderTargetSelector: '.arioem-shopList table',
+		itemsContainerSelector: '.arioem-shopList tbody',
+		cartChangedEventName: 'cartChanged',
+		propagatorId: 'oem_shopping_list'
+	},
+	loader: null,
+	showLoader: function(targetSelector) {
+		if(targetSelector) {
+			this.config.loaderTargetSelector = targetSelector;
+		} else {
+			targetSelector = this.config.loaderTargetSelector;
+		}
+		if(this.loader) {
+			this.loader.show(targetSelector);
+		}
+	},
+	hideLoader: function() {
+		if(this.loader) {
+			this.loader.hide(this.config.loaderTargetSelector);
+		}
+	},
+	init: function(configValues) {
+		$.extend(this.config, configValues);
+		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
+		$(document).on(this.config.cartChangedEventName, this.cartChanged.bind(this));
+	},
+	cartChanged: function(event, sender) {
+		if (sender !== this.config.propagatorId) {
+			this.refresh({action: 'refresh'});
+		}
+	},
+	refresh: function(data) {
+		this.showLoader();
+		if(data === undefined) {
+			data = {action: 'refresh'};
+		}
+		$.ajax({
+			url: this.config.baseURL,
+			data: data,
+			dataType: 'json',
+			type: 'POST',
+			async: true,
+			cache: false,
+			success: this._refreshSuccess.bind(this),
+			complete: this.hideLoader.bind(this)
+		});
+	},
+	_refreshSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		if (response.action != 'refresh') {
+			$(document).trigger(this.config.cartChangedEventName, [this.config.propagatorId]);
+		}		
+		$(this.config.itemsContainerSelector).html(response.html);
+	},
+	updateHtml(html) {
+		$(this.config.itemsContainerSelector).html(html);
+	},
+	updateQtys: function(sender) {
+		var items = {};
+		var inputs = $('.arioem-shopList .arioem-shopList-qty input');
+		for(var i=0; i<inputs.length; i++) {
+			items[inputs[i].name] = inputs[i].value;
+		}
+		this.refresh({action: 'update', items: items});
+	},
+	deleteItem: function(itemId) {
+		this.refresh({action: 'delete', itemId: itemId});
+	},
+	clear: function() {
+		this.refresh({action: 'clear'});
+	},
+	checkout: function() {
+		location.href = this.config.checkoutURL;
+	},
+	viewCart: function() {
+		location.href = this.config.cartURL;
+	}
+};}(jQuery);};
+	
+jQuery(document).ready(function() {
+	oemShoppingList = new OEMShoppingList();
+	oemShoppingList.init({
+		baseURL: '<?php echo $this->getUrl('arioem/shoppinglist/update') ?>',
+		checkoutURL: '<?php echo $this->getUrl('checkout/onepage') ?>',
+		cartURL: '<?php echo $this->getUrl('checkout/cart') ?>'
+	});
+});
+
+</script>

@@ -1,0 +1,189 @@
+/*
+	OEM Part Selector Wide Layout
+*/
+.arioem-wide {}
+.arioem-wide .arioem-step-content-part {
+	background-color: #fff;
+	bottom: 0;
+	left: 0;
+	padding: 10px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 100;
+}
+.arioem-wide .arioem-step-content-part-topleft {
+	float: left;
+    width: 60%;
+    position: relative;
+}
+.arioem-wide .arioem-step-content-part-shoppingfor {
+    float: left;
+	box-sizing: border-box;
+    width: 50%;
+    margin: 0;
+}
+.arioem-wide .arioem-step-content-part-shoppingfor > div {
+	box-sizing: border-box;
+	height: 86px;
+	padding: 13px 16px 0;
+}
+.arioem-wide .arioem-step-content-part-shoppingfor-label {
+	display: block;
+	margin: 0 0 10px;
+	height: 19px;
+}
+.arioem-wide .arioem-step-content-part-shoppingfor-value {
+	height: 30px;
+	margin: 0;
+	line-height: 30px;
+	overflow: hidden;
+	font-size: 14px;
+}
+
+.arioem-wide .arioem-step-content-part-assemblyList {
+	float: right;
+    width: 49%;
+}
+.arioem-wide .arioem-step-content-part-topright {
+	float: left;
+	width: 39.9%;
+}
+.arioem-step-content-part-top-wideLayout {
+	display: none;
+	border: 1px solid #000;
+	cursor: pointer;
+	float: right;
+	font-size: 22px;
+	font-weight: bold;
+	height: 17px;
+	line-height: 17px;
+	padding: 10px;
+	text-align: center;
+	width: 17px;
+}
+.arioem-wide .arioem-step-content-part-top-wideLayout {
+	display: block;
+}
+.arioem-step-content-part-top-wideLayout:hover {
+	background-color: lightpink;
+	border-color: red;
+	color: red;
+}
+.arioem-wide .arioem-step-content-part-topright-buttons {
+	padding-right: 53px;
+}
+.arioem-wide .arioem-step-content-part-img {
+	width: 60%;
+}
+.arioem-wide .arioem-step-content-part-img-scrollContainer {
+	/*width: 1100px;*/
+	height: 710px;
+}
+.arioem-wide .arioem-step-content-part-partlist {
+	float: left;
+	width: 39.9%;
+	height: auto;
+}
+.arioem-wide .arioem-step-content-part-partlist > table {
+	height: auto;
+}
+.arioem-wide .arioem-step-content-part-partlist tbody {}
+.arioem-wide .arioem-step-content-part-partlist .arioem-partlist-stock {
+	width: 200px;
+}
+.arioem-wide .arioem-step-content-part-partlist-addToCart {
+	height: 34px;
+}
+
+.arioem-wide .arioem-shopList {
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	width: 511px;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0 0 0 10px;
+	border: medium none;
+	z-index: 200;
+}
+.arioem-wide .arioem-shopList-title {
+	border: medium none;
+	font-size: 18px;
+	padding: 0;
+}
+.arioem-wide .arioem-shopList table {
+	display: block;
+	margin: 0;
+}
+.arioem-wide .arioem-shopList thead {
+    display: block;
+}
+.arioem-wide .arioem-shopList thead td {
+	font-size: 11px;
+	padding: 10px 3px;
+}
+.arioem-wide .arioem-shopList tbody {
+	display: block;
+	overflow-x: hidden;
+    overflow-y: scroll;
+	scroll-behavior: auto;
+	width: 100%;
+}
+.arioem-wide .arioem-shopList tbody tr {
+	display: block;
+}
+.arioem-wide .arioem-shopList tfoot {
+	display: block;
+}
+.arioem-wide .arioem-shopList tfoot tr {
+	display: block;
+}
+.arioem-wide .arioem-shopList tfoot td {
+	display: block;
+	padding: 2px 10px;
+}
+.arioem-wide .arioem-shopping-list-footer {}
+
+
+.arioem-wide thead .arioem-shopList-stock {
+	text-indent: -10000px;
+}
+.arioem-wide thead .arioem-shopList-remove {
+	text-indent: -10000px;
+}
+
+.arioem-wide .arioem-shopList tbody td {
+	padding: 5px 3px;
+}
+.arioem-wide .arioem-shopList-descr {
+	width: 300px;
+}
+.arioem-wide .arioem-shopList-price {
+	width: 80px;
+}
+.arioem-wide .arioem-shopList-stock {
+	width: 40px;
+}
+.arioem-wide .arioem-shopList-qty {
+	width: 30px;
+}
+.arioem-wide .arioem-shopList-qty input {
+	font-size: 14px;
+	padding: 5px 0;
+	width: 25px;
+}
+.arioem-wide .arioem-shopList-subtotal {
+	width: 80px;
+}
+.arioem-wide .arioem-shopList-remove {
+	width: 30px;
+}
+.arioem-wide .arioem-shopList-remove span {}
+
+
+.arioem-wide .arioem-shopping-list-footer button {
+	margin: 0 0 0 20px;
+	line-height: 20px;
+	font-size: 12px;
+}

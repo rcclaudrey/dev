@@ -29,42 +29,4 @@ class Vikont_ARIOEM_PartsController extends Mage_Core_Controller_Front_Action
 		$this->renderLayout();
 	}
 
-
-
-	public function partInfoAction()
-	{
-		$responseData = array(
-			'errorMessage' => '',
-		);
-
-		try {
-			$responseData['html'] = $this->getLayout()->createBlock('arioem/parts_part')->toHtml();
-		} catch (Exception $e) {
-			$response['errorMessage'] = Vikont_ARIOEM_Helper_Data::reportError($e->getMessage());
-		}
-
-		echo json_encode($responseData);
-		die;
-	}
-
-
-
-	public function alistAction()
-	{
-		$responseData = array(
-			'errorMessage' => '',
-		);
-
-		try {
-			$responseData['html'] = $this->getLayout()->createBlock('arioem/parts_assembly')
-					->setParams($this->getRequest()->getParams())
-					->toHtml();
-		} catch (Exception $e) {
-			$response['errorMessage'] = Vikont_ARIOEM_Helper_Data::reportError($e->getMessage());
-		}
-
-		echo json_encode($responseData);
-		die;
-	}
-
 }

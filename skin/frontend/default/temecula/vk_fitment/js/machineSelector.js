@@ -153,7 +153,7 @@ var MachineSelector = new Class.create({
 		this.config.fitment.model.name = '';
 		document.getElementById('fitment-model').innerHTML = '<option value="">' + this.config.emptyText.modelSelect + '</option>';
 		document.getElementById('fitment-model').value = '';
-		document.getElementById('tireshop-fitment-goSearch').disabled = true;
+		document.getElementById('tireshop-fitment-goSearch').disable();
 	},
 	// on change
 	changedMake: function(event){
@@ -181,12 +181,12 @@ var MachineSelector = new Class.create({
 			this.config.fitment.name = this.config.fitment.make.name
 					+ ' - ' + this.config.fitment.year
 					+ ' - ' + this.config.fitment.model.name;
-			document.getElementById('tireshop-fitment-goSearch').disabled = false;
+			document.getElementById('tireshop-fitment-goSearch').enable();
 	} else {
 			this.config.fitment.id = null;
 			this.config.fitment.model.name = '';
 			this.config.fitment.name = '';
-			document.getElementById('tireshop-fitment-goSearch').disabled = true;
+			document.getElementById('tireshop-fitment-goSearch').disable();
 		}
 	},
 	populateMakes: function() {

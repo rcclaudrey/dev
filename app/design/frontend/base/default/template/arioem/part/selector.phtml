@@ -1,37 +1,1477 @@
 <?php
-?>
-<div class="fari">
-	<script type="text/javascript" src="https://services.arinet.com/PartStream/?appKey=9oiOWqDlvNLyUXT4Qtun"></script>	
-	<style>
-.fari .ariparts_btnMultiCart {
-	cursor: pointer;
-}
-	</style>
-</div>
 
-<script type="text/javascript" src="<?php echo $this->getJsUrl('arioem/OEM.js') ?>"></script>
+$helper = Mage::helper('arioem');
+$brands = $helper->getBrands();
+
+$headerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-header')->toHtml();
+$footerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-footer')->toHtml();
+$shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHtml();
+
+?>
+<div class="arioem-content">
+
+	<div class="arioem-brand-header-text"><?php echo $headerCmsContent ?></div>
+
+	<ul class="arioem-step-control">
+		<li class="arioem-step-active arioem-step-control-brand" id="arioem-step-control-brand">
+			<div class="arioem-step-control-header-title"><?php echo $this->__('Select Brand') ?></div>
+			<div class="arioem-step-control-header-content"></div>
+			<div class="arioem-step-control-header-reset" onclick="oemPartSelector.resetBrand()"></div>
+		</li>
+		<li class="arioem-step-control-vehicle" id="arioem-step-control-vehicle">
+			<div class="arioem-step-control-header-title"><?php echo $this->__('Select Type') ?></div>
+			<div class="arioem-step-control-header-content"></div>
+			<div class="arioem-step-control-header-reset" onclick="oemPartSelector.resetVehicle(true)"></div>
+		</li>
+		<li class="arioem-step-control-year" id="arioem-step-control-year">
+			<div class="arioem-step-control-header-title"><?php echo $this->__('Select Year') ?></div>
+			<div class="arioem-step-control-header-content"></div>
+			<div class="arioem-step-control-header-reset" onclick="oemPartSelector.resetYear(true)"></div>
+		</li>
+		<li class="last arioem-step-control-model" id="arioem-step-control-model">
+			<div class="arioem-step-control-header-title"><?php echo $this->__('Select Model') ?></div>
+			<div class="arioem-step-control-header-content"></div>
+			<div class="arioem-step-control-header-reset" onclick="oemPartSelector.resetModel(true)"></div>
+		</li>
+	</ul>
+	<ul class="arioem-step-content">
+		<li id="arioem-step-content-brand" class="arioem-step-active arioem-step-content-brand">
+			<div class="arioem-step-content-title"><?php echo $this->__('Select brand:') ?></div>
+			<div class="arioem-step-content-content">
+				<ul>
+					<?php foreach($brands as $code => $name): ?>
+						<?php $brandName = htmlspecialchars($name) ?>
+						<li ari_brand_code="<?php echo $code ?>" 
+							ari_brand_name="<?php echo $brandName ?>" 
+							ari_brand_hash="<?php echo Vikont_ARIOEM_Model_Source_Oembrand::getShortBrandName($code) ?>" 
+							onclick="oemPartSelector.selectBrand(this)"
+							><img title="<?php echo $brandName ?>" src="<?php 
+								echo $this->getSkinUrl('arioem/logos/logo-'.$code.'.jpg') ?>" alt="<?php echo $brandName. ' logo' ?>" /></li>
+					<?php endforeach ?>
+				</ul>
+			</div>
+		</li>
+		<li id="arioem-step-content-vehicle" class="arioem-step-content-vehicle">
+			<div class="arioem-step-content-title"><?php echo $this->__('Select vehicle type:') ?></div>
+			<div class="arioem-step-content-content">
+				<ul></ul>
+			</div>
+		</li>
+		<li id="arioem-step-content-year" class="arioem-step-content-year">
+			<div class="arioem-step-content-title"><?php echo $this->__('Select year:') ?></div>
+			<div class="arioem-step-content-content"></div>
+		</li>
+		<li id="arioem-step-content-model" class="arioem-step-content-model">
+			<div class="arioem-step-content-title"><?php echo $this->__('Select model:') ?></div>
+			<div class="arioem-step-content-content"></div>
+		</li>
+		<li id="arioem-step-content-assembly" class="arioem-step-content-assembly clearer">
+			<div class="arioem-step-content-assembly-sidebar">
+				<div class="arioem-step-content-assembly-sidebar-title1"><?php echo $this->__('Currently shopping parts for:') ?></div>
+				<div id="sidebar_modelname" class="arioem-step-content-assembly-sidebar-modelname"></div>
+				<div class="arioem-step-content-assembly-sidebar-reset">
+					<span onclick="oemPartSelector.resetBrand()"></span>
+				</div>
+				<div class="arioem-step-content-assembly-sidebar-title2"><?php echo $this->__('Parts Categories') ?></div>
+				<ul class="arioem-step-content-assembly-sidebar-assemblylist"></ul>
+			</div>
+			<div class="arioem-step-content-assembly-grid">
+				<ul></ul>
+			</div>
+		</li>
+		<li id="arioem-step-content-part" class="arioem-step-content-part clearer">
+			<div class="arioem-step-content-part-topleft">
+				<div class="arioem-step-content-part-shoppingfor">
+					<div>
+						<div class="arioem-step-content-part-shoppingfor-label"><?php echo $this->__('Currently shopping parts for:') ?></div>
+						<div class="arioem-step-content-part-shoppingfor-value">Yamaha 2015 Model Name</div>
+					</div>
+				</div>
+				<div class="arioem-step-content-part-assemblyList">
+					<div>
+						<span class="arioem-step-content-part-resetAssembly" title="<?php echo $this->__('Go back to Assembly page') ?>"
+							  onclick="oemPartSelector.resetAssembly(true)" ></span>
+						<label for="arioem-assembly-list"><?php echo $this->__('Select part schematic:') ?></label>
+						<select id="arioem-assembly-list" class="arioem-step-content-part-select" onchange="oemPartSelector.selectAssembly(this)"></select>
+					</div>
+				</div>
+			</div>
+			<div class="arioem-step-content-part-topright">
+				<div class="arioem-step-content-part-topright-reset" onclick="oemPartSelector.resetBrand()">
+					<span><span>&nbsp;</span></span>
+				</div>
+				<div class="arioem-step-content-part-top-wideLayout" onclick="oemPartSelector.wideLayout(-1)" 
+					 title="<?php echo $this->__('Revert page layout back to normal view mode') ?>">X</div>
+				<div class="arioem-step-content-part-topright-buttons">
+					<span class="arioem-step-content-part-topright-chat"><?php echo $this->__('Chat with an OEM specialist') ?></span>
+					<span class="arioem-step-content-part-topright-tips"><?php echo $this->__('OEM parts finder tips') ?></span>
+				</div>
+			</div>
+			<div class="arioem-step-content-part-img">
+				<div id="arioem-step-content-part-img-scrollArea" class="arioem-step-content-part-img-scrollArea">
+					<div id="arioem-step-content-part-img-scrollArea-content" class="arioem-step-content-part-img-scrollArea-content"><img
+							onload="oemPartSelector.zoom(0)"
+							alt="Assembly image" />
+						<div id="arioem-step-content-part-img-scrollArea-content-hotspots" class="arioem-step-content-part-img-scrollArea-content-hotspots"></div>
+					</div>
+				</div>
+				<div class="arioem-step-content-part-img-popup" ari_part_tag="" 
+					 onmouseover="oemPartSelector.imgPopupMouseOver(this)"
+					 onmouseleave="oemPartSelector.imgPopupMouseLeave(this)">
+					<div class="arioem-step-content-part-img-popup-header"></div>
+					<div>
+						<span class="arioem-step-content-part-img-popup-label"><?php echo $this->__('Part#') ?></span>
+						<span class="arioem-step-content-part-img-popup-partNo"></span>
+					</div>
+					<div>
+						<span class="arioem-step-content-part-img-popup-label"><?php echo $this->__('MSRP:') ?></span>
+						<span class="arioem-step-content-part-img-popup-msrp"></span>
+					</div>
+					<div>
+						<span class="arioem-step-content-part-img-popup-label"><?php echo $this->__('Price:') ?></span>
+						<span class="arioem-step-content-part-img-popup-price"></span>
+					</div>
+					<div class="arioem-step-content-part-img-popup-stock">
+						<span class=""></span>
+					</div>
+					<div class="arioem-step-content-part-img-popup-addto">
+						<label for="arioem-part-popup-qty"><?php echo $this->__('Qty:') ?></label>
+						<input type="text" id="arioem-part-popup-qty" value="" />
+						<button class="arioem-step-content-part-img-popup-addToCart" onclick="oemPartSelector.addToCartSingle()">
+							<span><?php echo $this->__('Add to Cart') ?></span>
+						</button>
+					</div>
+					<div class="arioem-step-content-part-img-popup-viewInPL" onclick="oemPartSelector.viewPartInPartList()"><?php echo $this->__('View in Part List') ?></div>
+				</div>
+				<span class="arioem-step-content-part-img-enlarge" onclick="oemPartSelector.zoom(1)">&nbsp;</span>
+				<span class="arioem-step-content-part-img-reduce" onclick="oemPartSelector.zoom(-1)">&nbsp;</span>
+				<span class="arioem-step-content-part-img-wideMode" onclick="oemPartSelector.wideLayout(0)"
+					  title="Switch between wide mode and normal view mode"><span><?php echo $this->__('Expand Diagram') ?></span></span>
+				<span class="arioem-step-content-part-img-print" onclick="oemPartSelector.printDiagram()"><span><?php echo $this->__('Print Diagram') ?></span></span>
+				<span class="arioem-step-content-part-img-howToUse"><span><?php echo $this->__('How') . '<br/>' . $this->__('to use') ?></span>
+					<div class="arioem-step-content-part-img-howToUse-popup"><?php echo $this->__('Use check boxes to '
+						. 'select all desired items from image, choose quantity, and click "Add to Cart". Once items '
+						. 'are added to cart they will be highlighted in green to indicate item has been selected.') ?></div>
+				</span>
+			</div>
+			<div class="arioem-step-content-part-partlist">
+				<table>
+					<thead>
+						<tr>
+							<td class="arioem-partlist-tag"><?php echo $this->__('Tag') ?></td>
+							<td class="arioem-partlist-descr"><?php echo $this->__('Description /Part#') ?></td>
+							<td class="arioem-partlist-msrp"><?php echo $this->__('MSRP') ?></td>
+							<td class="arioem-partlist-price"><?php echo $this->__('Web price') ?></td>
+							<td class="arioem-partlist-stock"><?php echo $this->__('Stock status') ?></td>
+							<td class="arioem-partlist-qty"><?php echo $this->__('Qty') ?></td>
+							<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1"/></td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+
+				<div id="arioem-partlist-seePriceInCartPopup"
+					class="arioem-partlist-seePriceInCartPopup"
+					onclick="oemPartSelector.showHiddenPrice(null, -1)"
+					onmouseenter="oemPartSelector.showHiddenPrice(null, 1)"
+					onmouseout="oemPartSelector.showHiddenPrice(null, -1)"
+				>
+					<p><?php echo $this->__('This supplier has established a Minimum Advertised Price (MAP) Policy 
+that applies to the advertising of parts, apparel and accessories. On this page, we are not permitted to display a price 
+less than the current MSRP.') ?></p>
+					<h5><?php echo $this->__('What\'s the price?') ?></h5>
+					<p><?php echo $this->__('This policy does not control the price at which any retailer may 
+sell parts and accessories. It applies to advertising and display only. Each retailer remains entirely free to determine 
+its own resale price for all parts, apparel and accessories.') ?></p>
+				</div>
+
+				<div class="arioem-step-content-part-partlist-bottom clearer">
+					<button class="arioem-step-content-part-partlist-addToCart" onclick="oemPartSelector.addToCartMulti()"><span><?php echo $this->__('Add to Cart') ?></span></button>
+				</div>
+			</div>
+		</li>
+	</ul>
+
+	<?php echo $shoppingListHtml ?>
+
+	<div class="arioem-brand-footer-text"><?php echo $footerCmsContent ?></div>
+
+</div>
 
 <script type="text/javascript">
 
-jQuery(document).ready(function() {
-
-	function adjustARILayout() {
-		OEMCartManager.url = '<?php echo $this->getUrl('arioem/cart/add') ?>';
-		ARI.PartStream.Cart.PostSkuQty = OEMCartManager.addToCartSingle.bind(OEMCartManager);
-		ARI.PartStream.Cart.PostMultiSkuQty = OEMCartManager.addToCartMulti.bind(OEMCartManager);
-		ARI.PartStream.Navigation.getDetailPage = function(i) {
-			document.location = '<?php echo $this->getUrl('', array('_direct' => 'oem-part.html')) ?>#' + i.slug;
-		};
-	}
-
-	var ariObjectWatcher = setInterval(function() {
-		if(ARI) {
-			adjustARILayout();
-			clearInterval(ariObjectWatcher);
-		} else {
-			// just wait
+var OEMPartSelector = function() {return function($) { return {
+	config: {
+		baseURL: '',
+		assemblyImageBaseURL: '',
+		loadingImageUrl: '',
+		addToCartURL: '',
+		refreshCartItemsUrl: '',
+		urlKeyNames: {
+			brand: 'brand',
+			vehicle: 'vehicle',
+			year: 'year',
+			model: 'model',
+			assembly: 'assembly',
+			part: 'part'
+		},
+		print: {
+			diagramURL: ''
+		},
+		loaderTargetSelector: '.arioem-content',
+		loaderTargetWideLayoutSelector: '.arioem-step-content-part',
+		maxZoomLevel: 8,
+		panRatio: 1,
+		hotSpotPopupOffset: {
+			x: 15,
+			y: 10
+		},
+		imageResizeBaseRatio: 1.035,
+		imageResizeBrandRatio: {
+			'ARC': 1,
+			'BRP': 1,
+			'HOM': 0.655,
+			'HONPE': 1,
+			'KUS': 1,
+			'POL': 0.655,
+			'BRP_SEA': 1,
+			'SUZ': 1,
+			'SLN': 1,
+			'VIC': 1,
+			'YAM': 1,
+		},
+		templates: {
+			brand: {
+				controlItem: '<span class="arioem-step-control-brand-%BRAND_HASH%"></span>'
+			},
+			vehicle: {
+				controlItem: '<span class="arioem-step-control-vehicle-%VEHICLE_HASH%">%VEHICLE_NAME%</span>',
+				listItem: '<li ari_vehicle_id="%VEHICLE_ID%" ari_hash="%VEHICLE_HASH%" '
+					+ 'class="arioem-step-content-vehicle-%VEHICLE_HASH% arioem-step-content-vehicle-%BRAND_HASH%-%VEHICLE_HASH%" '
+					+ 'onclick="oemPartSelector.selectVehicle(this)">%VEHICLE_NAME%</li>'
+			},
+			year: {
+				controlItem: '<span class="%YEAR_CLASS%">%YEAR_NAME%</span>',
+				listContainer: '<ul class="%COLUMN_ODD%">%ITEMS%</ul>',
+				listItem: '<li ari_year_id="%YEAR_ID%" ari_hash="%YEAR_HASH%" onclick="oemPartSelector.selectYear(this)">%YEAR_NAME%</li>'
+			},
+			model: {
+				controlItem: '<span><span>%MODEL_NAME%</span></span>',
+				listContainer: '<ul class="%COLUMN_ODD%">%ITEMS%</ul>',
+				listItem: '<li ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%" onclick="oemPartSelector.selectModel(this)">%MODEL_NAME%</li>'
+			},
+			assembly: {
+				sidebarTitle: '%YEAR% %BRAND% %MODEL%',
+				sidebarItem: '<li ari_assembly_id="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%" onclick="oemPartSelector.selectAssembly(this)">%ASSEMBLY_NAME%</li>',
+				gridItem: '<li ari_assembly_id="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%" onclick="oemPartSelector.selectAssembly(this)">'
+							+ '<div class="arioem-step-content-assembly-listItem-image" style="background-image:url(\'%ASSEMBLY_IMAGE_URL%\')"></div>'
+							+ '<div class="arioem-step-content-assembly-listItem-name"><span>%ASSEMBLY_NAME%</span></div>'
+						+ '</li>'
+			},
+			part: {
+				assemblySelectOption: '<option value="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%">%ASSEMBLY_NAME%</option>',
+				tableRow: '<tr class="%ROW_CLASS%" ari_part_tag="%PART_TAG%" ari_part_number="%PART_NUMBER%">'
+						+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
+						+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION% %PART_SUPERSEDED%</span>'
+						+	'<span class="arioem-partlist-partNo">%PART_NUMBER%</span></td>'
+						+ '<td class="arioem-partlist-msrp">$%PART_MSRP%</td>'
+						+ '%PRICE_CELL%'
+						+ '<td class="arioem-partlist-stock">%PART_STOCK%</td>'
+						+ '<td class="arioem-partlist-qty"><input type="text" name="%PART_ID%" value="%PART_QTY%" ari_part_qty="%PART_QTY%" /></td>'
+						+ '<td class="arioem-partlist-select"><input type="checkbox" ari_part_id="%PART_ID%" onclick="oemPartSelector.partListSelectPart(this)" value="" /></td>'
+						+ '</tr>',
+				tableRowNLA: '<tr class="%ROW_CLASS% arioem-nla" ari_part_tag="%PART_TAG%">'
+						+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
+						+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION%</span>'
+						+	'<span class="arioem-partlist-partNo">%PART_NUMBER%</span></td>'
+						+ '<td colspan="5" class="arioem-partlist-nla">No longer available</td>'
+						+ '</tr>',
+				tableRowNA: '<tr class="%ROW_CLASS% arioem-na" ari_part_tag="%PART_TAG%">'
+						+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
+						+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION%</span>'
+						+	'<span class="arioem-partlist-partNo">%PART_NUMBER%</span></td>'
+						+ '<td colspan="5" class="arioem-partlist-na">Not available</td>'
+						+ '</tr>',
+				tableRowSupersededSign: '<span class="arioem-partlist-superseded" '
+						+ 'title="This is the most current part for this model. \nPrevious part number: \n'
+						+ '%PART_ORG_SKU% %PART_ORG_DESCRIPTION%"></span>',
+				hotSpot: '<span class="arioem-hotspot" '
+						+ 'style="left:%SPOT_LEFT%px;top:%SPOT_TOP%px;width:%SPOT_WIDTH%px;height:%SPOT_HEIGHT%px;" '
+						+ 'ari_part_tag="%PART_TAG%" '
+						+ 'onclick="oemPartSelector.hotSpotMouseOver(this)" '
+						+ 'onmouseover="oemPartSelector.hotSpotMouseOver(this)" '
+						+ 'onmouseout="oemPartSelector.hotSpotMouseOut(this)" '
+						+ '>%PART_TAG%</span>',
+				stock: {
+					inStock: '<span class="arioem-instock">In stock</span>',
+					outOfStock: '%STOCK_LABEL%'
+				},
+				price: {
+					0: '<td class="arioem-partlist-price">$%PART_PRICE%</td>',
+					1: '<td class="arioem-partlist-price arioem-partlist-hidePrice" onclick="oemPartSelector.showHiddenPrice(this, 0)" '
+						+ 'onmouseover="oemPartSelector.showHiddenPrice(this, 1)" onmouseout="oemPartSelector.showHiddenPrice(null, -1)"'
+						+ '>See price in cart</td>'
+				}
+			}
+		},
+		columnLimits: {
+			year: {maxColCount: 5, minColItems: 5},
+			model: {maxColCount: 3, minColItems: 10}
+		},
+		messages: {
+			sessionExpired: 'Your session has expired. The prices shown may be different. Please relogin.',
+			hashError: 'Most probably, there is something wrong with your hash value\n\ '
+				+ '(the part of the page URL after "#" sign). Please repeat the selection of the item you\'re looking for.'
+				+ '\nOriginal error message is:\n',
+			wideModeButton: {
+				expand: 'Expand<br/>Diagram',
+				collapse: 'Collapse<br/>Diagram'
+			}
+		},
+		customerId: 0,
+		eventPropagation: {
+			senderId: 'oem_part_selector',
+			events: {
+				cartChange: {
+					name: 'cartChanged',
+					callback: null
+				}
+			}
 		}
-	}, 1000);
+	},
+	state: {
+		pageURL: '',
+		imageZoomFactor: 1,
+		imgDragMode: false,
+		imgOffset: {x: 0, y: 0},
+		imgPanStartCoords: {x: 0, y: 0},
+		defaultScrollAreaWidth: 408,
+		wideLayout: -1, // -1 (normal) or 1 (wide)
+		hashMode: false,
+		cartItems: {},
+		brand: {
+			code: null,
+			name: '',
+			hash: ''
+		},
+		vehicle: {
+			code: null,
+			name: '',
+			hash: ''
+		},
+		year: {
+			code: null,
+			name: '',
+			hash: ''
+		},
+		model: {
+			code: null,
+			name: '',
+			hash: ''
+		},
+		assembly: {
+			code: null,
+			name: '',
+			hash: ''
+		},
+		part: {
+			sku: '',
+			name: '',
+			tag: '',
+			hash: ''
+		}
+	},
+	brandHash: {
+		'ARC': 'arcticcat',
+		'BRP': 'canam',
+		'HOM': 'honda',
+		'HONPE': 'hondape',
+		'KUS': 'kawasaki',
+		'POL': 'polaris',
+		'BRP_SEA': 'seadoo',
+		'SUZ': 'suzuki',
+		'SLN': 'slingshot',
+		'VIC': 'victory',
+		'YAM': 'yamaha'
+	},
+	cache: {
+		parts: null,
+		hotSpots: null
+	},
+	loader: null,
+	init: function(configValues, stateValues) {
+		$.extend(true, this.config, configValues);
+		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
+		$.extend(this.state, stateValues);
+		this.state.pageURL = location.toString().split('#')[0];
+		oemHotSpotTagNumber = null; // this must be a global object
+		oemHotSpotPopupCloseDelayed = null;
+		if(window.hasOwnProperty('loader')) {
+			this.loader = window.loader;
+		}
+		$('#arioem-step-content-part-img-scrollArea')
+			.mousemove(this.imgMouseMove.bind(this))
+			.mousedown(this.imgMouseDown.bind(this))
+			.mouseup(this.imgMouseUp.bind(this))
+			.mouseleave(this.imgMouseUp.bind(this)) // preventing panning on mouse return
+			.mousewheel(this.imgWheel.bind(this));
+		$(window).on('resize', this._windowResize.bind(this));
+		$(window).on('hashchange', this.popState.bind(this));
+		$('.arioem-step-content-part-img-wideMode span').html(this.config.messages.wideModeButton.expand);
+		this.parseHash();
+
+		// putting this into the config explicitly as it's not known at the object creation state
+		this.config.eventPropagation.events.cartChange.callback = this.refreshCartItems.bind(this);
+
+		for (var i in this.config.eventPropagation.events) {
+			$(document).on(this.config.eventPropagation.events[i].name, this.config.eventPropagation.events[i].callback);
+		}
+	},
+	showLoader: function(targetSelector) {
+		if(this.loader) {
+			if(targetSelector === undefined) {
+				targetSelector = (this.state.wideLayout > 0)
+					?	this.config.loaderTargetWideLayoutSelector
+					:	this.config.loaderTargetSelector;
+			}
+			this.loader.show(targetSelector);
+		}
+	},
+	hideLoader: function(targetSelector) {
+		if(this.loader) {
+			if(typeof(targetSelector) !== 'string') {
+				targetSelector = (this.state.wideLayout > 0)
+					?	this.config.loaderTargetWideLayoutSelector
+					:	this.config.loaderTargetSelector;
+			}
+			this.loader.hide(targetSelector);
+		}
+	},
+	resetBrand: function() {
+		this.state.brand.code = null;
+		this.state.brand.name = '';
+		this.state.brand.hash = '';
+		$('.arioem-step-control-brand').addClass('arioem-step-active');
+		$('.arioem-step-control-brand').removeClass('arioem-step-selected');
+		$('.arioem-step-content-brand').addClass('arioem-step-active');
+		$('.arioem-step-control-brand .arioem-step-control-header-content').html('');
+		this.resetVehicle(false);
+	},
+	resetVehicle: function(activate) {
+		this.state.vehicle.code = null;
+		this.state.vehicle.name = '';
+		this.state.vehicle.hash = '';
+		$('.arioem-step-control-vehicle').removeClass('arioem-step-selected');
+		if(activate) {
+			$('.arioem-step-content-vehicle').addClass('arioem-step-active');
+			$('.arioem-step-control-vehicle').removeClass('inactive');
+			$('.arioem-step-control-vehicle').addClass('arioem-step-active');
+		} else {
+			$('.arioem-step-content-vehicle').removeClass('arioem-step-active');
+			$('.arioem-step-control-vehicle').addClass('inactive');
+			$('.arioem-step-control-vehicle').removeClass('arioem-step-active');
+		}
+		$('.arioem-step-control-vehicle .arioem-step-control-header-content').html('');
+		this.resetYear(false);
+	},
+	resetYear: function(activate) {
+		this.state.year.code = null;
+		this.state.year.name = '';
+		this.state.year.hash = '';
+		$('.arioem-step-control-year').removeClass('arioem-step-selected');
+		if(activate) {
+			$('.arioem-step-content-year').addClass('arioem-step-active');
+			$('.arioem-step-control-year').removeClass('inactive');
+			$('.arioem-step-control-year').addClass('arioem-step-active');
+		} else {
+			$('.arioem-step-content-year').removeClass('arioem-step-active');
+			$('.arioem-step-control-year').addClass('inactive');
+			$('.arioem-step-control-year').removeClass('arioem-step-active');
+		}
+		$('.arioem-step-control-year .arioem-step-control-header-content').html('');
+		this.resetModel(false);
+	},
+	resetModel: function(activate) {
+		this.state.model.code = null;
+		this.state.model.name = '';
+		this.state.model.hash = '';
+		$('.arioem-step-control-model').removeClass('arioem-step-selected');
+		if(activate) {
+			$('.arioem-step-content-model').addClass('arioem-step-active');
+			$('.arioem-step-control-model').removeClass('inactive');
+			$('.arioem-step-control-model').addClass('arioem-step-active');
+		} else {
+			$('.arioem-step-content-model').removeClass('arioem-step-active');
+			$('.arioem-step-control-model').addClass('inactive');
+			$('.arioem-step-control-model').removeClass('arioem-step-active');
+		}
+		$('.arioem-step-control-model .arioem-step-control-header-content').html('');
+		this.resetAssembly(false);
+	},
+	resetAssembly: function(activate) {
+		this.state.assembly.code = null;
+		this.state.assembly.name = '';
+		this.state.assembly.hash = '';
+
+		this.state.part.sku = '';
+		this.state.part.name = '';
+		this.state.part.hash = '';
+		this.state.part.tag = '';
+
+		this.resetImage();
+
+		if (this.state.vehicle.code) { // if this was opened not from part search page
+			$('.arioem-step-control').show();
+		}
+		$('.arioem-step-content-part').removeClass('arioem-step-active');
+
+		if(activate) {
+			$('.arioem-step-content-assembly').addClass('arioem-step-active');
+		} else {
+			$('.arioem-step-content-assembly').removeClass('arioem-step-active');
+		}
+
+		this.updateHash();
+		this.wideLayout(-1);
+	},
+	resetImage: function() {
+		$('#arioem-step-content-part-img-scrollArea-content img').attr('src', this.config.loadingImageUrl);
+		this.cache.hotSpots = [];
+//		$('#arioem-step-content-part-img-scrollArea-content-hotspots').html('');
+		this.state.imageZoomFactor = 1;
+		this.state.imgOffset = {x: 0, y: 0};
+		this.zoom(0);
+	},
+	selectBrand: function(sender) {
+		if(this.state.hashMode) {
+			this.state.brand.code = sender.code;
+			this.state.brand.name = sender.name;
+		} else {
+			this.state.brand.code = $(sender).attr('ari_brand_code');
+			this.state.brand.name = $(sender).attr('ari_brand_name');
+		}
+		this.state.brand.hash = this.brandHash[this.state.brand.code];
+		$('.arioem-step-control-brand').removeClass('arioem-step-active');
+		$('.arioem-step-control-brand').addClass('arioem-step-selected');
+		$('.arioem-step-control-brand .arioem-step-control-header-content').html(
+				this.config.templates.brand.controlItem
+					.replace(/%BRAND_HASH%/g, this.state.brand.hash)
+			);
+		$('.arioem-step-content-brand').removeClass('arioem-step-active');
+
+		if(!this.state.hashMode) {
+			this.showLoader();
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'vehicle',
+					brandCode: this.state.brand.code
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectBrandSuccess.bind(this),
+				complete: this.hideLoader.bind(this)
+			});
+		}
+	},
+	_selectBrandSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		$('.arioem-step-control-vehicle').addClass('arioem-step-active');
+		$('.arioem-step-content-vehicle').addClass('arioem-step-active');
+		var html = '';
+		for(var i=0; i<response.res.length; i++) {
+			html += this.config.templates.vehicle.listItem
+				.replace(/%VEHICLE_ID%/g, response.res[i].id)
+				.replace(/%VEHICLE_NAME%/g, response.res[i].name)
+				.replace(/%VEHICLE_HASH%/g, response.res[i].hash)
+				.replace(/%BRAND_HASH%/g, this.state.brand.hash);
+		}
+		$('.arioem-step-content-vehicle .arioem-step-content-content ul').html(html);
+		this.updateHash();
+	},
+	selectVehicle: function(sender) {
+		if(!this.state.hashMode) {
+			this.state.vehicle.code = $(sender).attr('ari_vehicle_id');
+			this.state.vehicle.name = $(sender).text();
+			this.state.vehicle.hash = $(sender).attr('ari_hash');
+		}
+		$('.arioem-step-control-vehicle').removeClass('arioem-step-active');
+		$('.arioem-step-control-vehicle').addClass('arioem-step-selected');
+		$('.arioem-step-control-vehicle .arioem-step-control-header-content').html(
+				this.config.templates.vehicle.controlItem
+					.replace(/%VEHICLE_NAME%/g, this.state.vehicle.name)
+					.replace(/%VEHICLE_HASH%/g, this.state.vehicle.hash)
+			);
+		$('.arioem-step-content-vehicle').removeClass('arioem-step-active');
+		if(!this.state.hashMode) {
+			this.showLoader();
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'year',
+					brandCode: this.state.brand.code,
+					parentId: this.state.vehicle.code
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectVehicleSuccess.bind(this),
+				complete: this.hideLoader.bind(this)
+			});
+		}
+	},
+	_selectVehicleSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		$('.arioem-step-control-year').addClass('arioem-step-active');
+		$('.arioem-step-content-year').addClass('arioem-step-active');
+
+		var columnSize;
+		var column = 1;
+		var row = 0;
+		var html = '';
+		var items = '';
+		var theEnd;
+		var yearString, yearNumber, yearCSS;
+
+		if(response.res.length >= this.config.columnLimits.year.maxColCount * this.config.columnLimits.year.minColItems) {
+			columnSize = Math.ceil(response.res.length / this.config.columnLimits.year.maxColCount);
+		} else {
+			columnSize = this.config.columnLimits.year.minColItems;
+		}
+
+		for(var i=0; i<=response.res.length; i++) {
+			theEnd = (i == response.res.length);
+			if(i >= column * columnSize || theEnd) {
+				html += this.config.templates.year.listContainer
+						.replace(/%COLUMN_ODD%/g, ((column % 2) ? 'odd' : ''))
+						.replace(/%ITEMS%/g, items);
+				column++;
+				items = '';
+			}
+			if(theEnd) break;
+			yearString = response.res[i].name;
+			yearText = yearString;
+			yearCSS = yearText || (yearString.length < 8)
+				?	''
+				:	(	(yearString.length < 35)
+						?	'font-size:30px;line-height:32px;'
+						:	'font-size:20px;line-height:22px;'
+					);
+					
+			items += this.config.templates.year.listItem
+					.replace(/%YEAR_ID%/g, response.res[i].id)
+					.replace(/%YEAR_NAME%/g, yearText)
+					.replace(/%YEAR_HASH%/g, response.res[i].hash);
+		}
+		$('.arioem-step-content-year .arioem-step-content-content').html(html);
+
+		this.updateHash();
+	},
+	selectYear: function(sender) {
+		if(!this.state.hashMode) {
+			this.state.year.code = $(sender).attr('ari_year_id');
+			this.state.year.name = $(sender).text();
+			this.state.year.hash = $(sender).attr('ari_hash');
+		}
+		$('.arioem-step-control-year').removeClass('arioem-step-active');
+		$('.arioem-step-control-year').addClass('arioem-step-selected');
+		var yearClass = (this.state.year.name.length < 8)
+			?	''
+			:	(	(this.state.year.name.length < 35)
+					?	'arioem-step-control-year-smaller'
+					:	'arioem-step-control-year-smallest'
+				);
+		$('.arioem-step-control-year .arioem-step-control-header-content').html(
+				this.config.templates.year.controlItem
+					.replace(/%YEAR_NAME%/g, this.state.year.name)
+					.replace(/%YEAR_CLASS%/g, yearClass)
+			);
+		$('.arioem-step-content-year').removeClass('arioem-step-active');
+
+		if(!this.state.hashMode) {
+			this.showLoader();
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'model',
+					brandCode: this.state.brand.code,
+					parentId: this.state.year.code
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectYearSuccess.bind(this),
+				complete: this.hideLoader.bind(this)
+			});
+		}
+	},
+	_selectYearSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		$('.arioem-step-control-model').addClass('arioem-step-active');
+		$('.arioem-step-content-model').addClass('arioem-step-active');
+
+		var columnSize;
+		var column = 1;
+		var row = 0;
+		var html = '';
+		var items = '';
+		var theEnd;
+
+		if(response.res.length >= this.config.columnLimits.model.maxColCount * this.config.columnLimits.model.minColItems) {
+			columnSize = Math.ceil(response.res.length / this.config.columnLimits.model.maxColCount);
+		} else {
+			columnSize = this.config.columnLimits.model.minColItems;
+		}
+
+		for(var i=0; i<=response.res.length; i++) {
+			theEnd = (i == response.res.length);
+			if(i >= column * columnSize || theEnd) {
+				html += this.config.templates.model.listContainer
+						.replace(/%COLUMN_ODD%/g, ((column % 2) ? 'odd' : ''))
+						.replace(/%ITEMS%/g, items);
+				column++;
+				items = '';
+			}
+			if(theEnd) break;
+			items += this.config.templates.model.listItem
+					.replace(/%MODEL_ID%/g, response.res[i].id)
+					.replace(/%MODEL_NAME%/g, response.res[i].name)
+					.replace(/%MODEL_HASH%/g, response.res[i].hash);
+		}
+		$('.arioem-step-content-model .arioem-step-content-content').html(html);
+		this.updateHash();
+	},
+	selectModel: function(sender) {
+		if(!this.state.hashMode) {
+			this.state.model.code = $(sender).attr('ari_model_id');
+			this.state.model.name = $(sender).text();
+			this.state.model.hash = $(sender).attr('ari_hash');
+		}
+		$('.arioem-step-control-model').removeClass('arioem-step-active');
+		$('.arioem-step-control-model').addClass('arioem-step-selected');
+		$('.arioem-step-control-model .arioem-step-control-header-content').html(
+				this.config.templates.model.controlItem.replace(/%MODEL_NAME%/g, this.state.model.name)
+			);
+		$('.arioem-step-content-model').removeClass('arioem-step-active');
+		if(!this.state.hashMode) {
+			this.showLoader();
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'assembly',
+					brandCode: this.state.brand.code,
+					parentId: this.state.model.code
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectModelSuccess.bind(this),
+				complete: this.hideLoader.bind(this)
+			});
+		}
+	},
+	_selectModelSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		$('.arioem-step-content-assembly').addClass('arioem-step-active');
+
+		var modelName = this.config.templates.assembly.sidebarTitle
+			.replace('%BRAND%', this.state.brand.name)
+			.replace('%YEAR%', this.state.year.name)
+			.replace('%MODEL%', this.state.model.name);
+		$('.arioem-step-content-assembly-sidebar-modelname').html(modelName);
+
+		var sidebarHtml = '';
+		var gridHtml = '';
+		var shortName;
+		var imageUrl = this.config.assemblyImageBaseURL
+				.replace('%BRAND%', this.state.brand.code)
+				.replace('%PARENT_ID%', this.state.model.code)
+				.replace('%WIDTH%', '175');
+
+		for(var i=0; i<response.res.length; i++) {
+			sidebarHtml += this.config.templates.assembly.sidebarItem
+				.replace(/%ASSEMBLY_ID%/g, response.res[i].id)
+				.replace(/%ASSEMBLY_NAME%/g, response.res[i].name)
+				.replace(/%ASSEMBLY_HASH%/g, response.res[i].hash);
+
+			gridHtml += this.config.templates.assembly.gridItem
+				.replace(/%ASSEMBLY_ID%/g, response.res[i].id)
+				.replace(/%ASSEMBLY_NAME%/g, response.res[i].name)
+				.replace(/%ASSEMBLY_IMAGE_URL%/g, imageUrl.replace('%ASSEMBLY_ID%', response.res[i].id))
+				.replace(/%ASSEMBLY_HASH%/g, response.res[i].hash);
+		}
+		$('.arioem-step-content-assembly-sidebar-assemblylist').html(sidebarHtml);
+		$('.arioem-step-content-assembly-grid ul').html(gridHtml);
+		// aligning height of assembly names in the grid
+		var maxHeight = 0;
+		var elements = $('.arioem-step-content-assembly-grid .arioem-step-content-assembly-listItem-name span');
+		for(var i=0; i < elements.length; i++ ) {
+			if(elements[i].clientHeight > maxHeight) { maxHeight = elements[i].clientHeight; }
+		}
+		$('.arioem-step-content-assembly-grid .arioem-step-content-assembly-listItem-name span').css('height', maxHeight + 'px');
+
+		// populating assembly drop-down
+		var assemblyOptionsHtml = '';
+		for(var i=0; i<response.res.length; i++) {
+			assemblyOptionsHtml += this.config.templates.part.assemblySelectOption
+				.replace(/%ASSEMBLY_ID%/g, response.res[i].id)
+				.replace(/%ASSEMBLY_NAME%/g, response.res[i].name)
+				.replace(/%ASSEMBLY_HASH%/g, response.res[i].hash);
+		}
+		$('.arioem-step-content-part-select').html(assemblyOptionsHtml);
+
+		this.updateHash();
+	},
+	selectAssembly: function(sender) {
+		this.resetImage();
+		if(!this.state.hashMode) {
+			var assemblyCode = $(sender).attr('ari_assembly_id');
+			if(assemblyCode) {
+				this.state.assembly.code = assemblyCode;
+				this.state.assembly.name = $(sender).text();
+				this.state.assembly.hash = $(sender).attr('ari_hash');
+			} else {
+				var newCode = $(sender).val();
+				if (newCode == this.state.assembly.code) return; // to avoid looping when assigning a value to assembly select
+				this.state.assembly.code = newCode;
+				this.state.assembly.name = $(sender).children(':selected').text()
+				this.state.assembly.hash = $(sender).children(':selected').attr('ari_hash');
+			}
+		}
+		$('.arioem-step-content-part-select').val(this.state.assembly.code);
+		$('.arioem-step-content-assembly').removeClass('arioem-step-active');
+//		this.resetImage();
+		if(!this.state.hashMode) {
+			this.showLoader();
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'part',
+					brandCode: this.state.brand.code,
+					parentId: this.state.model.code,
+					assemblyId: this.state.assembly.code
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectAssemblySuccess.bind(this),
+				complete: this.hideLoader.bind(this)
+			});
+		}
+	},
+	_selectAssemblySuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		this.cache.parts = response.parts;
+
+		$('.arioem-step-content-part').addClass('arioem-step-active');
+		$('.arioem-step-control').hide();
+		$('.arioem-step-content-part-img-popup-header').html(this.state.assembly.name);
+		$('.arioem-step-content-part-shoppingfor-value').html(this.state.brand.name + ' '
+			+ this.state.year.name + ' ' + this.state.model.name);
+
+		this.resetImage();
+		var imageUrl = this.config.assemblyImageBaseURL
+				.replace('%BRAND%', this.state.brand.code)
+				.replace('%PARENT_ID%', this.state.model.code)
+				.replace('%ASSEMBLY_ID%', this.state.assembly.code)
+				.replace('%WIDTH%', '0');
+		$('#arioem-step-content-part-img-scrollArea-content img').attr('src', imageUrl);
+		this.cache.hotSpots = response.hotSpots;
+
+		// populating table
+		var rowsHtml = '', rowHtml;
+		var rowClass, stockLabel, superseded, rowTemplateIndex;
+		var partFound = false;
+		for(var i=0; i<response.parts.length; i++) {
+			rowClass = ((i % 2) ? 'arioem-even' : '')
+				+ (	response.parts[i].isSuperseded ? ' arioem-superseded' : '');
+			if (!response.parts[i].available) {
+				rowHtml = this.config.templates.part.tableRowNA;
+			} else {
+				stockLabel = response.parts[i].invW
+					?	this.config.templates.part.stock.inStock
+					:	this.config.templates.part.stock.outOfStock
+							.replace(/%STOCK_LABEL%/g, response.parts[i].stockLabel);
+				superseded = response.parts[i].isSuperseded
+					?	this.config.templates.part.tableRowSupersededSign
+							.replace(/%PART_ORG_DESCRIPTION%/g, response.parts[i].orgName)
+							.replace(/%PART_ORG_SKU%/g, response.parts[i].orgSku)
+					:	'';
+				rowHtml = this.config.templates.part[response.parts[i].nla ? 'tableRowNLA' : 'tableRow']
+					.replace(/%PART_MSRP%/g, response.parts[i].msrp)
+					.replace(/%PRICE_CELL%/g, this.config.templates.part.price[response.parts[i].hidePrice])
+					.replace(/%PART_PRICE%/g, response.parts[i].price) // this depends on the upper replacement
+					.replace(/%PART_QTY%/g, response.parts[i].qty)
+					.replace(/%PART_SUPERSEDED%/g, superseded)
+					.replace(/%PART_STOCK%/g, stockLabel);
+			}
+			rowsHtml += rowHtml
+				.replace(/%PART_ID%/g, response.parts[i].id)
+				.replace(/%PART_TAG%/g, response.parts[i].tag)
+				.replace(/%PART_DESCRIPTION%/g, response.parts[i].name)
+				.replace(/%PART_NUMBER%/g, response.parts[i].sku)
+				.replace(/%ROW_CLASS%/g, rowClass);
+
+			if(this.state.part.sku == response.parts[i].sku) {
+				partFound = true;
+			}
+		}
+		$('.arioem-step-content-part-partlist tbody').html(rowsHtml);
+
+		if(!partFound) {
+			this.state.part = { sku: '', name: '', tag: '', hash: '' };
+		}
+
+		if(response.hasOwnProperty('cartItems')) {
+			this.state.cartItems = response.cartItems;
+		}
+		this.markCartItems();
+
+		$('.arioem-step-content-part-partlist tbody tr').hover(function(sender) {
+				var tagNumber = $(sender.currentTarget).attr('ari_part_tag');
+				$('#arioem-step-content-part-img-scrollArea-content-hotspots .arioem-hotspot[ari_part_tag="' + tagNumber + '"]')
+					.addClass('arioem-hotspot-hover');
+			}, function(sender) {
+				var tagNumber = $(sender.currentTarget).attr('ari_part_tag');
+				$('#arioem-step-content-part-img-scrollArea-content-hotspots .arioem-hotspot[ari_part_tag="' + tagNumber + '"]')
+					.removeClass('arioem-hotspot-hover');
+			});
+
+		if(this.config.customerId && (response.customerId != this.config.customerId)) {
+			alert(this.config.messages.sessionExpired);
+		}
+
+		this.updateHash();
+	},
+	highlightPart: function(part, hotSpotOnly) {
+		var tag = part ? part.tag : this.state.part.tag;
+		if(hotSpotOnly == undefined || !hotSpotOnly) {
+			$('.arioem-step-content-part-partlist tr[ari_part_tag="' + tag + '"]').addClass('arioem-preSelected');
+		}
+		$('#arioem-step-content-part-img-scrollArea-content-hotspots .arioem-hotspot[ari_part_tag="' + tag + '"]')
+			.addClass('arioem-preSelected');
+	},
+	viewPartInPartList: function() {
+		var tagNumber = $('.arioem-step-content-part-img-popup').attr('ari_part_tag');
+		var scrollPos = $('.arioem-step-content-part-partlist tbody').scrollTop();
+		var top = $('.arioem-step-content-part-partlist tr[ari_part_tag="' + tagNumber + '"]').position().top;
+		if (top < 0) {
+			$('.arioem-step-content-part-partlist tbody').scrollTop(scrollPos + top);
+			return;
+		}
+		var height = $('.arioem-step-content-part-partlist tbody').height();
+		if (top > height-100) {
+			$('.arioem-step-content-part-partlist tbody').scrollTop(scrollPos + top);
+		}
+	},
+	_populateHotSpots() {
+		var hotSpotsHtml = '';
+		if (this.cache.hotSpots.length) {
+			var wideModeImageScalingFactor = (this.state.wideLayout == 1)
+				?	($('#arioem-step-content-part-img-scrollArea').innerWidth() / this.state.defaultScrollAreaWidth)
+				:	1;
+			var zoomRatio = this.state.imageZoomFactor
+					* wideModeImageScalingFactor
+					* this.config.imageResizeBaseRatio
+					* this.config.imageResizeBrandRatio[this.state.brand.code];
+			for(var i=0; i<this.cache.hotSpots.length; i++) {
+				hotSpotsHtml += this.config.templates.part.hotSpot
+					.replace(/%PART_TAG%/g, this.cache.hotSpots[i].Tag)
+					.replace(/%SPOT_LEFT%/g, this.cache.hotSpots[i].TopLeft.X * zoomRatio)
+					.replace(/%SPOT_TOP%/g, this.cache.hotSpots[i].TopLeft.Y * zoomRatio)
+					.replace(/%SPOT_WIDTH%/g, (this.cache.hotSpots[i].BottomRight.X - this.cache.hotSpots[i].TopLeft.X) * zoomRatio)
+					.replace(/%SPOT_HEIGHT%/g, (this.cache.hotSpots[i].BottomRight.Y - this.cache.hotSpots[i].TopLeft.Y) * zoomRatio);
+			}
+		}
+		$('#arioem-step-content-part-img-scrollArea-content-hotspots').html(hotSpotsHtml);
+		this.highlightPart(false, true);
+	},
+	hotSpotMouseOver: function(sender) {
+		if(this.state.imgDragMode) return;
+		var hotSpot = $(sender);
+		var tagNumber = hotSpot.attr('ari_part_tag');
+		if(oemHotSpotTagNumber && tagNumber != oemHotSpotTagNumber) {
+			$('.arioem-step-content-part-partlist tr').removeClass('arioem-partlist-tr-hover');
+		}
+		this.imgPopupMouseOver();
+		var rowContainer = $('.arioem-step-content-part-partlist tr[ari_part_tag="' + tagNumber + '"]');
+		rowContainer.addClass('arioem-partlist-tr-hover');
+
+		$('.arioem-step-content-part-img-popup-header').text(
+				rowContainer.find('.arioem-partlist-descr span:first-child').text());
+		$('.arioem-step-content-part-img-popup-partNo').text(
+				rowContainer.find('.arioem-partlist-partNo').text());
+		if (rowContainer.hasClass('arioem-nla')) {
+			$('.arioem-step-content-part-img-popup-msrp').text('');
+			$('.arioem-step-content-part-img-popup-price').text('');
+			$('.arioem-step-content-part-img-popup-stock span').text('');
+			$('.arioem-step-content-part-img-popup-stock span').attr('class', '');
+			$('#arioem-part-popup-qty').val(rowContainer.find('.arioem-partlist-qty input').attr('ari_part_qty'));
+		} else {
+			$('.arioem-step-content-part-img-popup-msrp').text(
+					rowContainer.find('.arioem-partlist-msrp').text());
+			$('.arioem-step-content-part-img-popup-price').text(
+					rowContainer.find('.arioem-partlist-price').text());
+			$('.arioem-step-content-part-img-popup-stock span').text(
+					rowContainer.find('.arioem-partlist-stock').text());
+//			$('.arioem-step-content-part-img-popup-stock span').attr('class', 
+//					rowContainer.find('.arioem-partlist-stock').attr('class').replace('arioem-partlist-stock', '').trim()
+//				);
+			$('#arioem-part-popup-qty').val(rowContainer.find('.arioem-partlist-qty input').attr('ari_part_qty'));
+		}
+
+		var hotSpotPosition = hotSpot.position();
+		var hotSpotPopup = $('.arioem-step-content-part-img-popup');
+		var scrollContainerPosition = $('#arioem-step-content-part-img-scrollArea-content').position();
+		var container = $('#arioem-step-content-part-img-scrollArea');
+		var left = Math.min(
+				scrollContainerPosition.left + hotSpotPosition.left + hotSpot.outerWidth() + this.config.hotSpotPopupOffset.x,
+				container.innerWidth() + Number(container.css('margin-left').replace('px', ''))
+			);
+		var top = Math.max(
+				scrollContainerPosition.top + hotSpotPosition.top - hotSpotPopup.outerHeight() - this.config.hotSpotPopupOffset.y,
+				Number(container.css('margin-top').replace('px', ''))
+			);
+		hotSpotPopup.css({
+				left: left + 'px',
+				top: top + 'px'
+			});
+		hotSpotPopup.attr('ari_part_tag', tagNumber);
+		hotSpotPopup.show();
+	},
+	hotSpotMouseOut: function(sender) {
+		oemHotSpotTagNumber = $(sender).attr('ari_part_tag'); // this must be a global variable!
+		oemHotSpotPopupCloseDelayed = setTimeout(function() { // this must be a global variable!
+			if(oemHotSpotTagNumber) {
+				$('.arioem-step-content-part-partlist tr').removeClass('arioem-partlist-tr-hover');
+				$('.arioem-step-content-part-img-popup').hide();
+				oemHotSpotTagNumber = null;
+			}
+		}, 700);
+	},
+	imgPopupMouseOver: function() {
+		clearTimeout(oemHotSpotPopupCloseDelayed);
+		oemHotSpotTagNumber = null;
+	},
+	imgPopupMouseLeave: function(sender) {
+		var tagNumber = $(sender).attr('ari_part_tag');
+		$('.arioem-step-content-part-partlist tr[ari_part_tag="' + tagNumber + '"]')
+			.removeClass('arioem-partlist-tr-hover');
+		$('.arioem-step-content-part-img-popup').hide();
+		clearTimeout(oemHotSpotPopupCloseDelayed);
+		oemHotSpotTagNumber = null;
+	},
+	zoom: function(direction, mousePos) {
+		if (!this.state.assembly.code) return;
+		var scrollArea = $('#arioem-step-content-part-img-scrollArea');
+		var scrollAreaWidth = scrollArea.innerWidth();
+		if (!mousePos) {
+			mousePos = {
+				left: scrollAreaWidth / 2,
+				top: scrollArea.innerHeight() / 2
+			}
+		}
+		var oX = (mousePos.left - this.state.imgOffset.x) / this.state.imageZoomFactor;
+		var oY = (mousePos.top - this.state.imgOffset.y) / this.state.imageZoomFactor;
+		if(direction > 0) {
+			if(this.state.imageZoomFactor == this.config.maxZoomLevel) return;
+			this.state.imageZoomFactor++;
+		} else if(direction < 0) {
+			if(this.state.imageZoomFactor == 1) return;
+			this.state.imageZoomFactor--;
+		}
+		$('#arioem-step-content-part-img-scrollArea-content').css({
+				width: Math.round(this.state.imageZoomFactor * scrollAreaWidth / this.config.imageResizeBaseRatio) + 'px'
+			});
+		this._populateHotSpots();
+		this._setImagePosition(mousePos.left - oX * this.state.imageZoomFactor, mousePos.top - oY * this.state.imageZoomFactor);
+	},
+	wideLayout: function(mode) {
+		if(mode == 0) {
+			this.state.wideLayout = $('.arioem-content').hasClass('arioem-wide')
+				?	-1
+				:	1;
+		} else {
+			this.state.wideLayout = mode;
+		}
+		this._windowResize();
+	},
+	_windowResize: function() {
+		this.state.defaultScrollAreaWidth = $('#arioem-step-content-part-img-scrollArea').innerWidth();
+		if(this.state.wideLayout > 0) {
+			$('.arioem-content').addClass('arioem-wide');
+			var img = $('.arioem-step-content-part-img').first();
+
+			var w = $('.arioem-step-content-part-partlist').outerWidth();
+			$('.arioem-shopList').outerWidth(w);
+
+			var clientHeight = $('.arioem-step-content-part').first().height()
+					- $('.arioem-step-content-part-shoppingfor').first().height()
+					- img.css('margin-top').replace('px', '')
+					- 2; //img.css('margin-bottom').replace('px', '')
+			img.height(clientHeight);
+			$('#arioem-step-content-part-img-scrollArea').height(img.height() - 78);
+			var halfHeight = Math.floor(clientHeight / 2);
+			$('.arioem-step-content-part-partlist > table tbody').height(halfHeight-48);
+
+			var p = $('.arioem-step-content-part-partlist-bottom');
+			var tb = $('.arioem-shopList tbody');
+			tb.height(	tb.height()
+						+ $('.arioem-shopList').offset().top
+						- (p.offset().top + p.outerHeight())
+				);
+			$('.arioem-step-content-part-img-wideMode span').html(this.config.messages.wideModeButton.collapse);
+		} else {
+			$('.arioem-content').removeClass('arioem-wide');
+			$('.arioem-step-content-part-img').css({height: ''});
+			$('#arioem-step-content-part-img-scrollArea').css('height', '');
+			$('.arioem-step-content-part-partlist tbody').css('height', '');
+			$('.arioem-shopList').css('width', '');
+			$('.arioem-step-content-part-img-wideMode span').html(this.config.messages.wideModeButton.expand);
+		}
+		this.zoom(0);
+	},
+	_setImagePosition: function(left, top) {
+		var scrollArea = $('#arioem-step-content-part-img-scrollArea');
+		var imgArea = $('#arioem-step-content-part-img-scrollArea-content');
+
+		var scrollAreaWidth = scrollArea.innerWidth();
+		var imgAreaWidth = imgArea.innerWidth();
+		if (scrollAreaWidth > imgAreaWidth) {
+			left = Math.round((scrollAreaWidth - imgAreaWidth) / 2);
+		} else {
+			if (left > 0) {
+				left = 0;
+			} else {
+				left = Math.max(left, scrollAreaWidth - imgAreaWidth);
+			}
+		}
+
+		var scrollAreaHeight = scrollArea.innerHeight();
+		var imgAreaHeight = imgArea.innerHeight();
+		if (scrollAreaHeight > imgAreaHeight) {
+			top = Math.round((scrollAreaHeight - imgAreaHeight) / 2);
+		} else {
+			if(top > 0) {
+				top = 0;
+			} else {
+				top = Math.max(top, scrollAreaHeight - imgAreaHeight);
+			}
+		}
+
+		this.state.imgOffset.x = left;
+		this.state.imgOffset.y = top;
+
+		imgArea.css({
+				left:	left + 'px',
+				top:	top + 'px'
+			});
+	},
+	imgMouseMove: function(event) {
+		event.preventDefault();
+		if (this.state.imgDragMode) {
+			var dX = Math.floor(this.config.panRatio * (this.state.imgPanStartCoords.x - event.pageX));
+			this.state.imgPanStartCoords.x = event.pageX;
+
+			var dY = Math.floor(this.config.panRatio * (this.state.imgPanStartCoords.y - event.pageY));
+			this.state.imgPanStartCoords.y = event.pageY;
+
+			this._setImagePosition(this.state.imgOffset.x - dX, this.state.imgOffset.y - dY);
+		}
+	},
+	imgMouseDown: function(event) {
+		event.preventDefault();
+		this.state.imgDragMode = true;
+		this.state.imgPanStartCoords.x = event.pageX;
+		this.state.imgPanStartCoords.y = event.pageY;
+	},
+	imgMouseUp: function(event) {
+		event.preventDefault();
+		this.state.imgDragMode = false;
+	},
+	imgWheel: function(event) {
+		event.preventDefault();
+		this.zoom(event.deltaY, {left: Math.round(event.offsetX), top: Math.round(event.offsetY)});
+	},
+	partListSelectPart: function(sender) {},
+	partListSelectAllParts: function(sender) {
+		$('.arioem-step-content-part-partlist tbody .arioem-partlist-select input')
+			.prop('checked', $(sender).is(':checked'));
+	},
+	_getAssemblyPartURL: function(sku) {
+		var key = '&' + this.config.urlKeyNames.part + '=';
+		return location.href.split(key)[0] + key + encodeURIComponent(sku)
+	},
+	addToCartSingle: function(sender) {
+		var sku = $('.arioem-step-content-part-img-popup-partNo').text();
+		var data = [{
+			name: $('.arioem-step-content-part-img-popup-header').text().trim(),
+			sku: sku,
+			qty: $('#arioem-part-popup-qty').val(),
+			price: $('.arioem-step-content-part-img-popup-price').text(),
+			pageURL: this._getAssemblyPartURL(sku)
+		}];
+		this._addToCart(data);
+	},
+	addToCartMulti: function() {
+		var data = [];
+		var inputs = $('.arioem-step-content-part-partlist .arioem-partlist-select input:checked');
+		var tr;
+		for(var i=0; i < inputs.length; i++) {
+			tr = inputs[i].up('tr');
+			var sku = $(tr).find('.arioem-partlist-partNo').text();
+			data.push({
+				name: $(tr).find('.arioem-partlist-descr > span:first-child').text(),
+				sku: sku,
+				qty: $(tr).find('.arioem-partlist-qty input').val(),
+				price: $(tr).find('.arioem-partlist-price').text(),
+				pageURL: this._getAssemblyPartURL(sku)
+			});
+			$(inputs[i]).attr('checked', false);
+		}
+		this._addToCart(data);
+	},
+	_addToCart: function(data) {
+		this.showLoader();
+
+		$.ajax({
+			url: this.config.addToCartURL,
+			data: {
+				brand: this.state.brand.code,
+				vehicle: this.state.vehicle.name,
+				year: this.state.year.name,
+				model: this.state.model.name,
+				assembly: this.state.assembly.name,
+				parts: data
+			},
+			dataType: 'json',
+			type: 'POST',
+			async: true,
+			cache: false,
+			success: this._addToCartSuccess.bind(this),
+			complete: this.hideLoader.bind(this)
+		});/*
+
+		if(window.dataLayer) {
+			dataLayer.push({
+				OEMFunnelStep: 'cart'
+			});
+		}/**/
+	},
+	_addToCartSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		if(response.hasOwnProperty('warnings')) {
+			alert(response.warnings.join('\n'));
+		}
+		$(document).trigger(this.config.eventPropagation.events.cartChange.name, [this.config.eventPropagation.senderId]);
+		this.markCartItems(response.skusAdded); // by this we save another AJAX call to refreshCartItemsUrl
+		if(response.hasOwnProperty('message')) {
+			alert(response.message);
+		}
+	},
+	refreshCartItems: function(event, sender) {
+		if (sender == this.config.eventPropagation.senderId) return;
+		$.ajax({
+			url: this.config.refreshCartItemsUrl,
+			dataType: 'json',
+			async: true,
+			cache: false,
+			success: this._refreshCartItemsSuccess.bind(this),
+		});
+	},
+	_refreshCartItemsSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		this.state.cartItems = response.cartItems;
+		this.markCartItems();
+	},
+	markCartItems: function(newItems) {
+		if(newItems !== undefined) {
+			for(var brandCode in newItems) {
+				if(!this.state.cartItems.hasOwnProperty(brandCode)) {
+					this.state.cartItems[brandCode] = [];
+				}
+				for(var i=0; i<newItems[brandCode].length; i++) {
+					if(this.state.cartItems[brandCode].indexOf(newItems[brandCode][i]) == -1) {
+						this.state.cartItems[brandCode].push(newItems[brandCode][i]);
+					}
+				}
+			}
+		}
+		$('.arioem-step-content-part-partlist tr').removeClass('arioem-inCart');
+		if(this.state.cartItems.hasOwnProperty(this.state.brand.code)) {
+			for(var i=0; i<this.state.cartItems[this.state.brand.code].length; i++) {
+				$('.arioem-step-content-part-partlist tr[ari_part_number="' + this.state.cartItems[this.state.brand.code][i] + '"]')
+					.addClass('arioem-inCart');
+			}
+		}
+	},
+	parseHash: function(hashState) {
+		if (!hashState) {
+			hashState = location.hash.substr(1).parseQuery();
+			// to fix the initial state at init(), and to fix FF's bug of dropping the history on 2nd forward (pageLoad-nextPage-back-fw-back-FW)
+			history.replaceState(hashState, document.title, location.toString());
+		}
+		if(!hashState.hasOwnProperty('brand')) {
+			this.state.hashMode = true;
+			this.resetBrand();
+			this.state.hashMode = false;
+			return;
+		}
+		if(!hashState.hasOwnProperty('action')) {
+			hashState.action = 'hash';
+		}
+		this.showLoader();
+		$.ajax({
+			url: this.config.baseURL,
+			data: hashState,
+			dataType: 'json',
+			type: 'GET',
+			async: true,
+			cache: false,
+			success: this._parseHashSuccess.bind(this),
+			complete: this.hideLoader.bind(this)
+		});
+	},
+	_parseHashSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(this.config.messages.hashError + ' ' + response.errorMessage);
+			return;
+		}
+		this.state.hashMode = true;
+		this.resetBrand();
+		$.extend(this.state, response.state);
+
+		if (response.state.hasOwnProperty('brand') && response.state.brand.hash) {
+			this.selectBrand(response.state.brand);
+			if(response.hasOwnProperty('vehicle')) {
+				this._selectBrandSuccess(response.vehicle);
+				if (response.state.hasOwnProperty('vehicle') && response.state.vehicle.hash) {
+					this.selectVehicle(response.state.vehicle);
+					if(response.hasOwnProperty('year')) {
+						this._selectVehicleSuccess(response.year);
+						if (response.state.hasOwnProperty('year') && response.state.year.hash) {
+							this.selectYear(response.state.year);
+							if(response.hasOwnProperty('model')) {
+								this._selectYearSuccess(response.model);
+			}}}}}
+			if (response.state.hasOwnProperty('model') && response.state.model.hash) {
+				this.selectModel(response.state.model);
+				if(response.hasOwnProperty('assembly')) {
+					this._selectModelSuccess(response.assembly);
+						if (!response.hasOwnProperty('model')) { // the hash has been passed from search page
+							$('.arioem-step-control').hide();
+						}
+						if (response.state.hasOwnProperty('assembly') && response.state.assembly.hash) {
+						this.selectAssembly(response.state.assembly);
+						if(response.hasOwnProperty('part')) {
+							this._selectAssemblySuccess(response.part);
+							if (response.state.hasOwnProperty('part') && response.state.part.hash) {
+								this.highlightPart(response.state.part);
+			}}}}}
+		}
+
+		this.state.hashMode = false;
+	},
+	updateHash: function() {
+		if(this.state.hashMode) return;
+		var hash = {};
+		if (this.state.brand.hash) hash[this.config.urlKeyNames.brand] = this.state.brand.hash;
+		if (this.state.vehicle.hash) hash[this.config.urlKeyNames.vehicle] = this.state.vehicle.hash;
+		if (this.state.year.hash) hash[this.config.urlKeyNames.year] = this.state.year.hash;
+		if (this.state.model.hash) hash[this.config.urlKeyNames.model] = this.state.model.hash;
+		if (this.state.assembly.hash) hash[this.config.urlKeyNames.assembly] = this.state.assembly.hash;
+		if (this.state.part.hash) hash[this.config.urlKeyNames.part] = this.state.part.hash;
+		var paramString = $.param(hash);
+		history.pushState(hash, document.title, this.state.pageURL + (paramString ? '#' + paramString : ''));
+	},
+	popState: function(event) {
+		this.parseHash(event.originalEvent.state);
+	},
+	printDiagram: function() {
+		var params = {
+			brand: this.state.brand.code,
+			vehicle: this.state.vehicle.code,
+			year: this.state.year.code,
+			model: this.state.model.code,
+			assembly: this.state.assembly.code
+		};
+		window.open(this.config.print.diagramURL + '?' + $.param(params), '_blank', 'width=500, height=500, toolbar=no, scrollbars=yes');
+	},
+	showHiddenPrice: function(sender, display) {
+		var popup = $('#arioem-partlist-seePriceInCartPopup');
+		var isShown = popup.hasClass('oempart-visible');
+		if (!display) {
+			display = isShown ? -1 : 1;
+		}
+		if (display < 0) {
+			popup.removeClass('oempart-visible');
+			return;
+		}
+		if (isShown) return;
+		popup.addClass('oempart-visible');
+		if (null !== sender) {
+			var bubbleElement = $(sender);
+			var cellPosition = {left: 0, top: 0};
+			while (		!bubbleElement.hasClass('arioem-step-content-part-partlist')
+					&&	('HTML' !== bubbleElement.prop('tagName').toUpperCase())
+			) {
+				var bePos = bubbleElement.position();
+				cellPosition.left += bePos.left;
+				cellPosition.top += bePos.top;
+				bubbleElement = bubbleElement.offsetParent();
+			}
+			popup.css({
+				left: cellPosition.left - popup.outerWidth() + 'px',
+				top: cellPosition.top + 'px'
+			});
+		}
+	}
+};}(jQuery);};
+
+jQuery(document).ready(function() {
+	oemPartSelector = new OEMPartSelector();
+	oemPartSelector.init({
+		baseURL: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php')) ?>',
+		assemblyImageBaseURL: '<?php echo $this->getUrl('', array('_direct' => 
+			'arioem/index.php?action=image&brandCode=%BRAND%&parentId=%PARENT_ID%&assemblyId=%ASSEMBLY_ID%&width=%WIDTH%&resizeBy=small')) ?>',
+		loadingImageUrl: '<?php echo $this->getSkinUrl('arioem/images/partcenter/loading-img-bg.png') ?>',
+		addToCartURL: '<?php echo $this->getUrl('arioem/partcenter/add') ?>',
+		refreshCartItemsUrl: '<?php echo $this->getUrl('arioem/partcenter/cartItems') ?>',
+		print: {
+			diagramURL: '<?php echo $this->getUrl('arioem/partcenter/printDiagram') ?>'
+		},
+		customerId: <?php echo (int)Mage::getSingleton('customer/session')->getCustomerId() ?>
+	}, {
+		cartItems: <?php echo json_encode(Vikont_ARIOEM_Helper_OEM::getSortedCartOEMItems()) ?>
+	});
 });
 
 </script>

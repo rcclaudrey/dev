@@ -87,7 +87,8 @@ class Vikont_ARIOEM_CartController extends Mage_Core_Controller_Front_Action
 
 				$cart->addProduct($product, $addToCartParams);
 
-				$brandName = $oemBrands->getOptionText($itemData['brand']);
+//				$brandName = $oemBrands->getOptionText($itemData['brand']);
+				$brandName = Vikont_ARIOEM_Model_Oem_Part::getBrandNameByShortname($itemData['brand']);
 
 				if(!count($cart->getItems())) {
 					$cart->save();

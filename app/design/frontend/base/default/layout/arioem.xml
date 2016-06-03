@@ -5,7 +5,7 @@
 		<reference name="head">
 			<action method="addItem">
 				<type>skin_css</type>
-				<name>arioem/arioem.css</name>
+				<name>arioem/shopList.css</name>
 			</action>
 		</reference>
 	</default>
@@ -22,8 +22,67 @@
 			</action>
 		</reference>
 		<reference name="content">
-			<block type="arioem/parts_part" name="arioem_part" />
+			<block type="arioem/part_landing_part" name="arioem_part_landing_part" />
 		</reference>
 	</arioem_parts_index>
+
+
+    <arioem_partcenter_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/partSelector.css</name>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/partSelectorWide.css</name>
+			</action>
+			<action method="addJs">
+				<script>arioem/jquery.mousewheel.min.js</script>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="arioem/part_selector" name="arioem_part_selector" />
+		</reference>
+	</arioem_partcenter_index>
+
+
+    <arioem_partcenter_search>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/partSearch.css</name>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="arioem/part_search" name="arioem_part_search" />
+		</reference>
+	</arioem_partcenter_search>
+
+
+	<arioem_shoppinglist_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="arioem/shoppinglist" name="arioem_shoppinglist" />
+		</reference>
+	</arioem_shoppinglist_index>
+
+
+	<arioem_shoppinglist_cart>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="arioem/shoppinglist_cart" name="arioem_shoppinglist_cart" />
+		</reference>
+	</arioem_shoppinglist_cart>
 
 </layout>

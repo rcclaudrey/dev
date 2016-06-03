@@ -343,3 +343,12 @@ span.ariToolTipMSRP::after {
     margin-left: 10px;
     font-weight: bold;
 }
+
+/* temporarily hiding the parts table until finished managing it */
+/*.cms-oem-part-html #ariPartList {
+    display: none;
+}*/
+.listTD:eq(6),
+.ariPLMulti {
+    text-align: center;
+}

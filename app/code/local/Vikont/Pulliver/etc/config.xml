@@ -154,7 +154,7 @@
                         <table>sku</table>
                     </sku>
                     <price>
-                        <table>oem_prices</table>
+                        <table>oem_cost</table>
                     </price>
                 </entities>
             </oemdb_mysql4>

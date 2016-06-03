@@ -45,7 +45,7 @@ class Vikont_Fitment_GroupedController extends Mage_Core_Controller_Front_Action
 		$vehicleName = $this->getRequest()->getParam('vehicle');
 		$tmsActivityId = $this->getRequest()->getParam('activity');
 		$ariProductId = $this->getRequest()->getParam('product'); // ARI product ID
-		$productId = $this->getRequest()->getParam('parent'); // ID of grouped product in Magento
+		$productId = $this->getRequest()->getParam('parent'); // ID of the grouped product in Magento
 
 		$ride = Mage::helper('fitment')->setCurrentRide($tmsActivityId, $fitmentId, $vehicleName);
 		$product = Mage::getModel('catalog/product')->load($productId);

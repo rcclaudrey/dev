@@ -19,7 +19,7 @@ $setup->addAttribute('order', Vikont_EVOConnector_Helper_Data::ORDER_EVO_STATUS_
 ));/**/
 
 $setup->addAttribute(Mage_Sales_Model_Order::ENTITY, Vikont_EVOConnector_Helper_Data::ORDER_EVO_STATUS_FIELD, array(
-        'type' => 'static', // varchar
+		'type' => 'static', // varchar
 		'required' => 0,
 		'label' => 'EVO Order State',
 		'default' => 0,

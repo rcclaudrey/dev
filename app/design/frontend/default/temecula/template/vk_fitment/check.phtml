@@ -195,7 +195,7 @@ Result Data - Object array with Results as array<ArrayOfSku>
 - ID - ID for this SKU. (int)
 - Brand - Brand for this SKU. (string)
 - Name - Name for this SKU. (string)
-- MfgSku - The manufacturer’s SKU code for this item. (string)
+- MfgSku - The manufacturer's SKU code for this item. (string)
 - MSRP - MSRP price for this item
 - ImageURL - URL for the default image for this item.
 DESCR
@@ -215,7 +215,7 @@ Result Data - Object array with Results as array<ArrayOfSku>
 - ID - ID for this SKU. (int)
 - Brand - Brand for this SKU. (string)
 - Name - Name for this SKU. (string)
-- MfgSku - The manufacturer’s SKU code for this item. (string)
+- MfgSku - The manufacturer's SKU code for this item. (string)
 - MSRP - MSRP price for this item
 - ImageURL - URL for the default image for this item.
 - Description - Description information for this SKU. (string)
@@ -271,6 +271,340 @@ DESCR
 		'mandatory_fields' => array('productID'),
 		'optional_fields' => array(),
 	),
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+/*
+
+
+
+
+
+
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - NEW API
+
+	'NodeChildren' => array(
+		'name' => 'Node Children',
+		'description' => <<<'DESCR'
+Returns the organizational data of the catalog.
+URL - /RestAPI/NodeChildren/{brandCode}/{parentId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of parent Node. (Int). Top-level ID is -1.
+Result Data - Object List NodeChildren
+- IsParent is an important field as it notes the end of organizational data and the beginning of Assembly Data. To retrieve Assembly data for nodes where IsParent is False, use the AssemblyInfo call.
+- ID - ID of this result node
+- ParentID - ID of parent node
+- ParentName - Name of parent node
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId'),
+		'optional_fields' => array(),
+	),
+
+	'SearchModelAssemblies' => array(
+		'name' => 'Search Model Assemblies',
+		'description' => <<<'DESCR'
+Returns a list of assemblies that belong to a matching model.
+URL - /RestAPI/SearchModelAssemblies/{brandCode}/{modelId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelId} - Model ID to look up children assemblies.
+Result Data - Object List<NodeChildren>
+- Use Id and ParentId to get assembly information by calling AssemblyInfo.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelId'),
+		'optional_fields' => array(),
+	),
+
+	'ModelAutoComplete' => array(
+		'name' => 'Model Auto Complete',
+		'description' => <<<'DESCR'
+Searches for matching model names by a wildcard match for the purpose of providing search suggestions.
+URL - /RestAPI/ModelAutoComplete/{brandCode}/{modelName}/{numberOfResults}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelName} - Model name search text. (string)
+- {numberOfResults} - Number of matches to return. Optional, defaults to 10. Max value of 25. (int)
+Result Data - Object List <ModelAutoComplete>
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelName'),
+		'optional_fields' => array('numberOfResults'),
+	),
+
+	'SearchModel' => array(
+		'name' => 'Search Model',
+		'description' => <<<'DESCR'
+Searches for all matching models by a wildcard match against a given model name.
+URL - /RestAPI/SearchModel/{brandCode}/{model}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {model} - Model name to match for. (string)
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional, defaults to 50. (int)
+Result Data - Object SearchResult with Results as List <SearchModel>
+- ModelId - Use the model id to retrieve assemblies by calling SearchModelAssemblies.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'model'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartModels' => array(
+		'name' => 'Search Part Models',
+		'description' => <<<'DESCR'
+Returns a list of models that a given part is found in.
+URL - /RestAPI/SearchPartModels/{brandCode}/{sku}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {Sku} - Part sku to find models for.
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional, defaults to 100.
+(int)
+Result Data - Object SearchResult with Results as List<SearchModel>
+- ModelId - Use the model id to retrieve assemblies that the matching part is a part of by calling SearchPartModelAssemblies.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'sku'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'PartAutoComplete' => array(
+		'name' => 'Part Auto Complete',
+		'description' => <<<'DESCR'
+Searches for matching part sku by a wildcard match for the purpose of providing search suggestions.
+URL - /RestAPI/PartAutoComplete/{brandCode}/{partSku}/{numberOfResults}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {partSku} - Part name search text. (string)
+- {numberOfResults} - Number of matches to return. Optional, defaults to 10. Max value of 25. (int)
+Result Data - Object List <PartAutoComplete>
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'partSku'),
+		'optional_fields' => array('numberOfResults'),
+	),
+
+	'SearchParts' => array(
+		'name' => 'Search Parts',
+		'description' => <<<'DESCR'
+Searches for all matching parts by a wildcard match against a part sku or description.
+URL - /RestAPI/SearchParts/{brandCode}/{search}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {search} - Text to search for. (string)
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional defaults to 50. (int)
+Result Data - Object SearchResult with Results as List SearchPart
+- HasModels - If true, call SearchPartModels to get the models that contain a matching part.
+- IsSuperseded - If true, call PartInfo to get newer part information.
+- NLA - Stands for No Longer Available.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'search'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartsWithinModel' => array(
+		'name' => 'Search Parts Within Models',
+		'description' => <<<'DESCR'
+Searches for all the matching parts by a wildcard match against a part sku or description that also belong to matching models also found by a wildcard match.
+URL - /RestAPI/SearchPartsWithinModel/{brandCode}/{modelSearch}/{partSearch}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelSearch} - Text to search for matching models. (string)
+- {partSearch} - Text to search for matching parts within matching models. (string)
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional defaults to 50. (int)
+Result Data - Object SearchResult with Results as List SearchPart
+- HasModels - If true, call SearchPartModelsFiltered to get the models that contain the matching part and match model search text.
+- IsSuperseded - If true, call PartInfo to get newer part information.
+- NLA - Stands for No Longer Available.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelSearch', 'partSearch'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartModelsFiltered' => array(
+		'name' => 'Search Part Models Filtered',
+		'description' => <<<'DESCR'
+Returns a list of models that a given part is found in that also match the model search text.
+URL - /RestAPI/SearchPartModelsFiltered/{brandCode}/{sku}/{modelName}/{page}/{pageSize}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {sku} - Part sku to find models for.
+- {modelName} - Model search text to find matching models against.
+- {page} - Page number to return. Optional, defaults to 1. (int)
+- {pageSize} - Number of matches to return per page. Optional, defaults to 100. (int)
+Result Data - Object SearchResult with Results as List SearchModel
+- ModelId - Use model id to retrieve assemblies that a matching part is a part of by calling SearchPartModelAssemblies.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'sku', 'modelName'),
+		'optional_fields' => array('page', 'pageSize'),
+	),
+
+	'SearchPartModelAssemblies' => array(
+		'name' => 'Search Part Model Assemblies',
+		'description' => <<<'DESCR'
+Returns a list of assemblies that belong to a matching model and that contain the matching part.
+URL - /RestAPI/SearchPartModelAssemblies/{brandCode}/{modelId}/{sku}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {modelId} - Model ID used to find children assemblies.
+- {sku} - Part Sku to filter assemblies to only ones that contain the specified part.
+Result Data - Object List<NodeChildren>
+- Use Id and ParentId to get assembly information by calling AssemblyInfo.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'modelId', 'sku'),
+		'optional_fields' => array(),
+	),
+
+	'AssemblyInfo' => array(
+		'name' => 'Assembly Info',
+		'description' => <<<'DESCR'
+Returns the image, hotspots, and part list for a given assembly.
+URL - /RestAPI/AssemblyInfo/{brandCode}/{parentId}/{assemblyId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of the parent node of the assembly. (int)
+- {assemblyId} - ID of the assembly. (int)
+Result Data - Object AssemblyInfo
+- AssemblyId - The ID for this assembly
+- Name - The assembly name
+- ParentId - ID for the parent node
+- ParentName - Name for parent node
+- ImageURL - To access an image, you must pass the requesting page URL in the Query String as ariv. To change zoom levels, modify ariz. Valid zoom levels are -1 to 5.
+- HotSpots - List of hotspots and locations, calculated off of the default zoom level of 1.
+- Parts - List of parts associated with this assembly.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId', 'assemblyId'),
+		'optional_fields' => array(),
+	),
+
+	'AssemblyInfoNoHotSpot' => array(
+		'name' => 'Assembly Info No Hotspots',
+		'description' => <<<'DESCR'
+Returns the image and part list for a given assembly. No hotspot data is returned.
+URL - /RestAPI/AssemblyInfoNoHotSpot/{brandCode}/{parentId}/{assemblyId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of the parent node of the assembly. (int)
+- {assemblyId} - ID of the assembly. (int)
+Result Data - Object AssemblyInfo
+- NLA - Stands for No Longer Available.
+- ImageURL - To access the image, you must pass the requesting page URL in the Query String as ariv. To change zoom levels, modify ariz. Valid zoom levels are - 1 to 5.
+- IsSuperseded - If true, the original part data is prefixed by Org.
+- HotSpots - Value is null.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId', 'assemblyId'),
+		'optional_fields' => array(),
+	),
+
+	'AssemblyImage' => array(
+		'name' => 'Assembly Image',
+		'description' => <<<'DESCR'
+Returns the image for a given assembly.
+URL - /RestAPI/AssemblyImage/{brandCode}/{parentId}/{assemblyId}/{width}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {parentId} - ID of the parent node of the assembly. (int)
+- {assemblyId} - ID of the assembly. (int)
+- {width} - Desired width of the image. (int)
+Result Data - GIF image
+- Content-type: Image/GIF
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'parentId', 'assemblyId', 'width'),
+		'optional_fields' => array(),
+	),
+
+	'hotspots' => array(
+		'name' => 'Hotspots',
+		'description' => <<<'DESCR'
+Returns hotspot data for a given assembly image at specified zoom level.
+URL - /RestAPI/Hotspots/{brandCode}/{assemblyId}/{zoomLevel}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {assemblyId} - Assembly Id for assembly that the hotspots are for.
+- {zoomLevel} - Desired zoom level of image hotspots.
+Result Data - Object List HotSpot
+- Tag - Matches part tag.
+- TopLeft - The top-left point relative to the image dimensions by x y coordinates.
+- BottomRight - The bottom-right point relative to the image dimensions by x y coordinates.
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', ''),
+		'optional_fields' => array(),
+	),
+
+	'partinfo' => array(
+		'name' => 'Part Info',
+		'description' => <<<'DESCR'
+Returns part data for an individual part.
+URL - /RestAPI/PartInfo/{brandCode}/{partId}
+Parameters:
+- {brandCode} - Brand Code for the catalog to be queried. (string)
+- {partId} - ID for the Part. (int)
+Result Data - Object Part
+- NLA - Stands for No Longer Available.
+- ImageURL - Url for this part's image. May be null. Only available for select catalogs.
+- IsSuperseded - If true, the original part data is prefixed by Org.
+- Description - Part description
+- MSRP - MSRP for this part
+- OrgDescription - If there is a prior part, the prior part's description
+- OrgSKU - If there is a prior part, the prior part's SKU
+- SKU - SKU / part number for this part
+- SortTag - Sort order for this part on its associated assembly
+- Tag - Reference tag for this part
+DESCR
+		,
+		'mandatory_fields' => array('brandCode', 'partId'),
+		'optional_fields' => array(),
+	),
+
+	'brands' => array(
+		'name' => 'Brand List',
+		'description' => <<<'DESCR'
+Not sure how this can be retrieved, but it seems the brand list is static and predefined, so here're the values:
+BRP		Can-Am (Bombardier)
+HOM		Honda
+HONPE		Honda Power Equipment
+KUS		Kawasaki
+POL		Polaris
+BRP_SEA		Sea-Doo
+SUZ		Suzuki Motor of America, Inc
+VIC		Victory
+YAM		Yamaha
+DESCR
+		,
+		'mandatory_fields' => array(),
+		'optional_fields' => array(),
+	),
+
+//	'' => array(
+//		'name' => '',
+//		'description' => <<<'DESCR'
+//
+//DESCR
+//		,
+//		'mandatory_fields' => array('brandCode', ''),
+//		'optional_fields' => array(),
+//	),
+
+
+/**/
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 );
 

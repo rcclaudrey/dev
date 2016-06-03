@@ -1,5 +1,7 @@
 <?php
 
+include_once(MAGENTO_ROOT .'/Vic.php');
+
 class Vikont_ARIOEM_CheckController extends Mage_Core_Controller_Front_Action
 {
 
@@ -44,7 +46,7 @@ Mage::register('vd', 1);
 		$time = round(microtime(true) - $time, 3);
 
 		if(isset($data['responseType']) && $data['responseType'] == 'image') {
-			$fileName = 'arioem-images/' . implode('-', $params) . '.gif';
+			$fileName = 'arioem-check-images/' . implode('-', $params) . '.gif';
 			$filePath = Mage::getModel('core/config')->getBaseDir('media') . '/' . $fileName;
 			$imageDirPath = dirname($filePath);
 

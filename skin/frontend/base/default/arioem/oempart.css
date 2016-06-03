@@ -63,11 +63,11 @@
 	background: transparent url("images/btn-green-right.png") no-repeat scroll right center;
 }
 .oempart-nwhatlfor-link span span {
-    display: inline-block;
+	display: inline-block;
 	height: 42px;
-    padding: 0 5px;
+	padding: 0 5px;
 	line-height: 42px;
-    background: transparent url("images/btn-green-bg.png") repeat-x scroll center center;
+	background: transparent url("images/btn-green-bg.png") repeat-x scroll center center;
 	color: #fff;
 	font-size: 16px;
 	font-weight: bold;
@@ -88,13 +88,24 @@
 	margin: 10px 0;
 	font-size: 36px;
 }
+.oempart-cinfo-NA {
+	padding: 40px 20px;
+	border: 2px solid #aaa;
+	border-radius: 8px;
+	font-size: 22px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	background-color: #de1f27;
+	color: #fff;
+}
 
 .oempart-cinfo-prices {}
 
 .oempart-cinfo-price-msrp {
 	float: left;
 	margin-right: 30px;
-    font-size: 18px;
+	font-size: 18px;
 }
 .oempart-cinfo-price-msrp-label {}
 .oempart-cinfo-price-msrp-value {
@@ -119,6 +130,45 @@
 .oempart-cinfo-price-regular-value {
 	color: #fe0000;
 }
+.oempart-cinfo-price-seeInCart {
+	position: relative;
+	float: left;
+	font-size: 18px;
+	text-transform: uppercase;
+}
+.oempart-cinfo-price-seeInCart-label {}
+.oempart-cinfo-price-seeInCart-link {
+	color: red;
+	cursor: pointer;
+}
+.oempart-cinfo-price-seeInCart-popup {
+	display: none;
+	position: absolute;
+	z-index: 10;
+	left: 0;
+	/*bottom: 30px;*/
+	width: 280px;
+	padding: 0 20px;
+	border: 2px solid #aaa;
+	border-radius: 5px;
+	background-color: #eee;
+	text-align: justify;
+	font-size: 14px;
+}
+.oempart-cinfo-price-seeInCart-popup p {
+	margin: 10px 0;
+}
+.oempart-cinfo-price-seeInCart-popup h5 {
+	margin: 20px 0 10px;
+	font-weight: bold;
+}
+/*.oempart-cinfo-price-seeInCart:hover .oempart-cinfo-price-seeInCart-popup,*/
+.oempart-cinfo-price-seeInCart-popup.oempart-visible {
+	display: block;
+}
+.oempart-seePriceInCart .oempart-cinfo-price-msrp-value {
+	text-decoration: none;
+}
 
 .oempart-cinfo-info {
 	margin: 15px 0;
@@ -129,9 +179,9 @@
 	list-style-position: inside;
 }
 .oempart-cinfo-info-tip {
-    margin: 0 0 8px;
+	margin: 0 0 8px;
 	font-size: 16px;
-    font-style: italic;
+	font-style: italic;
 	color: #fff;
 	text-transform: uppercase;
 }
@@ -148,6 +198,7 @@
 	text-transform: uppercase;
 }
 .oempart-cinfo-qty input {
+	width: 40px;
 	padding: 2px 5px;
 	border: 2px solid #000;
 	text-align: center;
@@ -158,14 +209,14 @@
 }
 .oempart-cinfo-stockstatus .availability {}
 .oempart-cinfo-stockstatus .availability.in-stock {
-    display: inline-block;
-    width: 87px;
-    height: 21px;
-    margin: 0 10px 0 0;
-    line-height: 21px;
+	display: inline-block;
+	width: 87px;
+	height: 21px;
+	margin: 0 10px 0 0;
+	line-height: 21px;
 	background: transparent url("images/instock.jpg") no-repeat scroll 0 0;
-    vertical-align: middle;
-    color: transparent;
+	vertical-align: middle;
+	color: transparent;
 }
 .oempart-cinfo-stockstatus-shippingterm {
 	font-size: 16px;
@@ -250,8 +301,12 @@
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - SERVICE STUFF */
 .oempart-tabs-content {
+	box-sizing: border-box;
+	width: 100%;
 	border-bottom: 2px solid;
 	border-left: 2px solid;
 	border-right: 2px solid;
 	padding: 30px 20px;
 }
+
+.oempart-image {}

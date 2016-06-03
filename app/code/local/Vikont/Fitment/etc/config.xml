@@ -81,6 +81,58 @@
 			</resources>
 		</acl>
 
+		<events>
+<!--			<controller_action_predispatch_adminhtml_cache_massRefresh>
+				<observers>
+					<fitment>
+						<type>singleton</type>
+						<class>fitment/observer</class>
+						<method>controller_action_predispatch_adminhtml_cache_massRefresh</method>
+					</fitment>
+				</observers>
+			</controller_action_predispatch_adminhtml_cache_massRefresh>
+			<controller_action_predispatch_adminhtml_cache_flushAll>
+				<observers>
+					<fitment>
+						<type>singleton</type>
+						<class>fitment/observer</class>
+						<method>controller_action_predispatch_adminhtml_cache_flushAll</method>
+					</fitment>
+				</observers>
+			</controller_action_predispatch_adminhtml_cache_flushAll>
+			<controller_action_predispatch_adminhtml_cache_flushSystem>
+				<observers>
+					<fitment>
+						<type>singleton</type>
+						<class>fitment/observer</class>
+						<method>controller_action_predispatch_adminhtml_cache_flushSystem</method>
+					</fitment>
+				</observers>
+			</controller_action_predispatch_adminhtml_cache_flushSystem>-->
+
+<!--!!!-->
+			<adminhtml_cache_refresh_type>
+				<observers>
+					<fitment>
+						<type>singleton</type>
+						<class>fitment/observer</class>
+						<method>adminhtml_cache_refresh_type</method>
+					</fitment>
+				</observers>
+			</adminhtml_cache_refresh_type>
+
+			<adminhtml_cache_flush_all>
+				<observers>
+					<fitment>
+						<type>singleton</type>
+						<class>fitment/observer</class>
+						<method>adminhtml_cache_flush_all</method>
+					</fitment>
+				</observers>
+			</adminhtml_cache_flush_all>
+<!--!!!-->
+		</events>
+
 	</adminhtml>
 
 
@@ -130,6 +182,28 @@
 				</connection>
 			</fitment_setup>
         </resources>
+
+		<cache>
+			<types>
+				<ariapi translate="label,description" module="fitment">
+					<label>ARI API</label>
+					<description>ARI API cached requests</description>
+					<tags>ARI</tags>
+				</ariapi>
+			</types>
+		</cache>
+
+		<events>
+			<application_clean_cache>
+				<observers>
+					<fitment>
+						<type>singleton</type>
+						<class>fitment/observer</class>
+						<method>application_clean_cache</method>
+					</fitment>
+				</observers>
+			</application_clean_cache>
+		</events>
 
 	</global>
 

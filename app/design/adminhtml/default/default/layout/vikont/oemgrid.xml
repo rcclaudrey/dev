@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<layout>
+
+	<default>
+		<reference name="head">
+			<action method="addJs">
+				<file>oem/adminhtml/dropzone.js</file>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>oem/oemGrid.css</name>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>oem/oemImport.css</name>
+			</action>
+			<action method="addJs">
+				<file>oem/adminhtml/oemGrid.js</file>
+			</action>
+			<action method="addJs">
+				<file>oem/adminhtml/oemImport.js</file>
+			</action>
+		</reference>
+	</default>
+
+
+	<oemgrid_adminhtml_index_index>
+		<reference name="content">
+			<block type="oemgrid/adminhtml_part" name="oemgrid_adminhtml_part" />
+		</reference>
+	</oemgrid_adminhtml_index_index>
+
+
+	<oemgrid_adminhtml_index_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="oemgrid/adminhtml_part_grid" name="oemgrid_part_grid" />
+		</block>
+	</oemgrid_adminhtml_index_grid>
+
+
+	<oemgrid_adminhtml_import_index>
+		<reference name="content">
+			<block type="oemgrid/adminhtml_part_import" name="oemgrid_adminhtml_part_import" />
+		</reference>
+	</oemgrid_adminhtml_import_index>
+
+</layout>

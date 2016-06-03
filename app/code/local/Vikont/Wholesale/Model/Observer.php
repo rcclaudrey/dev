@@ -37,11 +37,15 @@ class Vikont_Wholesale_Model_Observer
 
 	public function customer_save_after($data)
 	{
+		$customer = $data->getData('customer');
+
+		Mage::helper('wholesale/email')->notifyOnCustomerChange($customer);
+
 		// saving this value doesn't make much sense, just indicating we need to inform a customer on his status change
 		$previousDealerStatus = Mage::registry('customer_previous_dealer_status');
 
 		if(null !== $previousDealerStatus) {
-			$currentDealerStatus = $data->getData('customer')->getData(Vikont_Wholesale_Helper_Data::ATTR_DEALER_STATUS);
+			$currentDealerStatus = $customer->getData(Vikont_Wholesale_Helper_Data::ATTR_DEALER_STATUS);
 
 			switch($currentDealerStatus) {
 //				case Vikont_Wholesale_Model_Source_Dealer_Status::NONE:
@@ -54,11 +58,11 @@ class Vikont_Wholesale_Model_Observer
 
 				case Vikont_Wholesale_Model_Source_Dealer_Status::APPROVED:
 					// send the "approved" email
-					Mage::helper('wholesale/email')->notifyCustomer($data['customer']->getId(), 'dealer_status_approved');
+					Mage::helper('wholesale/email')->notifyCustomer($customer->getId(), 'dealer_status_approved');
 					break;
 
 				case Vikont_Wholesale_Model_Source_Dealer_Status::DECLINED:
-					Mage::helper('wholesale/email')->notifyCustomer($data['customer']->getId(), 'dealer_status_declined');
+					Mage::helper('wholesale/email')->notifyCustomer($customer->getId(), 'dealer_status_declined');
 					// send the "declined" email
 					break;
 

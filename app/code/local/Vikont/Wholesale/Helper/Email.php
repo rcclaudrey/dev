@@ -88,9 +88,74 @@ class Vikont_Wholesale_Helper_Email extends Mage_Core_Helper_Abstract
 
 
 
-	public function notifyAdmin()
+	public function notifyOnCustomerChange($customer)
 	{
+		if (1 == $customer->getGroupId()) { // General customer group
+			return false;
+		}
 
+		$where = Mage::getStoreConfig('wholesale/email/customer_change_sendto');
+		if (!$where) return false;
+
+		$customerHelper = Mage::helper('wholesale/customer');
+
+		$diff = $customerHelper->compareCustomerData($customer->getOrigData(), $customer->getData());
+		if (!count($diff)) {
+			return false;
+		}
+
+		$updatedFields = $customerHelper->explainCustomerFields($diff);
+		$allFields = $customerHelper->explainCustomerFields($customer->getData());
+
+//		Mage::getDesign()->setArea('frontend') //Area (frontend|adminhtml)
+//			->setPackageName('default')
+//			->setTheme('temecula');
+
+		$data = array(
+			'customer' => $customer,
+			'fields_changed' => $updatedFields,
+			'fields_changed_html' => Mage::app()->getLayout()
+				->createBlock('core/template')
+					->setTemplate('vk_wholesale/customer/table-2col.phtml')
+					->setTableClass('wholesale-customer-info-changed')
+					->setHeadRows(array(array(
+							'label' => $this->__('Field'),
+							'value' => $this->__('Previous value'),
+						)))
+					->setBodyRows($updatedFields)
+					->toHtml(),
+			'full_info_html' => Mage::app()->getLayout()
+				->createBlock('core/template')
+					->setTemplate('vk_wholesale/customer/table-2col.phtml')
+					->setTableClass('wholesale-customer-info-changed')
+					->setHeadRows(array(array(
+							'label' => $this->__('Field'),
+							'value' => $this->__('Changed to'),
+						)))
+					->setBodyRows($allFields)
+					->toHtml(),
+			
+		);
+
+		$template = Mage::getStoreConfig('wholesale/email/customer_change_template');
+		$whom = $this->__('Customer Manager');
+		$storeId = Mage::app()->getStore()->getId();
+
+		$emailTemplate = Mage::getModel('core/email_template')
+			->setDesignConfig(array(
+					'area'  => 'frontend',
+					'store' => $storeId,
+				))
+			->sendTransactional(
+				$template,
+				Mage::getStoreConfig('wholesale/email/sender_email_identity'),
+				$where,
+				$whom,
+				$data,
+				$storeId
+			);
+
+		return $emailTemplate->getSentSuccess();
 	}
 
 }

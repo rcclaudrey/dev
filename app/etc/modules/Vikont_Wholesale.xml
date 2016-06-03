@@ -1,12 +1,12 @@
-<?xml version="1.0"?>
-<config>
-	<modules>
-		<Vikont_Wholesale>
-			<active>true</active>
-			<codePool>local</codePool>
-			<depends>
-				<Mage_Customer/>
-			</depends>
-		</Vikont_Wholesale>
-	</modules>
-</config>
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Vikont_Wholesale>
+			<active>true</active>
+			<codePool>local</codePool>
+			<depends>
+				<Mage_Customer/>
+			</depends>
+		</Vikont_Wholesale>
+	</modules>
+</config>

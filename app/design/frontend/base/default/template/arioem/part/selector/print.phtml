@@ -1,0 +1,44 @@
+<?php
+
+$assemblyInfo = $this->getAssemblyInfoFormatted();
+$assemblyUrl = $this->getAssemblyUrl();
+
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Motorcycle Riding Gear, OEM Parts, Accessories and Casual Wear – TMSPARTS.com</title>
+	<meta name="description" content="TMSPARTS.COM offers a large selection of Motorcycle, ATV, UTV, Dirtbike and Watercraft gear, apparel, accessories and factory direct OEM parts at a low price with free shipping over $89 on top brands like Icon, Fox, Troy Lee Designs… TMSPARTS.com is your one stop shop for quality motorcycle riding gear at a great price." />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="INDEX,FOLLOW" />
+	<link rel="icon" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'favicon/default/fav-5.png' ?>" type="image/x-icon" />
+	<link rel="shortcut icon" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'favicon/default/fav-5.png' ?>" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('arioem/partSelectorPrint.css') ?>" media="all" />
+	<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS) . 'jQuery/jquery-1.10.2.min.js' ?>"></script>
+</head>
+<body class="aoempc-print">
+	<div class="aoempc-print-header">
+		<img src="<?php echo $this->getSkinUrl('images/header/logo-temecula.png') ?>" title="<?php echo $this->__('TMSParts Logo') ?>" />
+	</div>
+	<div class="aoempc-print-content">
+		<div class="aoempc-print-content-info">
+			<span class="aoempc-print-content-info-label"><?php echo $this->__('Assembly diagram for:') ?></span>
+			<span class="aoempc-print-content-info-value"><?php echo htmlspecialchars($assemblyInfo) ?></span>
+		</div>
+		<img src="<?php echo $this->getAssemblyImageUrl() ?>" alt="<?php echo $this->__('Assembly diagram') ?>" />
+	</div>
+	<div class="aoempc-print-footer clearer">
+		<div class="aoempc-print-footer-copyright">&copy; Temecula Motor Sports <a href="//:www.tmsparts.com/">www.TMSParts.com</a></div>
+		<div class="aoempc-print-footer-pageUrl">
+			<span><?php echo $this->__('Page URL:') ?></span>
+			<a href="<?php echo $assemblyUrl ?>"><?php echo $assemblyUrl ?></a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			window.print();
+		}); 
+	</script>
+</body>
+</html>

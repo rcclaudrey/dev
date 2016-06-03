@@ -176,11 +176,11 @@
 					<use>oemdb_database</use>
 				</connection>
 			</oemdb_read>
-<!--			<oemdb_write>
+			<oemdb_write>
                 <connection>
                     <use>oemdb_database</use>
                 </connection>
-            </oemdb_write>
+            </oemdb_write><!--
             <oemdb_setup>
                 <connection>
                     <use>core_setup</use>
@@ -210,6 +210,10 @@
 			<parts>
 				<shortname>oem</shortname>
 			</parts>
+			<partcenter>
+				<shortname>partcenter</shortname>
+				<!--<shortname_search>search</shortname_search>-->
+			</partcenter>
 			<api>
 				<api_url>https://services.arinet.com/PartStream/</api_url>
 				<app_key>9oiOWqDlvNLyUXT4Qtun</app_key>
@@ -227,6 +231,7 @@ spyder=HONPE,
 kawasaki=KUS,
 polaris=POL,
 seadoo=BRP_SEA,
+slingshot=SLN,
 suzuki=SUZ,
 victory=VIC,
 yamaha=YAM]]></ari_brands_codes>
@@ -234,6 +239,13 @@ yamaha=YAM]]></ari_brands_codes>
 			</ari>
 			<add_to_cart>
 				<dummy_product>oem-dummy</dummy_product>
+				<dummy_product_brand_option_id></dummy_product_brand_option_id>
+				<dummy_product_year_option_id></dummy_product_year_option_id>
+				<dummy_product_model_option_id></dummy_product_model_option_id>
+				<dummy_product_partNo_option_id></dummy_product_partNo_option_id>
+				<oem_product_attr_set_id></oem_product_attr_set_id>
+				<!--<dummy_product_name_template>OEM %PART_NUMBER% FOR %BRAND% %MODEL_NAME% %YEAR%</dummy_product_name_template>-->
+				<dummy_product_name_template>OEM %PART_NAME% (%PART_NUMBER%) FOR %BRAND% %MODEL% %YEAR%</dummy_product_name_template>
 			</add_to_cart>
 		</arioem>
 

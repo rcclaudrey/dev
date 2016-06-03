@@ -1,0 +1,13 @@
+<?php
+
+$items = $this->getAssemblyList();
+$sku = $this->getParam('arisku');
+
+?>
+<ul class="oempart-models-assemblies">
+	<?php foreach($items as $item): ?>
+		<li><a href="<?php 
+				echo $this->getUrl('', array('_direct' => 'oem-part.html?' . $sku . '#%SLUG%' . $item['slugA'] . '%TAG%'))
+			?>" title="<?php echo $this->__('View part assembly') ?>"><?php echo htmlspecialchars($item['Name']) ?></a></li>
+	<?php endforeach ?>
+</ul>

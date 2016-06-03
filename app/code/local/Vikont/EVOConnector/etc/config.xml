@@ -94,6 +94,21 @@
 				<class>Vikont_EVOConnector_Model</class>
 				<resourceModel>evoc_mysql4</resourceModel>
 			</evoc>
+			<oemdb>
+				<class>Vikont_EVOConnector_Model</class>
+				<resourceModel>oemdb_mysql4</resourceModel>
+			</oemdb>
+			<oemdb_mysql4>
+                <class>Vikont_EVOConnector_Model_Mysql4</class>
+                <entities>
+                    <cost>
+                        <table>oem_cost</table>
+                    </cost>
+                    <sku>
+                        <table>sku</table>
+                    </sku>
+                </entities>
+            </oemdb_mysql4>
 		</models>
 
 		<resources>
@@ -141,6 +156,9 @@
 				<username>evo</username>
 				<password></password>
 			</auth>
+			<misc>
+				<dummy_user_prefix>G</dummy_user_prefix>
+			</misc>
 		</evoc>
 	</default>
 

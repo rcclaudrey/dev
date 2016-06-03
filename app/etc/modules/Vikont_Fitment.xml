@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
-<config>
-	<modules>
-		<Vikont_Fitment>
-			<active>true</active>
-			<codePool>local</codePool>
-		</Vikont_Fitment>
-	</modules>
-</config>
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Vikont_Fitment>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Vikont_Fitment>
+	</modules>
+</config>

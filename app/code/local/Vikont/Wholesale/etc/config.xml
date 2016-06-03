@@ -184,6 +184,15 @@
 					</wholesale>
 				</observers>
 			</customer_save_after>
+<!--			<customer_address_save_after>
+				<observers>
+					<wholesale>
+						<type>singleton</type>
+						<class>Vikont_Wholesale_Model_Observer</class>
+						<method>customer_address_save_after</method>
+					</wholesale>
+				</observers>
+			</customer_address_save_after>-->
 			<core_block_abstract_to_html_before>
 				<observers>
 					<wholesale>
@@ -235,6 +244,11 @@
 					<file>wholesale_dealerapp_declined.html</file>
 					<type>html</type>
 				</wholesale_email_customer_decline_template>
+				<wholesale_email_customer_changed_template translate="label" module="wholesale">
+					<label>Wholesale - Customer information changed</label>
+					<file>wholesale_customer_changed.html</file>
+					<type>html</type>
+				</wholesale_email_customer_changed_template>
 			</email>
 		</template>
 	</global>
@@ -250,6 +264,9 @@
 				<customer_notify_template>wholesale_email_customer_notify_template</customer_notify_template>
 				<customer_confirm_template>wholesale_email_customer_confirm_template</customer_confirm_template>
 				<customer_decline_template>wholesale_email_customer_decline_template</customer_decline_template>
+
+				<!--<customer_change_sendto></customer_change_sendto>-->
+				<customer_change_template>wholesale_email_customer_changed_template</customer_change_template>
 			</email>
 			<order>
 				<ignore_stock_status>1</ignore_stock_status>

@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
-<config>
-	<modules>
-		<Vikont_EVOConnector>
-			<active>true</active>
-			<codePool>local</codePool>
-		</Vikont_EVOConnector>
-	</modules>
-</config>
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Vikont_EVOConnector>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Vikont_EVOConnector>
+	</modules>
+</config>

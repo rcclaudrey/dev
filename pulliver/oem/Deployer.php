@@ -100,17 +100,16 @@ class Deployer
 
     // Performs single query
     public function dbQuery($sql, $errorMessage)
-    {
+    {/*
         // multi_query version
-        // if(!mysqli_multi_query($this->_link, $sql)) {
-            // return $errorMessage.CR.$sql.CR.mysqli_errno($this->_link).' '.mysqli_error($this->_link);
-        // } else
-            // do {
-                // if ($result = mysqli_store_result($this->_link)) {
-                    // mysqli_free_result($result);
-                // }
-            // } while (mysqli_next_result($this->_link));
-
+		if(!mysqli_multi_query($this->_link, $sql)) {
+			return $errorMessage.CR.$sql.CR.mysqli_errno($this->_link).' '.mysqli_error($this->_link);
+		} else
+			do {
+				if ($result = mysqli_store_result($this->_link)) {
+					mysqli_free_result($result);
+				}
+			} while (mysqli_next_result($this->_link));/**/
         if(!$result = mysqli_query($this->_link, $sql)) {
             self::logMessage($errorMessage.CR.substr($sql, 0, 10000).CR.mysqli_errno($this->_link).' '.mysqli_error($this->_link));
             return false;

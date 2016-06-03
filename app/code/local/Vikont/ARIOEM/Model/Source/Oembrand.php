@@ -2,6 +2,112 @@
 
 class Vikont_ARIOEM_Model_Source_Oembrand extends Vikont_ARIOEM_Model_Source_Abstract
 {
+	protected static $_brandShortNames = array(
+		'ARC' => 'arcticcat',
+		'BRP' => 'canam',
+		'HOM' => 'honda',
+		'HONPE' => 'hondape',
+		'KUS' => 'kawasaki',
+		'POL' => 'polaris',
+		'BRP_SEA' => 'seadoo',
+		'SLN' => 'slingshot',
+		'SUZ' => 'suzuki',
+		'VIC' => 'victory',
+		'YAM' => 'yamaha',
+//		'BRP' => 'Can-Am (Bombardier)',
+//		'HOM' => 'Honda',
+//		'HONPE' => 'Honda Power Equipment',
+//		'KUS' => 'Kawasaki',
+//		'POL' => 'Polaris',
+//		'BRP_SEA' => 'Sea-Doo',
+//		'SLN' => 'Slingshot',
+//		'SUZ' => 'Suzuki Motor of America, Inc',
+//		'VIC' => 'Victory',
+//		'YAM' => 'Yamaha',
+	);
+/*
+ARC	Arctic Cat
+ARN	Ariens
+BBM	Bad Boy Mowers
+BIL	Billy Goat
+BRP	Bombardier
+BRG	Briggs & Stratton
+GEN	Briggs & Stratton Power Products
+MUR	Briggs and Stratton  Yard Power (formerly Murry)
+BRL	Brillion
+BHG	Bush Hog
+CUT	Cub Cadet
+CUC	Cub Commercial
+MCM	Dixie Chopper
+DXN	Dixon
+DOL	Dolmar
+ECH	Echo / Shindaiwa
+EVI	Evinrude
+EXM	eXmark
+FRS	Ferris
+GIA	Giant-Vac
+GRV	Gravely
+GRP	Great Plains
+HYP	Hayter
+	
+HCP	Homelite Consumer Products
+HONENG	Honda Engine
+HONMAR	Honda Marine
+HOM	Honda Motorcycles
+HONPE	Honda Power Equipment
+HUS	Husqvarna Power Equipment
+AYP	Husqvarna / AYP
+EXC	Hustler Turf
+HYG	Hydro-Gear
+TTC	Jacobsen Turf Care
+JDC	John Deere C & CE
+EJP	Johnson
+KAS	Kawasaki Construction
+KWE	Kawasaki Engine
+KUS	Kawasaki Vehicle/PWC
+KTT	Kioti Tractor
+KOH	Kohler Engines
+KTM	KTM
+KRC	Kuhn Krause
+LPD	Land Pride
+LBY	Lawn-Boy Equipment
+MHD	Mahindra
+MCH	McCulloch Power
+	
+MRC	Mercury Marine
+MTD	MTD
+MTP	MTD PRO
+ORC	Oregon Cutting Systems Group
+POL	Polaris
+PLN	Poulan /Weed Eater
+RED	RedMax
+RDD	Ridgid
+RPT	Ryobi Power Tools
+SCG	Scag
+TPI	Schiller Grounds Care
+SCM	Schwinn Motor Scooters
+BRP_SEA	Sea-Doo (Bombardier)
+SMP	Simplicity
+BRP_SKI	Ski-Doo (Bombardier)
+SNP	Snapper
+SPR	Snapper Pro
+STE	Stens
+SUB	Subaru Industrial Power
+SUZ	Suzuki
+TAK	Tanaka US
+TECENG	Tecumseh Power Products
+TCM	Toro Commercial Equipment
+TO	Toro Consumer Equipment
+TIR	Toro Irrigation
+TRB	Troy-Bilt
+UMC	Unverferth
+WLB	Walbro
+WHT	White
+WDS	Woods
+YAM	Yamaha
+YGC	Yamaha Golf Car
+YAM_OUT	Yamaha Outboard
+/**/
 
 	public static function getAllOptionValues()
 	{
@@ -97,6 +203,16 @@ class Vikont_ARIOEM_Model_Source_Oembrand extends Vikont_ARIOEM_Model_Source_Abs
 			'YAM_OUT' => 'Yamaha Outboard',
 			'YGC' => 'Yamaha Golf Car',
 		);
+	}
+
+
+	public static function getShortBrandName($brandCode)
+	{
+		$brandCode = strtoupper($brandCode);
+
+		return isset(self::$_brandShortNames[$brandCode])
+			?	self::$_brandShortNames[$brandCode]
+			:	false;
 	}
 
 }

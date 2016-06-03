@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<modules>
+		<Vikont_OrdersGrid>
+			<version>1.0</version>
+		</Vikont_OrdersGrid>
+	</modules>
+
+
+	<global>
+
+		<blocks>
+			<ordersgrid>
+				<class>Vikont_OrdersGrid_Block</class>
+			</ordersgrid>
+		</blocks>
+
+		<models>
+			<ordersgrid>
+				<class>Vikont_OrdersGrid_Model</class>
+			</ordersgrid>
+		</models>
+
+		<resources>
+			<ordersgrid_setup>
+				<setup>
+					<module>Vikont_OrdersGrid</module>
+					<class>Mage_Sales_Model_Mysql4_Setup</class>
+				</setup>
+			</ordersgrid_setup>
+		</resources>
+
+	</global>
+
+
+	<adminhtml>
+
+		<layout>
+			<updates>
+				<ordersgrid>
+					<file>vikont/ordersgrid.xml</file>
+				</ordersgrid>
+			</updates>
+		</layout>
+
+	</adminhtml>
+
+</config>

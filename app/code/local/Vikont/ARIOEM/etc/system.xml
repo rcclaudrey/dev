@@ -66,8 +66,37 @@
 				</parts>
 
 
+				<partcenter translate="label">
+					<label>Part Center</label>
+					<sort_order>170</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<shortname translate="label">
+							<label>URL short path</label>
+							<comment><![CDATA[To be used instead of site.url/arioem/partcenter URL]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</shortname>
+<!--						<shortname_search translate="label">
+							<label>2nd part of URL short path for Part Search</label>
+							<comment><![CDATA[To be used instead of site.url/arioem/partcenter/search URL]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</shortname_search>-->
+					</fields>
+				</partcenter>
+
+
 				<api translate="label">
-					<label>OEM products API</label>
+					<label>ARI API Connection</label>
 					<sort_order>200</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>0</show_in_website>
@@ -185,20 +214,129 @@ A JavaScript object field declaration syntax having ARI names as keys and desire
 
 
 				<add_to_cart translate="label">
-					<label>Add to Cart</label>
+					<label>OEM Genuine Product Settings</label>
 					<sort_order>400</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>0</show_in_website>
 					<show_in_store>0</show_in_store>
 					<fields>
+						<h0 translate="label">
+							<frontend_model>arioem/adminhtml_system_config_form_field_note</frontend_model>
+							<style><![CDATA[]]></style>
+							<note><![CDATA[<p>First you need to create a dummy OEM product, and, besides the default 
+attributes, assign special custom options to that.</p>
+<p>When some OEM part is added to a cart, the OEM product is initialized with the custom options which values are taken 
+from that part. These options are used later for displaying the product in Cart, Orders, Wishlist, etc.</p>
+]]></note>
+							<sort_order>0</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h0>
+						<h1 translate="label">
+							<label>Initial identification</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>09</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h1>
 						<dummy_product translate="label">
-							<label>OEM dummy product SKU</label>
+							<label>Product SKU</label>
 							<frontend_type>text</frontend_type>
 							<sort_order>10</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</dummy_product>
+						<h2 translate="label">
+							<label>Custom options</label>
+							<frontend_model>arioem/adminhtml_system_config_form_field_heading</frontend_model>
+							<note><![CDATA[
+<p>These are used to assign OEM part attributes to Genuine OEM Product custom options.</p>
+<p style="font-weight:bold;color:red;">WARNING: Prior to entering the below values, you need to enter Product SKU,
+then press Save Config button at the top, otherwise the values will be missing or wrong!<br/>
+This is required to be done each time Genuine OEM Product was changed.</p>
+]]></note>
+							<sort_order>29</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h2>
+						<dummy_product_brand_option_id translate="label">
+							<label>Brand option</label>
+							<frontend_type>select</frontend_type>
+							<source_model>arioem/source_catalog_product_option_custom</source_model>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</dummy_product_brand_option_id>
+						<dummy_product_year_option_id translate="label">
+							<label>Year option</label>
+							<frontend_type>select</frontend_type>
+							<source_model>arioem/source_catalog_product_option_custom</source_model>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</dummy_product_year_option_id>
+						<dummy_product_model_option_id translate="label">
+							<label>Model option</label>
+							<frontend_type>select</frontend_type>
+							<source_model>arioem/source_catalog_product_option_custom</source_model>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</dummy_product_model_option_id>
+						<dummy_product_partNo_option_id translate="label">
+							<label>Part Number option</label>
+							<frontend_type>select</frontend_type>
+							<source_model>arioem/source_catalog_product_option_custom</source_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</dummy_product_partNo_option_id>
+						<h3 translate="label">
+							<label>OEM product identification after placing to a cart</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>69</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</h3>
+						<oem_product_attr_set_id>
+							<label>OEM genuine product attribute set</label>
+							<comment><![CDATA[Used for compatibility]]></comment>
+							<frontend_type>select</frontend_type>
+							<source_model>arioem/source_catalog_product_attribute_set</source_model>
+							<sort_order>70</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</oem_product_attr_set_id>
+						<dummy_product_name_template translate="label">
+							<label>OEM product name template</label>
+							<comment><![CDATA[Used to compose the final OEM product name when adding to a Cart.<br/>
+Variables available are:<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%BRAND%</span>Brand name<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%YEAR%</span>Year<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%VEHICLE%</span>Vehicle type<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%MODEL%</span>Model name<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%ASSEMBLY%</span>Assembly diagram name<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%PART_NUMBER%</span>Part #<br/>
+<span style="color:darkred;display:inline-block;margin-right:10px;min-width:100px;">%PART_NAME%</span>Part name<br/>
+Default template:<br/>
+<span style="color:darkgreen">OEM %PART_NAME% (%PART_NUMBER%) FOR %BRAND% %MODEL% %YEAR%</span>
+]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>80</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</dummy_product_name_template>
 					</fields>
 				</add_to_cart>
 

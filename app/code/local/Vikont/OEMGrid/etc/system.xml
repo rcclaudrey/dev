@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<oemgrid translate="label" module="oemgrid">
+			<label>OEM Parts Manager</label>
+			<tab>vikont</tab>
+			<sort_order>1000</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+<!--				<general translate="label">
+					<label>General</label>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+					</fields>
+				</general>-->
+
+                <import translate="label">
+					<label>Import</label>
+					<sort_order>20</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<upload_path translate="label">
+							<label>Upload path</label>
+							<comment><![CDATA[Relative to Magento root, typically var/import/oem]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</upload_path>
+					</fields>
+				</import>
+
+			</groups>
+		</oemgrid>
+	</sections>
+</config>

@@ -1,0 +1,14 @@
+<!--@subject Customer Information Changed: {{var customer.name}}@-->
+
+{{template config_path="design/email/header"}}
+
+{{inlinecss file="email-inline.css"}}
+
+<h1>Hello,</h1>
+<h2>Please be informed customer {{var customer.full_name}} has changed his information. </h2>
+
+<p>The fields below were changed:</p>
+{{var fields_changed_html}}
+
+<p>Now the profile looks as follows:</p>
+{{var full_info_html}}

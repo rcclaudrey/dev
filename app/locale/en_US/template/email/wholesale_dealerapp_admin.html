@@ -1,0 +1,75 @@
+<!--@subject New Dealer Application has been submitted for your review from {{var application.full_name}}@-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>New Dealer Application</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<h1>A new dealer application from {{var application.full_name}} has been received</h1>
+
+		<p>Dealer application from {{var application.full_name}} &lt;{{var customer.getEmail()}}&gt;, {{var application.getWorkTitle}} at {{var address.getCompany()}}</p>
+
+		<h2>Application sent:</h2>
+
+		<table>
+			<tr>
+				<th colspan="2">Resale certificate</th>
+			</tr>
+			<tr><th>Applicant's full name</th>
+				<td>{{var application.full_name}}</td>
+			</tr>
+			<tr><th>Applicant's work title</th>
+				<td>{{var application.work_title}}</td>
+			</tr>
+			<tr><th>Selling</th>
+				<td>{{var application.parts_sold}}</td>
+			</tr>
+			<tr><th>Seller's permit No</th>
+				<td>{{var application.seller_permit_no}}</td>
+			</tr>
+			<tr><th>Interested in purchasing</th>
+				<td>{{var application.parts_to_purchase}}</td>
+			</tr>
+
+			<tr>
+				<th colspan="2">Survey data</th>
+			</tr>
+			<tr><th>Business experience</th>
+				<td>{{var application.business_experience_term}}</td>
+			</tr>
+			<tr><th>Amount spent in the last year</th>
+				<td>{{var application.amount_spent_for_parts}}</td>
+			</tr>
+			<tr><th>Brands being serviced</th>
+				<td>{{var application.brands_serviced}}</td>
+			</tr>
+			<tr><th>Switch reason</th>
+				<td>{{var application.switch_reason}}</td>
+			</tr>
+
+
+			<tr>
+				<th colspan="2">Survey data</th>
+			</tr>
+			<tr><th>Sent at:</th>
+				<td>{{var date_sent}}</td>
+			</tr>
+
+
+			<tr>
+				<th colspan="2">Address Information</th>
+			</tr>
+			<tr>
+				<td colspan="2">{{var address_html}}</td>
+			</tr>
+
+		</table>
+
+		<a href="https://www.tmsparts.com/admin">Go to Admin section</a>
+		<a href="{{var approve_url}}">Accept application</a>
+		<a href="{{var decline_url}}">Decline application</a>
+
+	</body>
+</html>

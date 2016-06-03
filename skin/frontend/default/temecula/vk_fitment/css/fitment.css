@@ -21,7 +21,7 @@
 	border: 1px solid #aaa;
 	background: #e8e8e8;
 	font-size: 12px;
-	/* text-transform: uppercase; */
+	text-transform: uppercase;
 }
 .fitment-productdetails {
     margin: 20px 0;
@@ -1092,6 +1092,7 @@
 }
 .fitment-popup-fits {
 	font-size: 14px;
+	line-height: 18px;
 	text-transform: uppercase;
 }
 .fitment-popup-fits span {

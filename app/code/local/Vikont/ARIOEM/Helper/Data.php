@@ -7,12 +7,25 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 	const BARCODE_IMAGE_TYPE = 'png';
 
 	protected static $isEnabled = null;
-	protected static $_brands = null;
 	protected static $_customerGroup = null;
+	protected static $_customerCostPercent = null;
 	protected static $_currentBrandName = null;
 
+	protected static $_brands = array(
+		'ARC'		=> 'Arctic Cat',
+		'BRP'		=> 'Can-Am',
+		'HOM'		=> 'Honda',
+		'HONPE'		=> 'Honda Power Equipment',
+		'KUS'		=> 'Kawasaki',
+		'POL'		=> 'Polaris',
+		'BRP_SEA'	=> 'Sea-Doo',
+		'SUZ'		=> 'Suzuki',
+		'SLN'		=> 'Slingshot',
+		'VIC'		=> 'Victory',
+		'YAM'		=> 'Yamaha',
+	);
 
-	public function brandName2Code($brandName)
+	public static function brandName2Code($brandName)
 	{
 		$brandName = strtolower($brandName);
 		$lines = explode(',', Mage::getStoreConfig('arioem/ari/ari_brands_codes'));
@@ -134,34 +147,6 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 
 	public function getBrands()
 	{
-		if(!self::$_brands) {
-			$content = $this->request($this->composeURL(Mage::getStoreConfig('arioem/api/parts_manufacturer')));
-			$content = trim($content, 'document.write(\');');
-			$content = $this->decodeHTMLResponse($content);
-
-			$dom = new DOMDocument;
-			libxml_use_internal_errors(true);
-			$dom->loadHTML($content);
-			libxml_clear_errors();
-
-			$select = $dom->getElementById('ari_brands');
-			if(!$select) {
-				throw new Exception('No #ari_brands element in the response');
-			}
-
-			self::$_brands = array();
-
-			foreach($select->childNodes as $itemIndex => $node) {
-				if($itemIndex) {
-					self::$_brands[$node->attributes->getNamedItem('value')->value] = $node->textContent; /*
-					$result[] = array(
-						$node->attributes->getNamedItem('value')->value,
-						$node->textContent
-					); /**/
-				}
-			}
-		}
-
 		return self::$_brands;
 	}
 
@@ -203,19 +188,20 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 
 	public function getCustomerCostPercent()
 	{
-		$session = Mage::getSingleton('customer/session');
+		if(null === self::$_customerCostPercent) {
+			self::$_customerCostPercent = 0;
 
-		$result = $session->isLoggedIn()
-			?	$session->getCustomer()->getData('dealer_cost')
-			:	null;
-
-		if(!$result) {
-			$groupId = $session->getCustomerGroupId();
-			$group = Mage::getModel('customer/group')->load($groupId);
-			$result = (float)$group->getCostPercent();
+			$session = Mage::getSingleton('customer/session');
+			if($session->isLoggedIn()) {
+				self::$_customerCostPercent = $session->getCustomer()->getData('dealer_cost');
+				if(!self::$_customerCostPercent) {
+					$groupId = $session->getCustomerGroupId();
+					$group = Mage::getModel('customer/group')->load($groupId);
+					self::$_customerCostPercent = (float)$group->getCostPercent();
+				}
+			}
 		}
-
-		return $result;
+		return self::$_customerCostPercent;
 	}
 
 
@@ -293,6 +279,23 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 
 		return $result;
+	}
+
+
+
+	public static function indexArray($arr, $indexField, $unsetKey = true)
+	{
+		$res = array();
+
+		foreach($arr as $item) {
+			$key = $item[$indexField];
+			if($unsetKey) {
+				unset($item[$indexField]);
+			}
+			$res[$key] = $item;
+		}
+
+		return $res;
 	}
 
 }

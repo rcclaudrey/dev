@@ -135,12 +135,15 @@ class Vikont_Pulliver_Helper_Sku extends Mage_Core_Helper_Abstract {
 
 
 
-    public function updateOEMtable($data) {
+    public function updateOEMtable($data, $isWarehouse = false) {
         $resource = Mage::getSingleton('core/resource');
         $connection = $resource->getConnection('oemdb_read');
         $sql = 'UPDATE TABLE ' . $resource->getTableName('oemdb/price')
-                . ' SET price="' . (float) addslashes($data['Cost'])
-                . '" WHERE part_number="' . addslashes($data['PartNumber'])
+//                . ' SET cost="' . (float) addslashes($data['Cost']) . '"'
+//                . ', retail_price="' . (float) addslashes($data['CurrentActivePrice']) . '"'
+//				. ', ' . ($isWarehouse ? 'inv_wh' : 'inv_local') . '="' . (int) $data['Avail'] . '"'
+				. ' SET inv_wh="' . (int) $data['Avail'] . '"'
+                . ' WHERE part_number="' . addslashes($data['PartNumber'])
                 . '" AND supplier_code="' . addslashes($data['SupplierCode']) . '"';
         try {
             $connection->query($sql);

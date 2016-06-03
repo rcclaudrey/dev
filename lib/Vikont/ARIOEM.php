@@ -11,7 +11,8 @@ define('ARI_URL_PARTS_GET_DETAIL', '/Parts/GetDetails');
 define('ARI_URL_PARTS_SEARCH_INDEX', '/Search');
 
 define('ARI_API_RETRY_MAX_COUNT', 10);
-define('ARI_API_RETRY_TIME', 100);
+define('ARI_API_RETRY_TIME', 500);
+define('ARI_API_RETRY_TIME_MAX', 6000);
 
 //usage:
 // http://1901.loc/arioem/ same as
@@ -89,6 +90,8 @@ class Vikont_ARIOEM
 			$url .= ((false === strpos($url, '?')) ? '?' : '&' ) . http_build_query($params);
 		}
 
+		if(@$_GET['debug']) vd($url);
+
 		curl_setopt_array($ch, array(
 			CURLOPT_URL => $url,
 			CURLOPT_VERBOSE => 0,
@@ -99,20 +102,31 @@ class Vikont_ARIOEM
 		));
 
 		$error = false;
+		$errorCount = 0;
 
-		for($retry = 1; $retry < ARI_API_RETRY_MAX_COUNT; $retry++) {
+		for($retry = 1; $retry <= ARI_API_RETRY_MAX_COUNT; $retry++) {
 			if($error) {
-				usleep(ARI_API_RETRY_TIME);
+				$sleepTime = mt_rand(ARI_API_RETRY_TIME, ARI_API_RETRY_TIME_MAX);
+				if(@$_GET['debug']) vd('sleep time = ' . (int)$sleepTime);
+				usleep($sleepTime);
 			}
 
 			$response = curl_exec($ch);
 
 			if(false !== $response) {
+				if(null === json_decode($response, true)) {
+					$error = 'conflict';
+					$errorCount++;
+					continue;
+				} // else
 				break;
 			} else {
 				$error = curl_error($ch);
 			}
 		}
+
+		if(@$_GET['debug']) vd('retry count = ' . (int)$retry);
+		if(@$_GET['debug']) vd('error count = ' . (int)$errorCount);
 
 		curl_close($ch);
 

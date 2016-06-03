@@ -76,6 +76,11 @@ class Vikont_Fitment_Block_Catalog_Product_Grouped_Partlist extends Mage_Catalog
 					->addFinalPrice()
 					->addFieldToFilter('sku', array('in' => array_keys($fitmentItems)));
 
+			// put the check in here
+			// so if an SKU hasn't been found in the Mage DB, then report about that
+
+			$missingItems = $fitmentItems;
+
 			foreach($collection as $product) {
 				$sku = $product->getSku();
 				if(isset($fitmentItems[$sku])) {
@@ -83,8 +88,17 @@ class Vikont_Fitment_Block_Catalog_Product_Grouped_Partlist extends Mage_Catalog
 						'item' => $fitmentItems[$sku],
 						'product' => $product,
 					);
+					unset($missingItems[$sku]);
 				}
 			}
+
+			if(count($missingItems)) {
+				Mage::log('The following SKUs do not exist in Magento, although they were gathered from ARI API: '
+						. implode(', ', array_keys($missingItems)));
+			}
+			// borrow a code from Vikont_Wholesale_Helper_Email::notifyCustomer to send an email on this
+			// or make a separate log file
+
 		} catch (Exception $e) {
 			Mage::logException($e);
 		}

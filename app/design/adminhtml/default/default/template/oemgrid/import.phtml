@@ -1,0 +1,321 @@
+<?php
+/**
+ * Template for Vikont_OEMGrid_Block_Adminhtml_Part_Import
+ */
+?>
+<div class="oemImport">
+	<div class="oemImport-content">
+		<div class="main-col-inner">
+			<ul class="oemImport-step-content">
+				<li step="1" id="oemImport-step1-content-container">
+					<div class="content-header">
+						<h3 class="head-system-convert-gui"><?php echo $this->__('Step 1: Upload a file') ?></h3>
+					</div>
+					<div class="oemImport-step1-content">
+						<div id="oemImport-step1-dropzone" class="oemImport-step1-dropzone" 
+							title="<?php echo $this->__('The file will be uploaded to the selected directory') ?>"
+								><?php echo $this->__('Drag your file here or click to select the file') ?></div>
+						<div class="oemImport-progress">
+							<button class="oemImport-progress-bCancel" onclick="oemImport.cancelUpload()"><?php echo $this->__('Cancel') ?></button>
+							<div class="oemImport-progress-gauge">
+								<div class="oemImport-progress-gauge-label">Loading...</div>
+								<div class="oemImport-progress-gauge-value">&nbsp;</div>
+							</div>
+						</div>
+						<div class="oemImport-step1-fileList grid clear">
+							<ul class="oemImport-step1-fileList-actions">
+								<li><button action="refresh" class="save refresh" onclick="oemImport.refreshFileList()"><span><span><?php echo $this->__('Refresh list') ?></span></span></button></li>
+								<li><button action="remove" class="delete" onclick="oemImport.removeFile()"><span><span><?php echo $this->__('Remove file') ?></span></span></button></li>
+								<!--<li><button action="mkdir"><?php echo $this->__('Create a directory') ?></button></li>-->
+								<!--<li><button action="move"><?php echo $this->__('Move to...') ?></button></li>-->
+							</ul>
+							<table id="oemImport-step1-fileList-files" class="oemImport-step1-fileList-files">
+								<colgroup>
+									<col class="oemImport-step1-fileList-name" />
+									<col class="oemImport-step1-fileList-size" />
+									<col class="oemImport-step1-fileList-date" />
+								</colgroup>
+								<thead>
+									<tr class="headings">
+										<th class="oemImport-step1-fileList-name"><?php echo $this->__('Name') ?></th>
+										<th class="oemImport-step1-fileList-size"><?php echo $this->__('Size') ?></th>
+										<th class="oemImport-step1-fileList-date last"><?php echo $this->__('Created') ?></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<div id="oemImport-step1-fileList-fileInfo" class="oemImport-step1-fileList-fileInfo oemImport-fileInfo">
+								<h3><?php echo $this->__('File Info:') ?></h3>
+								<dl>
+									<dt><?php echo $this->__('Name:') ?></dt>
+									<dd id="oemImport-step1-fileList-fileInfo-name">vasya-pupkin.csv</dd>
+									<dt><?php echo $this->__('Size:') ?></dt>
+									<dd id="oemImport-step1-fileList-fileInfo-size">12,345,678 bytes</dd>
+									<dt><?php echo $this->__('Created at:') ?></dt>
+									<dd id="oemImport-step1-fileList-fileInfo-created">2016-04-12 22:12</dd>
+								</dl>
+								<button id="oemImport-step1-fileList-fileInfo-bImport" class="oemImport-step1-fileList-fileInfo-bImport" onclick="oemImport.startImport()"><?php echo $this->__('Import this file') ?></button>
+								<!--<button class="scalable back"><?php echo $this->__('Review this file') ?></button>-->
+							</div>
+							<div class="oemImport-step1-fileList-tip"><?php echo $this->__('You must select a file before importing it!') ?></div>
+						</div>
+					</div>
+				</li>
+				<li step="2" id="oemImport-step2-content-container">
+					<div class="content-header">
+						<h3 class="head-system-convert-gui"><?php echo $this->__('Step 2: Import file') ?></h3>
+					</div>
+					<div class="oemImport-step2-content">
+						<div class="oemImport-step2-status oemImport-fileInfo">
+							<h3><?php echo $this->__('The file is being imported, please wait...') ?></h3>
+							<dl>
+								<dt><?php echo $this->__('Name:') ?></dt>
+								<dd id="oemImport-step2-fileList-fileInfo-name">vasya-pupkin.csv</dd>
+								<dt><?php echo $this->__('Size:') ?></dt>
+								<dd id="oemImport-step2-fileList-fileInfo-size">12,345,678 bytes</dd>
+								<dt><?php echo $this->__('Created at:') ?></dt>
+								<dd id="oemImport-step2-fileList-fileInfo-created">2016-04-12 22:12</dd>
+							</dl>
+							<h3><?php echo $this->__('Overall import progress:') ?></h3>
+							<iframe id="oemImport-step2-status-progress" class="oemImport-step2-status-progress"></iframe>
+							<div id="oemImport-step2-controls" class="oemImport-step2-controls">
+								<p><?php echo $this->__('The import is finished') ?></p>
+								<button id="oemImport-step2-status-bHappy" class="oemImport-step2-status-bHappy"
+									onclick="oemImport.reset()"><?php 
+									echo $this->__('I am so much happy with that! Can I import another file please?') ?></button>
+							</div> 
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+var OEMImport = new Class.create();
+OEMImport.prototype = {
+	dropzone: null,
+	config: {
+		urls: {
+			_base: '',
+			_replace: 'action',
+			fileList: 'fileList',
+			fileUpload: 'fileUpload',
+			fileRemove: 'fileDelete',
+//			fileReview: 'fileReview',
+			importStart: 'importStart'
+//			,importProgress: 'importProgress'
+		},
+		messages: {
+			error: 'Some error occured',
+			remove: {
+				confirm: 'Are you sure you want to delete the file %NAME% ?',
+				success: 'The file has been removed' // won't that be too annoying?
+			}
+		},
+		templates: {
+			fileList: {
+				row: '<tr class="pointer %CLASS%" onclick="oemImport.selectFile(this)"><td class="oemImport-step1-fileList-name">%NAME%</td>'
+					+	'<td class="oemImport-step1-fileList-size">%SIZE%</td>'
+					+	'<td class="oemImport-step1-fileList-created last">%CREATED%</td></tr>',
+				empty: '<tr><td class="oemImport-empty last" colspan="3">There are no files in the upload directory for now</td></tr>'
+			},
+			upload: {
+				label: 'Uploading %FILENAME%, %PERCENT%% completed'
+			}
+		},
+		baseImportDir: ''
+	},
+	state: {
+		step: 1,
+		file: {
+			name: '',
+			size: '',
+			created: '',
+			index: null
+		},
+		brand: null,
+		import: {
+			running: false
+		}
+	},
+	initialize: function(config) {
+		this.config = mergeObject(this.config, config);
+		this.config.urls._base = this.config.urls._base.replace('http:', location.protocol);
+		this.dropzone = new Dropzone('#oemImport-step1-dropzone', {
+				url: this.config.urls._base.replace(this.config.urls._replace, this.config.urls.fileUpload),
+				importer: this,
+				maxFiles: 1,
+				acceptedFiles: '.csv',
+				autoProcessQueue: true,
+				previewsContainer: false,
+				previewTemplate: '',
+				params: {
+					form_key: window.FORM_KEY
+				},
+				init: function() {
+					this.on('success', function(file, responseText) {
+						this.options.importer._refreshFileListSuccess({responseText: responseText});
+					}.bind(this));
+					this.on('complete', function(file) {
+						this.removeFile(file);
+						$('oemImport-step1-content-container').removeClassName('oemImport-fileUploading');
+//						this.options.importer.refreshFileList();
+					}.bind(this));
+					this.on('addedfile', function(file) {
+						$('oemImport-step1-dropzone').removeClassName('oemImport-dragOver');
+						$('oemImport-step1-content-container').addClassName('oemImport-fileUploading');
+					});
+					this.on('dragstart', function(){ $('oemImport-step1-dropzone').addClassName('oemImport-drag'); });
+					this.on('dragend',   function(){ $('oemImport-step1-dropzone').removeClassName('oemImport-drag'); });
+					this.on('dragenter', function(){ $('oemImport-step1-dropzone').addClassName('oemImport-dragOver'); });
+					this.on('dragover', function(){ $('oemImport-step1-dropzone').addClassName('oemImport-dragOver'); });
+					this.on('dragleave', function(){ $('oemImport-step1-dropzone').removeClassName('oemImport-dragOver'); });
+					this.on('uploadprogress', function(file, progress, bytesSent){
+						document.querySelector('.oemImport-step1-content .oemImport-progress-gauge-label')
+							.innerHTML = this.options.importer.config.templates.upload.label
+								.replace('%FILENAME%', file.name)
+								.replace('%PERCENT%', Math.round(progress));
+						document.querySelector('.oemImport-step1-content .oemImport-progress-gauge-value')
+							.style.width = progress + '%';
+					});
+				}
+			});
+		$('oemImport-step2-status-progress').on('load', this.importCompleted.bind(this));
+		this.reset();
+	},
+	cancelUpload: function() {
+		this.dropzone.removeAllFiles(true);
+		$('oemImport-step1-content-container').removeClassName('oemImport-fileUploading');
+	},
+	reset: function() {
+		$('oemImport-step1-content-container').addClassName('oemImport-active');
+		$('oemImport-step2-content-container').removeClassName('oemImport-active');
+		$('oemImport-step2-content-container').removeClassName('oemImport-completed');
+		this.refreshFileList();
+		this.state.file = {name: '', size: '', created: '', index: null};
+		this.updateFileInfo();
+		$('oemImport-step2-status-progress').height = '100px';
+	},
+	_failure: function(response) { alert(this.config.messages.error); },
+	refreshFileList: function() {
+		new Ajax.Request(this.config.urls._base.replace(this.config.urls._replace, this.config.urls.fileList), {
+			loaderArea: 'oemImport-step1-fileList-files',
+			parameters: {},
+			evalScripts: true,
+			onFailure: this._failure.bind(this),
+			onSuccess: this._refreshFileListSuccess.bind(this)
+		});
+	},
+	_refreshFileListSuccess: function(response) {
+		this.state.file = {name: '', size: '', created: '', index: null};
+		this.updateFileInfo();
+
+		if (response.responseText && response.responseText.isJSON()) {
+			var res = response.responseText.evalJSON();
+			if (res.error) {
+				alert(res.errorMessage);
+			}
+			if(res.ajaxExpired && res.ajaxRedirect) {
+				setLocation(res.ajaxRedirect);
+			}
+
+			if (res.message) {
+				alert(res.message);
+			}
+
+			var html = '';
+			if(res.files.length) {
+				for(var i=0; i<res.files.length; i++) {
+					html += this.config.templates.fileList.row
+						.replace('%CLASS%', ((i % 2) ? 'even' : ''))
+						.replace('%NAME%', res.files[i].name)
+						.replace('%SIZE%', res.files[i].size.format(0, 3, '&nbsp;') + '&nbsp;byte(s)')
+						.replace('%CREATED%', res.files[i].created);
+				}
+			} else {
+				html = this.config.templates.fileList.empty;
+			}
+			$('oemImport-step1-fileList-files').down('tbody').innerHTML = html;
+		}
+	},
+	removeFile: function() {
+		if (!window.confirm(this.config.messages.remove.confirm.replace('%NAME%', this.state.file.name))) return;
+		new Ajax.Request(this.config.urls._base.replace(this.config.urls._replace, this.config.urls.fileRemove), {
+			loaderArea: 'oemImport-step1-fileList-files',
+			parameters: {
+				file: this.state.file.name
+			},
+			evalScripts: true,
+			onFailure: this._failure.bind(this),
+			onSuccess: this._refreshFileListSuccess.bind(this)
+		});
+	},
+	selectFile: function(sender) {
+		var tr = $(sender);
+		this.state.file = {
+			name: tr.down('.oemImport-step1-fileList-name').innerHTML,
+			size: tr.down('.oemImport-step1-fileList-size').innerHTML,
+			created: tr.down('.oemImport-step1-fileList-created').innerHTML,
+			index: tr.rowIndex
+		};
+		$$('#oemImport-step1-fileList-files tbody tr').each(function(elem){elem.removeClassName('oemImport-selected');});
+		sender.addClassName('oemImport-selected');
+		this.updateFileInfo();
+	},
+	_selectFileSuccess: function(response) {}, // show the file first X rows
+	updateFileInfo: function() {
+		var updateValues = function(id, file) {
+			if (file.name) {
+				$(id + '-name').innerHTML = file.name;
+				$(id + '-size').innerHTML = file.size;
+				$(id + '-created').innerHTML = file.created;
+			} else {
+				$(id + '-name').innerHTML = '&nbsp;';
+				$(id + '-size').innerHTML = '&nbsp;';
+				$(id + '-created').innerHTML = '&nbsp;';
+			}
+		};
+
+		updateValues('oemImport-step1-fileList-fileInfo', this.state.file);
+		updateValues('oemImport-step2-fileList-fileInfo', this.state.file);
+		
+		if (this.state.file.name) {
+			$('oemImport-step1-content-container').addClassName('oemImport-fileSelected');
+		} else {
+			$('oemImport-step1-content-container').removeClassName('oemImport-fileSelected');
+		}
+	},
+	startImport: function() {
+		$('oemImport-step1-content-container').removeClassName('oemImport-active');
+		$('oemImport-step2-content-container').addClassName('oemImport-active');
+		this.state.import.running = true;
+		$('oemImport-step2-status-progress').src = this.config.urls.importStart
+			.replace('%FILE%', this.config.baseImportDir + this.state.file.name);
+	},
+	importCompleted: function(event) {
+		if (!this.state.import.running) return;
+		this.state.import.running = false;
+
+		var height = $('oemImport-step2-status-progress').contentWindow.document.body.scrollHeight;
+	    $('oemImport-step2-status-progress').height = 20 + height + 'px';
+		$('oemImport-step2-content-container').addClassName('oemImport-completed');
+		$('oemImport-step2-controls').scrollTo();
+
+	}
+};
+
+var oemImport = new OEMImport({
+	urls: {
+		_base: '<?php echo $this->getUrl('oemgrid/adminhtml_import/action') ?>',
+		importStart: '<?php echo str_replace('index.php/', '', $this->getUrl('', 
+//			array('_direct' => 'pulliver/oem/importa.php?file=%FILE%&debug_imitateQuery=1&debug_sqldump=1&debug_dumpSrcData=1')))
+			array('_direct' => 'pulliver/oem/importa.php?file=%FILE%')))
+			?>'
+	},
+	baseImportDir: '<?php echo rtrim(Mage::getStoreConfig('oemgrid/import/upload_path'), '/ ') . '/' ?>',
+	brands: <?php echo json_encode(Mage::getSingleton('oemgrid/source_brand_shortcode')->toShortOptionArray()) ?>
+});
+
+</script>

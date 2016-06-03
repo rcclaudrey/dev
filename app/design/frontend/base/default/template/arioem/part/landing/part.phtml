@@ -1,0 +1,365 @@
+<?php
+
+$coreHelper = Mage::helper('core');
+
+$brand = $this->getPart()->getBrand();
+$brandName = htmlspecialchars($this->getPart()->getBrandName());
+$partNumber = htmlspecialchars($this->getPart()->getPartNumber());
+$partName = htmlspecialchars($this->getPart()->getName());
+
+$isAvailable = $this->getPart()->isAvailable();
+
+$partInfo = $this->getPart()->getPartInfo();
+$barcodeImgUrl = Mage::helper('arioem')->getBarcodeImageFile($this->getPart()->getPartNumber());
+$models = $this->getPart()->getModels();
+
+if ($isAvailable) {
+	$hidePrice = $partInfo['hide_price'];
+	$youSave = $partInfo['msrp'] - $partInfo['price'];
+	$showYouSave = ($youSave > 0);
+}
+
+$assemblyPageUrl = $this->getUrl('', array('_direct' => 'oem-part.htm')) . '#';
+$assemblyImageUrl = $this->getPart()->getAssemblyImageUrl(900);
+
+$brandColors = array(
+	'kawasaki' => 'red',
+	'honda' => '#F30302',
+	'suzuki' => 'yellow',
+	'yamaha' => 'blue',
+	'canam' => 'yellow',
+	'seadoo' => 'black',
+	'polaris' => 'blue',
+	'victory' => 'red',
+);
+
+?>
+<div class="oempart-container product-view">
+	<div class="oempart-container-col-left">
+		<div class="oempart-barcode-container" <?php echo isset($brandColors[$brand]) ? 'style="border-color: ' . $brandColors[$brand] . '"' : '' ?>>
+			<div class="oempart-barcode-brand"><?php echo $brandName ?></div>
+			<div class="oempart-barcode-sku"><?php echo $partNumber ?></div>
+			<div class="oempart-barcode-partname"><?php echo $partName ?></div>
+			<img class="oempart-barcode-image" src="<?php echo $barcodeImgUrl ?>" alt="<?php echo $partNumber ?>" title="<?php echo $partNumber ?>" />
+		</div>
+
+		<div class="oempart-nwhatlfor">
+			<p class="oempart-nwhatlfor-title"><?php echo $this->__('Not what you are looking for?') ?></p>
+			<a class="oempart-nwhatlfor-link" href="<?php echo $this->getUrl('', array('_direct' => 'oem-parts.html')) ?>"><span><span><?php echo $this->__('Shop OEM') ?></span></span></a>
+			<a class="last oempart-nwhatlfor-link" href="<?php echo $this->getUrl('') ?>"><span><span><?php echo $this->__('Shop aftermarket parts') ?></span></span></a>
+		</div>
+	</div>
+
+	<div class="oempart-container-col-right">
+		<div class="oempart-cinfo">
+			<div class="oempart-cinfo-logo">
+				<img src="<?php echo $this->getSkinUrl('arioem/logos/named/' . htmlspecialchars($brand) . '.jpg') ?>" title="<?php echo $brandName ?> logo" alt="<?php echo $brandName ?> logo" />
+			</div>
+			<div class="oempart-cinfo-title"><?php echo $partName ?></div>
+			<?php if ($isAvailable): ?>
+				<div class="oempart-cinfo-prices clearer">
+					<?php if($hidePrice): ?>
+						<div class="oempart-cinfo-price-msrp oempart-seePriceInCart">
+							<span class="oempart-cinfo-price-msrp-label"><?php echo $this->__('MSRP') ?></span>
+							<span class="oempart-cinfo-price-msrp-value"><?php echo $coreHelper->formatPrice($partInfo['msrp'], false) ?></span>
+						</div>
+						<div class="oempart-cinfo-price-seeInCart">
+							<span class="oempart-cinfo-price-seeInCart-label"><?php echo $this->__('Our price') ?></span>
+							<span class="oempart-cinfo-price-seeInCart-link" 
+								onclick="showHiddenPrice(0)"
+								onmouseenter="showHiddenPrice(1)"
+								onmouseout="showHiddenPrice(-1)"
+							><?php echo $this->__('See price in cart') ?></span>
+							<div class="oempart-cinfo-price-seeInCart-popup"
+								onclick="showHiddenPrice(-1)"
+								onmouseenter="showHiddenPrice(1)"
+								onmouseout="showHiddenPrice(-1)"
+							>
+								<p><?php echo $this->__('This supplier has established a Minimum Advertised Price (MAP) Policy 
+	that applies to the advertising of parts, apparel and accessories. On this page, we are not permitted to display a price 
+	less than the current MSRP.') ?></p>
+								<h5><?php echo $this->__('What\'s the price?') ?></h5>
+								<p><?php echo $this->__('This policy does not control the price at which any retailer may 
+	sell parts and accessories. It applies to advertising and display only. Each retailer remains entirely free to determine 
+	its own resale price for all parts, apparel and accessories.') ?></p>
+							</div>
+						</div>
+					<?php else: ?>
+						<?php if($showYouSave): ?>
+							<div class="oempart-cinfo-price-msrp">
+								<span class="oempart-cinfo-price-msrp-label"><?php echo $this->__('MSRP') ?></span>
+								<span class="oempart-cinfo-price-msrp-value"><?php echo $coreHelper->formatPrice($partInfo['msrp'], false) ?></span>
+							</div>
+							<div class="oempart-cinfo-price-yousave">
+								<span class="oempart-cinfo-price-yousave-label"><?php echo $this->__('You Save') ?></span>
+								<span class="oempart-cinfo-price-yousave-value"><?php echo $coreHelper->formatPrice($youSave, false) ?></span>
+							</div>
+						<?php endif ?>
+						<div class="oempart-cinfo-price-regular">
+							<span class="oempart-cinfo-price-regular-label"><?php echo $this->__('Regular price') ?></span>
+							<span class="oempart-cinfo-price-regular-value"><?php echo $coreHelper->formatPrice($partInfo['price'], false) ?></span>
+						</div>
+					<?php endif ?>
+				</div>
+				<ul class="oempart-cinfo-info">
+					<li class="oempart-cinfo-info-tip"><?php echo $this->__('Dealer direct "No" middleman') ?></li>
+					<?php if($partInfo['price'] > 89): ?>
+						<li class="oempart-cinfo-info-tip"><?php echo $this->__('Qualifies for free shipping') ?></li>
+					<?php endif ?>
+					<li class="oempart-cinfo-info-tip"><?php echo $this->__('Lowest price guarantee') ?></li>
+					<li class="oempart-cinfo-info-tip"><?php echo $this->__('OEM part warranty') ?></li>
+				</ul>
+			<?php else: ?>
+				<div class="oempart-cinfo-NA"><?php echo $this->__('Part is not available') ?></div>
+			<?php endif ?>
+
+			<?php if ($isAvailable): ?>
+				<div class="oempart-cinfo-qty">
+					<label for="qty"><?php echo $this->__('QUANTITY:') ?></label>
+					<input type="text" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty" name="qty">
+				</div>
+				<div class="oempart-cinfo-stockstatus">
+					<span class="availability in-stock"><?php echo $this->__('Usually ships in 1-3 days') ?></span><?php /* ?>
+					<span class="oempart-cinfo-stockstatus-shippingterm"><?php echo $this->__('or usually ships in 1-3 days') ?></span>
+					<?php /**/ ?>
+				</div>
+				<div class="oempart-cinfo-buttons buttons-prod">
+					<button onclick="oemAddToCart(
+								'<?php echo htmlspecialchars($brand) ?>',
+								'<?php echo $partName ?>',
+								jQuery('#qty').val(),
+								'<?php echo $partNumber ?>',
+								<?php echo (float) $partInfo['price'] ?>
+							)" class="button btn-cart" id="product-btn-cart" title="<?php echo $this->__('Add to Cart') ?>" type="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+				</div>
+			<?php endif ?>
+		</div>
+	</div>
+
+	<div class="oempart-tabs tabstabs">
+		<ul class="product-tabs">
+			<li class="first active" id="oempart_tabs_product_models"><a href="javascript:void(0)"><?php echo $this->__('Models and Schematics') ?></a></li>
+			<li class="" id="oempart_tabs_description"><a href="javascript:void(0)"><?php echo $this->__('Description') ?></a></li>
+			<li class="last" id="oempart_tabs_assembly_image"><a href="javascript:void(0)"><?php echo $this->__('Image') ?></a></li>
+		</ul>
+
+		<div class="crystal"></div>
+
+		<div id="oempart_tabs_product_models_contents" class="oempart-tabs-content product-tabs-content clearer" style="display:none">
+			<?php if(count($models)): ?>
+				<p class="oempart-models-title"><?php echo $this->__('Choose your vehicle to see the part in a diagram:') ?></p>
+				<ul class="oempart-models">
+					<?php $rowNum = 0; ?>
+					<?php $colNum = 2; ?>
+					<?php $rowsPerCol = (int) ceil(count($models) / $colNum); ?>
+					<?php foreach($models as $modelKey => $model): ?>
+						<?php if(!($rowNum % $rowsPerCol)): ?>
+							</ul>
+							<ul class="oempart-models">
+						<?php endif ?>
+						<?php $rowNum++; ?>
+						<li id="oempart-model-<?php echo htmlspecialchars($model['id']) ?>"
+							modelId="<?php echo htmlspecialchars($model['id']) ?>"
+							modelHash="<?php echo $model['queryName'] ?>"><span class="oempart-models-name" title="<?php echo $this->__('View this model') ?>"><?php echo htmlspecialchars($model['name']) ?></span>
+						</li>
+					<?php endforeach ?>
+				</ul>
+			<?php else: ?>
+				<p><?php echo $this->__('Sorry, no models having this part # were found.') ?></p>
+			<?php endif ?>
+		</div>
+
+		<div id="oempart_tabs_description_contents" class="oempart-tabs-content product-tabs-content">
+			<dl class="oempart-tab-descr clearer">
+				<dt><?php echo $this->__('Brand') ?></dt>
+				<dd><?php echo $brandName ?></dd>
+
+				<dt><?php echo $this->__('SKU') ?></dt>
+				<dd><?php echo $partNumber ?></dd>
+
+				<dt><?php echo $this->__('Description') ?></dt>
+				<dd><?php echo $partName ?></dd>
+
+				<?php if ($isAvailable): ?>
+					<dt><?php echo $this->__('MSRP') ?></dt>
+					<dd><?php echo $coreHelper->formatPrice($partInfo['msrp'], false) ?></dd>
+
+					<dt><?php echo $this->__('Retail Price') ?></dt>
+					<dd><?php echo $coreHelper->formatPrice($partInfo['price'], false) ?></dd>
+
+					<dt><?php echo $this->__('Is superseded') ?></dt>
+					<dd><?php echo $partInfo['superseded'] ? $this->__('Yes')  : $this->__('No') ?></dd>
+
+					<dt><?php echo $this->__('Length') ?></dt>
+					<dd><?php echo number_format($partInfo['length'], 2) ?></dd>
+
+					<dt><?php echo $this->__('Width') ?></dt>
+					<dd><?php echo number_format($partInfo['width'], 2) ?></dd>
+
+					<dt><?php echo $this->__('Height') ?></dt>
+					<dd><?php echo number_format($partInfo['height'], 2) ?></dd>
+
+					<dt><?php echo $this->__('Weight') ?></dt>
+					<dd><?php echo number_format($partInfo['weight'], 2)  ?></dd>
+
+					<dt><?php echo $this->__('Is oversized') ?></dt>
+					<dd><?php echo $partInfo['oversized'] ? $this->__('Yes')  : $this->__('No') ?></dd>
+				<?php endif ?>
+			</dl>
+		</div>
+
+		<div id="oempart_tabs_assembly_image_contents" class="oempart-tabs-content product-tabs-content clearer" style="display:none">
+			<img class="oempart-image" src="<?php echo $assemblyImageUrl ?>" alt="<?php echo $this->__('Assembly image') ?>"
+				title="<?php echo $this->__('First assembly of the first model') ?>" />
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+
+		Varien.Tabs = Class.create();
+		Varien.Tabs.prototype = {
+			initialize: function (selector) {
+				$$(selector + ' a').each(this.initTab.bind(this));
+			},
+			initTab: function (el) {
+				el.href = 'javascript:void(0)';
+				if ($(el.parentNode).hasClassName('active')) {
+					this.showContent(el);
+				}
+				el.observe('click', this.showContent.bind(this, el));
+			},
+			showContent: function (a) {
+				var li = $(a.parentNode), ul = $(li.parentNode);
+				ul.select('li', 'ol').each(function (el) {
+					var contents = $(el.id + '_contents');
+					if (el == li) {
+						el.addClassName('active');
+						contents.show();
+					} else {
+						el.removeClassName('active');
+						contents.hide();
+					}
+				});
+			}
+		}
+		new Varien.Tabs('.product-tabs');
+
+		jQuery('.oempart-models-name').click(function(){
+			var parent = jQuery(this.parentNode);
+			if(parent.children('ul').length) {
+				parent.toggleClass('expanded');
+			} else {
+				jQuery.ajax({
+					url: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php')) ?>',
+					data: {
+						action: 'part-model-assemblies',
+						brandCode: '<?php echo $this->getPart()->getBrandCode() ?>',
+						modelId: parent.attr('modelId'),
+						sku: '<?php echo addslashes($partNumber) ?>'
+					},
+					dataType: 'json',
+					type: 'GET',
+					cache: false,
+					success: function(response) {
+							if(response.errorMessage) {
+								alert(response.errorMessage);
+								return;
+							}
+							var modelNode = jQuery('#oempart-model-' + response.modelId);
+							var blockTemplate = '<ul class="oempart-models-assemblies">%ITEMS%</ul>';
+							var rowTemplate = '<li><a href="<?php echo $this->getUrl('partcenter') ?>'
+								+ '#brand=<?php echo $brand ?>'
+								+ '&modelId=' + modelNode.attr('modelId')
+								+ '&modelName=' + encodeURIComponent(modelNode.attr('modelHash'))
+								+ '&assembly=%ASSEMBLY_HASH%'
+								+ '&part=' + encodeURIComponent('<?php echo $partNumber ?>') + '"'
+								+ ' title="<?php echo $this->__('View this part on assembly diagram') ?>">%ASSEMBLY_NAME%</a></li>';
+							var html = '';
+							for(var i=0; i<response.res.length; i++) {
+								html += rowTemplate
+									.replace('%ASSEMBLY_HASH%', response.res[i].hash)
+									.replace('%ASSEMBLY_NAME%', response.res[i].name);
+							}
+							this.append(blockTemplate.replace('%ITEMS%', html));
+							this.addClass('expanded');
+						}.bind(parent),
+					complete: function(){
+						window.loader.hide(this);
+					}.bind(parent)
+				});
+			}
+		});
+
+		showHiddenPrice = function(display) {
+			var popup = jQuery('.oempart-cinfo-price-seeInCart-popup').first();
+			var isShown = popup.hasClass('oempart-visible');
+			if (!display) {
+				display = isShown ? -1 : 1;
+			}
+			if (display < 0) {
+				popup.removeClass('oempart-visible');
+				return;
+			}
+			if (isShown) return;
+			popup.addClass('oempart-visible');
+			var top = Math.min(
+					jQuery('.oempart-cinfo-price-seeInCart').offset().top - jQuery(window).scrollTop(),
+					popup.height() + 10
+				);
+			popup.css({
+//				left: '0px',
+				top: - top + 'px'
+			});
+		};
+	});
+
+	function oemAddToCart(brand, partName, qty, sku, price) {
+		jQuery.ajax({
+			url : '<?php echo $this->getUrl('arioem/cart/add') ?>',
+			dataType : 'json',
+			type : 'POST',
+			data : {
+				pageURL: location.href,
+				parts: [{
+					brand: brand,
+					name: partName,
+					qty: qty,
+					sku: sku,
+					price: price
+				}]
+			},
+			beforeSend: function() {
+				loader.show('.wrapper');
+			},
+			success : function(response) {
+				if(response.error) {
+					jQuery("#cart-overlay-content").html("<div class=\"error-message-wrap\">" + response.message + "</div>");
+				} else {
+					jQuery(window.popupcart.header).html(response.cart_top);
+					jQuery(window.popupcart.qty).html(response.qty);
+					jQuery('#minicart .cart-table').click(function() {
+						jQuery('#topCartContent').css({visibility: 'visible'});
+					});
+					jQuery('#topCartContent').mouseleave(function() {
+						jQuery('#topCartContent').css({visibility: 'hidden'});
+					});
+
+					if(response.hasOwnProperty('cart_content')) {
+						window.popupcart.show();
+						jQuery("#cart-overlay-content").html(response.cart_content);
+					} else {	// we do not display the pop-up, so add some animation
+						jQuery('#topCartContent').css({visibility: 'visible'});
+						jQuery('html, body').animate({scrollTop: jQuery("#minicart").offset().top}, 1500);
+					}
+				}
+			},
+			complete: function() {
+				loader.hide();
+			}
+		});
+	};
+
+</script>

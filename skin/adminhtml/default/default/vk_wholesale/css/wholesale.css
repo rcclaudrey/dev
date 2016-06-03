@@ -1,0 +1,15 @@
+.ws-horseparator h4 {
+    border-bottom: 1px solid #aaa;
+    padding: 20px 0 5px;
+}
+
+.wsa-customer-notifycustomer-container {
+	margin: 5px 0 0;
+}
+.wsa-customer-notifycustomer-container input {
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.wsa-customer-notifycustomer-container label {
+	vertical-align: middle;
+}

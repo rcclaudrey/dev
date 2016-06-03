@@ -79,7 +79,7 @@ function createSidebar(){
 		var clonedUL;
 
 		if (jQuery('#ari_Assemblies_jl').is(':has(ul)') && jQuery( "#assembly-menu" ).is(':has(ul)') == false){
-			jQuery( "#assembly-menu" ).append( "<div id='sidebarTitle'>CURRENTLY SHOPPING FOR PARTS:</div>");
+			jQuery( "#assembly-menu" ).append( "<div id='sidebarTitle'>CURRENTLY SHOPPING PARTS FOR:</div>");
 
 			var queryParts = decodeURIComponent(location.hash).substr(2).replace(/_/g, ' ').split('/');
 			var modelNameParts = queryParts[1].split('VIN#');

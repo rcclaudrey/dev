@@ -33,7 +33,9 @@ try {
 		? explode(',', $params->getVendor())
 		: Vikont_Pulliver_Helper_LightSpeed::getVendors();
 
+	
 	foreach($vendors as $vendorIndex => $vendor) {
+		$isWarehouse = ('warehouse' == $vendor);
 
 		if($downloadedFileName = $params->getData('file-' . $vendor)) {
 			Vikont_Pulliver_Helper_Data::inform(sprintf('Skipped downloading, using local file %s', $downloadedFileName));
@@ -60,8 +62,10 @@ try {
 		$outputFileName = $moduleHelper->getLocalFileName('lightspeed-'.$vendor.'.csv');
 		$fileHandle = $commonHelper->openFile($outputFileName);
 
-		$tmsReviewFileName = $moduleHelper->getLocalFileName('review-'.$vendor.'.csv');
-		$reviewFileNeedsHeader = !(file_exists($tmsReviewFileName) && filesize($tmsReviewFileName));
+//		$tmsReviewFileName = $moduleHelper->getLocalFileName('review-'.$vendor.'.csv');
+//		$reviewFileNeedsHeader = !(file_exists($tmsReviewFileName) && filesize($tmsReviewFileName));
+		$tmsReviewFileName = $moduleHelper->getLocalFileName('review-' . $vendor . '-' . time() . '.csv');
+		$reviewFileNeedsHeader = true;
 		$tmsReviewFileHandle = null;
 		$distributorFieldNames = Vikont_Pulliver_Helper_Sku::getDistributorFieldNames();
 
@@ -71,8 +75,8 @@ try {
 			if($sku = $skuHelper->getSkuByItemNumber($item['SupplierCode'], $item['PartNumber'])) {
 				fputcsv($fileHandle, array($sku, $item['Avail']));
 				$lineCounter++;
-			} else if($moduleHelper->productIsOEM($item)) {
-//				$skuHelper->updateOEMtable($item);
+			} else if($isWarehouse && $moduleHelper->productIsOEM($item)) {
+				$skuHelper->updateOEMtable($item,  $isWarehouse);
 			} else {
 				if(!$tmsReviewFileHandle) {
 					$tmsReviewFileHandle = fopen($tmsReviewFileName, 'ab');

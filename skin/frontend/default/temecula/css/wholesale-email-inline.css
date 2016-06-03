@@ -1,0 +1,20 @@
+.wholesale-customer-info-changed {
+	border: solid 1px #aaa;
+	border-collapse: collapse;
+}
+.wholesale-customer-info-changed tr {
+}
+.wholesale-customer-info-changed td {
+	padding: 20px;
+}
+.wholesale-customer-info-changed thead {
+	background-color: #ccc;
+}
+.wholesale-customer-info-changed tbody {}
+.wholesale-customer-info-changed thead td {}
+.wholesale-customer-info-changed tbody td {}
+
+.wholesale-customer-info-changed tbody td.label {
+	background-color: #eee;
+}
+.wholesale-customer-info-changed tbody td.value {}

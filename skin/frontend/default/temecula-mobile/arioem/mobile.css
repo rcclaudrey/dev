@@ -1,0 +1,115 @@
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = Parts Selector */
+
+.category-oem-parts .amshopby-page-container p {
+	padding: 0 10px;
+}
+.arioem-brand-list li img {
+	width: 150px;
+}
+
+
+.arioem-brand-header-image {
+	float: none;
+	width: auto;
+	height: auto;
+	line-height: normal;
+}
+.arioem-brand-header h1 {
+    margin: 0;
+    padding: 10px;
+}
+.arioem-brand-header-text {
+    margin: 10px;
+}
+
+.arioem-statusbar {
+	height: auto;
+    margin: 20px 10px;
+	text-align: center;
+}
+
+@media only screen and (min-width: 950px) {
+	.arioem-statusbar-label {
+		display: inline-block;
+		height: 21px;
+		vertical-align: middle;
+		width: 250px;
+	}
+	.arioem-statusbar-container {
+		display: inline-block;
+	}
+	.arioem-statusbar-reset {
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+.arioem-statusbar-label {
+	display: block;
+	width: auto;
+	height: 30px;
+	margin: 10px 0;
+}
+.arioem-statusbar-selection-container {
+
+}
+.arioem-statusbar-placeholder {
+    color: #aaa;
+    display: block;
+    font-size: 26px;
+    text-transform: uppercase;
+    vertical-align: middle;
+	background-color: #eee;
+}
+.arioem-statusbar-vehicle .arioem-statusbar-placeholder {
+    position: relative;
+    top: -80px;
+    height: 100px;
+    line-height: 100px;
+}
+.arioem-statusbar-model {
+	position: relative;
+}
+.arioem-statusbar-model .arioem-statusbar-placeholder {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	line-height: 100px;
+}
+.arioem-statusbar-reset {
+	height: auto;
+	margin: 10px;
+}
+.arioem-step {
+    clear: both;
+}
+#arioem_year .arioem-step-content-col-1 {
+	width: 100%;
+}
+#arioem_year .arioem-step-content-col-2 {
+	width: 50%;
+}
+#arioem_year .arioem-step-content-col-3 {
+	width: 33%;
+}
+#arioem_year .arioem-step-content-col-4 {
+	width: 25%;
+}
+#arioem_year .arioem-step-content-col-5 {
+	width: 20%;
+}
+#arioem_year .arioem-step-content-col {
+	/*width: 33%;*/
+	padding: 10px 0;
+}
+#arioem_year .arioem-step-content-col span {
+	padding: 8px 0;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = Assembly page */
+
+.arioem p {
+	margin: 0 10px;
+}

@@ -29,7 +29,7 @@
 $_product    = $this->getProduct();
 $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
 
-$hideAttributesCode = array('tms_size_modifier', 'tms_helmet_type', 'tms_helmet_category', 'tms_gender', 'tms_apparel_material', 'tms_material', 'tms_size_segment');
+$hideAttributesCode = array('tms_helmet_type', 'tms_helmet_category', 'tms_gender', 'tms_apparel_material', 'tms_material');
 ?>
 <?php if ($_product->isSaleable() && count($_attributes)):?>
     <dl>

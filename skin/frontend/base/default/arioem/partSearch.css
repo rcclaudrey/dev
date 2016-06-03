@@ -1,0 +1,478 @@
+.arioem-pcSearch {
+	position: relative;
+}
+.arioem-pcSearch-selector {
+	margin: 20px 0 10px;
+	border: solid 2px;
+}
+.arioem-pcSearch-selector-frame {
+	padding: 15px 20px;
+	border: 1px solid #fff;
+	background-color: #b5b5b5;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.arioem-pcSearch-selector label {
+	display: block;
+	margin: 0 0 5px;
+}
+.arioem-pcSearch-selector-brand {
+	display: inline-block;
+	width: 200px;
+	margin-right: 10px;
+}
+.arioem-pcSearch-selector-brand label {
+	/*vertical-align: middle;*/
+	/*padding-right: 10px;*/
+}
+.arioem-pcSearch-selector-brand select {
+	box-sizing: border-box;
+	width: 100%;
+	height: 30px;
+	padding: 3px 10px;
+	border: 1px solid #000;
+	vertical-align: middle;
+}
+.arioem-pcSearch-selector-brand option {}
+
+.arioem-pcSearch-selector-container {
+	display: inline-block;
+	width: 240px;
+	margin: 0 10px 0 0;
+}
+.arioem-pcSearch-selector-container label {
+	/*padding-right: 10px;*/
+}
+.arioem-pcSearch-selector-container input {
+	box-sizing: border-box;
+	width: 100%;
+	height: 30px;
+	padding: 3px 10px;
+	border: 1px solid #000;
+	vertical-align: middle;
+	text-transform: uppercase;
+}
+
+.arioem-pcSearch-selector-container-ac-wrap {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	height: 30px;
+	/*vertical-align: middle;*/
+}
+.arioem-pcSearch-selector-autocomplete {
+	display: none;
+	position: absolute;
+	z-index: 100;
+	box-sizing: border-box;
+	min-width: 100%;
+	max-width: 350px;
+	border: 1px solid #777;
+	background-color: #fff;
+	font-size: 12px;
+	font-weight: normal;
+}
+.arioem-active .arioem-pcSearch-selector-autocomplete {
+	display: block;
+}
+.arioem-pcSearch-selector-autocomplete li {
+	padding: 5px 10px;
+	line-height: 18px;
+	cursor: pointer;
+}
+.arioem-pcSearch-selector-autocomplete li.arioem-autocomplete-selected,
+.arioem-pcSearch-selector-autocomplete li:hover {
+	background-color: #de1f27;
+	color: #fff;
+}
+/*.arioem-autocomplete-noCursor*/
+.arioem-pcSearch-selector-autocomplete-loading {
+	background-color: #777;
+	color: #fff;
+	text-align: center;
+	font-style: italic;
+}
+.arioem-pcSearch-selector-autocomplete-notFound {
+
+}
+.arioem-autocomplete-noCursor {}
+.arioem-pcSearch-selector-model {}
+.arioem-pcSearch-selector-part {}
+.arioem-pcSearch-selector-btn-container {
+	display: inline-block;
+}
+.arioem-pcSearch-selector-btn-container button {
+	padding: 10px 35px;
+	border: 1px solid #fff;
+	background-color: #de1f27;
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	cursor: pointer;
+}
+
+.arioem-pcSearch-res {
+	margin: 10px 0;
+	font-size: 14px;
+	border: solid 2px ;
+	text-transform: uppercase;
+}
+.arioem-pcSearch-res-noResult {
+	background: #bbb;
+	padding: 20px;
+	text-align: center;
+	font-style: italic;
+}
+.arioem-pcSearch-res-header {
+	background-color: lightgrey;
+	padding: 10px;
+	font-weight: bold;
+}
+.arioem-pcSearch-res-header > span {
+	display: inline-block;
+	vertical-align: middle;
+}
+.arioem-pcSearch-res-header-partNo {
+	width: 150px;
+}
+.arioem-pcSearch-res-header-descr {
+	width: 200px;
+}
+.arioem-pcSearch-res-header-msrp {
+	width: 80px;
+}
+.arioem-pcSearch-res-header-price {
+	width: 80px;
+}
+.arioem-pcSearch-res-header-stock {
+	width: 100px;
+}
+.arioem-pcSearch-res-header-addToCart {
+	width: 120px;
+}
+.arioem-pcSearch-res-header-usedAt {
+	width: 110px;
+}
+
+.arioem-pcSearch-res-body {}
+.arioem-pcSearch-res-body {}
+.arioem-pcSearch-res-body > li {}
+ul.arioem-pcSearch-res-body > li.arioem-expanded {
+	padding-bottom: 5px;
+	background-color: #bbb;
+}
+.arioem-pcSearch-res-body > li.arioem-expanded.arioem-loading {
+	padding-bottom: 0;
+}
+.arioem-pcSearch-res-body li.arioem-even {
+	background-color: #eee;
+}
+.arioem-pcSearch-res-body .arioem-nla {
+	color: #aaa;
+	line-height: 30px;
+}
+.arioem-pcSearch-res-body .arioem-na {
+	color: #aaa;
+	line-height: 30px;
+}
+.arioem-pcSearch-res-body-line1 {
+	padding: 10px;
+}
+.arioem-expanded .arioem-pcSearch-res-body-line1,
+.arioem-pcSearch-res-body-line1:hover {
+	background-color: #DE1F27;
+	color: #fff;
+}
+.arioem-pcSearch-res-body-line1 > span,
+.arioem-pcSearch-res-body > li > span {
+	display: inline-block;
+	vertical-align: middle;
+}
+.arioem-pcSearch-res-body-partNo {
+	width: 150px;
+}
+.arioem-pcSearch-res-body-descr {
+	width: 200px;
+	font-weight: bold;
+}
+.arioem-pcSearch-res-body-msrp {
+	width: 80px;
+}
+.arioem-pcSearch-res-body-price {
+	width: 80px;
+}
+.arioem-pcSearch-res-body-stock {
+	width: 100px;
+	font-style: italic;
+}
+.arioem-pcSearch-res-body-addToCart {
+	width: 120px;
+}
+.arioem-pcSearch-res-body-addToCart button {
+	padding: 5px 10px;
+	border: none;
+	cursor: pointer;
+	background-color: #DE1F27;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+}
+.arioem-pcSearch-res-body-line1:hover .arioem-pcSearch-res-body-addToCart button {
+	background-color: #eee;
+	color: #000;
+}
+.arioem-pcSearch-res-body-usedAt {
+	width: 110px;
+	/*font-weight: bold;*/
+	color: #de1f27;
+	cursor: pointer;
+}
+.arioem-pcSearch-res-body-usedAt:hover {
+	text-decoration: underline;
+}
+.arioem-expanded .arioem-pcSearch-res-body-usedAt,
+.arioem-pcSearch-res-body-line1:hover .arioem-pcSearch-res-body-usedAt {
+	color: #fff;
+}
+.arioem-pcSearch-res-body-usedAt-list {
+	display: none;
+	margin-left: 50px;
+	background-color: #fff;
+}
+.arioem-expanded > .arioem-pcSearch-res-body-usedAt-list {
+	display: block;
+}
+ .arioem-loading > .arioem-pcSearch-res-body-usedAt-list {
+	background: #aaa url('images/partcenter/loading_bar.gif') no-repeat scroll 50% 50%;
+	display: block;
+	height: 30px;
+	margin-left: 0;
+}
+.arioem-pcSearch-res-body-usedAt-list > li {
+	cursor: pointer;
+}
+.arioem-pcSearch-res-body-usedAt-list > li:hover {}
+.arioem-pcSearch-res-body-usedAt-list > li.arioem-loading {
+	padding-bottom: 5px;
+}
+.arioem-pcSearch-res-body-usedAt-list > li.arioem-noResult {
+	padding: 5px 0 0;
+	line-height: 30px;
+	background-color: #bbb;
+}
+.arioem-pcSearch-res-body-nla {
+	width: 50%;
+	font-style: italic;
+	text-align: center;
+	color: #aaa;
+}
+.arioem-pcSearch-res-body-na {
+	width: 50%;
+	font-style: italic;
+	text-align: center;
+	color: #aaa;
+}
+.arioem-pcSearch-partlist-superseded {
+	background: rgba(0, 0, 0, 0) url("images/partcenter/alert-16x16.png") no-repeat scroll 50% 50%;
+	cursor: pointer;
+	display: inline-block;
+	height: 16px;
+	margin-left: 3px;
+	vertical-align: bottom;
+	width: 16px;
+}
+
+.arioem-pcSearch-res-model-header {
+	padding: 10px;
+	font-weight: bold;
+	background-color: lightgrey;
+}
+.arioem-pcSearch-res-model-header-name {}
+.arioem-pcSearch-res-model-header-view {
+	float: right;
+}
+.arioem-pcSearch-res-model-list {}
+.arioem-pcSearch-res-model-list li {
+	cursor: pointer;
+}
+.arioem-pcSearch-res-model-list li.arioem-even {
+	background-color: #eee;
+}
+.arioem-pcSearch-res-model-list li.arioem-loading {
+	padding-bottom: 5px;
+}
+.arioem-pcSearch-res-model-list li.arioem-even.arioem-expanded:hover {
+	background-color: transparent;
+}
+.arioem-pcSearch-partlist-model-headerContainer {}
+.arioem-expanded > .arioem-pcSearch-partlist-model-headerContainer,
+/*.arioem-expanded:hover > .arioem-pcSearch-partlist-model-headerContainer,*/
+.arioem-pcSearch-partlist-model-headerContainer:hover {
+	background-color: #DE1F27;
+	color: #fff;
+}
+.arioem-pcSearch-partlist-model-name {
+	display: block;
+	padding: 8px 25px 8px 10px;
+}
+/*.arioem-expanded:hover > .arioem-pcSearch-partlist-model-name {
+	background-color: #DE1F27;
+	color: #fff;
+}*/
+.arioem-pcSearch-partlist-model-switch {
+	float: right;
+	display: block;
+	width: 16px;
+	height: 16px;
+	margin: 8px 10px 0 0;
+	background: url('images/partcenter/search/ec-plus.png') no-repeat 50% 50%;
+}
+.arioem-expanded > .arioem-pcSearch-partlist-model-headerContainer > .arioem-pcSearch-partlist-model-switch {
+	background-image: url('images/partcenter/search/ec-minus.png');
+}
+.arioem-pcSearch-partlist-model-view {
+	float: right;
+	margin: 8px 10px 0 0;
+	line-height: 16px;
+	font-size: 14px;
+	color: #000;
+}
+.arioem-expanded > .arioem-pcSearch-partlist-model-headerContainer .arioem-pcSearch-partlist-model-view,
+.arioem-pcSearch-partlist-model-headerContainer:hover .arioem-pcSearch-partlist-model-view {
+	color: #fff;
+}
+.arioem-pcSearch-partlist-model-view:hover {
+	color: #fff;
+}
+.arioem-pcSearch-res-model-list-assembly {
+	display: none;
+	margin: 5px 0 0 50px;
+	padding: 0 5px 5px;
+}
+ .arioem-loading > .arioem-pcSearch-res-model-list-assembly {
+	background: #aaa url('images/partcenter/loading_bar.gif') no-repeat scroll 50% 50%;
+	display: block;
+	height: 30px;
+	margin: 5px 5px 0;
+}
+.arioem-expanded > .arioem-pcSearch-res-model-list-assembly {
+	display: block;
+}
+.arioem-pcSearch-res-model-list-assembly li {
+	float: left;
+	box-sizing: border-box;
+	width: 50%;
+	min-width: 300px;
+	padding: 5px 10px;
+}
+.arioem-pcSearch-res-model-list-assembly li:hover {
+	background-color: #DE1F27;
+	color: #fff;
+}
+.arioem-pcSearch-res-model-list-assembly li a {
+	display: block;
+	color: #000;
+}
+.arioem-pcSearch-res-model-list-assembly li:hover a {
+	color: #fff;
+}
+.arioem-pcSearch-res-model-list-assembly a:hover {
+	text-decoration: none;
+}
+.arioem-noResult {
+	color: #555;
+}
+.arioem-noResult .em {}
+.arioem-pcSearch-res-body li.arioem-noResult {
+	padding: 20px;
+	background-color: #ffe7e7;
+	font-style: italic;
+	color: #636363;
+	cursor: default;
+	text-align: center;
+}
+.arioem-pcSearch-res-model-list-assembly li.arioem-noResult {
+}
+.arioem-pcSearch-res-model-list li.arioem-noResult {
+	padding: 20px;
+	background-color: #ffe7e7;
+	font-style: italic;
+	color: #636363;
+	text-align: center;
+	cursor: default;
+}
+.arioem-pcSearch-res-searching {
+	padding: 20px;
+	text-align: center;
+	background: #aaa;
+}
+
+
+
+.arioem-pager {
+	padding: 5px 0;
+	line-height: 30px;
+	text-align: center;
+	background-color: #bbb;
+}
+.arioem-pager > span {
+	display: inline-block;
+	padding: 3px 10px;
+	border: 1px solid transparent;
+	cursor: pointer;
+}
+.arioem-pager > span:hover {
+	background-color: red;
+	color: #fff;
+}
+.arioem-pager-first {}
+.arioem-pager-rewind {}
+.arioem-pager-forward {}
+.arioem-pager-last {}
+.arioem-pager-num {
+	display: inline-block;
+	margin: 0 10px;
+}
+.arioem-pager-pageNum {
+	margin: 0 10px;
+	font-weight: bold;
+}
+.arioem-pager-pagesTotal {
+	margin: 0 10px;
+	font-weight: bold;
+}
+.arioem-pager-num span {
+	font-weight: bold;
+}
+
+.arioem-pcSearch-res .arioem-inCart {
+	background-color: gold;
+}
+
+.arioem-pcSearch-hidePrice {
+	cursor: default;
+}
+.arioem-pcSearch-seePriceInCartPopup {
+	position: absolute;
+	display: none;
+	left: 20px;
+	top: 130px;
+	z-index:10;
+	box-sizing: border-box;
+	width: 270px;
+	padding: 5px 10px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	background-color: palegoldenrod;
+}
+.arioem-pcSearch-seePriceInCartPopup.oempart-visible {
+	display: block;
+}
+.arioem-pcSearch-seePriceInCartPopup p {
+	margin: 5px 0;
+}
+.arioem-pcSearch-seePriceInCartPopup h5 {
+	margin: 10px 0 5px;
+	font-weight: bold;
+}

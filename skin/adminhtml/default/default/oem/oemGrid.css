@@ -1,0 +1,30 @@
+.oemGrid-inplace-edit {}
+.oemGrid-inplace-edit input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 1px 5px;
+}
+.oemGrid-inplace-edit select {
+	box-sizing: border-box;
+	width: 100%;
+}
+.oemGrid-inplace-edit select option {}
+.oemGrid-inplace-edit-btn-container {
+	margin: 2px 0 0;
+	text-align: right;
+	white-space: nowrap;
+}
+.oemGrid-inplace-edit-btn-container button {
+	line-height: 18px;
+	vertical-align: middle;
+	background-size: contain;
+}
+.oemgrid-inplace-edit-save {
+	min-width: 55px;
+}
+.oemgrid-inplace-edit-cancel {
+	margin-left: 5px;
+}
+.oemGrid-saving {
+
+}

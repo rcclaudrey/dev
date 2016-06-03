@@ -1,0 +1,174 @@
+<script type="text/javascript">
+
+String.prototype.hashCode = function() {
+	var hash = 0, i, chr, len;
+	if (this.length === 0) return hash;
+	for (i = 0, len = this.length; i < len; i++) {
+		chr   = this.charCodeAt(i);
+		hash  = ((hash << 5) - hash) + chr;
+		hash |= 0; // Convert to 32bit integer
+	}
+	return (hash >>> 0);
+};
+
+
+var OEMPager = function() {return function($) { return {
+	config: {
+		mode: 'page', //'scroll',
+		templates: {
+			body: '<div class="arioem-pager">%PAGER_CONTENT%</div>',
+			byPage: {
+				first: '<span class="arioem-pager-first" onclick="oemPager.go(\'%ID%\', 1)">First</span>',
+				rewind: '<span class="arioem-pager-rewind" onclick="oemPager.go(\'%ID%\', %PAGE%)">Prev</span>',
+				forward: '<span class="arioem-pager-forward" onclick="oemPager.go(\'%ID%\', %PAGE%)">Next</span>',
+				last: '<span class="arioem-pager-last" onclick="oemPager.go(\'%ID%\', %PAGE_LAST%)">Last</span>',
+				pageNum: '<div class="arioem-pager-num">Page '
+//						+ '<input id="" value="%PAGE_NUM%" onclick="oemPartSearch.jump(this)" /> '
+						+ '<strong class="arioem-pager-pageNum">%PAGE_NUM%</strong> '
+						+ 'of <strong class="arioem-pager-pagesTotal">%PAGE_COUNT%</strong></div>'
+			},
+			byScroll: {
+				viewMore: '<span class="arioem-pager-viewMore" onclick="oemPager.viewMore(%PARAMS%)">View More</span>'
+			}
+		},
+		messages: {
+			error: 'A paging error happened. Please call site support.'
+		}
+	},
+	areas: {},
+	loader: null,
+	loaderTargetSelector: '',
+	init: function(configValues) {
+		$.extend(true, this.config, configValues);
+		if(window.hasOwnProperty('loader')) {
+			this.loader = window.loader;
+		}
+	},
+	showLoader: function(targetSelector) {
+		if(this.loader && targetSelector) {
+			this.loaderTargetSelector = targetSelector;
+			this.loader.show(targetSelector);
+		}
+	},
+	hideLoader: function(targetSelector) {
+		if(this.loader) {
+			if(typeof(targetSelector) !== 'string') {
+				targetSelector = this.loaderTargetSelector;
+			}
+			this.loader.hide(targetSelector);
+			this.loaderTargetSelector = '';
+		}
+	},
+	selectorHash: function(selector) {
+		return selector.hashCode();
+	},
+	add: function(containerSelector, pager, data) {
+		var container = $(containerSelector);
+		var id = this.selectorHash(containerSelector);
+
+		if (!pager || !pager.length) { // then remove current pager
+			this._removeOldPager(containerSelector);
+			if (this.areas.hasOwnProperty(id)) {
+				delete this.areas[id];
+			}
+			return;
+		}
+		var currentPage = pager.page || 1;
+		var pagerHTML = this.html(id, pager);
+
+		if (this.areas.hasOwnProperty(id)) {
+			this._removeOldPager(containerSelector);
+			this.areas[id].data = data; // refreshing the parameters for 1st level queries
+		} else {
+			this.areas[id] = {
+				selector: containerSelector,
+				data: data,
+				pages: {}
+			};
+		}
+		this.areas[id].pages[currentPage] = {
+			html: container.html(),
+			pagerHTML: pagerHTML
+		};
+		container.after(pagerHTML);
+	},
+	go: function(id, page) {
+		if (this.areas.hasOwnProperty(id)) {
+			if (this.areas[id].pages.hasOwnProperty(page)) {
+				$(this.areas[id].selector).html(this.areas[id].pages[page].html);
+				this._removeOldPager(this.areas[id].selector);
+				$(this.areas[id].selector).after(this.areas[id].pages[page].pagerHTML);
+				this._scrollIntoView(this.areas[id].selector);
+			} else {
+				var ajaxData = {
+					dataType: 'json',
+					type: 'GET',
+					async: true,
+					cache: false,
+					complete: this.hideLoader.bind(this)
+				};
+				$.extend(true, ajaxData, this.areas[id].data);
+				delete ajaxData.data._;
+				delete ajaxData.data.pager;
+				ajaxData.data.page = page;
+				this._removeOldPager(this.areas[id].selector);
+				this.showLoader(this.areas[id].selector);
+				$.ajax(ajaxData);
+			}
+		}
+	},
+	html: function(id, data) { // data: { length, size, page }
+		var html = '';
+		if (data) {
+			var pagerHtml = '';
+			var pageCount = Math.ceil(data.length / data.size);
+			if (this.config.mode == 'page') {
+				if (data.page > 1) {
+					pagerHtml += this.config.templates.byPage.first
+						+ this.config.templates.byPage.rewind.replace(/%PAGE%/g, data.page - 1);
+				}
+				pagerHtml += this.config.templates.byPage.pageNum
+					.replace(/%PAGE_NUM%/g, data.page)
+					.replace(/%PAGE_COUNT%/g, pageCount);
+				if (data.page < pageCount) {
+					pagerHtml += this.config.templates.byPage.forward.replace(/%PAGE%/g, data.page + 1)
+						+ this.config.templates.byPage.last.replace(/%PAGE_LAST%/g, pageCount);
+				}
+			} else if (this.config.mode == 'scroll') {
+				if (data.page == pageCount) {
+					return ''; // nowhere to scroll further
+				}
+//				var nextPage = data.page + 1;
+//				params = [nextPage, func];
+//				pagerHtml += this.config.templates.byScroll.viewMore.replace('%PARAMS%', params.join());
+			}
+			pagerHtml = pagerHtml.replace(/%ID%/g, id);
+			html = this.config.templates.body.replace('%PAGER_CONTENT%', pagerHtml);
+		}
+		return html;
+	},
+	_removeOldPager: function(selector) {
+		var oldPagerHTML = $(selector).next();
+		if (oldPagerHTML.hasClass('arioem-pager')) {
+			oldPagerHTML.remove();
+		}
+	},
+	_scrollIntoView: function(element) {
+		if ('object' != typeof(element)) {
+			element = $(element);
+		}
+		var top = element.offset().top;
+		var scrollTop = $('html, body').scrollTop();
+//		if (top < scrollTop || top > scrollTop + window.innerHeight * 0.8) {
+			$('html, body').animate({scrollTop: top}, 1000);
+//		}
+	}
+};}(jQuery);};
+
+
+jQuery(document).ready(function() {
+	oemPager = new OEMPager();
+	oemPager.init({});
+}); 
+
+</script>

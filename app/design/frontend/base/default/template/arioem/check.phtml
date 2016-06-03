@@ -576,11 +576,9 @@ DESCR
 		jQuery('#please-wait').show();
 		ari_checker_time = getTime();
 		jQuery.ajax({
-<?php if($this->getRequest()->getParam('direct')): ?>
-			url: "<?php echo $this->getUrl() ?>ariapi/index.php".replace('http:', document.location.protocol),
-<?php else: ?>
-			url: "<?php echo $this->getUrl('arioem/check/post') ?>".replace('http:', document.location.protocol),
-<?php endif ?>
+			url: "<?php echo ($this->getRequest()->getParam('direct'))
+							?	$this->getUrl() . 'ariapi/index.php'
+							:	$this->getUrl('arioem/check/post') ?>".replace('http:', document.location.protocol),
 			data: {
 				requestType: jQuery('.tabs .active')[0].id,
 				params: gatherParams('mandatory'),

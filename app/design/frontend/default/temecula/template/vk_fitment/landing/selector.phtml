@@ -1,61 +1,72 @@
 <?php
+
 $activityId = $this->getTmsActivityId();
 $makes = $this->getMakes();
+
 ?>
 <div class="fitment-sidebar">
-    <div class="fitment-sidebar-header">
-        <?php echo $this->__('Search by parts & accessories by vehicle') ?>
-    </div>
-    <div class="selection fitment-selector-sidebar fitment-selector">
-        <div class="fitment-selectors">
-            <ul>
-                <li class="make">
-                    <label for="fitment-make"><?php echo $this->__('Select Make') ?></label>
-                    <select id="fitment-make" name="fitment-make">
-                        <option value=""><?php echo $this->__('-- Select Make --') ?></option>
-                        <?php foreach ($makes as $make): ?>
-                            <option value="<?php echo $make['Id'] ?>"><?php echo htmlspecialchars($make['Name']) ?></option>
-                        <?php endforeach ?>
-                    </select>
-                </li>
-                <li class="year">
-                    <label for="fitment-year"><?php echo $this->__('Select Year') ?></label>
-                    <select id="fitment-year" name="fitment-year">
-                        <option><?php echo $this->__('-- Select year --') ?></option>
-                    </select>
-                </li>
-                <li class="model">
-                    <label for="fitment-model"><?php echo $this->__('Select Model') ?></label>
-                    <select id="fitment-model" name="fitment-model">
-                        <option><?php echo $this->__('-- Select model --') ?></option>
-                    </select>
-                </li>
-            </ul>
-        </div>
-        <button class="fitment-selector-search" type="button" disabled="disabled" onclick="rideSelector.searchByRide({target: this})"><?php echo $this->__('Search') ?></button>
-    </div>
+	<div class="fitment-sidebar-header">
+		<?php echo $this->__('Search by vehicle') ?>
+	</div>
+
+	<div class="selection fitment-selector-sidebar fitment-selector">
+		<div class="fitment-selectors">
+			<ul>
+				<li class="make">
+					<label for="fitment-make"><?php echo $this->__('Select Make') ?></label>
+					<select id="fitment-make" name="fitment-make">
+						<option value=""><?php echo $this->__('-- Select Make --') ?></option>
+						<?php foreach($makes as $make): ?>
+							<option value="<?php echo $make['Id'] ?>"><?php echo htmlspecialchars($make['Name']) ?></option>
+						<?php endforeach ?>
+					</select>
+				</li>
+
+				<li class="year">
+					<label for="fitment-year"><?php echo $this->__('Select Year') ?></label>
+					<select id="fitment-year" name="fitment-year">
+						<option><?php echo $this->__('-- Select year --') ?></option>
+					</select>
+				</li>
+
+				<li class="model">
+					<label for="fitment-model"><?php echo $this->__('Select Model') ?></label>
+					<select id="fitment-model" name="fitment-model">
+						<option><?php echo $this->__('-- Select model --') ?></option>
+					</select>
+				</li>
+			</ul>
+		</div>
+
+		<button class="fitment-selector-search" type="button" disabled="disabled" onclick="rideSelector.searchByRide({target:this})"><?php echo $this->__('Search') ?></button>
+	</div>
 </div>
+
 <script type="text/javascript">
-    jQuery(document).ready(function () {
-        rideSelector = new RideSelector();
-        rideSelector.init({
-            baseURL: '<?php echo $this->getUrl('fitment/index/fitment') ?>'.replace(/\/+$/gm, ''),
-            searchByRideURL: '<?php echo $this->getUrl('fitment') ?>',
-            activity: <?php echo (int) $activityId ?>,
-            product: null,
-            category: <?php echo (int) $this->getAriCategoryId() ?>,
-            subCategory: <?php echo (int) $this->getAriSubcategoryId() ?>,
-            emptyText: {
-                makeSelect: '<?php echo $this->__('-- Select make --') ?>',
-                yearSelect: '<?php echo $this->__('-- Select year --') ?>',
-                modelSelect: '<?php echo $this->__('-- Select model --') ?>',
-                rideName: '<?php echo $this->__('Not selected') ?>'
-            },
-            fitment: {
-                id: null,
-                name: ''
-            },
-            errorMessage: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
-        });
-    });
+
+// landing
+
+jQuery(document).ready(function() {
+	rideSelector = new RideSelector();
+	rideSelector.init({
+		baseURL: '<?php echo $this->getUrl('fitment/index/fitment') ?>'.replace(/\/+$/gm, ''),
+		searchByRideURL: '<?php echo $this->getUrl('fitment') ?>',
+		activity: <?php echo (int) $activityId ?>,
+		product: null,
+		category: <?php echo (int) $this->getAriCategoryId() ?>,
+		subCategory: <?php echo (int) $this->getAriSubcategoryId() ?>,
+		emptyText: {
+			makeSelect: '<?php echo $this->__('-- Select make --') ?>',
+			yearSelect: '<?php echo $this->__('-- Select year --') ?>',
+			modelSelect: '<?php echo $this->__('-- Select model --') ?>',
+			rideName: '<?php echo $this->__('Not selected') ?>'
+		},
+		fitment: {
+			id: null,
+			name: ''
+		},
+		errorMessage: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+	});
+});
+
 </script>

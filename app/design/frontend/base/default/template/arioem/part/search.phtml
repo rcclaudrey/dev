@@ -1,0 +1,931 @@
+<?php
+
+$helper = Mage::helper('arioem');
+$brands = $helper->getBrands();
+
+reset($brands);
+$defaultBrandCode = key($brands);
+
+/*
+by Model:
+	Search Model							SearchModel/{brandCode}/{model}/{page}/{pageSize}								M		M	ModelId,ModelName
+	+ Search Model Assemblies				SearchModelAssemblies/{brandCode}/{modelId} OR just NodeChildren on assembly	AMA		A	Id, Name
+
+by Part:
+	Search Parts							SearchParts/{brandCode}/{search}/{page}/{pageSize}								P		P
+	+ Search Part Models - all models		SearchPartModels/{brandCode}/{sku}/{page}/{pageSize}							MPM		M	ModelId,ModelName
+	  + Search Part Model Assemblies		SearchPartModelAssemblies/{brandCode}/{modelId}/{sku}							APMA	A	Id, Name
+
+by both:
+	Search Parts Within Models				SearchPartsWithinModel/{brandCode}/{modelSearch}/{partSearch}/{page}/{pageSize}	PPWM	P
+	+ Search Part Models Filtered			SearchPartModelsFiltered/{brandCode}/{sku}/{modelName}/{page}/{pageSize}		MPMF	M	ModelId,ModelName
+    + Search Part Model Assemblies			SearchPartModelAssemblies/{brandCode}/{modelId}/{sku}							APMA	A	Id, Name
+/**/
+
+include_once 'pager.phtml';
+
+?>
+<div class="arioem-content">
+	<div class="arioem-pcSearch">
+
+		<div class="arioem-pcSearch-selector">
+			<div class="arioem-pcSearch-selector-frame">
+				<div class="arioem-pcSearch-selector-container arioem-pcSearch-selector-brand">
+					<label for="arioem-pcSearch-selector-brand"><?php echo $this->__('Brand') ?></label>
+					<select id="arioem-pcSearch-selector-brand" onchange="oemPartSearch.selectBrand(this)">
+						<?php foreach($brands as $code => $name): ?>
+							<option value="<?php echo $code ?>"><?php echo htmlspecialchars($name) ?></option>
+						<?php endforeach ?>
+					</select>
+				</div>
+				<div class="arioem-pcSearch-selector-container arioem-pcSearch-selector-model">
+					<label for="arioem-pcSearch-selector-model"><?php echo $this->__('Model') ?></label>
+					<div class="arioem-pcSearch-selector-container-ac-wrap">
+						<input type="text" id="arioem-pcSearch-selector-model" value="" ari_search_type="model" />
+						<ul class="arioem-pcSearch-selector-autocomplete" id="arioem-pcSearch-selector-model-autocomplete"></ul>
+					</div>
+				</div>
+				<div class="arioem-pcSearch-selector-container arioem-pcSearch-selector-part">
+					<label for="arioem-pcSearch-selector-part"><?php echo $this->__('Part') ?></label>
+					<div class="arioem-pcSearch-selector-container-ac-wrap">
+						<input type="text" id="arioem-pcSearch-selector-part" value="" ari_search_type="part" />
+						<ul class="arioem-pcSearch-selector-autocomplete" id="arioem-pcSearch-selector-part-autocomplete"></ul>
+					</div>
+				</div>
+				<div class="arioem-pcSearch-selector-btn-container">
+					<button onclick="oemPartSearch.search(this)"><?php echo $this->__('Search') ?></button>
+				</div>
+			</div>
+		</div>
+
+		<div class="arioem-pcSearch-res" id="arioem-pcSearch-res"></div>
+
+		<div id="arioem-pcSearch-seePriceInCartPopup"
+			class="arioem-pcSearch-seePriceInCartPopup"
+			onclick="oemPartSearch.showHiddenPrice(null, -1)"
+			onmouseenter="oemPartSearch.showHiddenPrice(null, 1)"
+			onmouseout="oemPartSearch.showHiddenPrice(null, -1)"
+		>
+			<p><?php echo $this->__('This supplier has established a Minimum Advertised Price (MAP) Policy 
+that applies to the advertising of parts, apparel and accessories. On this page, we are not permitted to display a price 
+less than the current MSRP.') ?></p>
+			<h5><?php echo $this->__('What\'s the price?') ?></h5>
+			<p><?php echo $this->__('This policy does not control the price at which any retailer may 
+sell parts and accessories. It applies to advertising and display only. Each retailer remains entirely free to determine 
+its own resale price for all parts, apparel and accessories.') ?></p>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+
+var OEMPartSearch = function() {return function($) { return {
+	config: {
+		baseURL: '',
+		addToCartURL: '',
+		loaderTargetSelector: '.arioem-content',
+//		pageSize: 50,
+		partCenter: {
+			baseURL: 'partcenter',
+			modelHash: '#brand=%BRAND%&modelId=%MODEL_ID%&modelName=%MODEL_QUERY_NAME%',
+			assemblyHash: '&assembly=%ASSEMBLY_HASH%',
+			partHash: '&part=%PART_HASH%'
+		},
+		templates: {
+			part: {
+				table: '<div class="arioem-pcSearch-res-header">'
+						+ '<span class="arioem-pcSearch-res-header-partNo">Part Number</span>'
+						+	'<span class="arioem-pcSearch-res-header-descr">Description</span>'
+						+	'<span class="arioem-pcSearch-res-header-msrp">MSRP</span>'
+						+	'<span class="arioem-pcSearch-res-header-price">Online Price</span>'
+						+	'<span class="arioem-pcSearch-res-header-stock">Stock status</span>'
+						+	'<span class="arioem-pcSearch-res-header-addToCart">Add To Cart</span>'
+						+	'<span class="arioem-pcSearch-res-header-usedAt">Used At</span>'
+						+ '</div>'
+						+ '<ul class="arioem-pcSearch-res-body">%PART_LIST%</ul>',
+				tableRow: '<li id="arioem-pcSearch-part-%PART_ID%" class="%ROW_CLASS%" ari_part_number="%PART_NUMBER%" ari_part_id="%PART_ID%">' 
+						+	'<div class="arioem-pcSearch-res-body-line1">'
+						+		'<span class="arioem-pcSearch-res-body-partNo">%PART_NUMBER%</span>'
+						+		'<span class="arioem-pcSearch-res-body-descr">%PART_DESCRIPTION% %PART_SUPERSEDED%</span>'
+						+		'<span class="arioem-pcSearch-res-body-msrp">%PART_MSRP%</span>'
+//						+		'<span class="arioem-pcSearch-res-body-price">%PART_PRICE%</span>'
+						+		'%PRICE%'
+						+		'<span class="arioem-pcSearch-res-body-stock">%PART_STOCK%</span>'
+						+		'<span class="arioem-pcSearch-res-body-addToCart"><button '
+						+			'onclick="oemPartSearch.addToCart(this)">Add To Cart</button></span>'
+						+		'<span class="arioem-pcSearch-res-body-usedAt" onclick="oemPartSearch.selectPart(this)" '
+						+			'title="Click to see the list of models this part is found in">Show Models</span>'
+						+	'</div>'
+						+	'<ul class="arioem-pcSearch-res-body-usedAt-list"></ul>'
+						+ '</li>',
+				tableRowNLA: '<li class="%ROW_CLASS% arioem-nla">'
+						+	'<div class="arioem-pcSearch-res-body-line1">'
+						+		'<span class="arioem-pcSearch-res-body-partNo">%PART_NUMBER%</span>'
+						+		'<span class="arioem-pcSearch-res-body-descr">%PART_DESCRIPTION%</span>'
+						+		'<span class="arioem-pcSearch-res-body-nla">No longer available</span>'
+						+	'</div>'
+						+ '</li>',
+				tableRowNA: '<li class="%ROW_CLASS% arioem-na">'
+						+	'<div class="arioem-pcSearch-res-body-line1">'
+						+		'<span class="arioem-pcSearch-res-body-partNo">%PART_NUMBER%</span>'
+						+		'<span class="arioem-pcSearch-res-body-descr">%PART_DESCRIPTION%</span>'
+						+		'<span class="arioem-pcSearch-res-body-na">Not available</span>'
+						+	'</div>'
+						+ '</li>',
+				tableRowSupersededSign: '<span class="arioem-pcSearch-partlist-superseded" '
+						+ 'title="This is the most current part for this model"></span>',
+				price: {
+					0: '<span class="arioem-pcSearch-res-body-price">%PART_PRICE%</span>',
+					1: '<span class="arioem-pcSearch-res-body-price arioem-pcSearch-hidePrice" '
+						+ 'onclick="oemPartSearch.showHiddenPrice(this, 0)" '
+						+ 'onmouseover="oemPartSearch.showHiddenPrice(this, 1)" '
+						+ 'onmouseout="oemPartSearch.showHiddenPrice(null, -1)"'
+						+ '>See price in cart</span>'
+				},
+				stock: {
+					inStock: '<span class="arioem-instock" title="%STOCK_LABEL%">In stock</span>',
+					outOfStock: '<span class="arioem-outOfStock" title="%STOCK_LABEL%">Available</span>'
+				},
+				modelItem: '<li id="arioem-pcSearch-model-%ELEMENT_ID%" '
+						+		'class="%ROW_CLASS%" ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%">'
+						+	'<div class="arioem-pcSearch-partlist-model-headerContainer">'
+						+		'<span class="arioem-pcSearch-partlist-model-switch" onclick="oemPartSearch.selectPartModel(this)" title="Expand/Collapse assemblies">&nbsp;</span>'
+						+		'<a href="%MODEL_URL%" class="arioem-pcSearch-partlist-model-view" title="View all assemblly images">View All</a>'
+						+		'<span class="arioem-pcSearch-partlist-model-name" onclick="oemPartSearch.selectPartModel(this)">%MODEL_NAME%</span>'
+						+	'</div>'
+						+	 '<ul class="arioem-pcSearch-res-model-list-assembly clearer"></ul>'
+						+ '</li>',
+				assemblyItem: '<li ari_assembly_id="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%"><a href="%ASSEMBLY_URL%">%ASSEMBLY_NAME%</a></li>',
+				noResult: '<li class="arioem-noResult">Sorry, no parts found for this search criteria</li>'
+			},
+			model: {
+				listHeader: '<div class="arioem-pcSearch-res-model-header">'
+						+	'<span class="arioem-pcSearch-res-model-header-name">Model</span>'
+						+	'<span class="arioem-pcSearch-res-model-header-view">Assemblies</span>'
+						+ '</div>',
+				table: '<ul class="arioem-pcSearch-res-model-list">%MODEL_LIST%</ul>',
+				item: '<li id="arioem-pcSearch-model-%ELEMENT_ID%" '
+						+		'class="%ROW_CLASS%" ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%">'
+						+	'<div class="arioem-pcSearch-partlist-model-headerContainer">'
+						+		'<span class="arioem-pcSearch-partlist-model-switch" onclick="oemPartSearch.selectModel(this)" title="Expand/Collapse assemblies">&nbsp;</span>'
+						+		'<a href="%MODEL_URL%" class="arioem-pcSearch-partlist-model-view" title="View all assemblly images">View All</a>'
+						+		'<span class="arioem-pcSearch-partlist-model-name" onclick="oemPartSearch.selectModel(this)">%MODEL_NAME%</span>'
+						+	'</div>'
+						+	 '<ul class="arioem-pcSearch-res-model-list-assembly clearer"></ul>'
+						+ '</li>',
+				noResult: '<li class="arioem-noResult">Sorry, no models found</li>'
+			},
+			assembly: {
+				item: '<li ari_assembly_id="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%"><a href="%ASSEMBLY_URL%">%ASSEMBLY_NAME%</a></li>',
+				noResult: '<li class="arioem-noResult">Sorry, no results found</li>'
+			},
+			empty: '<div class="arioem-pcSearch-res-noResult">Search results will be shown here</div>',
+			searching: '<div class="arioem-pcSearch-res-searching">Searching, please wait...</div>',
+			autocomplete: {
+				item: '<li class="arioem-pcSearch-selector-autocomplete-item" onclick="oemPartSearch._autocompleteClick(this)">%VALUE%</li>'
+			}
+		},
+		messages: {
+			hashError: 'Most probably, there is something wrong with your hash value\n\ '
+				+ '(the part of the page URL after "#" sign). Please repeat the selection of the item you\'re looking for.'
+				+ '\nOriginal error message is:\n'
+		},
+		default: {
+			brand: {}
+		},
+		customerId: 0,
+		hidePricePopupOffset: {
+			left: -10,
+			top: -50
+		}
+	},
+	state: {
+		pageURL: '',
+		cartItems: {},
+		brand: {
+			code: null,
+			name: '',
+			hash: ''
+		},
+		search: {
+			model: '',
+			part: '',
+			type: ''
+		},
+		page: {
+			number: 1
+		}
+	},
+	brandNames: {
+		'BRP': 'Can-Am',
+		'HOM': 'Honda',
+		'HONPE': 'Honda Power Equipment',
+		'KUS': 'Kawasaki',
+		'POL': 'Polaris',
+		'BRP_SEA': 'Sea-Doo',
+		'SUZ': 'Suzuki',
+		'SLN': 'Slingshot',
+		'VIC': 'Victory',
+		'YAM': 'Yamaha'
+	},
+	brandHash: {
+		'BRP': 'canam',
+		'HOM': 'honda',
+		'HONPE': 'hondape',
+		'KUS': 'kawasaki',
+		'POL': 'polaris',
+		'BRP_SEA': 'seadoo',
+		'SUZ': 'suzuki',
+		'SLN': 'slingshot',
+		'VIC': 'victory',
+		'YAM': 'yamaha'
+	},
+	loader: null,
+	pager: null,
+	init: function(configValues, stateValues) {
+		$.extend(true, this.config, configValues);
+		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
+		$.extend(this.state, stateValues);
+		this.state.pageURL = location.toString().split('#')[0];
+		if(window.hasOwnProperty('loader')) {
+			this.loader = window.loader;
+		}
+		if(window.hasOwnProperty('oemPager')) {
+			this.pager = window.oemPager;
+		}
+		$('.arioem-pcSearch-selector-container-ac-wrap input').on('input', this._autocompleteInput.bind(this));
+		$('.arioem-pcSearch-selector-container-ac-wrap input').on('keydown', this._autocompleteKeyDown.bind(this));
+		$('.arioem-pcSearch-selector-container-ac-wrap input').on('blur', this._autocompleteBlur.bind(this));
+		$(window).on('hashchange', this.popState.bind(this));
+
+		$('#arioem-pcSearch-res').html(this.config.templates.empty);
+		this._scrollIntoView('.arioem-pcSearch');
+		this.parseHash();
+	},
+	showLoader: function(targetSelector) {
+		if(this.loader) {
+			if(targetSelector === undefined) {
+				targetSelector = this.config.loaderTargetSelector;
+			}
+			this.loader.show(targetSelector);
+		}
+	},
+	hideLoader: function(targetSelector) {
+		if(this.loader) {
+			if(typeof(targetSelector) !== 'string') {
+				targetSelector = this.config.loaderTargetSelector;
+			}
+			this.loader.hide(targetSelector);
+		}
+	},
+	addPaging: function(containerSelector, data, callback) {
+		if (this.pager) {
+			var requestData = data._request;
+			delete requestData._;
+			var ajaxData = {
+				url: this.config.baseURL,
+				data: requestData,
+				success: callback.bind(this)
+			};
+			this.pager.add(containerSelector, data.pager, ajaxData);
+		}
+	},
+	resetBrand: function() {
+		this.state.brand = this.config.default.brand;
+		this.state.brand.hash = this.brandHash[this.state.brand.code];
+		$('#arioem-pcSearch-selector-brand').val(this.state.brand.code);
+		$('#arioem-pcSearch-res').html(this.config.templates.empty);
+	},
+	selectBrand: function(sender) {
+		if(this.state.hashMode) {
+			this.state.brand.code = sender.code;
+			$('#arioem-pcSearch-selector-brand').val(this.state.brand.code);
+		} else {
+			var newCode = $(sender).val();
+			if (newCode == this.state.brand.code) return; // to avoid looping when assigning a value to brand select
+			this.state.brand.code = newCode;
+		}
+
+		this.state.brand.name = this.brandNames[this.state.brand.code];
+		this.state.brand.hash = this.brandHash[this.state.brand.code];
+
+		if(!this.state.hashMode) {
+			this.updateHash();
+		}
+		$('#arioem-pcSearch-res').html(this.config.templates.empty);
+	},
+	search: function(sender) {
+		if(!this.state.hashMode) {
+			var part = $('#arioem-pcSearch-selector-part').val();
+			var model = $('#arioem-pcSearch-selector-model').val();
+			if (!part && !model) {
+				// say something
+				return;
+			}
+			var data = {
+				action: 'search',
+				brand: this.state.brand.code,
+				part: part,
+				model: model,
+				type: ((model && !part) ? 'M' : '') + ((!model && part) ? 'P' : '') + ((model && part) ? 'PPWM' : '')
+			};
+			if (this.state.page.number != 1) {
+				data.page = this.state.page.number;
+//				data.pageSize: this.config.pageSize
+			}
+
+			$('#arioem-pcSearch-res').html(this.config.templates.searching);
+			this._scrollIntoView('.arioem-pcSearch');
+			this.showLoader();
+			$.ajax({
+				url: this.config.baseURL,
+				data: data,
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._searchSuccess.bind(this),
+				complete: this.hideLoader.bind(this)
+			});
+		}
+	},
+	_searchSuccess: function(response) {
+		if(response.errorMessage) {
+			console.log(response.errorMessage);
+//			alert(response.errorMessage);
+//			return;
+		}
+		this.state.hashMode =  true;
+		this.state.brand.code = response.brand;
+		$('#arioem-pcSearch-selector-brand').val(this.state.brand.code);
+		this.state.brand.name = this.brandNames[this.state.brand.code];
+		this.state.brand.hash = this.brandHash[this.state.brand.code];
+		this.state.search.part = response.part;
+		this.state.search.model = response.model;
+		this.state.search.type = response.type;
+		$('#arioem-pcSearch-selector-part').val(this.state.search.part);
+		$('#arioem-pcSearch-selector-model').val(this.state.search.model);
+		this.state.hashMode = false;
+
+		var html = '';
+		var pagingSelector = '';
+
+		if (response.type == 'M') {
+			var rowsHtml = '';
+			if (response.res.length) {
+				var itemTemplate = this.config.templates.model.item
+						.replace(/%MODEL_URL%/g, this.config.partCenter.baseURL + this.config.partCenter.modelHash)
+						.replace(/%BRAND%/g, this.brandHash[this.state.brand.code]);
+
+				for(var i=0; i<response.res.length; i++) {
+					rowsHtml += itemTemplate
+						.replace(/%ELEMENT_ID%/g, response.res[i].id)
+						.replace(/%ROW_CLASS%/g, ((i % 2) ? 'arioem-even' : ''))
+						.replace(/%MODEL_ID%/g, response.res[i].id)
+						.replace(/%MODEL_NAME%/g, response.res[i].name)
+						.replace(/%MODEL_QUERY_NAME%/g, encodeURIComponent(response.res[i].name))
+						.replace(/%MODEL_HASH%/g, response.res[i].hash);
+				}
+			} else {
+				rowsHtml = this.config.templates.model.noResult;
+			}
+			html = this.config.templates.model.listHeader
+					+ this.config.templates.model.table
+						.replace(/%MODEL_LIST%/, rowsHtml);
+			pagingSelector = '.arioem-pcSearch-res-model-list'
+		} else if (response.type == 'P' || response.type == 'PPWM') {
+			var rowClass, stockLabel, superseded;
+			var rowsHtml = '', rowHtml;
+			if (response.res.length) {
+				for(var i=0; i<response.res.length; i++) {
+					rowClass = ((i % 2) ? 'arioem-even' : '')
+						+ (	response.res[i].isSuperseded ? ' arioem-superseded' : '');
+					if (response.res[i].available) {
+						stockLabel = (response.res[i].invW
+							?	this.config.templates.part.stock.inStock
+							:	this.config.templates.part.stock.outOfStock)
+									.replace(/%STOCK_LABEL%/g, response.res[i].stockLabel);
+						superseded = response.res[i].isSuperseded
+							?	this.config.templates.part.tableRowSupersededSign
+							:	'';
+
+						rowHtml = this.config.templates.part[response.res[i].nla ? 'tableRowNLA' : 'tableRow']
+							.replace(/%PART_MSRP%/g, '$' + response.res[i].msrp)
+							.replace(/%PRICE%/g, this.config.templates.part.price[response.res[i].hidePrice])
+							.replace(/%PART_PRICE%/g, '$' + response.res[i].price) // this depends on the line above
+							.replace(/%PART_SUPERSEDED%/g, superseded)
+							.replace(/%PART_STOCK%/g, stockLabel);
+					} else {
+						rowHtml = this.config.templates.part.tableRowNA;
+					}
+					rowsHtml += rowHtml
+						.replace(/%PART_ID%/g, response.res[i].id)
+						.replace(/%PART_TAG%/g, response.res[i].tag)
+						.replace(/%PART_DESCRIPTION%/g, response.res[i].name)
+						.replace(/%PART_NUMBER%/g, response.res[i].sku)
+						.replace(/%ROW_CLASS%/g, rowClass);
+				}
+			} else {
+				rowsHtml = this.config.templates.part.noResult;
+			}
+			html = this.config.templates.part.table.replace(/%PART_LIST%/, rowsHtml);
+			pagingSelector = '.arioem-pcSearch-res-body';
+		}
+		$('#arioem-pcSearch-res').html(html);
+		this.updateHash();
+		this._scrollIntoView('#arioem-pcSearch-res');
+		this.addPaging(pagingSelector, response, this._searchSuccess);
+	},
+	selectModel: function(sender) {
+		var parentElement = $(sender).closest('li');
+		if(parentElement.hasClass('arioem-expanded')) {
+			parentElement.removeClass('arioem-expanded');
+		} else if(parentElement.hasClass('arioem-hasContent')) {
+			parentElement.closest('ul').children('.arioem-expanded').removeClass('arioem-expanded');
+			this._scrollIntoView(parentElement);
+			parentElement.addClass('arioem-expanded');
+		} else if(parentElement.hasClass('arioem-loading')) {
+			// do nothing, the work's already being done
+		} else {
+			parentElement.closest('ul').children('.arioem-expanded').removeClass('arioem-expanded');
+			this._scrollIntoView(parentElement);
+			parentElement.addClass('arioem-loading');
+			parentElement.addClass('arioem-expanded');
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'assembly',
+					brandCode: this.state.brand.code,
+					parentId: parentElement.attr('ari_model_id')
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectModelSuccess.bind(this)
+			});
+		}
+	},
+	_selectModelSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+
+		var parentElement = $('#arioem-pcSearch-model-' + response.parentId);
+		parentElement.removeClass('arioem-loading');
+
+		var rowsHtml = '';
+		if(response.res.length) {
+			var itemTemplate = this.config.templates.assembly.item
+				.replace(/%ASSEMBLY_URL%/g, this.config.partCenter.baseURL
+					+ this.config.partCenter.modelHash
+					+ this.config.partCenter.assemblyHash)
+				.replace(/%BRAND%/g, this.brandHash[this.state.brand.code])
+				.replace(/%MODEL_ID%/g, encodeURIComponent(parentElement.attr('ari_model_id')))
+				.replace(/%MODEL_QUERY_NAME%/g, encodeURIComponent(parentElement.find('.arioem-pcSearch-partlist-model-name').text().trim()));
+
+			for(var i=0; i<response.res.length; i++) {
+				rowsHtml += itemTemplate
+					.replace(/%ASSEMBLY_ID%/g, response.res[i].id)
+					.replace(/%ASSEMBLY_NAME%/g, response.res[i].name)
+					.replace(/%ASSEMBLY_HASH%/g, response.res[i].hash);
+			}
+		} else {
+			rowsHtml = this.config.templates.assembly.noResult;
+		}
+		$(parentElement).find('ul').first().html(rowsHtml);
+		parentElement.addClass('arioem-hasContent');
+	},
+	selectPart: function(sender) {
+		var parentElement = $(sender).closest('li');
+		if(parentElement.hasClass('arioem-expanded')) {
+			parentElement.removeClass('arioem-expanded');
+		} else if(parentElement.hasClass('arioem-hasContent')) {
+			$('.arioem-pcSearch-res-body > .arioem-expanded').removeClass('arioem-expanded');
+			this._scrollIntoView(parentElement);
+			parentElement.addClass('arioem-expanded');
+		} else if(parentElement.hasClass('arioem-loading')) {
+			// do nothing, the work's already being done
+		} else {
+			$('.arioem-pcSearch-res-body > .arioem-expanded').removeClass('arioem-expanded');
+			this._scrollIntoView(parentElement);
+			parentElement.addClass('arioem-loading');
+			parentElement.addClass('arioem-expanded');
+			var data = {
+				action: 'search',
+				type: ((this.state.search.type == 'P') ? 'MPM' : '') + ((this.state.search.type == 'PPWM') ? 'MPMF' : ''),
+				brand: this.state.brand.code,
+				part: parentElement.find('.arioem-pcSearch-res-body-partNo').first().text(),
+				model: $('#arioem-pcSearch-selector-model').val(),
+				partId: parentElement.attr('ari_part_id')
+			};
+			$.ajax({
+				url: this.config.baseURL,
+				data: data,
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectPartSuccess.bind(this)
+			});
+		}
+	},
+	_selectPartSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		var parentElementSelector = '#arioem-pcSearch-part-' + response.partId;
+		var parentElement = $(parentElementSelector).first();
+		parentElement.removeClass('arioem-loading');
+
+		var rowsHtml = '';
+		var pagerHtml = '';
+		if(response.res.length) {
+			var itemTemplate = this.config.templates.part.modelItem
+				.replace(/%MODEL_URL%/g, this.config.partCenter.baseURL + this.config.partCenter.modelHash)
+				.replace(/%BRAND%/g, this.brandHash[this.state.brand.code]);
+
+			if (response.partId) {
+				itemTemplate = itemTemplate.replace('%ELEMENT_ID%', response.partId + '-%ELEMENT_ID%');
+			}
+
+			for(var i=0; i<response.res.length; i++) {
+				rowsHtml += itemTemplate
+					.replace(/%ROW_CLASS%/g, ((i % 2) ? 'arioem-even' : ''))
+					.replace(/%ELEMENT_ID%/g, response.res[i].id)
+					.replace(/%MODEL_ID%/g, response.res[i].id)
+					.replace(/%MODEL_NAME%/g, response.res[i].name)
+					.replace(/%MODEL_QUERY_NAME%/g, encodeURIComponent(response.res[i].name))
+					.replace(/%MODEL_HASH%/g, response.res[i].hash);
+			}
+		} else {
+			rowsHtml = this.config.templates.model.noResult;
+		}
+		parentElement.find('.arioem-pcSearch-res-body-usedAt-list').first().html(rowsHtml);
+		parentElement.addClass('arioem-hasContent');
+		this.addPaging(parentElementSelector + ' .arioem-pcSearch-res-body-usedAt-list',
+			response, this._selectPartSuccess);
+	},
+	selectPartModel: function(sender) {
+		var parentElement = $(sender).closest('li');
+		if(parentElement.hasClass('arioem-expanded')) {
+			parentElement.removeClass('arioem-expanded');
+		} else if(parentElement.hasClass('arioem-hasContent')) {
+			parentElement.closest('ul').children('.arioem-expanded').removeClass('arioem-expanded');
+			this._scrollIntoView(parentElement);
+			parentElement.addClass('arioem-expanded');
+		} else if(parentElement.hasClass('arioem-loading')) {
+			// do nothing, the work's already being done
+		} else {
+			parentElement.closest('ul').children('.arioem-expanded').removeClass('arioem-expanded');
+			this._scrollIntoView(parentElement);
+			parentElement.addClass('arioem-loading');
+			parentElement.addClass('arioem-expanded');
+
+			var partIdElement = parentElement.closest('li[ari_part_id]').first();
+			var data = {
+				action: 'part-model-assemblies',
+				brandCode: this.state.brand.code,
+				modelId: parentElement.attr('ari_model_id'),
+				part: partIdElement.find('.arioem-pcSearch-res-body-partNo').text(),
+				partId: partIdElement.attr('ari_part_id')
+			};
+			$.ajax({
+				url: this.config.baseURL,
+				data: data,
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectPartModelSuccess.bind(this)
+			});
+		}
+	},
+	_selectPartModelSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+
+		var parentElementSelector = '#arioem-pcSearch-model-' + response.partId + '-' + response.modelId;
+		var parentElement = $(parentElementSelector);
+		parentElement.removeClass('arioem-loading');
+
+		var rowsHtml = '';
+		if(response.res.length) {
+			var itemTemplate = this.config.templates.assembly.item
+				.replace(/%ASSEMBLY_URL%/g, this.config.partCenter.baseURL
+					+ this.config.partCenter.modelHash
+					+ this.config.partCenter.assemblyHash
+					+ this.config.partCenter.partHash)
+				.replace(/%BRAND%/g, this.brandHash[this.state.brand.code])
+				.replace(/%MODEL_ID%/g, response.modelId)
+				.replace(/%MODEL_QUERY_NAME%/g, encodeURIComponent(parentElement.find('.arioem-pcSearch-partlist-model-name').text().trim()))
+				.replace(/%PART_HASH%/g, encodeURIComponent(response.part));
+
+			for(var i=0; i<response.res.length; i++) {
+				rowsHtml += itemTemplate
+					.replace(/%ASSEMBLY_ID%/g, response.res[i].id)
+					.replace(/%ASSEMBLY_NAME%/g, response.res[i].name)
+					.replace(/%ASSEMBLY_HASH%/g, response.res[i].hash);
+			}
+		} else {
+			rowsHtml = this.config.templates.assembly.noResult;
+		}
+		parentElement.find('ul').first().html(rowsHtml);
+		parentElement.addClass('arioem-hasContent');
+//		this.addPaging(parentElementSelector + ' ul', response, this._selectPartModelSuccess);
+	},
+	updateHash: function() {
+		if(this.state.hashMode) return;
+		var hash = {
+//			type: 'search',
+			brand: this.brandHash[this.state.brand.code]
+		};
+		if (this.state.search.part) {
+			hash.searchPart = this.state.search.part;
+		}
+		if (this.state.search.model) {
+			hash.searchModel = this.state.search.model;
+		}
+		history.pushState(hash, document.title, this.state.pageURL + '#' + $.param(hash));
+	},
+	parseHash: function(hashState) {
+		if (!hashState) {
+			hashState = location.hash.substr(1).parseQuery();
+			// to fix the initial state at init(), and to fix FF's bug of dropping the history on 2nd forward (pageLoad-nextPage-back-fw-back-FW)
+			history.replaceState(hashState, document.title, location.toString());
+		}
+		if(!hashState.hasOwnProperty('brand')) {
+			this.state.hashMode = true;
+			this.resetBrand();
+			this.state.hashMode = false;
+			return;
+		}
+
+		for(var brandCode in this.brandHash) {
+			if (this.brandHash[brandCode] == hashState.brand) break;
+			brandCode = false;
+		}
+		if (!brandCode) return;
+
+		this.state.hashMode = true;
+		this.selectBrand({code: brandCode});
+
+		if(hashState.hasOwnProperty('searchModel')) {
+			this.state.search.model = hashState.searchModel;
+			$('#arioem-pcSearch-selector-model').val(this.state.search.model);
+		}
+		if(hashState.hasOwnProperty('searchPart')) {
+			this.state.search.part = hashState.searchPart;
+			$('#arioem-pcSearch-selector-part').val(this.state.search.part);
+		}
+		this.state.hashMode = false;
+		this.search();
+	},
+	popState: function(event) {
+		this.parseHash(event.originalEvent.state);
+	},
+	_scrollIntoView: function(element) {
+		if ('object' != typeof(element)) {
+			element = $(element);
+		}
+		var top = element.offset().top;
+		var scrollTop = $('html, body').scrollTop();
+		if (top < scrollTop || top > scrollTop + window.innerHeight * 0.8) {
+			$('html, body').animate({scrollTop: top}, 1000);
+		}
+	},
+	addToCart: function(sender) {
+		var parentElement = $(sender).closest('.arioem-pcSearch-res-body-line1');
+		var data = [{
+			name: parentElement.find('.arioem-pcSearch-res-body-descr').text().trim(),
+			sku: parentElement.find('.arioem-pcSearch-res-body-partNo').text(),
+			qty: 1,
+			price: parentElement.find('.arioem-pcSearch-res-body-price').text()
+		}];
+
+		this.showLoader();
+		$.ajax({
+			url: this.config.addToCartURL,
+			data: {
+				brand: this.state.brand.code,
+				vehicle: '',//this.config.emptyNames.vehicle,
+				year: '',//this.config.emptyNames.year,
+				model: '',//this.config.emptyNames.model,
+				assembly: '',//this.config.emptyNames.assembly,
+				parts: data,
+				pageURL: location.href
+			},
+			dataType: 'json',
+			type: 'POST',
+			async: true,
+			cache: false,
+			success: this._addToCartSuccess.bind(this),
+			complete: this.hideLoader.bind(this)
+		});
+	},
+	_addToCartSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		if(response.hasOwnProperty('warnings')) {
+			alert(response.warnings.join('\n'));
+		}
+		this.markCartItems(response.skusAdded);
+		if(window.popupcart) {
+			if(response.hasOwnProperty('cartContent')) {
+				window.popupcart.show();
+				$("#cart-overlay-content").html(response.cartContent);
+			} else {	// since we're not displaying the pop-up, it's time to add some animation!
+//				$('#topCartContent').css({visibility: 'visible'});
+//				$('html, body').animate({scrollTop: $("#minicart").offset().top}, 1500);
+			}
+			$(window.popupcart.header).html(response.cartTop);
+			$(window.popupcart.qty).html(response.cartTotalQty);
+			$('#minicart .cart-table').click(function() {
+				$('#topCartContent').css({visibility: 'visible'});
+			});
+			$('#topCartContent').mouseleave(function() {
+				$('#topCartContent').css({visibility: 'hidden'});
+			});
+		}
+		if(response.hasOwnProperty('shoppingList') && response.shoppingList && window.oemShoppingList) {
+			window.oemShoppingList.updateHtml(response.shoppingList);
+		}
+		if(response.hasOwnProperty('message')) {
+			alert(response.message);
+		}
+	},
+	markCartItems: function(newItems) {
+		if(newItems !== undefined) {
+			for(var brandCode in newItems) {
+				if(!this.state.cartItems.hasOwnProperty(brandCode)) {
+					this.state.cartItems[brandCode] = [];
+				}
+				for(var i=0; i<newItems[brandCode].length; i++) {
+					if(this.state.cartItems[brandCode].indexOf(newItems[brandCode][i]) == -1) {
+						this.state.cartItems[brandCode].push(newItems[brandCode][i]);
+					}
+				}
+			}
+		}
+		$('#arioem-pcSearch-res > .arioem-pcSearch-res-body > li').removeClass('arioem-inCart');
+		if(this.state.cartItems.hasOwnProperty(this.state.brand.code)) {
+			for(var i=0; i<this.state.cartItems[this.state.brand.code].length; i++) {
+				$('#arioem-pcSearch-res > .arioem-pcSearch-res-body > li[ari_part_number="' + this.state.cartItems[this.state.brand.code][i] + '"]')
+					.addClass('arioem-inCart');
+			}
+		}
+	},
+	_autocompleteKeyDown: function(event) {
+		var input = $(event.target);
+		var wrapper = input.closest('.arioem-pcSearch-selector-container-ac-wrap');
+		if (!wrapper.hasClass('arioem-active')) return;
+		var ul = wrapper.find('.arioem-pcSearch-selector-autocomplete');
+		var key = event.which || event.keyCode;
+		switch (key) {
+			case 13: // enter
+				var currentLI = ul.find('.arioem-autocomplete-selected');
+				if (currentLI.length) {
+					input.val(currentLI.text());
+					wrapper.removeClass('arioem-active');
+				}
+				break;
+
+			case 27: // esc
+				wrapper.removeClass('arioem-active');
+				break;
+
+			case 38: // up
+				var currentLI = ul.find('.arioem-autocomplete-selected');
+				if (!currentLI.length) {
+					currentLI = ul.find('li:last-child');
+					currentLI.addClass('arioem-autocomplete-selected');
+				} else {
+					currentLI.removeClass('arioem-autocomplete-selected');
+					var nextLI = currentLI.prev();
+					if (!nextLI.length) {
+						nextLI = ul.find('li:last-child');
+					}
+					nextLI.addClass('arioem-autocomplete-selected');
+				}
+				break;
+
+			case 40: // down
+				var currentLI = ul.find('.arioem-autocomplete-selected');
+				if (!currentLI.length) {
+					currentLI = ul.find('li:first-child');
+					currentLI.addClass('arioem-autocomplete-selected');
+				} else {
+					currentLI.removeClass('arioem-autocomplete-selected');
+					var nextLI = currentLI.next();
+					if (!nextLI.length) {
+						nextLI = ul.find('li:first-child');
+					}
+					nextLI.addClass('arioem-autocomplete-selected');
+				}
+				break;
+
+			default:
+//				if (key < 32 || key > 126) return;
+		}
+	},
+	_autocompleteInput: function(event) {
+		var input = $(event.target);
+		$.ajax({
+			url: this.config.baseURL,
+			data: {
+				action: 'autocomplete',
+				target: input.attr('ari_search_type'),
+				brand: this.state.brand.code,
+				value: input.val()
+			},
+			dataType: 'json',
+			type: 'GET',
+			async: true,
+			cache: false,
+			success: this._autocompleteInputSuccess.bind(this)
+		});
+	},
+	_autocompleteInputSuccess: function(response) {
+		$('.arioem-pcSearch-selector arioem-pcSearch-selector-autocomplete').html('');
+
+		if(response.errorMessage) {
+			console.log(response.errorMessage);
+			return;
+		}
+
+		var ul = $('#arioem-pcSearch-selector-' + response.target + '-autocomplete');
+		var wrapper = ul.closest('.arioem-pcSearch-selector-container-ac-wrap');
+		if(response.res.length) {
+			wrapper.addClass('arioem-active');
+			var html = '';
+			for(var i=0; i<response.res.length; i++) {
+				html += this.config.templates.autocomplete.item.replace('%VALUE%', response.res[i]);
+			}
+			ul.html(html);
+		} else {
+			wrapper.removeClass('arioem-active');
+		}
+	},
+	_autocompleteClick: function(sender) {
+		var parent = $(sender).closest('.arioem-pcSearch-selector-autocomplete');
+		var input = parent.closest('.arioem-pcSearch-selector-container-ac-wrap').find('input');
+		input.val($(sender).text());
+		parent.hide();
+	},
+	_autocompleteBlur: function(event) {
+		$(event.target).closest('.arioem-pcSearch-selector-container-ac-wrap').removeClass('arioem-active');
+	},
+	showHiddenPrice: function(sender, display) {
+		var popup = $('#arioem-pcSearch-seePriceInCartPopup');
+		var isShown = popup.hasClass('oempart-visible');
+		if (!display) {
+			display = isShown ? -1 : 1;
+		}
+		if (display < 0) {
+			popup.removeClass('oempart-visible');
+			return;
+		}
+		if (isShown) return;
+		popup.addClass('oempart-visible');
+		if (null !== sender) {
+			var bubbleElement = $(sender);
+			var cellPosition = {left: 0, top: 0};
+			while (		!bubbleElement.hasClass('arioem-pcSearch')
+					&&	('HTML' !== bubbleElement.prop('tagName').toUpperCase())
+			) {
+				var bePos = bubbleElement.position();
+				cellPosition.left += bePos.left;
+				cellPosition.top += bePos.top;
+				bubbleElement = bubbleElement.offsetParent();
+			}
+			popup.css({
+				left: this.config.hidePricePopupOffset.left + cellPosition.left - popup.outerWidth() + 'px',
+				top: this.config.hidePricePopupOffset.top + cellPosition.top + 'px'
+			});
+		}
+	}
+};}(jQuery);};
+
+
+jQuery(document).ready(function() {
+	oemPartSearch = new OEMPartSearch();
+	oemPartSearch.init({
+			baseURL: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php')) ?>',
+			addToCartURL: '<?php echo $this->getUrl('arioem/partcenter/add') ?>',
+			partCenter: {
+				baseURL: '<?php echo $this->getUrl('partcenter') ?>'
+			},
+			default: { brand: {code: '<?php echo $defaultBrandCode ?>', name: '<?php echo htmlspecialchars($brands[$defaultBrandCode]) ?>'}}
+		}, {
+			cartItems: <?php echo Vikont_ARIOEM_Helper_OEM::getCartOEMItemsJson() ?>
+		});
+}); 
+
+</script>

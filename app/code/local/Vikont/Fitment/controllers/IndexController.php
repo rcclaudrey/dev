@@ -79,6 +79,8 @@ class Vikont_Fitment_IndexController extends Mage_Core_Controller_Front_Action
 			$rideRequired = !$fitmentId;
 		}
 
+		$rideRequired = false; // this prevents forcing customers to pick vehicle first
+
 		$pageHeader = $pageMode
 				?	$this->__('Tireshop')
 				:	$this->__('Shop by Fitment');
@@ -239,7 +241,10 @@ class Vikont_Fitment_IndexController extends Mage_Core_Controller_Front_Action
 			}
 
 
-			$rideIsRequired = !($fitmentId || ('tireBySize' == $pageMode));
+//			$rideIsRequired = !($fitmentId || ('tireBySize' == $pageMode));
+
+			$rideIsRequired = false; // this prevents forcing customers to pick vehicle first
+
 			$params['rideRequired'] = $rideIsRequired;
 			$blockScope = $rideIsRequired
 				?	'rideRequired'

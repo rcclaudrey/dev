@@ -7,6 +7,10 @@ class Vikont_Fitment_Helper_Api extends Mage_Core_Helper_Abstract
 	const CACHE_DELIMITER = '|';
 	const CACHE_ALLOWED_PATHS = ' activities makes years models categories subcategories fitment product ';
 
+	const MAGE_CACHE_GROUP = 'ariapi';
+	const MAGE_CACHE_TAG = 'ARI';
+
+	protected $_isMageCacheAllowed = null;
 
 	protected static $_apiActionToRequestPath = array(
 		'search' => 'RestAPI/Products/Search',
@@ -25,6 +29,23 @@ class Vikont_Fitment_Helper_Api extends Mage_Core_Helper_Abstract
 		'reviewlist' => 'RestAPI/Reviews/Product',
 		'reviewsummary' => 'RestAPI/Reviews/Summary',
 //		'' => '',
+		// below are new API calls
+		'NodeChildren' => 'RestAPI/NodeChildren',
+		'SearchModelAssemblies' => 'RestAPI/SearchModelAssemblies',
+		'ModelAutoComplete' => 'RestAPI/ModelAutoComplete',
+		'SearchModel' => 'RestAPI/SearchModel',
+		'SearchPartModels' => 'RestAPI/SearchPartModels',
+		'PartAutoComplete' => 'RestAPI/PartAutoComplete',
+		'SearchParts' => 'RestAPI/SearchParts',
+		'SearchPartsWithinModel' => 'RestAPI/SearchPartsWithinModel',
+		'SearchPartModelsFiltered' => 'RestAPI/SearchPartModelsFiltered',
+		'SearchPartModelAssemblies' => 'RestAPI/SearchPartModelAssemblies',
+		'AssemblyInfo' => 'RestAPI/AssemblyInfo',
+		'AssemblyInfoNoHotSpot' => 'RestAPI/AssemblyInfoNoHotSpot',
+		'AssemblyImage' => 'RestAPI/AssemblyImage',
+		'hotspots' => 'RestAPI/hotspots',
+		'partinfo' => 'RestAPI/partinfo',
+//		'' => 'RestAPI/',
 	);
 
 
@@ -100,7 +121,13 @@ if(Mage::registry('vd')) Mage::log($url);
 
 	protected function _isCacheAllowedForPath($path)
 	{
-		return (false !== strpos(self::CACHE_ALLOWED_PATHS, ' '.$path.' '));
+		$path = strtolower($path);
+
+		if (false === strpos($path, '/')) {
+			return (false !== strpos(self::CACHE_ALLOWED_PATHS, ' ' . $path . ' '));
+		} else {
+			return (false !== strpos(self::CACHE_ALLOWED_PATHS, ' ' . substr($path, strrpos($path, '/') + 1, 100) . ' '));
+		}
 	}
 
 
@@ -114,12 +141,28 @@ if(Mage::registry('vd')) Mage::log($url);
 
 
 
+	public function isMageCacheAllowed()
+	{
+		if (null === $this->_isMageCacheAllowed) {
+			$this->_isMageCacheAllowed = (true === Mage::app()->useCache(self::MAGE_CACHE_GROUP));
+		}
+
+		return $this->_isMageCacheAllowed;
+	}
+
+
+
 	public function checkCache($path, $mandatoryParams, $optionalParams)
 	{
+		if(!$this->isMageCacheAllowed()) {
+			return false;
+		}
+
 		if($this->_isCacheAllowedForPath($path)) {
 			$key = $this->_calculateCacheKey($path, $mandatoryParams, $optionalParams);
 			$cache = Mage::app()->getCache();
 			return json_decode($cache->load($key), true);
+			// replace with: Mage::app()->loadCache($key)
 		}
 		return false;
 	}
@@ -128,10 +171,19 @@ if(Mage::registry('vd')) Mage::log($url);
 
 	public function saveCache($path, $mandatoryParams, $optionalParams, $data)
 	{
+		if(!$this->isMageCacheAllowed()) {
+			return $this;
+		}
+//vd($path);
+//vd($mandatoryParams);
+//vd($optionalParams);
+//vd($data);
+//vd($this->_isCacheAllowedForPath($path));
 		if($this->_isCacheAllowedForPath($path)) {
 			$key = $this->_calculateCacheKey($path, $mandatoryParams, $optionalParams);
 			$cache = Mage::app()->getCache();
-			$cache->save(json_encode($data), $key);
+			$cache->save(json_encode($data), $key, array(self::MAGE_CACHE_TAG));
+			// replace with: Mage::app()->saveCache()
 		}
 		return $this;
 	}

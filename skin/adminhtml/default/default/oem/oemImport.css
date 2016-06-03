@@ -1,0 +1,238 @@
+.oemImport {}
+.oemImport-colLeft {
+	display: none;
+
+	float: left;
+	width: 280px;
+	margin: 0 20px 0 0;
+}
+.oemImport-colLeft ul {
+	border-top: 1px solid #aaa;
+	background: #e7efef url("../images/tabs_link_bg.gif") repeat-y scroll 100% center;
+}
+.oemImport-colLeft > ul > li {
+	cursor: pointer;
+	padding: 10px;
+	background: url("../images/tabs_span_bg.gif") repeat-x scroll 0 100% transparent;
+}
+.oemImport-colLeft li:hover {
+	background-color: #d8e6e6;
+}
+.oemImport-colLeft li.oemImport-active {
+	background-color: lightgrey;
+	font-weight: bold;
+}
+.oemImport-content {
+	/*margin-left: 300px;*/
+	min-height: 300px;
+}
+.oemImport-step-content {}
+.oemImport-step-content > li {
+	display: none;
+}
+.oemImport-step-content > li.oemImport-active {
+	display: block;
+}
+
+.oemImport-step1-content {}
+.oemImport-step1-dropzone {
+	margin: 20px 0;
+	line-height: 50px;
+	border: 3px solid lightgray;
+	border-radius: 10px;
+	background-color: linen;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.oemImport-step1-dropzone.oemImport-drag {
+	background-color: green;
+	border-color: green;
+	color: #aaa;
+	cursor: cell;
+	font-size: 50px;
+	line-height: 200px;
+}
+.oemImport-step1-dropzone.oemImport-dragOver {
+	background-color: lightgreen;
+	border-color: green;
+	color: #aaa;
+	cursor: cell;
+	font-size: 50px;
+	line-height: 200px;
+}
+.oemImport-fileUploading .oemImport-step1-dropzone {
+	display: none;
+}
+
+.oemImport-progress {
+	margin: 20px 0;
+}
+.oemImport-progress-gauge {
+	position: relative;
+	background: lightblue none repeat scroll 0 0;
+	line-height: 30px;
+}
+.oemImport-progress-gauge-label {
+	font-weight: bold;
+	letter-spacing: 1px;
+	position: absolute;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+	color: #fff;
+}
+.oemImport-progress-gauge-value {
+	background-color: steelblue;
+	width: 55%;
+}
+.oemImport-progress-bCancel {
+	float: right;
+	margin-top: 5px;
+}
+
+.oemImport-step1-content .oemImport-progress {
+	display: none;
+}
+.oemImport-fileUploading .oemImport-progress {
+	display: block;
+}
+.oemImport-step1-content .oemImport-progress-gauge {
+	margin-right: 90px;
+}
+
+
+.oemImport-step1-fileList {
+	margin: 20px 0;
+}
+.oemImport-step1-fileList-actions {
+	margin: 10px 0;
+}
+.oemImport-step1-fileList-actions > li {
+	display: inline-block;
+	margin-right: 20px
+}
+.oemImport-step1-fileList-actions button {}
+.oemImport-step1-fileList-actions button[action="remove"] {
+	display: none;
+}
+.oemImport-fileSelected .oemImport-step1-fileList-actions button[action="remove"] {
+	display: initial;
+}
+.oemImport-step1-fileList-actions button.refresh span {
+    background-image: url("../images/fam_refresh.gif");
+}
+
+
+
+.grid .oemImport-step1-fileList-files {
+	float: left;
+	display: block;
+	width: auto;
+	min-height: 200px;
+	border-collapse: collapse;
+	border-bottom: 1px solid #dadfe0;
+}
+.oemImport-step1-fileList-files thead {}
+.oemImport-step1-fileList-files thead tr {
+}
+.oemImport-step1-fileList-files thead td {}
+.oemImport-step1-fileList-files tbody {}
+.oemImport-step1-fileList-files tbody tr {}
+.oemImport-step1-fileList-files tbody tr.oemImport-even {}
+.oemImport-step1-fileList-files tbody tr:hover {
+	background:#fcf5dd;
+}
+.oemImport-step1-fileList-files tbody tr.oemImport-selected {
+	background-color: yellowgreen;
+	color: #fff;
+	font-weight: bold;
+}
+.oemImport-step1-fileList-files tbody td {}
+.oemImport-step1-fileList-files tbody td.oemImport-empty {
+	padding: 20px 0;
+	background-color: #eee;
+	text-align: center;
+	font-style: italic;
+}
+.oemImport-step1-fileList-name {
+	min-width: 300px;
+}
+.oemImport-step1-fileList-size {
+	width: 150px;
+}
+.oemImport-step1-fileList-date {
+	width: 150px;
+}
+.oemImport-step1-fileList-fileInfo {
+	display: none;
+	float: left;
+	margin-left: 20px;
+}
+.oemImport-fileSelected .oemImport-step1-fileList-fileInfo {
+	display: block;
+}
+.oemImport-fileInfo dl {
+	margin: 10px 0 20px;
+	min-width: 200px;
+}
+.oemImport-fileInfo dt {
+	float: left;
+	width: 100px;
+}
+.oemImport-fileInfo dd {
+	margin: 0 0 10px;
+	white-space: nowrap;
+}
+.oemImport-step1-fileList-fileInfo button {
+	padding: 10px 20px;
+	font-size: 14px;
+	background-size: contain;
+	text-transform: uppercase;
+}
+.oemImport-step1-fileList-fileInfo-bImport {
+	display: none;
+}
+.oemImport-fileSelected .oemImport-step1-fileList-fileInfo-bImport {
+	display: unset;
+}
+.oemImport-step1-fileList-tip {
+	float: left;
+	margin-left: 20px;
+	padding: 10px 20px;
+	border: 1px solid #aaa;
+	font-weight: bold;
+	background-color: lightyellow;
+	color: #ea7601;
+}
+.oemImport-fileSelected .oemImport-step1-fileList-tip {
+	display: none;
+}
+
+.oemImport-step2-status-progress {
+	width: 100%;
+	min-height: 200px;
+	border: 1px solid #aaa;
+	background-color: #eee;
+}
+.oemImport-step2-controls {
+	display: none;
+	margin: 20px 0;
+}
+.oemImport-completed .oemImport-step2-controls {
+	display: inherit;
+}
+.oemImport-step2-controls > p {
+	margin: 20px 0;
+	padding: 10px 20px;
+	border: 1px solid #aaa;
+	line-height: 20px;
+	background-color: lightgreen;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.oemImport-step2-status-bHappy {
+	padding: 10px 20px;
+}

@@ -4,16 +4,15 @@ class Vikont_Pulliver_Helper_LightSpeed extends Mage_Core_Helper_Abstract
 {
 	protected static $_vendors = array('retail', 'warehouse');
 
-	protected static $_OEMsupplierCodes = array('PO','SD','HO','HP','HW','YA','KA','SU','OK');
-//Polaris / Victory – PO
-//Can-Am, Seadoo, Spyder – SD
-//Honda – HO
-//Honda Power – HP
-//Honda Watercraft - HW
-//Yamaha – YA
-//Kawasaki – KA
-//Suzuki – SU
-//Oakley - OK
+	protected static $_OEMsupplierCodes = array('PO','SD','HO','HP','HW','YA','KA','SU');
+// Polaris / Victory – PO
+// Can-Am, Seadoo, Spyder – SD
+// Honda – HO
+// Honda Power – HP
+// Honda Watercraft - HW
+// Yamaha – YA
+// Kawasaki – KA
+// Suzuki – SU
 
 	public static function getVendors()
 	{
@@ -55,8 +54,7 @@ class Vikont_Pulliver_Helper_LightSpeed extends Mage_Core_Helper_Abstract
 		return $remoteRawData;
 	}
 
-
-
+/* // deprecated
 	public function extractData($jsonData)
 	{
 		if(!$jsonData) {
@@ -81,9 +79,7 @@ class Vikont_Pulliver_Helper_LightSpeed extends Mage_Core_Helper_Abstract
 		}
 
 		return $pairs;
-	}
-
-
+	}/**/
 
 	public function decodeJson($jsonData)
 	{
@@ -92,6 +88,16 @@ class Vikont_Pulliver_Helper_LightSpeed extends Mage_Core_Helper_Abstract
 		}
 
 		$data = json_decode($jsonData, true);
+
+		if(null === $data) {
+			$fileSize = strlen($jsonData);
+			$fileName = $this->getLocalFileName(time() . '.dump');
+			Mage::helper('pulliver')->saveFile($fileName, $jsonData);
+			Vikont_Pulliver_Helper_Data::throwException(sprintf('Error JSON-decoding data, saved to file: %s size: %dbytes', $fileName, $fileSize));
+			return false;
+		}
+
+		unset($jsonData);
 
 		return $data;
 	}

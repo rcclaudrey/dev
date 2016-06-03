@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Vikont_OEMGrid>
+			<version>1.0</version>
+		</Vikont_OEMGrid>
+	</modules>
+
+
+	<admin>
+
+		<routers>
+			<oemgrid>
+				<use>admin</use>
+				<args>
+					<module>Vikont_OEMGrid</module>
+					<frontName>oemgrid</frontName>
+				</args>
+			</oemgrid>
+		</routers>
+
+	</admin>
+
+
+
+	<adminhtml>
+
+		<menu>
+			<catalog>
+				<children>
+					<oemgrid translate="title">
+						<title>OEM Parts Manager</title>
+						<sort_order>1800</sort_order>
+						<action>oemgrid/adminhtml_index/index</action>
+					</oemgrid>
+				</children>
+			</catalog>
+			<system>
+				<children>
+					<convert>
+						<children>
+							<oemimport translate="title">
+								<title>OEM Parts Import</title>
+								<sort_order>1800</sort_order>
+								<action>oemgrid/adminhtml_import/index</action>
+							</oemimport>
+						</children>
+					</convert>
+				</children>
+			</system>
+		</menu>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<catalog>
+							<children>
+								<oemgrid module="oemgrid" translate="title">
+									<title>OEM Parts Manager</title>
+								</oemgrid>
+							</children>
+						</catalog>
+						<system>
+							<children>
+								<config>
+									<children>
+										<oemgrid module="oemgrid" translate="title">
+											<title>OEM Parts Manager</title>
+											<sort_order>2000</sort_order>
+										</oemgrid>
+									</children>
+								</config>
+								<convert>
+									<children>
+										<oemimport module="oemgrid" translate="title">
+											<title>OEM Parts Import</title>
+											<sort_order>1800</sort_order>
+										</oemimport>
+									</children>
+								</convert>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+		<layout>
+			<updates>
+				<arioem>
+					<file>vikont/oemgrid.xml</file>
+				</arioem>
+			</updates>
+		</layout>
+
+		<translate>
+			<modules>
+				<Vikont_OEMGrid>
+					<files>
+						<default>Vikont_OEMGrid.csv</default>
+					</files>
+				</Vikont_OEMGrid>
+			</modules>
+		</translate>
+
+	</adminhtml>
+
+
+
+	<global>
+
+		<blocks>
+			<oemgrid>
+				<class>Vikont_OEMGrid_Block</class>
+			</oemgrid>
+			<adminhtml>
+				<rewrite>
+					<widget_grid_column_renderer_action>Vikont_OEMGrid_Block_Adminhtml_Widget_Grid_Column_Renderer_Action</widget_grid_column_renderer_action>
+				</rewrite>
+			</adminhtml>
+		</blocks>
+
+		<helpers>
+			<oemgrid>
+				<class>Vikont_OEMGrid_Helper</class>
+			</oemgrid>
+		</helpers>
+
+		<models>
+			<oemgrid>
+				<class>Vikont_OEMGrid_Model</class>
+				<resourceModel>oemgrid_mysql4</resourceModel>
+			</oemgrid>
+			<oemgrid_mysql4>
+				<class>Vikont_OEMGrid_Model_Mysql4</class>
+				<entities>
+					<part>
+						<table>oem_cost</table>
+					</part>
+				</entities>
+			</oemgrid_mysql4>
+		</models>
+
+		<resources>
+			<oemgrid_setup>
+				<setup>
+					<module>Vikont_OEMGrid</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</oemgrid_setup>
+			<oemgrid_read>
+				<connection>
+					<use>oemdb_database</use>
+				</connection>
+			</oemgrid_read>
+			<oemgrid_write>
+				<connection>
+					<use>oemdb_database</use>
+				</connection>
+			</oemgrid_write>
+		</resources>
+
+	</global>
+
+	<default>
+		<oemgrid>
+			<import>
+				<upload_path>var/import/oem</upload_path>
+			</import>
+		</oemgrid>
+	</default>
+
+</config>

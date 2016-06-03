@@ -1,9 +1,13 @@
 .wholesale {}
 
 /* link placed after "My Account" and "log in" */
-.wholesale-toplink {
-	
+.quick-access li.account-links-dealer-corner {}
+.quick-access li.account-links-dealer-corner a {
+	color: #b6b6b6;
+	font-size: 15px;
+	text-transform: uppercase;
 }
+
 
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = common elements */
 

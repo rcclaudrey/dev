@@ -1,0 +1,29 @@
+.cms-oem-part-html .col2-left-layout .std {
+	margin: 0;
+}
+#ariPartStream {
+	width: auto;
+}
+#ariInfoBack,
+#ariAssemblyList {
+	width: 100%;
+}
+#ariInfoZoom {
+	left: 16px !important;
+}
+#ariPartList table .listTD {
+	padding: 5px 3px !important;
+}
+#ariparts_assemblyDescription {
+	display: none;
+}
+#ariAssemblyInfo {
+	margin-top: 10px !important;
+}
+#ariInfoDesc {
+	display: block;
+	position: static;
+}
+#ariparts_divModelLabel {
+	margin: 10px;
+}

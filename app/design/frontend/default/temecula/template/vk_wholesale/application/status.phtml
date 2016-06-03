@@ -1,0 +1,16 @@
+<?php
+
+?>
+<div class="wsap-success">
+	<h1><?php echo $this->__('Dealer Application') ?></h1>
+	<?php if($this->getResult()): ?>
+		<h2><?php echo $this->__('Customer dealer application has been %s', $this->getDealerStatusName()) ?></h2>
+		<p><?php echo $this->__('Customer: %s <%s>', $this->getCustomer()->getName(), $this->getCustomer()->getEmail()) ?></p>
+		<?php if(Vikont_Wholesale_Model_Source_Dealer_Status::APPROVED == $this->getDealerStatus()): ?>
+			<p><?php echo $this->__('Please don\'t forget to assign the customer a dealer cost!') ?></p>
+		<?php endif ?>
+		<p>
+			<a href="<?php echo Mage::getSingleton('adminhtml/url')->getUrl('adminhtml') ?>"><?php echo $this->__('Go to admin section') ?></a>
+		</p>
+	<?php endif ?>
+</div>

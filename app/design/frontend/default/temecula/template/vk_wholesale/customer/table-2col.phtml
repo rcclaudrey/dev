@@ -1,0 +1,43 @@
+<?php
+
+$tableClass = $this->getTableClass();
+$headRows = $this->getHeadRows();
+$bodyRows = $this->getBodyRows();
+$footerRows = $this->getFooterRows();
+
+?>
+<table<?php  if ($tableClass):?> class="<?php echo htmlspecialchars($tableClass) ?>"<?php endif ?>>
+	<?php if ($headRows && is_array($headRows) && count($headRows)): ?>
+		<thead>
+			<?php foreach($headRows as $rowId => $row): ?>
+				<tr>
+					<?php foreach($row as $colId => $cell): ?>
+						<td<?php if (is_string($colId)): ?> class="<?php echo htmlspecialchars($colId) ?>"<?php endif ?>><?php echo htmlspecialchars($cell) ?></td>
+					<?php endforeach ?>
+				</tr>
+			<?php endforeach ?>
+		</thead>
+	<?php endif ?>
+	<?php if ($bodyRows && is_array($bodyRows) && count($bodyRows)): ?>
+		<tbody>
+			<?php foreach($bodyRows as $rowId => $row): ?>
+				<tr>
+					<?php foreach($row as $colId => $cell): ?>
+						<td<?php if (is_string($colId)): ?> class="<?php echo htmlspecialchars($colId) ?>"<?php endif ?>><?php echo htmlspecialchars($cell) ?></td>
+					<?php endforeach ?>
+				</tr>
+			<?php endforeach ?>
+		</tbody>
+	<?php endif ?>
+	<?php if ($footerRows && is_array($footerRows) && count($footerRows)): ?>
+		<tfoot>
+			<?php foreach($footerRows as $rowId => $row): ?>
+				<tr>
+					<?php foreach($row as $colId => $cell): ?>
+						<td<?php if (is_string($colId)): ?> class="<?php echo htmlspecialchars($colId) ?>"<?php endif ?>><?php echo htmlspecialchars($cell) ?></td>
+					<?php endforeach ?>
+				</tr>
+			<?php endforeach ?>
+		</tfoot>
+	<?php endif ?>
+</table>

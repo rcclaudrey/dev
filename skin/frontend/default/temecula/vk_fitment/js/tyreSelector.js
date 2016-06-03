@@ -146,7 +146,7 @@ var TyreSelector = new Class.create({
 //				document.getElementById('tireshop-criteria-price').innerHTML = '<option value="">' + this.config.emptyText.price + '</option>';
 //				document.getElementById('tireshop-criteria-price').value = '';
 				document.getElementById('tireshop-criteria-price').parentNode.removeClassName('tireshop-active');
-				document.getElementById('tireshop-criteria-goSearch').disabled = true;
+				document.getElementById('tireshop-criteria-goSearch').disable();
 				break;
 		}
 	},
@@ -169,9 +169,9 @@ var TyreSelector = new Class.create({
 	changedPrice: function(event){
 		this.config.tyreFilter.price = this.config.priceRanges[event.target.value];
 		if(event.target.value) {
-			document.getElementById('tireshop-criteria-goSearch').disabled = false;
+			document.getElementById('tireshop-criteria-goSearch').enable();
 		} else {
-			document.getElementById('tireshop-criteria-goSearch').disabled = true;
+			document.getElementById('tireshop-criteria-goSearch').disable();
 		}
 	},
 	searchTyre: function() {
