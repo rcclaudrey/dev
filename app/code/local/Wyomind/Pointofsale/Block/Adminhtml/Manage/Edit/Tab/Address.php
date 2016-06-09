@@ -108,15 +108,21 @@ class Wyomind_Pointofsale_Block_Adminhtml_Manage_Edit_Tab_Address extends Mage_A
             'name' => 'clone-hours',
         ));
 
-        if (Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData()) {
+
+		$fieldset = $form->addFieldset('Shipping time', array('legend' => Mage::helper('pointofsale')->__('Shipping time')));
+		$fieldset->addField('ship_time', 'text', array(
+            'name' => 'ship_time',
+            'label' => Mage::helper('pointofsale')->__('Shipping time'),
+        ));
+
+
+		if (Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData()) {
             $form->setValues(Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData());
             Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData(null);
         } elseif (Mage::registry('pointofsale_data') && $this->getRequest()->getParam('place_id')) {
             $form->setValues($model);
             $collection = Mage::getModel('pointofsale/pointofsale')->getPlace($this->getRequest()->getParam('place_id'));
         }
-
-
 
         return parent::_prepareForm();
     }

@@ -42,6 +42,11 @@ class Wyomind_Pointofsale_Block_Adminhtml_Manage_Grid extends Mage_Adminhtml_Blo
             'sortable' => false,
             'filter' => false
         ));
+		$this->addColumn('ship_time', array(
+			'header' => Mage::helper('pointofsale')->__('Shipping time'),
+			'index' => 'ship_time',
+			'width' => '50',
+		));
         $this->addColumn('position', array(
             'header' => Mage::helper('pointofsale')->__('Order'),
             'index' => 'position',
