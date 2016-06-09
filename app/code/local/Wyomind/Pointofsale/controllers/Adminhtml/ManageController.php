@@ -1,4 +1,230 @@
-<?php class Wyomind_Pointofsale_Adminhtml_ManageController extends Mage_Adminhtml_Controller_Action { protected function _initAction() { $x34="strt\157l\x6fw\x65\162";
- $x35="a\x72r\141\171\x5f\x70op";  $x36="e\170\x70\x6c\157\x64e";  $x37="\x69\156_\x61r\162\x61\171";  $x38="\x69m\160\154\157\144e";  $x39="\x73\164rl\x65n";  $x3a="c\x6fun\164";  $this->_title($this->__('Manage'))->_title($this->__('POS / Warehouses'));  $this->loadLayout() ->_setActiveMenu("\x73a\154\145\163\x2f\160o\151\156\x74\157f\x73\x61\154e");  return $this;  } protected function _isAllowed() { $x34="strto\x6c\157\167\145\x72";  $x35="\x61\162r\x61\x79\137\160\157p";  $x36="\145\170\160\x6c\157\144\x65";  $x37="\x69n_\x61\x72r\x61\x79";  $x38="i\x6d\160\x6c\157d\145";  $x39="s\164\162l\145n";  $x3a="\x63\x6funt";  return Mage::getSingleton('admin/session')->isAllowed('sales/pointofsale');  } public function indexAction() { $x34="\x73t\x72t\x6f\154\157w\145r";  $x35="\141\162\x72\x61\171\137\160\x6f\160";  $x36="\x65\x78plo\x64e";  $x37="\x69\156\137a\x72ra\171";  $x38="\151mplo\144e";  $x39="\x73tr\154\145\x6e";  $x3a="\x63o\165\156t";  $this->_initAction() ->renderLayout();  } public function importCsvAction() { $x34="\x73\x74r\164ol\x6f\167e\x72";  $x35="\x61\162\162a\171\137p\x6fp";  $x36="\145\170p\x6c\x6f\144\145";  $x37="\151\156\x5fa\162\162\x61\x79";  $x38="i\x6d\x70l\157d\x65";  $x39="s\164r\154\x65\x6e";  $x3a="\x63\x6funt";  $this->loadLayout();  $this->_setActiveMenu("\x73a\154\145\163\x2f\160o\151\156\x74\157f\x73\x61\154e");  $this->_addBreadcrumb(Mage::helper("\x70o\x69\156\164ofs\x61le")->__("\120\x4f\123\40\x2f \x57\141r\145\150\x6f\165\x73\145\x73"), ("\120\x4f\123\40\x2f \x57\141r\145\150\x6f\165\x73\145\x73"));  $this->getLayout()->getBlock("h\x65ad")->setCanLoadExtJs(true);  $this->_addContent($this->getLayout()->createBlock("p\x6f\151n\164\x6ffs\x61\154\x65/adm\x69\x6ehtml\137\155a\x6e\x61\x67\x65\137\x69\x6d\160\x6fr\x74")) ->_addLeft($this->getLayout()->createBlock("\160o\x69\156to\146s\141\x6c\145\57\x61\144\155\x69\x6e\x68tm\154\x5f\x6d\141\156\x61ge\x5f\151mp\x6f\x72\x74\x5fta\x62\163"));  $this->renderLayout();  } public function editAction() { $x34="\163trt\157\x6c\157\167er";  $x35="a\x72ra\x79\x5fp\157\x70";  $x36="\x65\x78\160lod\x65";  $x37="in_\141r\162\141\171";  $x38="\151\x6d\160l\157\144\145";  $x39="\163\164\162\154e\156";  $x3a="\143\x6f\165\156\164";  $x1c = $this->getRequest()->getParam("id");  $x1d = Mage::getModel("p\x6f\x69\156\164\157\146\163\x61l\145\57\160o\151\x6e\164o\146\163\141l\145")->load($x1c);  if ($x1d->getId() || $x1c == 0) { $x1e = Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->getFormData(true);  if (!empty($x1e)) { $x1d->setData($x1e);  } Mage::register("\160o\x69\x6et\157\x66\x73\141le_d\141\164a", $x1d);  $this->loadLayout();  $this->_title($this->__('Manage'))->_title($this->__('POS / Warehouses'));  $this->getLayout()->getBlock("h\x65ad")->setCanLoadExtJs(true);  $this->_addContent($this->getLayout()->createBlock("\x70o\151\156tof\x73\x61\x6ce/\x61dmi\156\x68\x74m\x6c_m\x61\156\x61g\145_e\x64it")) ->_addLeft($this->getLayout()->createBlock("p\157\151\156\x74of\163\141l\145\x2f\141\x64mi\x6e\150\x74\x6d\x6c\x5fm\141\x6e\x61\x67\x65\x5f\x65d\x69t\137\164\x61\x62\163"));  $this->renderLayout();  } else { Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addError(Mage::helper("\x70o\x69\156\164ofs\x61le")->__("\x49\164em\x20d\157\x65\163 n\x6f\x74 ex\x69s\x74"));  $this->_redirect("\x2a\57*\x2f");  } } public function newAction() { $x34="\x73\164\x72t\157\x6co\167e\162";  $x35="a\162\x72\141\171_\x70\x6f\x70";  $x36="exp\x6c\157\144e";  $x37="in\x5f\141\162\162ay";  $x38="\x69\x6d\x70\x6c\157de";  $x39="\163\164rl\x65\156";  $x3a="\x63\157un\x74";  $this->_forward("\145\144\151\164");  } public function saveAction() { $x34="\163\x74\162\x74o\154\x6f\x77e\162";  $x35="\141\162\x72ay\x5f\x70\157\x70";  $x36="e\x78\160\154od\x65";  $x37="\x69\x6e_a\162\162\x61\x79";  $x38="\151\x6d\160l\157\144\x65";  $x39="\x73\x74\x72\x6ce\156";  $x3a="\x63\157un\164";  $x1f = array("\141\143" => "\141ctiv\141\x74i\x6f\x6e\x5fco\144e", "a\153" => "ac\x74iva\164i\157\x6e\137k\145y", "\x62\165" => "\142\x61\x73\x65\137u\x72\154", "\x6dd" => "\x6d\144\65", "\164h" => "\x74\x68i\x73", "\x64m" => "_de\155o", "\x65\x78\x74" => "\x70\157\163", "\166\145\x72" => "\65.\61\x2e\63");  $x20 = array( "ac\x74iva\164i\157\x6e\137k\145y" => Mage::getStoreConfig("\160\157\151\x6et\x6f\x66s\141\x6c\145\x2fl\x69\x63\145\x6e\163\145/\141\x63\164i\166\x61\x74io\156\137\x6b\x65\x79"), "\141ctiv\141\x74i\x6f\x6e\x5fco\144e" => Mage::getStoreConfig("p\x6f\151n\164\x6f\x66s\x61\x6c\145\57l\151\143en\163\145\57\x61\143\x74\151\166a\164ion_co\x64e"), "\142\x61\x73\x65\137u\x72\154" => Mage::getStoreConfig("\x77\x65\142\x2f\x73e\143\165\x72e\57\142\141\163\x65\x5f\165r\x6c"), );  if ($x20[$x1f['ac']] != $x1f["\x6dd"]($x1f["\x6dd"]($x20[$x1f['ak']]) . $x1f["\x6dd"]($x20[$x1f['bu']]) . $x1f["\x6dd"]($x1f["\x65\x78\x74"]) . $x1f["\x6dd"]($x1f["\166\145\x72"]))) { ${$x1f["\x65\x78\x74"]} = "\x76\141\x6ci\x64";  ${$x1f["\164h"]}->{$x1f["\x64m"]} = true;  } else { ${$x1f["\164h"]}->{$x1f["\x64m"]} = false;  ${$x1f["\x65\x78\x74"]} = "\x76\141\x6ci\x64";  } if (!isset(${$x1f["\x65\x78\x74"]}) || ${$x1f["\164h"]}->{$x1f["\x64m"]}) ${$x1f["\164h"]}->{$x1f["\x64m"]} = true;  if (${$x1f["\164h"]}->{$x1f["\x64m"]}) { $this->_getSession()->addError(Mage::helper("\x70o\x69\156\164ofs\x61le")->__("I\156\x76a\154\151d\x20\x6cicen\163\x65\56"));  Mage::getConfig()->saveConfig("p\x6f\151n\164\x6f\x66s\x61\x6c\145\57l\151\143en\163\145\57\x61\143\x74\151\166a\164ion_co\x64e", "", "d\145\x66\x61\165l\164", "\x30");  Mage::getConfig()->cleanCache();  $this->_redirect("\x2a\57*\x2f");  } if (${$x1f["\164h"]}->{$x1f["\x64m"]}) return ${$x1f["\164h"]};  if ($this->getRequest()->getPost()) { $x1e = $this->getRequest()->getPost();  if (isset($_FILES["\x66\151\154\145"]["\x6e\141m\x65"]) && $_FILES["\x66\151\154\145"]["\x6e\141m\x65"] != "") { $x21 = 1;  if ($x34($x35($x36(".", $_FILES["\x66\151\154\145"]["\x6e\141m\x65"]))) != "\x63\163\x76") Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addError(Mage::helper("\x70o\x69\156\164ofs\x61le")->__("\x57\x72\x6fn\147 \x66\151\154\145\40t\x79p\x65\x20(" . $_FILES["\x66\151\154\145"]["\x74\171\x70\x65"] . "\51.\x3c\142\162\x3eC\150\157o\x73\x65 \141\40\143s\166\40\146\151l\x65."));  else { $x22 = new Varien_File_Csv;  $x22->setDelimiter("\t");  $x23 = $x22->getData($_FILES["\x66\151\154\145"]["\164\155\x70_\156\x61\155\x65"]);  $x1d = Mage::getModel("p\x6f\x69\156\164\157\146\163\x61l\145\57\160o\151\x6e\164o\146\163\141l\145");  $x24 = $x23[0];  while (isset($x23[$x21])) { foreach ($x23[$x21] as $x25 => $x26) { $x1e[$x24[$x25]] = $x26;  } $x1d->setData($x1e)->save();  $x21++;  } } Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addSuccess(Mage::helper("\x70o\x69\156\164ofs\x61le")->__(($x21 - 1) . "\x20\160\x6c\141\x63\x65\x73\x20h\141\166\145\x20\x62ee\156\x20\151\155\x70\157r\x74\x65\144\x2e"));  $this->_redirect("\52\x2f*\57\151\x6dpo\162t\x43\163v");  return;  } if (isset($x1e["i\x6d\x61g\x65"]["de\154e\164\x65"]) && $x1e["i\x6d\x61g\x65"]["de\154e\164\x65"] == 1) { $x1e["i\x6d\x61g\x65"] = "";  } else { if (isset($_FILES["i\x6d\x61g\x65"]["\x6e\141m\x65"]) && $_FILES["i\x6d\x61g\x65"]["\x6e\141m\x65"] != "") { try { $x27 = new Varien_File_Uploader("i\x6d\x61g\x65");
- $x27->setAllowedExtensions(array("\152\x70\147", "\152\160e\x67", "g\151f", "\x70\x6e\x67"));  $x27->setAllowRenameFiles(true);  $x27->setFilesDispersion(false);  $x28 = Mage::getBaseDir("\155edi\x61") . DS;  $x27->save($x28 . "\x73\164\157r\145\163", $_FILES["i\x6d\x61g\x65"]["\x6e\141m\x65"]);  } catch (Exception $x29) { } $x1e["i\x6d\x61g\x65"] = "\163\x74or\x65\x73\57" . $_FILES["i\x6d\x61g\x65"]["\x6e\141m\x65"];  } else unset($x1e["i\x6d\x61g\x65"]);  } $x1d = Mage::getModel("p\x6f\x69\156\164\157\146\163\x61l\145\57\160o\151\x6e\164o\146\163\141l\145");  if ($x37('-1', $x1e["\143us\x74om\145\162_\147ro\x75p"])) $x1e["\143us\x74om\145\162_\147ro\x75p"] = array("\x2d\61");  $x1e["\143us\x74om\145\162_\147ro\x75p"] = $x38(',', $x1e["\143us\x74om\145\162_\147ro\x75p"]);  if ($x37('0', $x1e["\163\164o\162\x65\137i\x64"])) $x1e["\163\164o\162\x65\137i\x64"] = array("\x30");  $x1e["\163\164o\162\x65\137i\x64"] = $x38(',', $x1e["\163\164o\162\x65\137i\x64"]);  $x1d->setData($x1e) ->setId($this->getRequest()->getParam("p\x6ca\143e\x5fi\144"));  $x1d->save();  try { Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addSuccess(Mage::helper("\x70o\x69\156\164ofs\x61le")->__("\111\x74em \167a\x73\x20\163uc\x63\x65\163\x73\x66\x75\x6c\x6c\x79\x20\x73\x61\x76\x65d"));  Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->setFormData(false);  if ($this->getRequest()->getParam("\x62\x61\143\x6b")) { $this->_redirect("\x2a\57\52\x2fe\144\x69\x74", array("p\x6ca\143e\x5fi\144" => $x1d->getId()));  return;  } $this->_redirect("\x2a\57*\x2f");  return;  } catch (Exception $x29) { Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addError($x29->getMessage());  Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->setFormData($x1e);  $this->_redirect("\x2a\57\52\x2fe\144\x69\x74", array("p\x6ca\143e\x5fi\144" => $this->getRequest()->getParam("p\x6ca\143e\x5fi\144")));  return;  } } Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addError(Mage::helper("\x70o\x69\156\164ofs\x61le")->__("\125\x6e\141bl\145 \164\x6f f\151nd\x20i\x74\145\x6d to\40\x73\x61\x76\x65"));  $this->_redirect("\x2a\57*\x2f");  } public function deleteAction() { $x34="\163\164\162\x74\157\154\x6f\167\145r";  $x35="a\162r\141y\137\x70\x6fp";  $x36="\x65\x78p\154\x6fd\x65";  $x37="\151\156_\x61r\x72a\x79";  $x38="\x69\155p\154o\x64\x65";  $x39="\163\164\x72l\145\156";  $x3a="c\157\165\x6et";  if ($this->getRequest()->getParam("p\x6ca\143e\x5fi\144") > 0) { try { $x1d = Mage::getModel("p\x6f\x69\156\164\157\146\163\x61l\145\57\160o\151\x6e\164o\146\163\141l\145");  $x1d->setId($this->getRequest()->getParam("p\x6ca\143e\x5fi\144")) ->delete();  Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addSuccess(Mage::helper("\141\144\155\x69\x6eh\x74ml")->__("T\150\x65 \x50O\x53\x2f\167\x61r\145\150\x6f\165s\x65\x20\x77\x61\163 \163\x75\143\143\x65\x73sf\x75l\154\x79 d\x65l\x65t\x65d"));  $this->_redirect("\x2a\57*\x2f");  } catch (Exception $x29) { Mage::getSingleton("\141\x64\155\x69\x6eh\x74ml\57s\x65\x73\x73\151\157\156")->addError($x29->getMessage());  $this->_redirect("\x2a\57\52\x2fe\144\x69\x74", array("p\x6ca\143e\x5fi\144" => $this->getRequest()->getParam("p\x6ca\143e\x5fi\144")));  } } $this->_redirect("\x2a\57*\x2f");  } public function exportCsvAction() { $x34="\163\164\x72\164\157\154o\x77\145r";  $x35="\141\162\x72\141y_\x70\157\x70";  $x36="\x65xp\154o\x64\x65";  $x37="\151\156\137\141\162\x72\x61\171";  $x38="\151\155p\154o\144\x65";  $x39="\163t\162l\145\156";  $x3a="c\x6f\165\x6e\x74";  $x2a = "\160\x6fin\164o\x66\x73a\154\145.\143\163\x76";  $x2b = null;  $x2c = Mage::getModel("p\x6f\x69\156\164\157\146\163\x61l\145\57\160o\151\x6e\164o\146\163\141l\145")->getCollection();  $x2b.="\143us\x74om\145\162_\147ro\x75p" . "\t";  $x2b.="\163\164o\162\x65\137i\x64" . "\t";  $x2b.="o\162\144\145\162" . "\t";  $x2b.="s\164\x6fr\145_\143\157\x64\x65" . "\t";  $x2b.="\x6e\141m\x65" . "\t";  $x2b.="add\162\145\x73s\137\x6c\x69n\145\x5f\61" . "\t";  $x2b.="\141\x64\144\x72e\x73\163_l\x69\156\x65\137\62" . "\t";  $x2b.="\143\151\164y" . "\t";  $x2b.="\x73\x74\141\x74e" . "\t";  $x2b.="p\x6f\163\x74\x61l\x5fc\x6fde" . "\t";  $x2b.="co\165n\x74\162\171\137co\x64\x65" . "\t";  $x2b.="\x6d\141i\156_\x70ho\x6e\x65" . "\t";  $x2b.="\145\155\141\151l" . "\t";  $x2b.="\x68\157\165\x72\x73" . "\t";  $x2b.="\x64e\x73\143\x72ipt\151\x6fn" . "\t";  $x2b.="\154\157\156\x67\151tu\144\x65" . "\t";  $x2b.="\x6cat\151\164\165\144e" . "\t";  $x2b.="s\164\x61\x74\165\x73" . "\t";  $x2b.="i\x6d\x61g\x65" . "\t";  foreach ($x2c as $x2d) { $x23.= $x2d->getData("\143us\x74om\145\162_\147ro\x75p") . "\t";  $x23.= $x2d->getData("\163\164o\162\x65\137i\x64") . "\t";  $x23.= $x2d->getData("o\162\144\145\162") . "\t";  $x23.= $x2d->getData("s\164\x6fr\145_\143\157\x64\x65") . "\t";  $x23.= $x2d->getData("\x6e\141m\x65") . "\t";  $x23.= $x2d->getData("add\162\145\x73s\137\x6c\x69n\145\x5f\61") . "\t";  $x23.= $x2d->getData("\141\x64\144\x72e\x73\163_l\x69\156\x65\137\62") . "\t";  $x23.= $x2d->getData("\143\151\164y") . "\t";  $x23.= $x2d->getData("\x73\x74\141\x74e") . "\t";  $x23.= $x2d->getData("p\x6f\163\x74\x61l\x5fc\x6fde") . "\t";  $x23.= $x2d->getData("co\165n\x74\162\171\137co\x64\x65") . "\t";  $x23.= $x2d->getData("\x6d\141i\156_\x70ho\x6e\x65") . "\t";  $x23.= $x2d->getData("\145\155\141\151l") . "\t";  $x23.= $x2d->getData("\x68\157\165\x72\x73") . "\t";  $x23.= $x2d->getData("\x64e\x73\143\x72ipt\151\x6fn") . "\t";  $x23.= $x2d->getData("\154\157\156\x67\151tu\144\x65") . "\t";  $x23.= $x2d->getData("\x6cat\151\164\165\144e") . "\t";  $x23.= $x2d->getData("s\164\x61\x74\165\x73") . "\t";  $x23.= $x2d->getData("i\x6d\x61g\x65") . "\t";  $x23.= "\x0d\x0a";  } $this->_sendUploadResponse($x2a, $x2b . "\x0d\x0a" . $x23);  } protected function _sendUploadResponse($x2a, $x23, $x2e = "app\154\x69\x63\x61t\x69o\156\x2f\x6fc\164e\x74\x2ds\x74rea\155") { $x34="\x73tr\x74o\x6co\167e\x72";  $x35="\141r\162a\171\137\160\157p";  $x36="ex\160\x6co\x64e";  $x37="i\156\x5fa\162\x72a\x79";  $x38="\151\155\160\x6co\x64\145";  $x39="\x73\x74\x72\x6c\145\156";  $x3a="c\x6f\x75\156t";  $x2f = $this->getResponse();  $x2f->setHeader("\110\124\x54P\x2f\61\56\61\40\62\x30\60\x20\117K", "");  $x2f->setHeader("\x50r\141\147\155\x61", "\160u\x62\x6c\151\x63", true);
- $x2f->setHeader("\103\x61\143\x68e\55C\x6fnt\x72\x6f\154", "\155\x75\x73\164\55re\x76\141\x6cid\141\164e,\x20\x70\x6f\x73\164\55\x63h\x65\x63\153\x3d\60\54 pre\55\x63h\x65\143\x6b\x3d\60", true);  $x2f->setHeader("\x43on\x74e\x6e\x74-\x44\151\x73\x70\157\163\151t\151o\156", "\x61t\x74\x61\x63\150m\145n\x74\73\40\146\151\x6c\145\x6e\x61\155\x65\75" . $x2a);  $x2f->setHeader("\x4c\141s\164-\115\x6f\144\151fi\x65d", date("r"));  $x2f->setHeader("\101\143ce\160t\55R\x61n\x67\145\x73", "\142\x79\x74e\x73");  $x2f->setHeader("\103o\156\x74\145\156t-\114\145\x6e\x67\x74\150", $x39($x23));  $x2f->setHeader("Co\x6e\x74e\156t-\164\x79\160\145", $x2e);  $x2f->setBody($x23);  $x2f->sendResponse();  die;  } public function stateAction() { $x34="st\162\x74\157\x6c\157\167\x65r";  $x35="arr\x61\171\x5f\160\x6f\160";  $x36="\x65\170\160\x6co\x64e";  $x37="\151\x6e\x5far\x72\141\171";  $x38="\x69mp\154\157d\145";  $x39="\x73t\162\154\x65n";  $x3a="c\x6f\x75\x6et";  $x30 = $this->getRequest()->getParam('country');  $x31[] = "\74\157p\164\151\x6f\x6e \166\141\154\x75\145\x3d'\47\x3ePl\x65a\x73\x65\40\123\x65\154\x65\x63t\74/\157\x70\x74\x69\157\156>";  if ($x30 != '') { $x32 = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter($x30)->load();  foreach ($x32 as $x33) { $x31[] = "\x3co\160\x74\151\157n va\154\x75\145\75\47" . $x33->getCode() . "\x27\x3e" . $x33->getDefaultName() . "\74\57\x6fp\164i\157n\x3e";  } } if ($x3a($x31) == 1) die("\74option\40\x76\x61\x6c\x75e\x3d'\47\76\55\x2d--\55\x2d\x3c/\x6fpt\151o\x6e\x3e");  else die($x38(' ', $x31));  } } ; 
+<?php
+
+class Wyomind_Pointofsale_Adminhtml_ManageController extends Mage_Adminhtml_Controller_Action
+{
+	protected function _initAction() {
+		$this->_title($this->__('Manage'))->_title($this->__('POS / Warehouses'));
+		$this->loadLayout() ->_setActiveMenu("sales/pointofsale");
+		return $this;
+	}
+
+
+	public function indexAction() {
+		$this->_initAction() ->renderLayout();
+	}
+
+
+	public function importCsvAction() {
+		$this->loadLayout();
+		$this->_setActiveMenu("sales/pointofsale");
+		$this->_addBreadcrumb(Mage::helper("pointofsale")->__("POS / Warehouses"), ("POS / Warehouses"));
+		$this->getLayout()->getBlock("head")->setCanLoadExtJs(true);
+		$this
+			->_addContent($this->getLayout()->createBlock("pointofsale/adminhtml_manage_import"))
+			->_addLeft($this->getLayout()->createBlock("pointofsale/adminhtml_manage_import_tabs"));
+		$this->renderLayout();
+	}
+
+
+	public function editAction() {
+		$x34 = $this->getRequest()->getParam("id");
+		$x35 = Mage::getModel("pointofsale/pointofsale")->load($x34);
+		if ($x35->getId() || $x34 == 0) {
+			$x36 = Mage::getSingleton("adminhtml/session")->getFormData(true);
+			if (!empty($x36)) {
+				$x35->setData($x36);
+			}
+			Mage::register("pointofsale_data", $x35);
+			$this->loadLayout();
+			$this->_title($this->__('Manage'))->_title($this->__('POS / Warehouses'));
+			$this->getLayout()->getBlock("head")->setCanLoadExtJs(true);
+			$this->_addContent($this->getLayout()->createBlock("pointofsale/adminhtml_manage_edit")) ->_addLeft($this->getLayout()->createBlock("pointofsale/adminhtml_manage_edit_tabs"));
+			$this->renderLayout();
+		} else {
+			Mage::getSingleton("adminhtml/session")->addError(Mage::helper("pointofsale")->__("Item does not exist"));
+			$this->_redirect("*/*/");
+		}
+	}
+
+
+	public function newAction() {
+		$this->_forward("edit");
+	}
+
+
+	public function saveAction() {
+		$x4c="strtolower";
+		$x4d="array_pop";
+		$x4e="explode";
+		$x4f="in_array";
+		$x50="implode";
+		if ($this->getRequest()->getPost()) {
+		$x36 = $this->getRequest()->getPost();
+		if (isset($_FILES["file"]["name"]) && $_FILES["file"]["name"] != "") {
+		$x39 = 1;
+		if ($x4c($x4d($x4e(".", $_FILES["file"]["name"]))) != "csv") Mage::getSingleton("adminhtml/session")->addError(Mage::helper("pointofsale")->__("Wrong file type (" . $_FILES["file"]["type"] . ").<br>Choose a csv file."));
+		else {
+		$x3a = new Varien_File_Csv;
+		$x3a->setDelimiter("\t");
+		$x3b = $x3a->getData($_FILES["file"]["tmp_name"]);
+		$x35 = Mage::getModel("pointofsale/pointofsale");
+		$x3c = $x3b[0];
+		while (isset($x3b[$x39])) {
+		foreach ($x3b[$x39] as $x3d => $x3e) {
+		$x36[$x3c[$x3d]] = $x3e;
+		}
+		$x35->setData($x36)->save();
+		$x39++;
+		}
+		}
+		Mage::getSingleton("adminhtml/session")->addSuccess(Mage::helper("pointofsale")->__(($x39 - 1) . " places have been imported."));
+		$this->_redirect("*/*/importCsv");
+		return;
+		}
+		if (isset($x36["image"]["delete"]) && $x36["image"]["delete"] == 1) {
+		$x36["image"] = "";
+		}
+		else {
+		if (isset($_FILES["image"]["name"]) && $_FILES["image"]["name"] != "") {
+		try {
+		$x3f = new Varien_File_Uploader("image");
+		$x3f->setAllowedExtensions(array("jpg", "jpeg", "gif", "png"));
+		$x3f->setAllowRenameFiles(true);
+		$x3f->setFilesDispersion(false);
+		$x40 = Mage::getBaseDir("media") . DS;
+		$x3f->save($x40 . "stores", $_FILES["image"]["name"]);
+		}
+		catch (Exception $x41) {
+		}
+		$x36["image"] = "stores/" . $_FILES["image"]["name"];
+		}
+		else unset($x36["image"]);
+		}
+		$x35 = Mage::getModel("pointofsale/pointofsale");
+
+		if ($x4f('-1', $x36["customer_group"])) $x36["customer_group"] = array("-1");
+		$x36["customer_group"] = $x50(',', $x36["customer_group"]);
+		if ($x4f('0', $x36["store_id"])) $x36["store_id"] = array("0");
+		$x36["store_id"] = $x50(',', $x36["store_id"]);
+		$x35->setData($x36) ->setId($this->getRequest()->getParam("place_id"));
+		$x35->save();
+		try {
+		Mage::getSingleton("adminhtml/session")->addSuccess(Mage::helper("pointofsale")->__("Item was successfully saved"));
+		Mage::getSingleton("adminhtml/session")->setFormData(false);
+		if ($this->getRequest()->getParam("back")) {
+		$this->_redirect("*/*/edit", array("place_id" => $x35->getId()));
+		return;
+		}
+		$this->_redirect("*/*/");
+		return;
+		}
+		catch (Exception $x41) {
+		Mage::getSingleton("adminhtml/session")->addError($x41->getMessage());
+		Mage::getSingleton("adminhtml/session")->setFormData($x36);
+		$this->_redirect("*/*/edit", array("place_id" => $this->getRequest()->getParam("place_id")));
+		return;
+		}
+		}
+		Mage::getSingleton("adminhtml/session")->addError(Mage::helper("pointofsale")->__("Unable to find item to save"));
+		$this->_redirect("*/*/");
+	}
+
+
+	public function deleteAction() {
+		if ($this->getRequest()->getParam("place_id") > 0) {
+			try {
+				$x35 = Mage::getModel("pointofsale/pointofsale");
+				$x35->setId($this->getRequest()->getParam("place_id")) ->delete();
+				Mage::getSingleton("adminhtml/session")->addSuccess(Mage::helper("adminhtml")->__("The POS/warehouse was successfully deleted"));
+				$this->_redirect("*/*/");
+			} catch (Exception $x41) {
+				Mage::getSingleton("adminhtml/session")->addError($x41->getMessage());
+				$this->_redirect("*/*/edit", array("place_id" => $this->getRequest()->getParam("place_id")));
+			}
+		}
+		$this->_redirect("*/*/");
+	}
+
+
+	public function exportCsvAction() {
+		$x42 = "pointofsale.csv";
+		$x43 = null;
+		$x44 = Mage::getModel("pointofsale/pointofsale")->getCollection();
+		$x43.="customer_group" . "\t";
+		$x43.="store_id" . "\t";
+		$x43.="order" . "\t";
+		$x43.="store_code" . "\t";
+		$x43.="name" . "\t";
+		$x43.="address_line_1" . "\t";
+		$x43.="address_line_2" . "\t";
+		$x43.="city" . "\t";
+		$x43.="state" . "\t";
+		$x43.="postal_code" . "\t";
+		$x43.="country_code" . "\t";
+		$x43.="main_phone" . "\t";
+		$x43.="email" . "\t";
+		$x43.="hours" . "\t";
+		$x43.="description" . "\t";
+		$x43.="longitude" . "\t";
+		$x43.="latitude" . "\t";
+		$x43.="status" . "\t";
+		$x43.="image" . "\t";
+		foreach ($x44 as $x45) {
+		$x3b.= $x45->getData("customer_group") . "\t";
+		$x3b.= $x45->getData("store_id") . "\t";
+		$x3b.= $x45->getData("order") . "\t";
+		$x3b.= $x45->getData("store_code") . "\t";
+		$x3b.= $x45->getData("name") . "\t";
+		$x3b.= $x45->getData("address_line_1") . "\t";
+		$x3b.= $x45->getData("address_line_2") . "\t";
+		$x3b.= $x45->getData("city") . "\t";
+		$x3b.= $x45->getData("state") . "\t";
+		$x3b.= $x45->getData("postal_code") . "\t";
+		$x3b.= $x45->getData("country_code") . "\t";
+		$x3b.= $x45->getData("main_phone") . "\t";
+		$x3b.= $x45->getData("email") . "\t";
+		$x3b.= $x45->getData("hours") . "\t";
+		$x3b.= $x45->getData("description") . "\t";
+		$x3b.= $x45->getData("longitude") . "\t";
+		$x3b.= $x45->getData("latitude") . "\t";
+		$x3b.= $x45->getData("status") . "\t";
+		$x3b.= $x45->getData("image") . "\t";
+		$x3b.= "\x0d\x0a";
+		}
+		$this->_sendUploadResponse($x42, $x43 . "\x0d\x0a" . $x3b);
+	}
+
+
+
+	protected function _sendUploadResponse($x42, $x3b, $x46 = "application/octet-stream") {
+		$x47 = $this->getResponse();
+		$x47->setHeader("HTTP/1.1 200 OK", "");
+		$x47->setHeader("Pragma", "public", true);
+		$x47->setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0", true);
+		$x47->setHeader("Content-Disposition", "attachment;
+		filename=" . $x42);
+		$x47->setHeader("Last-Modified", date("r"));
+		$x47->setHeader("Accept-Ranges", "bytes");
+		$x47->setHeader("Content-Length", strlen($x3b));
+		$x47->setHeader("Content-type", $x46);
+		$x47->setBody($x3b);
+		$x47->sendResponse();
+
+		die;
+	}
+
+
+	public function stateAction() {
+		$x48 = $this->getRequest()->getParam('country');
+		$x49[] = "<option value=''>Please Select</option>";
+		if ($x48 != '') {
+			$x4a = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter($x48)->load();
+			foreach ($x4a as $x4b) {
+				$x49[] = "<option value='" . $x4b->getCode() . "'>" . $x4b->getDefaultName() . "</option>";
+			}
+		}
+		if (count($x49) == 1) die("<option value=''>------</option>");
+		else die(implode(' ', $x49));
+	}
+
+}

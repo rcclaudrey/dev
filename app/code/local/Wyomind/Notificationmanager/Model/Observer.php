@@ -3,7 +3,7 @@
 class Wyomind_Notificationmanager_FeedReader extends Mage_AdminNotification_Model_Feed {
 
     public function getFeedUrl() {
-
+return '';
         Mage::getSingleton('admin/session')->getData();
         $url = Mage::getStoreConfig("web/secure/base_url");
         $version = Mage::getConfig()->getNode("modules/Wyomind_Notificationmanager")->version;
@@ -89,53 +89,53 @@ class Wyomind_Notificationmanager_Item {
     }
 
     public function toNotifier() {
-        $notify = Mage::getModel('adminnotification/inbox');
-        $notify->setUrl($this->getLink());
-        $notify->setDescription($this->getDescription());
-        $notify->setTitle($this->getTitle());
-        $notify->setSeverity($this->getSeverity());
-        $notify->setDateAdded($this->getPubDate());
-        $notify->save();
+//        $notify = Mage::getModel('adminnotification/inbox');
+//        $notify->setUrl($this->getLink());
+//        $notify->setDescription($this->getDescription());
+//        $notify->setTitle($this->getTitle());
+//        $notify->setSeverity($this->getSeverity());
+//        $notify->setDateAdded($this->getPubDate());
+//        $notify->save();
     }
 
 }
 
 class Wyomind_Notificationmanager_Model_Observer {
 
-    public function observe($user) {
+//    public function observe($user) {
+//
+//        $model = new Wyomind_Notificationmanager_FeedReader();
+//
+//        $date = $model->getLastUpdate();
 
-        $model = new Wyomind_Notificationmanager_FeedReader();
-
-        $date = $model->getLastUpdate();
-
-        if (time() - $date > 24 * 60 * 60 || Mage::getStoreConfig("notificationmanager/notificationmanager/action_required") == 1) {
-            Mage::getConfig()->saveConfig("notificationmanager/notificationmanager/action_required", "0", "default", "0");
-            $exts = Mage::getStoreConfig("notificationmanager/notificationmanager/extensions");
-            $exts = $exts != null ? explode(',', $exts) : array();
-            if ($date != "") {
-                //$model->checkUpdate();
-                $rss = $model->getFeedData();
-                if ($rss != NULL) {
-                    $items = $rss->xpath('/rss/channel/item');
-                    if ($items) {
-                        foreach ($items as $item) {
-                            $infos = $item->children();
-                            $notification = new Wyomind_Notificationmanager_Item();
-                            $notification->setTitle($infos->title);
-                            $notification->setLink($infos->link);
-                            $notification->setSeverity($infos->severity);
-                            $notification->setDescription($infos->description);
-                            $notification->setPubDate(date('Y-m-d H:i:s', (int) $infos->pubDate));
-
-                            if ($infos->identifier == "Global" || (in_array($infos->identifier, $exts) && Mage::getConfig()->getModuleConfig('Wyomind_' . $infos->identifier)->is('active', 'true'))) {
-                                $notification->toNotifier();
-                            }
-                        }
-                    }
-                }
-            }
-            $model->setLastUpdate();
-        }
-    }
+//        if (time() - $date > 24 * 60 * 60 || Mage::getStoreConfig("notificationmanager/notificationmanager/action_required") == 1) {
+//            Mage::getConfig()->saveConfig("notificationmanager/notificationmanager/action_required", "0", "default", "0");
+//            $exts = Mage::getStoreConfig("notificationmanager/notificationmanager/extensions");
+//            $exts = $exts != null ? explode(',', $exts) : array();
+//            if ($date != "") {
+//                //$model->checkUpdate();
+//                $rss = $model->getFeedData();
+//                if ($rss != NULL) {
+//                    $items = $rss->xpath('/rss/channel/item');
+//                    if ($items) {
+//                        foreach ($items as $item) {
+//                            $infos = $item->children();
+//                            $notification = new Wyomind_Notificationmanager_Item();
+//                            $notification->setTitle($infos->title);
+//                            $notification->setLink($infos->link);
+//                            $notification->setSeverity($infos->severity);
+//                            $notification->setDescription($infos->description);
+//                            $notification->setPubDate(date('Y-m-d H:i:s', (int) $infos->pubDate));
+//
+//                            if ($infos->identifier == "Global" || (in_array($infos->identifier, $exts) && Mage::getConfig()->getModuleConfig('Wyomind_' . $infos->identifier)->is('active', 'true'))) {
+//                                $notification->toNotifier();
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            $model->setLastUpdate();
+//        }
+//    }
 
 }

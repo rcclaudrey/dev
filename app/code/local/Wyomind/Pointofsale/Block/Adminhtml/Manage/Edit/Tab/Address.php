@@ -54,7 +54,7 @@ class Wyomind_Pointofsale_Block_Adminhtml_Manage_Edit_Tab_Address extends Mage_A
         $country->setAfterElementHtml("<script type=\"text/javascript\">
             function getstate(selectElement){
                 var reloadurl = '" . $this
-                        ->getUrl('adminhtml/manage/state') . "country/' + selectElement.value;
+                        ->getUrl('pointofsale/adminhtml_manage/state') . "country/' + selectElement.value;
                 new Ajax.Request(reloadurl, {
                     method: 'get',
                     onLoading: function (stateform) {
@@ -66,7 +66,6 @@ class Wyomind_Pointofsale_Block_Adminhtml_Manage_Edit_Tab_Address extends Mage_A
                 });
             }
         </script>");
-        $states = array();
         $stateCollection = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter($model->getCountryCode())->load();
         if ($this->getRequest()->getParam('place_id')) {
             foreach ($stateCollection as $_state) {
@@ -116,13 +115,15 @@ class Wyomind_Pointofsale_Block_Adminhtml_Manage_Edit_Tab_Address extends Mage_A
         ));
 
 
-		if (Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData()) {
+        if (Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData()) {
             $form->setValues(Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData());
             Mage::getSingleton('adminhtml/session')->getPointofsalePlaceData(null);
         } elseif (Mage::registry('pointofsale_data') && $this->getRequest()->getParam('place_id')) {
             $form->setValues($model);
             $collection = Mage::getModel('pointofsale/pointofsale')->getPlace($this->getRequest()->getParam('place_id'));
         }
+
+
 
         return parent::_prepareForm();
     }

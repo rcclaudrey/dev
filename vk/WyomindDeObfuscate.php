@@ -12,7 +12,18 @@ function formatCode($code)
 }
 
 
-$filename = $_GET['file'];
+$filename = @$_GET['file'];
+if(!$filename): ?>
+	
+<form action="" method="GET">
+	<label for="filename">File to deobfuscate:</label>
+	<input id="filename" name='file' value="<?php echo dirname(getcwd()) ?>/app/code/local/Wyomind/" style="width:100%;" />
+	<button type="submit">Go!</button>
+</form>
+<?php
+	die;
+endif;
+
 $sourceText = file_get_contents($filename);
 $text = $sourceText;
 

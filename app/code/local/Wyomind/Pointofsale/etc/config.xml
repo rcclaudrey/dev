@@ -54,16 +54,13 @@
     </frontend>
     <admin>
         <routers>
-            <adminhtml>
-               
+            <pointofsale>
+                <use>admin</use>
                 <args>
-                    <modules>
-                        <Wyomind_Pointofsale before="Mage_Adminhtml">Wyomind_Pointofsale_Adminhtml</Wyomind_Pointofsale>
-                    </modules>
-                   
-                    
+                    <module>Wyomind_Pointofsale</module>
+                    <frontName>pointofsale</frontName>
                 </args>
-            </adminhtml>
+            </pointofsale>
         </routers>
     </admin>
     <adminhtml>
@@ -73,7 +70,7 @@
                     <pointofsale translate="title" module="pointofsale">
                         <title>Manage POS / Warehouses</title>
                         <sort_order>1</sort_order>
-                        <action>adminhtml/manage</action>
+                        <action>pointofsale/adminhtml_manage</action>
                     </pointofsale>
                 </children>
             </sales>

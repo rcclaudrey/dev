@@ -3,7 +3,7 @@
 <config>
     <modules>
         <Wyomind_Licensemanager>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
         </Wyomind_Licensemanager>
     </modules>

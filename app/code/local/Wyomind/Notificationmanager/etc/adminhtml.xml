@@ -39,12 +39,12 @@
             </Wyomind_Notificationmanager>
         </modules>
     </translate>
-    <layout>
+<!--    <layout>
         <updates>
             <notificationmanager>
                 <file>notificationmanager.xml</file>
             </notificationmanager>
         </updates>
-    </layout>
+    </layout>-->
 
 </config>
