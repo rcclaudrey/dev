@@ -215,4 +215,11 @@ YAM_OUT	Yamaha Outboard
 			:	false;
 	}
 
+
+
+	public static function getOptionCode($value)
+	{
+		return array_search($value, self::toShortOptionArray());
+	}
+
 }

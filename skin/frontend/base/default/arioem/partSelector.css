@@ -138,6 +138,7 @@ li.arioem-step-selected .arioem-step-control-header-reset {
 
 .arioem-step-control-vehicle-atv { background-image: url('vehicles/atv.png') }
 .arioem-step-control-vehicle-fl { background-image: url('vehicles/fl.png') }
+.arioem-step-control-vehicle-h2o { background-image: url('vehicles/h2o.png') }
 .arioem-step-control-vehicle-crosscountry { background-image: url('vehicles/crosscountry.png') }
 .arioem-step-control-vehicle-generator { background-image: url('vehicles/generator.png') }
 .arioem-step-control-vehicle-jetboat { background-image: url('vehicles/jetboat.png') }
@@ -749,6 +750,7 @@ span.arioem-step-content-part-img-howToUse:hover .arioem-step-content-part-img-h
 }
 .arioem-step-content-part-img-popup > div {
 	margin: 5px 12px;
+	line-height: 16px;
 }
 .arioem-step-content-part-img-popup > div.arioem-last {
 	margin-bottom: 12px;
@@ -774,36 +776,34 @@ div.arioem-step-content-part-img-popup-header {
 	font-weight: bold;
 	text-transform: uppercase;
 }
-.arioem-step-content-part-img-popup-partNo {
+.arioem-step-content-part-img-popup-partNo .arioem-step-content-part-img-popup-value {
 	font-size: 12px;
 	font-weight: bold;
 	text-transform: uppercase;
 }
-.arioem-step-content-part-img-popup-msrp {
+.arioem-step-content-part-img-popup-msrp .arioem-step-content-part-img-popup-value {
 	font-size: 12px;
 	font-weight: bold;
 }
-.arioem-step-content-part-img-popup-price {
+.arioem-step-content-part-img-popup-price .arioem-step-content-part-img-popup-value {
 	font-size: 18px;
 	font-weight: bold;
 	color: #b33742;
 }
-.arioem-step-content-part-img-popup-qtyInStock {
-	font-size: 14px;
+.arioem-step-content-part-img-popup-stock {
+	font-size: 12px;
 	font-weight: bold;
+}
+.arioem-step-content-part-img-popup-stock .arioem-inStock {
+	line-height: 22px;
+	font-size: 14px;
+	color: green;
 	text-transform: uppercase;
 }
-.arioem-step-content-part-img-popup-InStock {
-	color: #4f864f;
-	font-size: 14px;
-	font-weight: bold;
-	text-transform: uppercase;
-}
-.arioem-step-content-part-img-popup-outOfStock {
-	color: red;
-	font-size: 14px;
-	font-weight: bold;
-	text-transform: uppercase;
+.arioem-step-content-part-img-popup-stock .arioem-outOfStock {
+	line-height: 22px;
+	font-size: 12px;
+	color: #b33742;
 }
 .arioem-step-content-part-img-popup label {
 	color: #555555;
@@ -825,6 +825,9 @@ div.arioem-step-content-part-img-popup-header {
 }
 .arioem-step-content-part-img-popup-addto {
 	white-space: nowrap;
+}
+div.arioem-step-content-part-img-popup-addto {
+	margin-top: 5px;
 }
 .arioem-step-content-part-img-popup-addToCart {
 	display: inline-block;
@@ -852,6 +855,26 @@ div.arioem-step-content-part-img-popup-header {
 }
 .arioem-step-content-part-img-popup-viewInPL:hover {
 	text-decoration: underline;
+}
+.arioem-step-content-part-img-popup-na {
+	padding: 5px 0;
+	font-size: 12px;
+	font-weight: bold;
+	color: #d95f6a;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup-nla {
+	padding: 5px 0;
+	font-size: 12px;
+	font-weight: bold;
+	color: #d95f6a;
+	text-transform: uppercase;
+}
+.arioem-step-content-part-img-popup-notFound {
+	padding: 6px 0 0;
+	font-size: 12px;
+	font-weight: bold;
+	color: #d95f6a;
 }
 
 .arioem-step-content-part-partlist {
@@ -895,10 +918,6 @@ div.arioem-step-content-part-img-popup-header {
 	display: block;
 	cursor: pointer;
 }
-.arioem-step-content-part-partlist tr.arioem-partlist-tr-hover,
-.arioem-step-content-part-partlist tbody tr:hover {
-	background-color: #CDE1C8;
-}
 .arioem-step-content-part-partlist tbody .arioem-inCart {
 	background-color: gold;
 }
@@ -907,6 +926,19 @@ div.arioem-step-content-part-img-popup-header {
 }
 .arioem-step-content-part-partlist tbody .arioem-preSelected {
 	background-color: #D95F6A;
+	color: #fff !important;
+}
+.arioem-step-content-part-partlist tbody .arioem-preSelected .arioem-partlist-partNo {
+	color: #fff;
+}
+.arioem-step-content-part-partlist tr.arioem-partlist-tr-hover,
+.arioem-step-content-part-partlist tbody tr:hover {
+	background-color: #CDE1C8;
+	color: #000 !important;
+}
+.arioem-step-content-part-partlist tr.arioem-partlist-tr-hover .arioem-partlist-partNo,
+.arioem-step-content-part-partlist tbody tr:hover  .arioem-partlist-partNo {
+	color: #000;
 }
 .arioem-step-content-part-partlist tbody td {
 	padding: 10px 2px;
@@ -931,6 +963,9 @@ div.arioem-step-content-part-img-popup-header {
 	font-weight: bold;
 	color: #8c8c8c;
 }
+.arioem-partlist-partNo:hover {
+	text-decoration: underline;
+}
 .arioem-step-content-part-partlist .arioem-partlist-msrp {
 	width: 55px;
 }
@@ -943,12 +978,16 @@ div.arioem-step-content-part-img-popup-header {
 	padding-left: 5px;
 	padding-right: 5px;
 }
-.arioem-partlist-stock .arioem-instock {
-	color: #448948;
+.arioem-partlist-stock .arioem-inStock {
+	display: inline-block;
+	padding: 4px 9px;
+	border: 1px solid #92b468;
+	background-color: #8db85e;
+	font-weight: bold;
+	color: #fff;
+	text-transform: uppercase;
 }
-.arioem-partlist-stock .arioem-outofstock {
-	color: #D95F6A;
-}
+.arioem-partlist-stock .arioem-outOfStock {}
 .arioem-step-content-part-partlist .arioem-partlist-qty {
 	text-align: center;
 	width: 40px;

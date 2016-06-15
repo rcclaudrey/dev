@@ -85,7 +85,6 @@ var OEMPartSearch = function() {return function($) { return {
 		baseURL: '',
 		addToCartURL: '',
 		loaderTargetSelector: '.arioem-content',
-//		pageSize: 50,
 		partCenter: {
 			baseURL: 'partcenter',
 			modelHash: '#brand=%BRAND%&modelId=%MODEL_ID%&modelName=%MODEL_QUERY_NAME%',
@@ -332,7 +331,6 @@ var OEMPartSearch = function() {return function($) { return {
 			};
 			if (this.state.page.number != 1) {
 				data.page = this.state.page.number;
-//				data.pageSize: this.config.pageSize
 			}
 
 			$('#arioem-pcSearch-res').html(this.config.templates.searching);
@@ -353,8 +351,6 @@ var OEMPartSearch = function() {return function($) { return {
 	_searchSuccess: function(response) {
 		if(response.errorMessage) {
 			console.log(response.errorMessage);
-//			alert(response.errorMessage);
-//			return;
 		}
 		this.state.hashMode =  true;
 		this.state.brand.code = response.brand;
@@ -393,7 +389,7 @@ var OEMPartSearch = function() {return function($) { return {
 			html = this.config.templates.model.listHeader
 					+ this.config.templates.model.table
 						.replace(/%MODEL_LIST%/, rowsHtml);
-			pagingSelector = '.arioem-pcSearch-res-model-list'
+			pagingSelector = '.arioem-pcSearch-res-model-list';
 		} else if (response.type == 'P' || response.type == 'PPWM') {
 			var rowClass, stockLabel, superseded;
 			var rowsHtml = '', rowHtml;
@@ -637,12 +633,10 @@ var OEMPartSearch = function() {return function($) { return {
 		}
 		parentElement.find('ul').first().html(rowsHtml);
 		parentElement.addClass('arioem-hasContent');
-//		this.addPaging(parentElementSelector + ' ul', response, this._selectPartModelSuccess);
 	},
 	updateHash: function() {
 		if(this.state.hashMode) return;
 		var hash = {
-//			type: 'search',
 			brand: this.brandHash[this.state.brand.code]
 		};
 		if (this.state.search.part) {
@@ -741,9 +735,6 @@ var OEMPartSearch = function() {return function($) { return {
 			if(response.hasOwnProperty('cartContent')) {
 				window.popupcart.show();
 				$("#cart-overlay-content").html(response.cartContent);
-			} else {	// since we're not displaying the pop-up, it's time to add some animation!
-//				$('#topCartContent').css({visibility: 'visible'});
-//				$('html, body').animate({scrollTop: $("#minicart").offset().top}, 1500);
 			}
 			$(window.popupcart.header).html(response.cartTop);
 			$(window.popupcart.qty).html(response.cartTotalQty);
@@ -924,7 +915,7 @@ jQuery(document).ready(function() {
 			},
 			default: { brand: {code: '<?php echo $defaultBrandCode ?>', name: '<?php echo htmlspecialchars($brands[$defaultBrandCode]) ?>'}}
 		}, {
-			cartItems: <?php echo Vikont_ARIOEM_Helper_OEM::getCartOEMItemsJson() ?>
+			cartItems: <?php echo json_encode(Mage::helper('arioem/OEM')->getSortedCartOEMItems()) ?>
 		});
 }); 
 

@@ -115,33 +115,11 @@ $shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHt
 						<div id="arioem-step-content-part-img-scrollArea-content-hotspots" class="arioem-step-content-part-img-scrollArea-content-hotspots"></div>
 					</div>
 				</div>
-				<div class="arioem-step-content-part-img-popup" ari_part_tag="" 
-					 onmouseover="oemPartSelector.imgPopupMouseOver(this)"
-					 onmouseleave="oemPartSelector.imgPopupMouseLeave(this)">
-					<div class="arioem-step-content-part-img-popup-header"></div>
-					<div>
-						<span class="arioem-step-content-part-img-popup-label"><?php echo $this->__('Part#') ?></span>
-						<span class="arioem-step-content-part-img-popup-partNo"></span>
-					</div>
-					<div>
-						<span class="arioem-step-content-part-img-popup-label"><?php echo $this->__('MSRP:') ?></span>
-						<span class="arioem-step-content-part-img-popup-msrp"></span>
-					</div>
-					<div>
-						<span class="arioem-step-content-part-img-popup-label"><?php echo $this->__('Price:') ?></span>
-						<span class="arioem-step-content-part-img-popup-price"></span>
-					</div>
-					<div class="arioem-step-content-part-img-popup-stock">
-						<span class=""></span>
-					</div>
-					<div class="arioem-step-content-part-img-popup-addto">
-						<label for="arioem-part-popup-qty"><?php echo $this->__('Qty:') ?></label>
-						<input type="text" id="arioem-part-popup-qty" value="" />
-						<button class="arioem-step-content-part-img-popup-addToCart" onclick="oemPartSelector.addToCartSingle()">
-							<span><?php echo $this->__('Add to Cart') ?></span>
-						</button>
-					</div>
-					<div class="arioem-step-content-part-img-popup-viewInPL" onclick="oemPartSelector.viewPartInPartList()"><?php echo $this->__('View in Part List') ?></div>
+				<div id="arioem-step-content-part-img-popup" 
+						class="arioem-step-content-part-img-popup" 
+						ari_part_tag="" 
+						onmouseover="oemPartSelector.imgPopupMouseOver(this)"
+					onmouseleave="oemPartSelector.imgPopupMouseLeave(this)">
 				</div>
 				<span class="arioem-step-content-part-img-enlarge" onclick="oemPartSelector.zoom(1)">&nbsp;</span>
 				<span class="arioem-step-content-part-img-reduce" onclick="oemPartSelector.zoom(-1)">&nbsp;</span>
@@ -157,15 +135,7 @@ $shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHt
 			<div class="arioem-step-content-part-partlist">
 				<table>
 					<thead>
-						<tr>
-							<td class="arioem-partlist-tag"><?php echo $this->__('Tag') ?></td>
-							<td class="arioem-partlist-descr"><?php echo $this->__('Description /Part#') ?></td>
-							<td class="arioem-partlist-msrp"><?php echo $this->__('MSRP') ?></td>
-							<td class="arioem-partlist-price"><?php echo $this->__('Web price') ?></td>
-							<td class="arioem-partlist-stock"><?php echo $this->__('Stock status') ?></td>
-							<td class="arioem-partlist-qty"><?php echo $this->__('Qty') ?></td>
-							<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1"/></td>
-						</tr>
+						<tr></tr>
 					</thead>
 					<tbody>
 					</tbody>
@@ -208,6 +178,7 @@ var OEMPartSelector = function() {return function($) { return {
 		loadingImageUrl: '',
 		addToCartURL: '',
 		refreshCartItemsUrl: '',
+		partPageURL: '',
 		urlKeyNames: {
 			brand: 'brand',
 			vehicle: 'vehicle',
@@ -271,47 +242,112 @@ var OEMPartSelector = function() {return function($) { return {
 			},
 			part: {
 				assemblySelectOption: '<option value="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%">%ASSEMBLY_NAME%</option>',
-				tableRow: '<tr class="%ROW_CLASS%" ari_part_tag="%PART_TAG%" ari_part_number="%PART_NUMBER%">'
-						+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
-						+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION% %PART_SUPERSEDED%</span>'
-						+	'<span class="arioem-partlist-partNo">%PART_NUMBER%</span></td>'
-						+ '<td class="arioem-partlist-msrp">$%PART_MSRP%</td>'
-						+ '%PRICE_CELL%'
-						+ '<td class="arioem-partlist-stock">%PART_STOCK%</td>'
-						+ '<td class="arioem-partlist-qty"><input type="text" name="%PART_ID%" value="%PART_QTY%" ari_part_qty="%PART_QTY%" /></td>'
-						+ '<td class="arioem-partlist-select"><input type="checkbox" ari_part_id="%PART_ID%" onclick="oemPartSelector.partListSelectPart(this)" value="" /></td>'
-						+ '</tr>',
+				wholesale: {
+					tableHeading: '<td class="arioem-partlist-tag">Tag</td>'
+						+ '<td class="arioem-partlist-descr">Description /Part#</td>'
+						+ '<td class="arioem-partlist-msrp">Retail price</td>'
+						+ '<td class="arioem-partlist-price">Price</td>'
+						+ '<td class="arioem-partlist-stock">Stock status</td>'
+						+ '<td class="arioem-partlist-qty">Qty</td>'
+						+ '<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1"/></td>'
+				},
+				regular: {
+					tableHeading: '<td class="arioem-partlist-tag">Tag</td>'
+						+ '<td class="arioem-partlist-descr">Description /Part#</td>'
+						+ '<td class="arioem-partlist-msrp">MSRP</td>'
+						+ '<td class="arioem-partlist-price">Web price</td>'
+						+ '<td class="arioem-partlist-stock">Stock status</td>'
+						+ '<td class="arioem-partlist-qty">Qty</td>'
+						+ '<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1"/></td>'
+				},
+				tableRow: '<tr class="%ROW_CLASS%" ari_part_tag="%PART_TAG%" ari_part_number="%PART_NUMBER%" onclick="oemPartSelector.partListSelectPart(this)">'
+					+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
+					+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION% %PART_SUPERSEDED%</span>'
+					+	'<span class="arioem-partlist-partNo" onclick="oemPartSelector.viewPartPage(event)" title="View part page">%PART_NUMBER%</span>'
+					+ '</td>'
+					+ '<td class="arioem-partlist-msrp">$%PART_MSRP%</td>'
+					+ '%PRICE_CELL%'
+					+ '<td class="arioem-partlist-stock">%PART_STOCK%</td>'
+					+ '<td class="arioem-partlist-qty"><input type="text" name="%PART_ID%" value="%PART_QTY%" ari_part_qty="%PART_QTY%" onclick=oemPartSelector.stopEventPropagation(event) /></td>'
+					+ '<td class="arioem-partlist-select"><input type="checkbox" ari_part_id="%PART_ID%" value="" onclick="oemPartSelector.stopEventPropagation(event)" /></td>'
+					+ '</tr>',
 				tableRowNLA: '<tr class="%ROW_CLASS% arioem-nla" ari_part_tag="%PART_TAG%">'
 						+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
 						+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION%</span>'
-						+	'<span class="arioem-partlist-partNo">%PART_NUMBER%</span></td>'
+						+	'<span class="arioem-partlist-partNo" onclick="oemPartSelector.viewPartPage(this)" title="View part page">%PART_NUMBER%</span>'
+						+ '</td>'
 						+ '<td colspan="5" class="arioem-partlist-nla">No longer available</td>'
 						+ '</tr>',
 				tableRowNA: '<tr class="%ROW_CLASS% arioem-na" ari_part_tag="%PART_TAG%">'
 						+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
 						+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION%</span>'
-						+	'<span class="arioem-partlist-partNo">%PART_NUMBER%</span></td>'
+						+	'<span class="arioem-partlist-partNo" onclick="oemPartSelector.viewPartPage(this)" title="View part page">%PART_NUMBER%</span>'
+						+ '</td>'
 						+ '<td colspan="5" class="arioem-partlist-na">Not available</td>'
 						+ '</tr>',
 				tableRowSupersededSign: '<span class="arioem-partlist-superseded" '
 						+ 'title="This is the most current part for this model. \nPrevious part number: \n'
 						+ '%PART_ORG_SKU% %PART_ORG_DESCRIPTION%"></span>',
 				hotSpot: '<span class="arioem-hotspot" '
-						+ 'style="left:%SPOT_LEFT%px;top:%SPOT_TOP%px;width:%SPOT_WIDTH%px;height:%SPOT_HEIGHT%px;" '
-						+ 'ari_part_tag="%PART_TAG%" '
-						+ 'onclick="oemPartSelector.hotSpotMouseOver(this)" '
-						+ 'onmouseover="oemPartSelector.hotSpotMouseOver(this)" '
-						+ 'onmouseout="oemPartSelector.hotSpotMouseOut(this)" '
+						+	'style="left:%SPOT_LEFT%px;top:%SPOT_TOP%px;width:%SPOT_WIDTH%px;height:%SPOT_HEIGHT%px;" '
+						+	'ari_part_tag="%PART_TAG%" '
+						+	'onclick="oemPartSelector.hotSpotMouseOver(this)" '
+						+	'onmouseover="oemPartSelector.hotSpotMouseOver(this)" '
+						+	'onmouseout="oemPartSelector.hotSpotMouseOut(this)" '
 						+ '>%PART_TAG%</span>',
 				stock: {
-					inStock: '<span class="arioem-instock">In stock</span>',
-					outOfStock: '%STOCK_LABEL%'
+					0: 'Out of stock',
+					1: '<span class="arioem-instock">In stock</span>'
 				},
 				price: {
 					0: '<td class="arioem-partlist-price">$%PART_PRICE%</td>',
 					1: '<td class="arioem-partlist-price arioem-partlist-hidePrice" onclick="oemPartSelector.showHiddenPrice(this, 0)" '
 						+ 'onmouseover="oemPartSelector.showHiddenPrice(this, 1)" onmouseout="oemPartSelector.showHiddenPrice(null, -1)"'
 						+ '>See price in cart</td>'
+				},
+				hotSpotPopup: {
+					common: {
+						notFound:	'<div class="arioem-step-content-part-img-popup-notFound">The appropriate part cannot be found. Please call us for help.</div>',
+						found:	'<div class="arioem-step-content-part-img-popup-header">%HEADER%</div>'
+							+	'<div class="arioem-step-content-part-img-popup-partNo">'
+							+		'<span class="arioem-step-content-part-img-popup-label">Part#</span>'
+							+		'<span class="arioem-step-content-part-img-popup-value">%PART_NUMBER%</span>'
+							+	'</div>'
+							+	'%AVAILABLE_SECTION%'
+					},
+					available: {
+						yes: '%PRICE_SECTION%'
+							+	'<div class="arioem-step-content-part-img-popup-stock">%STOCK_LABEL%</div>'
+							+	'<div class="arioem-step-content-part-img-popup-addto">'
+							+		'<label for="arioem-part-popup-qty">Qty:</label>'
+							+		'<input type="text" id="arioem-part-popup-qty" value="%QTY%" />'
+							+		'<button class="arioem-step-content-part-img-popup-addToCart" onclick="oemPartSelector.addToCartSingle()">'
+							+			'<span>Add to Cart</span>'
+							+		'</button>'
+							+	'</div>'
+							+	'<div class="arioem-step-content-part-img-popup-viewInPL" '
+							+		'onclick="oemPartSelector.viewPartInPartList()">View in Part List</div>',
+						no:	'<div class="arioem-step-content-part-img-popup-na">Part is not available</div>',
+						nla: '<div class="arioem-step-content-part-img-popup-nla">Part is no longer available</div>'
+					},
+					priceSection: {
+						wholesale: '<div class="arioem-step-content-part-img-popup-msrp">'
+							+		'<span class="arioem-step-content-part-img-popup-label">Retail price:</span>'
+							+		'<span class="arioem-step-content-part-img-popup-value">%MSRP%</span>'
+							+	'</div>'
+							+	'<div class="arioem-step-content-part-img-popup-price">'
+							+		'<span class="arioem-step-content-part-img-popup-label">Price:</span>'
+							+		'<span class="arioem-step-content-part-img-popup-value">%PRICE%</span>'
+							+	'</div>',
+						regular: '<div class="arioem-step-content-part-img-popup-msrp">'
+							+		'<span class="arioem-step-content-part-img-popup-label">MSRP:</span>'
+							+		'<span class="arioem-step-content-part-img-popup-value">%MSRP%</span>'
+							+	'</div>'
+							+	'<div class="arioem-step-content-part-img-popup-price">'
+							+		'<span class="arioem-step-content-part-img-popup-label">Price:</span>'
+							+		'<span class="arioem-step-content-part-img-popup-value">%PRICE%</span>'
+							+	'</div>'
+					}
 				}
 			}
 		},
@@ -349,6 +385,7 @@ var OEMPartSelector = function() {return function($) { return {
 		defaultScrollAreaWidth: 408,
 		wideLayout: -1, // -1 (normal) or 1 (wide)
 		hashMode: false,
+		customerIsWholesale: false,
 		cartItems: {},
 		brand: {
 			code: null,
@@ -884,6 +921,7 @@ var OEMPartSelector = function() {return function($) { return {
 			return;
 		}
 		this.cache.parts = response.parts;
+		this.state.customerIsWholesale = response.isWholesale;
 
 		$('.arioem-step-content-part').addClass('arioem-step-active');
 		$('.arioem-step-control').hide();
@@ -901,6 +939,9 @@ var OEMPartSelector = function() {return function($) { return {
 		this.cache.hotSpots = response.hotSpots;
 
 		// populating table
+		$('.arioem-step-content-part-partlist thead tr').html(
+			this.config.templates.part[response.isWholesale ? 'wholesale' : 'regular'].tableHeading);
+
 		var rowsHtml = '', rowHtml;
 		var rowClass, stockLabel, superseded, rowTemplateIndex;
 		var partFound = false;
@@ -910,10 +951,7 @@ var OEMPartSelector = function() {return function($) { return {
 			if (!response.parts[i].available) {
 				rowHtml = this.config.templates.part.tableRowNA;
 			} else {
-				stockLabel = response.parts[i].invW
-					?	this.config.templates.part.stock.inStock
-					:	this.config.templates.part.stock.outOfStock
-							.replace(/%STOCK_LABEL%/g, response.parts[i].stockLabel);
+				stockLabel = this.config.templates.part.stock[response.parts[i].stockStatus];
 				superseded = response.parts[i].isSuperseded
 					?	this.config.templates.part.tableRowSupersededSign
 							.replace(/%PART_ORG_DESCRIPTION%/g, response.parts[i].orgName)
@@ -1016,34 +1054,38 @@ var OEMPartSelector = function() {return function($) { return {
 			$('.arioem-step-content-part-partlist tr').removeClass('arioem-partlist-tr-hover');
 		}
 		this.imgPopupMouseOver();
-		var rowContainer = $('.arioem-step-content-part-partlist tr[ari_part_tag="' + tagNumber + '"]');
-		rowContainer.addClass('arioem-partlist-tr-hover');
 
-		$('.arioem-step-content-part-img-popup-header').text(
-				rowContainer.find('.arioem-partlist-descr span:first-child').text());
-		$('.arioem-step-content-part-img-popup-partNo').text(
-				rowContainer.find('.arioem-partlist-partNo').text());
-		if (rowContainer.hasClass('arioem-nla')) {
-			$('.arioem-step-content-part-img-popup-msrp').text('');
-			$('.arioem-step-content-part-img-popup-price').text('');
-			$('.arioem-step-content-part-img-popup-stock span').text('');
-			$('.arioem-step-content-part-img-popup-stock span').attr('class', '');
-			$('#arioem-part-popup-qty').val(rowContainer.find('.arioem-partlist-qty input').attr('ari_part_qty'));
-		} else {
-			$('.arioem-step-content-part-img-popup-msrp').text(
-					rowContainer.find('.arioem-partlist-msrp').text());
-			$('.arioem-step-content-part-img-popup-price').text(
-					rowContainer.find('.arioem-partlist-price').text());
-			$('.arioem-step-content-part-img-popup-stock span').text(
-					rowContainer.find('.arioem-partlist-stock').text());
-//			$('.arioem-step-content-part-img-popup-stock span').attr('class', 
-//					rowContainer.find('.arioem-partlist-stock').attr('class').replace('arioem-partlist-stock', '').trim()
-//				);
-			$('#arioem-part-popup-qty').val(rowContainer.find('.arioem-partlist-qty input').attr('ari_part_qty'));
+		var html = '';
+		var rowContainer = $('.arioem-step-content-part-partlist tr[ari_part_tag="' + tagNumber + '"]');
+		if (rowContainer.length) {
+			rowContainer.addClass('arioem-partlist-tr-hover');
+
+			html = this.config.templates.part.hotSpotPopup.common.found
+				.replace('%HEADER%', rowContainer.find('.arioem-partlist-descr span:first-child').text())
+				.replace('%PART_NUMBER%', rowContainer.find('.arioem-partlist-partNo').text());
+
+			if (rowContainer.hasClass('arioem-nla')) {
+				html = html.replace('%AVAILABLE_SECTION%', this.config.templates.part.hotSpotPopup.available.nla);
+			} else if (rowContainer.hasClass('arioem-na')) {
+				html = html.replace('%AVAILABLE_SECTION%', this.config.templates.part.hotSpotPopup.available.no);
+			} else {
+				html = html
+					.replace('%AVAILABLE_SECTION%', this.config.templates.part.hotSpotPopup.available.yes)
+					.replace('%PRICE_SECTION%', this.config.templates.part.hotSpotPopup.priceSection[
+						this.state.customerIsWholesale ? 'wholesale' : 'regular'])
+					.replace('%MSRP%', rowContainer.find('.arioem-partlist-msrp').text())
+					.replace('%PRICE%', rowContainer.find('.arioem-partlist-price').text())
+					.replace('%STOCK_LABEL%', rowContainer.find('.arioem-partlist-stock').html())
+					.replace('%QTY%', rowContainer.find('.arioem-partlist-qty input').attr('ari_part_qty'));
+			}
+		} else { // no part found by hotspot tag
+			html = this.config.templates.part.hotSpotPopup.common.notFound;
 		}
 
+		var hotSpotPopup = $('#arioem-step-content-part-img-popup');
+		hotSpotPopup.html(html);
+
 		var hotSpotPosition = hotSpot.position();
-		var hotSpotPopup = $('.arioem-step-content-part-img-popup');
 		var scrollContainerPosition = $('#arioem-step-content-part-img-scrollArea-content').position();
 		var container = $('#arioem-step-content-part-img-scrollArea');
 		var left = Math.min(
@@ -1215,10 +1257,29 @@ var OEMPartSelector = function() {return function($) { return {
 		event.preventDefault();
 		this.zoom(event.deltaY, {left: Math.round(event.offsetX), top: Math.round(event.offsetY)});
 	},
-	partListSelectPart: function(sender) {},
+	partListSelectPart: function(sender) {
+		var checkbox = $(sender).find('.arioem-partlist-select > input');
+		checkbox.prop('checked', !checkbox.prop('checked'));
+	},
 	partListSelectAllParts: function(sender) {
 		$('.arioem-step-content-part-partlist tbody .arioem-partlist-select input')
 			.prop('checked', $(sender).is(':checked'));
+	},
+	stopEventPropagation: function(event) {
+		if (event.stopPropagation) {
+			event.stopPropagation();
+		} else if (window.event) {
+			window.event.cancelBubble = true;
+		}
+	},
+	viewPartPage: function(event) {
+		this.stopEventPropagation(event);
+		var sender = event.target;
+		window.open(this.config.partPageURL
+					.replace('%BRAND_HASH%', this.state.brand.hash)
+					.replace('%PART_NUMBER%', $(sender).closest('tr').attr('ari_part_number')),
+				'_blank'
+			);
 	},
 	_getAssemblyPartURL: function(sku) {
 		var key = '&' + this.config.urlKeyNames.part + '=';
@@ -1465,12 +1526,21 @@ jQuery(document).ready(function() {
 		loadingImageUrl: '<?php echo $this->getSkinUrl('arioem/images/partcenter/loading-img-bg.png') ?>',
 		addToCartURL: '<?php echo $this->getUrl('arioem/partcenter/add') ?>',
 		refreshCartItemsUrl: '<?php echo $this->getUrl('arioem/partcenter/cartItems') ?>',
+		partPageURL: '<?php echo $this->getUrl('oem') ?>%BRAND_HASH%/%PART_NUMBER%',
 		print: {
 			diagramURL: '<?php echo $this->getUrl('arioem/partcenter/printDiagram') ?>'
 		},
-		customerId: <?php echo (int)Mage::getSingleton('customer/session')->getCustomerId() ?>
+		customerId: <?php echo (int)Mage::getSingleton('customer/session')->getCustomerId() ?>,
+		templates: {
+			part: {
+				stock: {
+					0: '<span class="arioem-outOfStock">Usually ships in 1-3 business days</span>',
+					1: '<span class="arioem-inStock">In stock</span>'
+				}
+			}
+		}
 	}, {
-		cartItems: <?php echo json_encode(Vikont_ARIOEM_Helper_OEM::getSortedCartOEMItems()) ?>
+		cartItems: <?php echo json_encode(Mage::helper('arioem/OEM')->getSortedCartOEMItems()) ?>
 	});
 });
 

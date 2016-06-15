@@ -27,9 +27,9 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 		'KUS' => 'KA',
 		'POL' => 'PO',
 		'BRP' => 'SD',
+		'SLN' => 'SL',
 		'SUZ' => 'SU',
 		'YAM' => 'YA',
-		'SLN' => 'SL',
 	);
 
 	protected static $_ARI2TMS = array(
@@ -103,7 +103,7 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 
 
 
-	public function getOEMCostData($brand, $partNumber)
+	public function getOEMData($brand, $partNumber)
 	{
 		if(!$brand || !$partNumber) {
 			return false;
@@ -191,7 +191,7 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 	 *
 	 * @return array
 	 */
-	public static function getCartOEMItems()
+	public function getCartOEMItems()
 	{
 		if(null === self::$_filteredItems) {
 			self::$_filteredItems = array();
@@ -199,15 +199,29 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 			$items = Mage::getSingleton('checkout/session')->getQuote()->getAllVisibleItems();
 			$configHelper = Mage::helper('catalog/product_configuration');
 
+			$brandOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
+			$partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
+
 			foreach($items as $item) {
 				if($oemAttrSetId == $item->getProduct()->getAttributeSetId()) {
+					$qty = $item->getQty();
+					$options = Vikont_ARIOEM_Helper_Data::indexArray($configHelper->getCustomOptions($item), 'option_id');
+					$brandCode = Vikont_ARIOEM_Model_Source_Oembrand::getOptionCode($options[$brandOptionId]['value']);
+					$partNumber = $options[$partNumberOptionId]['value'];
+					$oemData = $this->getOEMData($brandCode, $partNumber);
+
 					self::$_filteredItems[$item->getId()] = array(
-						'sku' => $item->getSku(),
+						'brandCode' => $brandCode,
+						'partNumber' => $partNumber,
+//						'sku' => $item->getSku(),
 						'name' => $item->getName(),
 						'price' => $item->getPrice(),
 						'rowTotal' => $item->getRowTotal(),
-						'qty' => $item->getQty(),
-						'options' => Vikont_ARIOEM_Helper_Data::indexArray($configHelper->getCustomOptions($item), 'option_id'),
+						'qty' => $qty,
+						'availability' => (($oemData && ($oemData['inv_local'] < $qty))
+							?	'Usually ships in 1-3 business days'
+							:	'In stock'),
+//						'options' => Vikont_ARIOEM_Helper_Data::indexArray($configHelper->getCustomOptions($item), 'option_id'),
 					);
 				}
 			}
@@ -218,19 +232,19 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 
 
 
-	public static function getSortedCartOEMItems()
+	public function getSortedCartOEMItems()
 	{
 		$res = array();
-		$brandOptionId = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
-		$partNumberOptionId = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
 
-		foreach(self::getCartOEMItems() as $item) {
-			$brand = $item['options'][$brandOptionId]['value'];
-			$brandCode = Vikont_ARIOEM_Helper_Data::brandName2Code($brand);
+		foreach($this->getCartOEMItems() as $item) {
+			$brandCode = $item['brandCode'];
+			$partNumber = $item['partNumber'];
+
 			if(!isset($res[$brandCode])) {
 				$res[$brandCode] = array();
 			}
-			$res[$brandCode][] = $item['options'][$partNumberOptionId]['value'];
+
+			$res[$brandCode][] = $partNumber;
 		}
 
 		return $res;

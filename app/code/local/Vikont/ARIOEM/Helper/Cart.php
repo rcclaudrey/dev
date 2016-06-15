@@ -54,14 +54,14 @@ class Vikont_ARIOEM_Helper_Cart extends Mage_Core_Helper_Abstract
 		$warnings = array();
 
 		foreach($data['parts'] as $part) {
-			$partData = $oemHelper->getOEMCostData($brandCode, $part['sku']);
+			$partData = $oemHelper->getOEMData($brandCode, $part['sku']);
 
 			if($partData) {
 				if($gainPercent) {
 					$price = $partData['cost'] * (100 + $gainPercent) / 100;
 				} else {
-					$price = (int)$partData['price']
-						?	(int)$partData['price']
+					$price = $partData['price']
+						?	(float)$partData['price']
 						:	$price = (float) trim(str_replace(',', '', $part['price']), ' $');
 				}
 			} else {

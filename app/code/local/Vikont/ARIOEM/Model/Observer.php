@@ -32,4 +32,42 @@ class Vikont_ARIOEM_Model_Observer
         );
 	}
 
+
+
+	public function customer_login($observer)
+	{
+		$customer = $observer->getCustomer();
+
+		$customerCostPercent = 0;
+		$isWholesale = false;
+		$customerGroupId = $customer->getGroupId();
+
+		if (Mage::helper('core')->isModuleEnabled('Vikont_Wholesale')) {
+			if (Vikont_Wholesale_Model_Source_Dealer_Status::APPROVED == $customer->getDealerStatus()) {
+				$isWholesale = true;
+
+				$customerCostPercent = floatval($customer->getDealerCost());
+				if (!$customerCostPercent) {
+					$customerGroup = Mage::getModel('customer/group')->load($customerGroupId);
+					$customerCostPercent = $customerGroup->getId()
+						?	floatval($customerGroup->getCostPercent())
+						:	0;
+				}
+			}
+		}
+
+		$_SESSION['customer_base']['cost_percent'] = $customerCostPercent;
+		$_SESSION['customer_base']['is_wholesale'] = $isWholesale;
+		$_SESSION['customer_base']['group_id'] = $customerGroupId;
+	}
+
+
+
+	public function customer_logout($observer)
+	{
+		$_SESSION['customer_base']['is_wholesale'] = false;
+		$_SESSION['customer_base']['cost_percent'] = 0;
+		$_SESSION['customer_base']['group_id'] = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+	}
+
 }

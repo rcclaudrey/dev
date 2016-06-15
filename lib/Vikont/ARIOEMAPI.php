@@ -91,10 +91,10 @@ class Vikont_ARIOEMAPI
 				'table_prefix' => '',
 			),
 		),
-		'stock_labels' => array(
-			0 => 'outofstock',
-			1 => 'instock',
-		),
+//		'stock_labels' => array(
+//			0 => 'outofstock',
+//			1 => 'instock',
+//		),
 		'translate' => array(),
 	);
 
@@ -199,7 +199,9 @@ class Vikont_ARIOEMAPI
 				$result = $this->processAutocomplete($params);
 				break;
 
-			case 'test': 
+//			case 'test': 
+//				$this->initSession();
+//				vd($_SESSION);
 			default: 
 				return false;
 		}
@@ -289,6 +291,9 @@ class Vikont_ARIOEMAPI
 			);
 		} else if(strtolower($contentType) == 'application/json') {
 			$data = json_decode($response, true);
+
+			if(@self::$_params['debug']) vd($data);
+
 			if(isset($data['ErrorMessage']) && $data['ErrorMessage']) {
 				$errorMessage = sprintf('Error getting remote data for %s, URL: %s, Message: %s, Message Detail: %s',
 						$path,
@@ -1005,7 +1010,8 @@ class Vikont_ARIOEMAPI
 //			$this->addWarning('Your session has expired. The prices shown may be different. Please relogin.');
 //		}
 
-		$customerCostPercent = @$_SESSION['customer_base']['customer_cost_percent'];
+		$isWholesale = @$_SESSION['customer_base']['is_wholesale'];
+		$customerCostPercent = @$_SESSION['customer_base']['cost_percent'];
 
 		$parts = array();
 		foreach($data['Data']['Parts'] as $part) {
@@ -1016,10 +1022,8 @@ class Vikont_ARIOEMAPI
 					?	$oemData[$sku]['price']
 					:	$oemData[$sku]['msrp'];
 
-				$price = $customerCostPercent // if this is is a wholesale customer
-					?	min(	$retailPrice,
-								$oemData[$sku]['cost'] * (100 + $customerCostPercent) / 100
-						)
+				$price = ($isWholesale && ($customerCostPercent > 0)) // if this is is a wholesale customer
+					?	round($oemData[$sku]['cost'] * (100 + $customerCostPercent) / 100, 2)
 					:	$retailPrice;
 
 				$parts[$part['SortTag']] = array(
@@ -1029,7 +1033,8 @@ class Vikont_ARIOEMAPI
 					'name' => trim(	$oemData[$sku]['part_name']
 						?	$oemData[$sku]['part_name']
 						:	$part['Description'] ),
-					'msrp' => $oemData[$sku]['msrp'], //$part['MSRP'],
+					'msrp' => ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']), //$part['MSRP'],
+					'price' => $price,
 					'hidePrice' => $oemData[$sku]['hide_price'],
 					'qty' => (int)$part['Qty'],
 					'tag' => $part['Tag'], // Reference tag for this part
@@ -1039,9 +1044,9 @@ class Vikont_ARIOEMAPI
 					'orgName' => $part['OrgDescription'],
 					'orgMsrp' => $part['OrgMSRP'],
 					'image' => $part['ImageUrl'], // Url for this part’s image. May be null. Only available for select catalogs
-					'price' => $price,
-					'invW' => (int)$oemData[$sku]['inv_wh'],
-					'stockLabel' =>	$this->_config['stock_labels'][(int)($oemData[$sku]['inv_wh'] > 0)],
+//					'invW' => (int)$oemData[$sku]['inv_wh'],
+					'stockStatus' => (int)($oemData[$sku]['inv_wh'] > 0),
+//					'stockLabel' =>	$this->_config['stock_labels'][(int)($oemData[$sku]['inv_wh'] > 0)],
 				);
 			} else {
 				$parts[$part['SortTag']] = array(
@@ -1060,6 +1065,7 @@ class Vikont_ARIOEMAPI
 			'hotSpots' => $data['Data']['HotSpots'],
 			'parts' => array_values($parts),
 			'customerId' => (int)@$_SESSION['customer_base']['id'],
+			'isWholesale' => (bool) $isWholesale,
 		);
 
 		return $result;
@@ -1419,8 +1425,9 @@ class Vikont_ARIOEMAPI
 			$oemData = $this->getOEMData($brandCode, $skus);
 
 			$this->initSession();
-			$result['customerId'] = (int)@$_SESSION['customer_base']['id'];	
-			$customerCostPercent = @$_SESSION['customer_base']['customer_cost_percent'];
+			$result['customerId'] = (int)@$_SESSION['customer_base']['id'];
+			$isWholesale = @$_SESSION['customer_base']['is_wholesale'];
+			$customerCostPercent = @$_SESSION['customer_base']['cost_percent'];
 
 			foreach($data['Data']['Results'] as $part) {
 				$sku = $part['Sku'];
@@ -1430,10 +1437,8 @@ class Vikont_ARIOEMAPI
 						?	(float) $oemData[$sku]['price']
 						:	(float) $part['MSRP'];
 
-					$price = $customerCostPercent // if this is is a wholesale customer
-						?	min(	$retailPrice,
-									$oemData[$sku]['cost'] * (100 + $customerCostPercent) / 100
-							)
+					$price = ($isWholesale && ($customerCostPercent > 0)) // if this is is a wholesale customer
+						?	round($oemData[$sku]['cost'] * (100 + $customerCostPercent) / 100, 2)
 						:	$retailPrice;
 
 					$result['res'][] = array(
@@ -1443,14 +1448,15 @@ class Vikont_ARIOEMAPI
 						'name' => trim(	$oemData[$sku]['part_name']
 									?	$oemData[$sku]['part_name']
 									:	$part['Description'] ),
-						'msrp' => $oemData[$sku]['msrp'],
+						'msrp' => ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']),
+						'price' => $price,
 						'hidePrice' => (int)$oemData[$sku]['hide_price'],
 						'isSuperseded' => (bool)$part['IsSuperseded'], // If true, the original part data is prefixed by Org (bool)
 						'nla' => (bool)$part['NLA'], // Stands for No Longer Available (bool)
 						'hasModels' => (int)$part['HasModels'],
-						'price' => $price,
 						'invW' => (int)$oemData[$sku]['inv_wh'],
-						'stockLabel' =>	$this->_config['stock_labels'][(int)($oemData[$sku]['inv_wh'] > 0)], 
+//						'stockLabel' =>	$this->_config['stock_labels'][(int)($oemData[$sku]['inv_wh'] > 0)],
+						'stockStatus' => (int)($oemData[$sku]['inv_wh'] > 0),
 					);
 				} else {
 					$result['res'][] = array(

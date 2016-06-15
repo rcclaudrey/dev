@@ -20,7 +20,7 @@ class Vikont_ARIOEM_Block_Shoppinglist extends Mage_Core_Block_Template
 
 	public function getItems()
 	{
-		return Vikont_ARIOEM_Helper_OEM::getCartOEMItems();
+		return Mage::helper('arioem/OEM')->getCartOEMItems();
 	}
 
 }

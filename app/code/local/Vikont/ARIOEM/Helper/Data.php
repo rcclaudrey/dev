@@ -25,6 +25,8 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 		'YAM'		=> 'Yamaha',
 	);
 
+
+
 	public static function brandName2Code($brandName)
 	{
 		$brandName = strtolower($brandName);

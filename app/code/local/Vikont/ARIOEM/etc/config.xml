@@ -44,6 +44,27 @@
 			</oem>
 		</routers>
 
+		<events>
+			<customer_login>
+				<observers>
+					<arioem>
+						<type>singleton</type>
+						<class>Vikont_ARIOEM_Model_Observer</class>
+						<method>customer_login</method>
+					</arioem>
+				</observers>
+			</customer_login>
+
+			<customer_logout>
+				<observers>
+					<arioem>
+						<type>singleton</type>
+						<class>Vikont_ARIOEM_Model_Observer</class>
+						<method>customer_logout</method>
+					</arioem>
+				</observers>
+			</customer_logout>
+		</events>
 	</frontend>
 
 	<admin>

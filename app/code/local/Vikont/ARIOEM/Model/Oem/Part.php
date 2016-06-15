@@ -49,6 +49,12 @@ class Vikont_ARIOEM_Model_Oem_Part
 	);
 
 
+//	public function Vikont_ARIOEM_Model_Oem_Part()
+//	{
+//	}
+
+
+
 	public function getBrand()
 	{
 		if(null === $this->_brand) {
@@ -134,7 +140,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 
 	public function getPartInfo()
 	{
-		if(null === $this->_partInfo) {
+		if (null === $this->_partInfo) {
 			$this->getAPIPartInfo();
 
 			$this->_partInfo = array(
@@ -145,10 +151,10 @@ class Vikont_ARIOEM_Model_Oem_Part
 				'has_models' => $this->_apiPartInfo['HasModels'],
 			);
 
-			$dbData = Mage::helper('arioem/OEM')->getOEMCostData($this->getBrandCode(), $this->getPartNumber());
+			$dbData = Mage::helper('arioem/OEM')->getOEMData($this->getBrandCode(), $this->getPartNumber());
 
 			if ($dbData && $dbData['available']) {
-				$this->_partInfo = array_merge($partInfo, array(
+				$this->_partInfo = array_merge($this->_partInfo, array(
 					'available' => true,
 //					'id' => $dbData['id'],
 					'supplier_code' => $dbData['supplier_code'],

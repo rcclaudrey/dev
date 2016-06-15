@@ -37,10 +37,10 @@ class ARIOEMAPI_Config
 			'session' => array(
 				'use' => 'db', // 'files'
 			),
-			'stock_labels' => array(
-				0 => 'Usually ships in 1-3 business days',
-				1 => 'In stock',
-			),
+//			'stock_labels' => array(
+//				0 => 'Usually ships in 1-3 business days',
+//				1 => 'In stock',
+//			),
 		);
 
 		if($_SERVER['SERVER_NAME'] == 'dev.tmsparts.com') {

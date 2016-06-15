@@ -4,12 +4,12 @@ $coreHelper = Mage::helper('core');
 
 $list = $this->getList();
 $isAjax = $this->isAjax();
-
+/*
 $brandOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
 $yearOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_year_option_id');
 $modelOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_model_option_id');
 $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
-
+/**/
 ?>
 <?php if(!$isAjax): ?>
 <div class="arioem-shopList">
@@ -39,7 +39,7 @@ $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_pa
 							<span class="arioem-shopList-year"><?php echo $item['options'][$yearOptionId]['print_value'] ?></span>
 							<?php /**/ ?>
 						<td class="arioem-shopList-price"><?php echo $coreHelper->formatPrice($item['price'], false) ?></td>
-						<td class="arioem-shopList-stock"><?php // echo htmlspecialchars($item['availability']) ?></td>
+						<td class="arioem-shopList-stock"><?php echo htmlspecialchars($item['availability']) ?></td>
 						<td class="arioem-shopList-qty"><input name="<?php echo (int)$itemId ?>" value="<?php echo (int)$item['qty'] ?>"/></td>
 						<td class="arioem-shopList-subtotal"><?php echo $coreHelper->formatPrice($item['rowTotal'], false) ?></td>
 						<td class="arioem-shopList-remove"><span onclick="oemShoppingList.deleteItem(<?php echo (int)$itemId ?>)">X</span></td>

@@ -69,7 +69,7 @@ class Vikont_ARIOEM_PartcenterController extends Mage_Core_Controller_Front_Acti
 		$response = array();
 
 		try {
-			$response['cartItems'] = Vikont_ARIOEM_Helper_OEM::getSortedCartOEMItems();
+			$response['cartItems'] = Mage::helper('arioem/OEM')->getSortedCartOEMItems();
 		} catch (Exception $e) {
 			Mage::logException($e);
 			$response['errorMessage'] = $this->__('Cannot get shopping cart items, reason: %s', $e->getMessage());
