@@ -232,6 +232,8 @@ XML;
 				->addObject($order)
 				->save();
 
+			$shipment->sendEmail(true, '');
+
 			$this->sendAcknowledgeResponse('SUCCESS');
 
 			Vikont_EVOConnector_Model_Log::log(sprintf('An acknowledge response SUCCESS has been sent for shipment on order #%s', $orderId));

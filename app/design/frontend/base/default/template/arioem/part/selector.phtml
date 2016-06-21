@@ -10,6 +10,8 @@ $shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHt
 ?>
 <div class="arioem-content">
 
+	<div class="arioem-wideBg"></div>
+
 	<div class="arioem-brand-header-text"><?php echo $headerCmsContent ?></div>
 
 	<ul class="arioem-step-control">
@@ -307,7 +309,8 @@ var OEMPartSelector = function() {return function($) { return {
 				},
 				hotSpotPopup: {
 					common: {
-						notFound:	'<div class="arioem-step-content-part-img-popup-notFound">The appropriate part cannot be found. Please call us for help.</div>',
+						notFound:	'<div class="arioem-step-content-part-img-popup-notFound">The part selected may have '
+							+	'multiple variations, check the parts list or call us for assistance</div>',
 						found:	'<div class="arioem-step-content-part-img-popup-header">%HEADER%</div>'
 							+	'<div class="arioem-step-content-part-img-popup-partNo">'
 							+		'<span class="arioem-step-content-part-img-popup-label">Part#</span>'
@@ -442,6 +445,7 @@ var OEMPartSelector = function() {return function($) { return {
 		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
 		$.extend(this.state, stateValues);
 		this.state.pageURL = location.toString().split('#')[0];
+
 		oemHotSpotTagNumber = null; // this must be a global object
 		oemHotSpotPopupCloseDelayed = null;
 		if(window.hasOwnProperty('loader')) {
@@ -929,6 +933,8 @@ var OEMPartSelector = function() {return function($) { return {
 		$('.arioem-step-content-part-shoppingfor-value').html(this.state.brand.name + ' '
 			+ this.state.year.name + ' ' + this.state.model.name);
 
+		this.state.defaultScrollAreaWidth = $('#arioem-step-content-part-img-scrollArea').innerWidth();
+
 		this.resetImage();
 		var imageUrl = this.config.assemblyImageBaseURL
 				.replace('%BRAND%', this.state.brand.code)
@@ -1161,7 +1167,6 @@ var OEMPartSelector = function() {return function($) { return {
 		this._windowResize();
 	},
 	_windowResize: function() {
-		this.state.defaultScrollAreaWidth = $('#arioem-step-content-part-img-scrollArea').innerWidth();
 		if(this.state.wideLayout > 0) {
 			$('.arioem-content').addClass('arioem-wide');
 			var img = $('.arioem-step-content-part-img').first();
@@ -1185,6 +1190,8 @@ var OEMPartSelector = function() {return function($) { return {
 						- (p.offset().top + p.outerHeight())
 				);
 			$('.arioem-step-content-part-img-wideMode span').html(this.config.messages.wideModeButton.collapse);
+
+			$('#gts-c').hide();
 		} else {
 			$('.arioem-content').removeClass('arioem-wide');
 			$('.arioem-step-content-part-img').css({height: ''});
@@ -1192,6 +1199,8 @@ var OEMPartSelector = function() {return function($) { return {
 			$('.arioem-step-content-part-partlist tbody').css('height', '');
 			$('.arioem-shopList').css('width', '');
 			$('.arioem-step-content-part-img-wideMode span').html(this.config.messages.wideModeButton.expand);
+
+			$('#gts-c').show();
 		}
 		this.zoom(0);
 	},

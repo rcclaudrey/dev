@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<layout>
+
+	<default>
+		<reference name="head">
+			<action method="addCss"><name>pulliver/pulliver.css</name></action>
+		</reference>
+	</default>
+
+
+	<adminhtml_catalog_product_index>
+    </adminhtml_catalog_product_index>
+
+
+	<pulliver_adminhtml_sku_index>
+		<reference name="content">
+			<block type="pulliver/adminhtml_sku_list" name="pulliver_adminhtml_sku_list" />
+		</reference>
+	</pulliver_adminhtml_sku_index>
+
+
+	<pulliver_adminhtml_sku_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="pulliver/adminhtml_sku_grid" name="pulliver_adminhtml_sku_grid" />
+		</block>
+	</pulliver_adminhtml_sku_grid>
+
+</layout>

@@ -1,0 +1,9 @@
+<?php
+
+?>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		OEMCartManager.url = '<?php echo $this->getUrl('pulliver/cart/add') ?>';
+		car.addToCart = OEMCartManager.addToCart.bind(OEMCartManager);
+	});
+</script>

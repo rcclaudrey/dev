@@ -1014,8 +1014,11 @@ class Vikont_ARIOEMAPI
 		$customerCostPercent = @$_SESSION['customer_base']['cost_percent'];
 
 		$parts = array();
+		$tags = array();
+
 		foreach($data['Data']['Parts'] as $part) {
 			$sku = $part['Sku'];
+			$tags[] = $part['Tag'];
 
 			if(isset($oemData[$sku]) && $oemData[$sku]['available']) { // if there is such record in OEM table and this part is availailable
 				$retailPrice = $oemData[$sku]['price']
@@ -1060,9 +1063,16 @@ class Vikont_ARIOEMAPI
 		}
 		ksort($parts); // sort items by SortTag
 
+		$hotSpots = array();
+		foreach($data['Data']['HotSpots'] as $hotSpot) {
+			if (in_array($hotSpot['Tag'], $tags)) {
+				$hotSpots[] = $hotSpot;
+			}
+		}
+
 		$result = array(
 			'imageUrl' => $data['Data']['ImageUrl'],
-			'hotSpots' => $data['Data']['HotSpots'],
+			'hotSpots' => $hotSpots,
 			'parts' => array_values($parts),
 			'customerId' => (int)@$_SESSION['customer_base']['id'],
 			'isWholesale' => (bool) $isWholesale,

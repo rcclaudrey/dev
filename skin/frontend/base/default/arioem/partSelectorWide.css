@@ -2,15 +2,27 @@
 	OEM Part Selector Wide Layout
 */
 .arioem-wide {}
-.arioem-wide .arioem-step-content-part {
+.arioem-wideBg {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
 	background-color: #fff;
+}
+.arioem-wide .arioem-wideBg {
+	display: block;
+}
+.arioem-wide .arioem-step-content-part {
 	bottom: 0;
 	left: 0;
 	padding: 10px;
 	position: fixed;
 	right: 0;
 	top: 0;
-	z-index: 100;
+	z-index: 120;
 }
 .arioem-wide .arioem-step-content-part-topleft {
 	float: left;
@@ -105,7 +117,7 @@
 	margin: 0;
 	padding: 0 0 0 10px;
 	border: medium none;
-	z-index: 200;
+	z-index: 110;
 }
 .arioem-wide .arioem-shopList-title {
 	border: medium none;
@@ -143,8 +155,9 @@
 	display: block;
 	padding: 2px 10px;
 }
-.arioem-wide .arioem-shopping-list-footer {}
-
+.arioem-wide .arioem-shopping-list-footer {
+	text-align: left;
+}
 
 .arioem-wide thead .arioem-shopList-stock {
 	text-indent: -10000px;
@@ -183,7 +196,7 @@
 
 
 .arioem-wide .arioem-shopping-list-footer button {
-	margin: 0 0 0 20px;
+	margin: 0 20px 0 0;
 	line-height: 20px;
 	font-size: 12px;
 }

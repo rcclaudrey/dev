@@ -70,4 +70,35 @@ class Vikont_ARIOEM_Model_Observer
 		$_SESSION['customer_base']['group_id'] = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
 	}
 
+
+
+	public function sales_order_shipment_save_before($observer)
+	{
+		$shipment = $observer->getShipment();
+
+		if (!$shipment->getId()) { // this is a new shipment
+			$brandOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
+			$partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
+
+			$oemParts = array();
+
+			foreach($shipment->getItemsCollection() as $item) {
+				$productOptions = $item->getOrderItem()->getProductOptions();
+
+				if (isset($productOptions['info_buyRequest']['options'])) {
+					$options = $productOptions['info_buyRequest']['options'];
+
+					$brandName = $options[$brandOptionId];
+					$brandCode = Vikont_ARIOEM_Model_Source_Oembrand::getOptionCode($brandName);
+
+					$partNumber = $options[$partNumberOptionId];
+
+					$oemParts[$brandCode][$partNumber] = $item->getQty();
+				}
+			}
+
+			Mage::helper('arioem/OEM')->decreaseInventoryValues($oemParts);
+		}
+	}
+
 }

@@ -219,6 +219,16 @@
 					</Vikont_ARIOEM>
 				</observers>
 			</controller_action_layout_render_before_adminhtml_customer_group_new>
+
+			<sales_order_shipment_save_before>
+				<observers>
+					<arioem>
+						<type>singleton</type>
+						<class>Vikont_ARIOEM_Model_Observer</class>
+						<method>sales_order_shipment_save_before</method>
+					</arioem>
+				</observers>
+			</sales_order_shipment_save_before>
 		</events>
 	</global>
 

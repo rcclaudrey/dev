@@ -250,4 +250,33 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 		return $res;
 	}
 
+
+
+	public function decreaseInventoryValues($qtys)
+	{
+		$sql = 'UPDATE IGNORE ' . self::getResource()->getTableName('oemdb/cost')
+			. ' SET inv_local = GREATEST(0, inv_local - :QTY)'
+			. ' WHERE supplier_code=:BRAND AND part_number=:PART_NUMBER';
+
+		foreach($qtys as $brand => $parts) {
+			$brandShortCode = isset(self::$_ARI2TMS[$brand])
+				?	$brand
+				:	(	isset(self::$_TMS2ARI[$brand])
+						?	(	is_array(self::$_TMS2ARI[$brand])
+								?	reset(self::$_TMS2ARI[$brand])
+								:	self::$_TMS2ARI[$brand]
+							)
+						:	$brand
+					);
+
+			foreach($parts as $partNumber => $qty) {
+				self::getConnection('oemdb_read')->query($sql, array(
+					':BRAND' => $brandShortCode,
+					':PART_NUMBER' => $partNumber,
+					':QTY' => (int)$qty,
+				));
+			}
+		}
+	}
+
 }
