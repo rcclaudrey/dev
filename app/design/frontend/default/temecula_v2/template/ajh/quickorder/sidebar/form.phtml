@@ -1,0 +1,247 @@
+<?php $qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
+    . ' validate-number-range number-range-0.0001-99999999.9999'; ?>
+   <?php $skuValidation = "required-sku"; ?>
+<div class="block block-list" id="quickorder-sidebar">
+	<div class="title"><strong><span>Quick Order</span></strong></div>	
+    	<form id="sku_form" action="<?php echo $this->getUrl('item/quickorder/addProductsBySku'); ?>" method="post">
+            <div class="block-content">
+                <table id="items-table" class="sku-table data-table grouped-items-table" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th><?php echo $this->__('SKU') ?></th>
+                            <th class="last"><?php echo $this->__('Qty') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody id="item-table">
+                        <tr class="order-row">
+                     		<td><div class="input-box"><input type="text" name="items[0][sku]" class="input-text sku"/></div></td>
+                            <td class="last"><div class="input-box"><input type="text" name="items[0][qty]" class="input-text qty" maxlength="13" onclick="" /></div></td> 
+                        </tr>
+                        <tr class="order-row">
+                            <td><div class="input-box"><input type="text" name="items[1][sku]" class="input-text sku" /></div></td>
+                            <td class="last"><div class="input-box"><input type="text" name="items[1][qty]" class="input-text qty" maxlength="13" /></div></td>
+                        </tr>
+                        <tr class="order-row">
+                            <td><div class="input-box"><input type="text" name="items[2][sku]" class="input-text sku" /></div></td>
+                            <td class="last"><div class="input-box"><input type="text" name="items[2][qty]" class="input-text qty" maxlength="13" /></div></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    	<tr class="last">
+                    		<td colspan="50">
+                    			<div class="left">
+		                        	<span href="#" onclick="skuItem.add();" title="<?php echo $this->__('Add Row') ?>" id="add-row-item"><?php echo $this->__('+ Add more') ?></span>
+		                        	<span id="max-item" style="display:none;"><?php echo $this->__('Maximum of %d items allowed.', 10) ?></span>
+	                        	</div>
+                        			<button id="sku-submit-button" type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        	</td>
+                        </tr>	
+                    </tfoot>
+                </table>
+                
+                <div class="input-box all-fields"><input type="hidden" name="one-required" class="" value="" /></div>
+            </div>
+        </form>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(".qty").bind('keyup', function() {
+	this.value = this.value.replace(/[^0-9\.]/g,'');
+});
+function isNumber(number) {
+	if(isNaN(number.value)){
+		number.value = "";
+	}
+};
+itemOptions = {
+	    bindValidationOnBlur: function(id) {
+		    
+	        Event.observe(
+	    	    $('sku_form').select('[name="items[' + id + '][sku]"]')[0],
+	            'blur',
+	            this.validateRowDeferred
+	        );
+	        Event.observe(
+	            $('sku_form').select('[name="items[' + id + '][qty]"]')[0],
+	            'blur',
+	            this.validateRowDeferred
+	        );
+	    },
+	    validateRowDeferred: function() {
+
+	        setTimeout(function() {
+	            itemOptions.validateRow.apply(this, [true], this, [true]);
+	        }.bind(this), 200);
+	    },
+	    validateRow: function(checkActiveElement) {
+	        var form = $('sku_form'),
+	            skuInput = form.select('[name="' + this.name.replace('[qty]', '[sku]') + '"]')[0],
+	            qtyInput = form.select('[name="' + this.name.replace('[sku]', '[qty]') + '"]')[0];
+
+	        var isSkuInputEmpty = Validation.get('IsEmpty').test(skuInput.value);
+	        if ((!checkActiveElement || document.activeElement != qtyInput) && !isSkuInputEmpty) {
+	            qtyInput.addClassName('<?php echo $qtyValidationClasses; ?>');
+	        } else {
+	            if (typeof qtyInput.keepValidation == 'undefined' || !qtyInput.keepValidation || isSkuInputEmpty) {
+	                qtyInput.removeClassName('<?php echo $qtyValidationClasses; ?>');
+	                var validationElements = $(qtyInput.parentNode).select('.validation-advice'); 
+	                if (validationElements.length > 0) {
+	                    validationElements[0].remove();
+	                }
+	                qtyInput.keepValidation = true;
+	            }
+	            if (isSkuInputEmpty) {
+	                qtyInput.keepValidation = false;
+	            }
+	        }
+	        if(Validation.validate(qtyInput) == false){
+	        	qtyInput.siblings().each(function(node){
+//	        		qtyInput.value = node.innerHTML;	
+	        		var validationElements = $(qtyInput.parentNode).select('.validation-advice'); 
+	        		if (validationElements.length > 0) {
+//		                    validationElements[0].remove();
+		                    qtyInput.parentNode.removeClassName('validation-error');
+		                    qtyInput.parentNode.addClassName('has-error');
+		                }
+	        	      return false
+	        	   });
+	        	  
+	        }else{
+	        	qtyInput.parentNode.removeClassName('validation-passed');
+	        	return true;
+		   	}
+
+//	        return Validation.validate(qtyInput);
+	    },
+
+	    validateSku: function(checkActiveElement) {
+	        var form = $('sku_form'),
+	            skuInput = form.select('[name="' + this.name.replace('[qty]', '[sku]') + '"]')[0],
+	            qtyInput = form.select('[name="' + this.name.replace('[sku]', '[qty]') + '"]')[0];
+
+	        var isQtyInputEmpty = Validation.get('IsEmpty').test(qtyInput.value);
+	        if ((!checkActiveElement || document.activeElement != skuInput) && !isQtyInputEmpty) {
+	        	skuInput.addClassName('<?php echo $skuValidation; ?>');
+	        } else {
+	            if (typeof skuInput.keepValidation == 'undefined' || !skuInput.keepValidation || isQtyInputEmpty) {
+	                var validationElements = $(skuInput.parentNode).select('.validation-advice'); 
+	                if (validationElements.length > 0) {
+	                	
+	                    validationElements[0].remove();
+	                }
+	                skuInput.keepValidation = true;
+	            }
+	            if (isQtyInputEmpty) {
+	            	skuInput.keepValidation = false;
+	            }
+	        }
+	        if(Validation.validate(skuInput) == false){
+		             skuInput.parentNode.removeClassName('validation-error');
+	        	      return false 	  
+	        }else{
+	        	skuInput.parentNode.removeClassName('validation-passed');
+	        	return true
+		   	}
+//	        return Validation.validate(skuInput);
+	    },
+	    validateFields: function(checkActiveElement) {
+	        var form = $('sku_form'),
+	        skuInput = form.select('.sku'),
+	        qtyInput = form.select('[name="one-required"]')[0];
+	        var error = 1;
+	        for( var j=0; j < skuInput.length; j++ ) {
+	            var isSkuInputEmpty = Validation.get('IsEmpty').test(skuInput[j].value);
+	            if( isSkuInputEmpty == false ) {
+                    error = 0;
+                }
+	        }
+	        if( error == 1 ) {
+	        	qtyInput.addClassName('one-required');
+	        } else {
+	        	qtyInput.removeClassName('one-required');
+	        	var validationElements = $(qtyInput.parentNode).select('.validation-advice'); 
+                if (validationElements.length > 0) {
+                    validationElements[0].remove();
+                }
+	        }
+	        return Validation.validate(qtyInput);
+	    }
+}
+
+document.observe('dom:loaded', function() {
+    	
+        Event.observe(
+                $('sku_form'),
+                'submit',
+                function (e) {
+                    Event.stop(e);
+                    var skuForm = $('sku_form');
+              
+                    var validator = itemOptions.validator;
+                    if (validator && validator.validate()) {
+                        this.submit();
+                    }
+					var counter = 0;
+                    var valid = true;
+                    var validSku = true;
+                    valid_fields = itemOptions.validateFields.apply($$('#items-table'),[false]);
+                    $$('#items-table tbody input.input-text').each(function(element) {
+                    	
+                    	validSku = itemOptions.validateSku.apply(element,[false]) && validSku;
+                        valid = itemOptions.validateRow.apply(element,[false]) && valid;
+                        
+                    });
+          
+//                    alert(itemOptions.validateFields.apply($$('#items-table'),[false]));
+                   
+                    if (valid && validSku && valid_fields) {
+//                        return false;
+                        this.submit();
+                    }
+                    return false;
+                }
+            );
+});
+
+        //]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+
+        var i=3;
+        var count = 0;
+        var max = 7;
+        jQuery(document).ready(function(){
+        	skuItem = {
+
+        			add: function(){
+        				
+        				var tr_item = "";
+        				tr_item = '<tr class="order-row item'+i+'">';
+        				tr_item += '<td><div class="input-box"><input type="text" name="items['+i+'][sku]" class="input-text sku" /></div></td>';
+        				tr_item += '<td class="last"><div class="input-box"><input type="text" name="items['+i+'][qty]" class="input-text qty" maxlength="13" /></div></td>';
+        		        tr_item += '</tr>';
+
+        		        jQuery("#item-table").append(tr_item);			        
+        		        i++;        
+        		        count++;
+        			        if(count>=max && max != 0) {
+        			            $('add-row-item').hide();
+        			            $('max-item').show();
+        			        }
+            			},
+
+        			remove: function(id){
+        				jQuery(".item"+id).remove();
+        				count--;
+        				if(count<max && max != 0) {
+        					$('add-row-item').show();
+        		            $('max-item').hide();
+        		        }
+        		        return false;
+        				
+        			}
+           }
+        });
+        //]]>
+</script>
+</div>

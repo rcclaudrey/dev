@@ -1,0 +1,28 @@
+<?php $mediaCollection = $this->getMediaList() ?>
+<?php if (count($mediaCollection)): ?>
+    <div class="media-page">
+        <div class="page-title">
+            <h2>Media Downloads</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>File Description</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($mediaCollection as $media) : ?>
+                <tr <?php if (strpos($media->getFileName(), '.zip') !== FALSE): ?>class="zip"<?php else: ?>class="pdf"<?php endif; ?>>
+                    <td><a class="file-name" href="<?php echo Mage::helper('ajh_media')->getPath($media->getFileName()) ?>"><?php echo $media->getFileHumanName() ?></a> <div class="real-file-name">(<?php echo $media->getFileName(); ?>)</div></td>
+                    <td><p class="file-description"><?php echo $media->getFileDescription(); ?></p></td>
+                    <td><a class="download" href="<?php echo Mage::helper('ajh_media')->getPath($media->getFileName()) ?>">Download</a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div><!--media-page-->
+<?php else: ?>
+    <p class="note-msg"><?php echo $this->__('There are no media downloads.') ?></p>
+<?php endif; ?>
