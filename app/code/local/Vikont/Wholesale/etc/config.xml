@@ -60,6 +60,14 @@
                     </wholesale>
                 </observers>
             </prepare_catalog_product_collection_prices>-->
+			<payment_method_is_active>
+				<observers>
+					<wholesale>
+						<class>wholesale/observer</class>
+						<method>payment_method_is_active</method>
+					</wholesale>
+				</observers>
+			</payment_method_is_active>
         </events>
 
 	</frontend>

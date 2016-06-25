@@ -1,0 +1,167 @@
+<?php
+
+$fields = $this->getFields();
+$errorMessages = $this->checkAvailability();
+
+?>
+<div class="wsqo wholesale">
+	<h1><?php echo $this->__('Quick Order') ?></h1>
+
+	<?php if(count($errorMessages)): ?>
+		<div class="wsqo-prerequisites">
+			<h2><?php echo $this->__('We\'re sorry, but there are some prerequisites that need to be met before you can send us a quick order:') ?></h2>
+			<ul>
+				<?php foreach($errorMessages as $message): ?>
+				<li>
+					<?php foreach($message as $part): ?>
+						<span class="wsqo-prerequisites-<?php echo $part['type'] ?>"><?php echo $part['text'] ?></span>
+					<?php endforeach ?>
+				</li>
+				<?php endforeach ?>
+			</ul>
+			<p><?php echo $this->__('You can fix this at') ?> <a href="<?php echo $this->getUrl('customer/address') ?>"><?php echo $this->__('Customer Area') ?></a></p>
+		</div>
+	<?php else: ?>
+		<?php
+			$shippingType = $fields->getShippingType();
+			$shippingType = $shippingType ? $shippingType : 'complete';
+		?>
+		<div class="wsqo-form">
+			<ul class="wsqo-fields">
+				<li class="wsqo-field">
+					<label for="wsqo-contact"><?php echo $this->__('Contact Name') ?></label>
+					<div class="wsqo-field-container"><?php echo htmlspecialchars($fields->getContact()) ?></div>
+				</li>
+				<li class="wsqo-field">
+					<label for="wsqo-company"><?php echo $this->__('Company Name') ?></label>
+					<div class="wsqo-field-container"><?php echo htmlspecialchars($fields->getCompany()) ?></div>
+				</li>
+				<li class="wsqo-field">
+					<label for="wsqo-phone"><?php echo $this->__('Phone Number') ?></label>
+					<div class="wsqo-field-container"><?php echo htmlspecialchars($fields->getPhone()) ?></div>
+				</li>
+				<li class="wsqo-field">
+					<label for="wsqo-poNumber"><strong>*</strong><?php echo $this->__('PO Number') ?></label>
+					<div class="wsqo-field-container">
+						<input type="text" name="po_number" id="wsqo-poNumber" class="wsqo-required" value="<?php echo htmlspecialchars($fields->getPoNumber()) ?>" />
+					</div>
+				</li>
+				<li class="wsqo-field">
+					<label><?php echo $this->__('Shipping Options') ?></label>
+					<div class="wsqo-field-container">
+						<div>
+							<input type="radio" name="shippingType" id="wsqo-shippingType-complete" value="complete"
+								<?php echo ('complete' == $shippingType) ? 'checked="checked"' : '' ?> />
+							<label for="wsqo-shippingType-complete" title="<?php echo $this->__('All parts on this order will '
+								. 'ship together when all available parts arrive. Backorders will ship upon arrival. We will '
+								. 'combine orders when possible to minimize shipping costs. Use the notes section for any special '
+								. 'order instructions you may have.') ?>"><?php echo $this->__('Complete') ?></label>
+						</div>
+						<div>
+							<input type="radio" name="shippingType" id="wsqo-shippingType-partial" value="partial"
+								<?php echo ('partial' == $shippingType) ? 'checked="checked"' : '' ?> />
+							<label for="wsqo-shippingType-partial" title="<?php echo $this->__('All parts on this order will'
+								. ' ship as available parts arrive. We will combine orders when possible to minimize shipping costs.'
+								. ' Use the notes section for any special order instructions you may have.') ?>"><?php echo $this->__('Partial') ?></label>
+						</div>
+					</div>
+				</li>
+				<li class="wsqo-field">
+					<label for="wsqo-notes"><?php echo $this->__('Notes') ?></label>
+					<div class="wsqo-field-container">
+						<textarea name="notes" id="wsqo-notes" placeholder="<?php echo $this->__('Put the order notes here, if you have any') ?>"><?php echo htmlspecialchars($fields->getNotes()) ?></textarea>
+					</div>
+				</li>
+				<li class="wsqo-field">
+					<label><?php echo $this->__('Enter Part Numbers') ?></label>
+					<div class="wsqo-field-container">
+						<div>
+							<input type="radio" name="inputType" id="wsqo-inputType-manual" value="manual" onclick="quickOrderForm.setState('manual')" />
+							<label for="wsqo-inputType-manual"><?php echo $this->__('Manually') ?></label>
+						</div>
+						<div>
+							<input type="radio" name="inputType" id="wsqo-inputType-file" value="file" onclick="quickOrderForm.setState('file-upload')" />
+							<label for="wsqo-inputType-file"><?php echo $this->__('Upload a file') ?></label>
+							<button class="wsqo-resetUpload" onclick="quickOrderForm.setState('file-reupload')"><?php echo $this->__('Upload other file') ?></button>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+			<div class="wsqo-uploadFile-container">
+				<div id="dropzone" class="fade wsqo-dropzone">
+					<input type="file" value="" name="csv" id="wsqo-uploadFile">
+					<?php echo $this->__('Click to select a file or drag and drop .csv file here') ?>
+				</div>
+				<span class="wsqo-uploadInstructions-trigger" onclick="quickOrderForm.showUploadInstructions()"><?php echo $this->__('View Format Instructions') ?></span>
+				<div class="wsqo-uploadInstructions"><?php echo $this->__('The uploaded file needs to be saved as a .csv format. The first column needs to be Part Number, the second column needs to be Quantity.') ?></div>
+			</div>
+
+			<table class="wsqo-parts">
+				<thead>
+					<tr>
+						<td class="wsqo-parts-list-lineNo"></td>
+						<td class="wsqo-parts-list-partnumber"><?php echo $this->__('Part Number') ?></td>
+						<td class="wsqo-parts-list-description"><?php echo $this->__('Check') ?></td>
+						<td class="wsqo-parts-list-qty"><?php echo $this->__('Quantity') ?></td>
+						<td class="wsqo-parts-list-remove"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php echo $this->getLayout()->createBlock('wholesale/quickorder_item_uploaded')
+								->setData(Vikont_Wholesale_Block_Quickorder_Item_Uploaded::ROWS_DATA_NAME, $fields['rows'])
+								->toHtml()
+					?>
+				</tbody>
+				<tfoot>
+					<tr id="wqop_HASH_">
+						<td class="wsqo-parts-list-lineNo">_ROW_</td>
+						<td class="wsqo-parts-list-partnumber"><input class="wsqo-required" oninput="quickOrderForm.onPartNumberChange(this)" value="" /><div class="wsqo-parts-list-autocomplete-container"></div></td>
+						<td class="wsqo-parts-list-description">
+							<span class="wsqo-item-check-notfound">&nbsp;</span>
+						</td>
+						<td class="wsqo-parts-list-qty"><input class="wsqo-required" value="1" /></td>
+						<td class="wsqo-parts-list-remove"><span onclick="quickOrderForm.deleteRow(this)" title="<?php echo $this->__('Remove this item') ?>">&nbsp;</span></td>
+					</tr>
+					<tr>
+						<th colspan="100"><button type="button" class="wsqo-parts-addline" onclick="quickOrderForm.addRow()"><?php echo $this->__('Add row') ?></button></th>
+					</tr>
+				</tfoot>
+			</table>
+
+			<div class="wsqo-pricenote">
+				<p><?php echo $this->__('Your actual OEM dealer account pricing is displayed in this section.') ?></p>
+				<p><?php echo $this->__('Your actual AFTERMARKET item pricing will be displayed on your order invoice after you place your order, or by adding any AFTERMARKET item to the shopping cart and clicking VIEW CART.') ?></p>
+			</div>
+
+			<div class="wsqo-button-container">
+				<button type="submit" class="wsqo-submit" onclick="quickOrderForm.sendOrder()"><?php echo $this->__('Send Order') ?></button>
+			</div>
+		</div>
+	<?php endif ?>
+</div>
+
+<?php if(!count($errorMessages)): ?>
+	<script type="text/javascript">
+
+	jQuery(document).ready(function() {
+		quickOrderForm = new QuickOrderForm();
+		quickOrderForm.init({
+			uploadFileURL: '<?php echo $this->getUrl('wholesale/quickorder/fileUpload') ?>'.replace('http:', location.protocol),
+			checkPartNumberURL: '<?php echo $this->getUrl('wholesale/quickorder/checkPartNumber') ?>'.replace('http:', location.protocol),
+			autocompleteURL: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php?action=search&key=part')) ?>'.replace('http:', location.protocol),
+			sendOrderURL: '<?php echo $this->getUrl('wholesale/quickorder/orderPost') ?>'.replace('http:', location.protocol),
+			rowTemplateId: '#wqop_HASH_',
+			messages: {
+				fieldsValidationNotPopulated: '<?php echo $this->__('Please populate the required field(s)') ?>',
+				fieldsValidationNotFound: '<?php echo $this->__('You can only order parts that exist in our database') ?>',
+				fieldsValidationPONumberLength: '<?php echo $this->__('PO Number cannot exceed 10 characters') ?>',
+				dragFileHere: '<?php echo $this->__('Drag and drop a .csv file here') ?>',
+				fileIsUploading: '<?php echo $this->__('Uploading the file, please wait...') ?>',
+				common: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+			}
+		});
+	});
+
+	</script>
+<?php endif ?>

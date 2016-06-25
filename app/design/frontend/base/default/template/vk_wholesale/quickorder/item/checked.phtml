@@ -1,0 +1,41 @@
+<?php
+
+$data = $this->getPartsInfo();
+
+?>
+<?php if($data['productId']): ?>
+	<?php $product = $this->getProduct(); ?>
+	<div class="wsqo-item-check" title="<?php echo $this->__('SKU = %s', $data['partNumber']) ?>">
+		<span class="wsqo-item-origin-regular wsqo-item-origin" title="<?php echo $this->__('Regular product found by SKU') ?>">&nbsp;</span>
+		<span class="wsqo-item-check-brand"><?php echo htmlspecialchars($product->getData('ari_manufacturer')) ?></span>
+		<strong><?php echo htmlspecialchars($product->getName()) ?></strong>
+<?php /*		<italic><?php echo Mage::helper('core')->currency($product->getPrice(), true, false) ?></italic>  /**/ ?>
+	</div>
+<?php endif ?>
+
+<?php if(count($data['skus'])): ?>
+	<?php foreach($data['skus'] as $item): ?>
+		<div class="wsqo-item-check" title="<?php echo $this->__('SKU = %s', $item['sku']) ?>">
+			<span class="wsqo-item-origin-regular wsqo-item-origin" title="<?php echo $this->__('Regular product found by Part Number') ?>">&nbsp;</span>
+			<span class="wsqo-item-check-brand"><?php echo htmlspecialchars($item['product']->getData('ari_manufacturer')) ?></span>
+			<strong><?php echo htmlspecialchars($item['product']->getName()) ?></strong>
+<?php /*			<italic><?php echo Mage::helper('core')->currency($item['product']->getPrice(), true, false) ?></italic> /**/ ?>
+		</div>
+	<?php endforeach ?>
+<?php endif ?>
+
+<?php if(count($data['oemData'])): ?>
+	<?php $oemData = $this->getOEMExtendedInfo(); ?>
+	<?php foreach($oemData as $item): ?>
+		<div class="wsqo-item-check">
+			<span class="wsqo-item-origin-oem wsqo-item-origin" title="<?php echo $this->__('OEM product') ?>">&nbsp;</span>
+			<span class="wsqo-item-check-brand"><?php echo htmlspecialchars($item['brand']) ?></span>
+			<strong><?php echo htmlspecialchars($item['partNumber']) ?></strong>
+			<italic><?php echo htmlspecialchars($item['price']) ?></italic>
+		</div>
+	<?php endforeach ?>
+<?php endif ?>
+
+<?php if(!$data['productId'] && !count($data['skus']) && !count($data['oemData'])): ?>
+	<span class="wsqo-item-check-notfound"><?php echo $this->__('No parts found for this part number') ?></span>
+<?php endif ?>

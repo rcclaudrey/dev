@@ -3,7 +3,7 @@
 class Brands
 {
 	protected static $_brands = array(
-			'ARC' => 'ACat',
+			'ARC' => 'Arctic Cat',
 			'ARN' => 'Ariens',
 			'AYP' => 'Husqvarna/AYP',
 			'BIL' => 'Billy Goat',
@@ -40,6 +40,7 @@ class Brands
 			'HYP' => 'Hayter',
 			'JDC' => 'JDeere',
 			'KAS' => 'Kawasaki',
+//			'KUS' => 'Kawasaki',
 			'KLP' => 'Klippo',
 			'KOH' => 'Kohler',
 			'KRC' => 'KKrause',

@@ -144,6 +144,8 @@ class Vikont_Wholesale_QuickorderController extends Mage_Core_Controller_Front_A
 					Mage::throwException($this->__('PO Number must not exceed 10 characters'));
 				}
 
+				$data['notes'] = 'SHIP ' . strtoupper($data['shippingType']) . ' | ' . $data['notes'];
+
 				$order = Mage::helper('wholesale/order')->createOrder($data);
 
 				$customerSession = Mage::getSingleton('customer/session');

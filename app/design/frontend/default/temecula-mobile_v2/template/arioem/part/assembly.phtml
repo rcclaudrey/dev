@@ -1,0 +1,46 @@
+<?php
+
+$cssPath = Mage::getDesign()->getFilename('arioem/oem-part.css', array(
+	'_area' => 'frontend',
+	'_package' => '',
+	'_theme' => '',
+	'_type' => 'skin',
+));
+$cssContent = addslashes(str_replace("\n", '', file_get_contents($cssPath)));
+
+$mobileCssPath = Mage::getDesign()->getFilename('arioem/oem-part-mobile.css', array(
+	'_area' => 'frontend',
+	'_package' => '',
+	'_theme' => '',
+	'_type' => 'skin',
+));
+$cssContent .= addslashes(str_replace("\n", '', file_get_contents($mobileCssPath)));
+
+?>
+
+<div class="arioem-assembly-container">
+
+<script type="text/javascript">
+
+	if(!location.hash) {
+		location.href = 'oem-parts.html';
+		document.write('<div class="no-hash-warning">Sorry, the URL does not contain the necessary information. <a href="oem-part.html">Click here</a> to select the OEM part</div>');
+	} else {
+		jQuery(document).ready(function() {
+			jQuery('#nav .level0.last').addClass('active');
+		});
+
+		document.write('<script type="text/javascript" src="https://services.arinet.com/PartStream/?appKey=<?php echo Mage::getStoreConfig('arioem/api/app_key') ?>"></scr'+'ipt>');
+		document.write('<script type="text/javascript" src="<?php echo $this->getJsUrl('arioem/oem-part.js') ?>"></scr'+'ipt>');
+		document.write('<style><?php echo $cssContent ?></style>');
+	}
+
+	jQuery(document).ready(function() {
+		OEMCartManager.url = '<?php echo $this->getUrl('arioem/cart/add') ?>';
+		ARI.PartStream.Cart.PostSkuQty = OEMCartManager.addToCartSingle.bind(OEMCartManager); // ARI.PartStream.Cart.PostSkuQty(this.id, 'AJAX', 'PartsDetail', '', '')
+		ARI.PartStream.Cart.PostMultiSkuQty = OEMCartManager.addToCartMulti.bind(OEMCartManager);
+	});
+
+</script>
+
+</div>

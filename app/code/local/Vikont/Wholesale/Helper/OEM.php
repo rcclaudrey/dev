@@ -22,12 +22,14 @@ class Vikont_Wholesale_Helper_OEM extends Mage_Core_Helper_Abstract
 	);
 
 	protected static $_supplierNames = array(
+		'AC' => 'Arctic Cat',
 		'HO' => 'Honda',
 		'HP' => 'Honda Power Equipment',
 		'HW' => 'Honda Watercraft',
 		'KA' => 'Kawasaki',
 		'PO' => 'Polaris',
 		'SD' => 'SeaDoo',
+		'SL' => 'Slingshot',
 		'SU' => 'Suzuki',
 		'YA' => 'Yamaha',
 	);
@@ -55,13 +57,16 @@ class Vikont_Wholesale_Helper_OEM extends Mage_Core_Helper_Abstract
 
 
 	protected static $_TMS2ARI = array(
+		'ARC' => 'AC',
 		'HOM' => array('HO', 'HW'), // honda common; ARI doesn't separate Honda Watercraft from common Honda
 		'HONPE' => 'HP', // Honda Power Equipment
 		'KUS' => 'KA',
 		'POL' => 'PO',
-		'BRP_SEA' => 'SD',
+//		'BRP_SEA' => 'SD',
+		'BRP' => 'SD',
 		'SUZ' => 'SU',
 		'YAM' => 'YA',
+		'SLN' => 'SL',
 	);
 
 

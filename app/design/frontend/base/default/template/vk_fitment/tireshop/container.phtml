@@ -1,0 +1,79 @@
+<?php
+
+$activities = Vikont_Fitment_Helper_Data::getTireshopActivities();
+$tmsActivityNames = Vikont_Fitment_Helper_Data::getTmsActivityNames();
+
+?>
+<div class="tireshop">
+	<div class="tireshop-tabs">
+		<ul class="tireshop-tabs-header">
+			<?php foreach($activities as $tmsActivity => $activity): ?><li class="<?php echo $tmsActivity ? '' : 'tireshop-tab-active' ?>" tmsActivity="<?php echo (int)$tmsActivity ?>"><?php echo htmlspecialchars($activity['name']) ?></li><?php endforeach ?>
+		</ul>
+
+		<ul class="tireshop-tabs-content">
+			<?php foreach($activities as $tmsActivity => $activity): ?>
+				<li class="<?php echo $tmsActivity ? '' : 'tireshop-tab-active' ?>" id="tireshop-tab-<?php echo (int)$tmsActivity ?>">
+					<span class="tireshop-tabs-content-header"><?php echo htmlspecialchars($activity['name']) ?></span>
+					<span class="tireshop-tabs-activity-<?php echo $tmsActivityNames[$tmsActivity] ?> tireshop-tabs-content-header-img">&nbsp;</span>
+				</li>
+			<?php endforeach ?>
+		</ul>
+	</div>
+
+	<div class="tireshop-selectors-container">
+		<div class="tireshop-redbar"></div>
+		<div class="tireshop-selectors">
+			<?php echo $this->getLayout()->createBlock('fitment/tireshop_selector')->toHtml() ?>
+			<div class="tireshop-or-div"></div>
+			<?php echo $this->getLayout()->createBlock('fitment/tireshop_criteria')->toHtml() ?>
+			<div class="tireshop-or-div"></div>
+			<?php echo $this->getLayout()->createBlock('fitment/tireshop_shopbyall')->toHtml() ?>
+		</div>
+	</div>
+
+	<ul class="tireshop-tabs-maincontent">
+		<?php
+			if($templateName = Mage::app()->getRequest()->getParam('template')):
+				echo $this->getLayout()->createBlock('core/template')
+					->setTemplate('vk_fitment/tireshop/content/'.$templateName.'.phtml')
+					->toHtml();
+			else:
+		?>
+			<?php foreach($activities as $tmsActivity => $activity): ?>
+				<li id="tireshop-tab-maincontent-<?php echo (int)$tmsActivity ?>" class="<?php echo $tmsActivity ? '' : 'tireshop-tab-active' ?>">
+					<?php echo $this->getLayout()->createBlock('cms/block')
+							->setBlockId('tireshop-tab-content-' . $tmsActivityNames[$tmsActivity])
+							->toHtml()
+					?>
+				</li>
+			<?php endforeach ?>
+		<?php endif ?>
+	</ul>
+
+</div>
+<script type="text/javascript">
+
+	jQuery('document').ready(function() {
+		jQuery('.tireshop-tabs-header li').click(function(event) {
+			if(event.target.hasClassName('tireshop-tab-active')) return;
+
+			var currentTmsActivity = jQuery('.tireshop-tabs-header .tireshop-tab-active').attr('tmsActivity');
+			var tmsActivity = event.target.attributes['tmsActivity'].value;
+
+			if(tmsActivity === currentTmsActivity) return;
+
+			jQuery('.tireshop-tabs-header .tireshop-tab-active').removeClass('tireshop-tab-active');
+			event.target.addClassName('tireshop-tab-active');
+
+			jQuery('#tireshop-tab-' + currentTmsActivity).hide();
+			jQuery('#tireshop-tab-' + tmsActivity).show();
+
+			jQuery('#tireshop-tab-maincontent-' + currentTmsActivity).hide();
+			jQuery('#tireshop-tab-maincontent-' + tmsActivity).show();
+
+			machineSelector.setActivity(tmsActivity);
+			tyreSelector.setActivity(tmsActivity);
+		});
+	});
+
+</script>

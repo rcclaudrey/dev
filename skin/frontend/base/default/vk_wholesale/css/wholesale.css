@@ -1,0 +1,935 @@
+.wholesale {}
+
+/* link placed after "My Account" and "log in" */
+.quick-access li.account-links-dealer-corner {}
+.quick-access li.account-links-dealer-corner a {
+	color: #b6b6b6;
+	font-size: 15px;
+	text-transform: uppercase;
+}
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = common elements */
+
+.ws-a-black {
+	color: #000 !important;
+}
+.ws-a-black:visited {
+	color: #000 !important;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = HOMEPAGE */
+
+.wholesale-home {}
+.wholesale-home-top-banner-container {
+	margin: 0 0 20px;
+	padding: 0 0 20px;
+	border-bottom: 2px solid #000;
+}
+.wholesale-home-top-banner {
+	height: 194px;
+	overflow: hidden;
+	background: url("../images/home/banners/fox-on-sale-now.jpg") no-repeat scroll 50% 50% transparent;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+}
+
+.wholesale-home-top-buttons {
+	margin: 10px 0 20px;
+	padding: 0 0 10px;
+	border-bottom: solid 2px #000;
+}
+.wholesale-home-top-button {
+	float: left;
+	width: 353px;
+	height: 80px;
+	margin: 0 0 10px;
+	font-size: 0;
+	background-repeat: no-repeat;
+	background-position: center center;
+	color: transparent;
+}
+.wholesale-home-top-button-right {
+	float: right;
+}
+.wholesale-home-top-button-partsLookup {
+	background-image: url(../images/home/buttons/quick-part-lookup.jpg);
+}
+.wholesale-home-top-button-oemPartsFinder {
+	background-image: url(../images/home/buttons/oem-parts-finder.jpg);
+}
+.wholesale-home-top-button-quickOrder {
+	background-image: url(../images/home/buttons/quick-order-form.jpg);
+}
+.wholesale-home-top-button-contactUs {
+	background-image: url(../images/home/buttons/contact-us.jpg);
+}
+.wholesale-home-top-button-vinLookup {
+	background-image: url(../images/home/buttons/vin-lookup.jpg);
+}
+.wholesale-home-top-button a {
+	display: block;
+	width: 100%;
+	height: 80px;
+	white-space: nowrap;
+	color: #e02129;
+}
+
+.wholesale-home h1 {
+	margin: 40px 0;
+}
+.wholesale-home p {
+	margin: 20px 0;
+	line-height: 20px;
+	font-size: 14px;
+	text-align: justify;
+}
+.wholesale-home a {
+	color: #e02129;
+    white-space: nowrap;
+}
+.wholesale-home a:visited {
+	color: #e02129;
+}
+.wholesale-home i {}
+
+.wholesale-left {}
+.wholesale-left-group-header {
+	padding: 5px 15px;
+	font-size: 14px;
+	background-color: #727272;
+	color: #fff;
+	text-transform: uppercase;
+}
+.wholesale-left-group-list {
+	margin: 0 0 20px;
+	padding: 10px;
+	background-color: #e7e7e7;
+}
+.wholesale-left-group-list-item {
+	margin: 10px 0;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+.wholesale-left-group-list-item a {
+	color: #000;
+}
+.wholesale-left-group-list-item a:hover {
+    color: #de1f27;
+}
+
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = QUICK ORDER PAGE */
+
+.wsqo {}
+.wsqo h1 {
+	margin: 20px 0;
+}
+.wsqo-form {
+	background-color: #eee;
+    border: 2px solid #000;
+    display: block;
+    padding: 20px;
+}
+.wsqo-fields {}
+.wsqo-field {
+	margin: 0 0 10px;
+	min-height: 22px;
+}
+.wsqo-field > label {
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bold;
+	min-width: 150px;
+	padding: 0 10px 0 0;
+	text-align: right;
+	text-transform: uppercase;
+	vertical-align: middle;
+	width: 20%;
+}
+.wsqo-field > label strong {
+	color: red;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.wsqo-field-container {
+	display: inline-block;
+    min-width: 300px;
+    width: 75%;
+	font-size: 14px;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+.wsqo-field-container > input[type="text"] {
+	font-size: 14px;
+    padding: 5px 10px;
+	min-width: 80%;
+	border: solid 1px #aaa;
+}
+.wsqo-field-container textarea {
+	min-width: 80%;
+	padding: 5px 10px;
+	border: 1px solid #aaa;
+}
+.wsqo-field-container > div {
+	display: inline-block;
+	padding: 5px 0;
+	line-height: 20px;
+	text-transform: uppercase;
+}
+.wsqo-field-container > div label {
+	margin: 0 20px 0 0;
+	font-size: 12px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.wsqo-field-container input[type="radio"] {
+	margin: 0 4px 0 0;
+	padding: 0 10px 0 0;
+	vertical-align: middle;
+}
+.wsqo-uploadInstructions {
+	padding: 20px 0;
+	font-size: 14px;
+}
+.wsqo-uploadFile-container {}
+#wsqo-uploadFile {}
+.wsqo-field-container input[type="file"] {
+	background-color: #aaa;
+}
+.wsqo-uploadInstructions-trigger {
+	font-size: 12px;
+    text-transform: uppercase;
+    color: #e02129;
+    cursor: pointer;
+}
+.wsqo-uploadInstructions-trigger:hover {
+    text-decoration: underline;
+}
+.wsqo-dropzone {
+    position: relative;
+    margin: 10px 0;
+    padding: 20px;
+    border: 1px solid #aaa;
+    overflow: hidden;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+	background-color: #ddd;
+}
+.wsqo-uploadFile-container input[type="file"] {
+    position: absolute;
+    right: 0;
+    top: 0;
+	width: 100%;
+	padding: 80px 0 0;
+}
+.wsqo-resetUpload {
+	padding: 5px 10px;
+	border: 1px solid #aaa;
+	background-color: #fff;
+	cursor: pointer;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - parts table */
+.wsqo-parts {
+	width: 100%;
+	border-collapse: collapse;
+	line-height: 20px;
+}
+.wsqo-parts tbody tr {
+	border: 1px solid #aaa;
+}
+.wsqo-parts td {
+	padding: 2px;
+	line-height: 20px;
+	font-size: 12px;
+	vertical-align: middle;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - common styles for table body */
+.wsqo-parts .wsqo-parts-list-lineNo {
+	width: 30px;
+	text-align: center;
+}
+.wsqo-parts .wsqo-parts-list-partnumber {
+	position: relative;
+	width: 170px;
+}
+.wsqo-parts .wsqo-parts-list-partnumber input {
+	width: 170px;
+	padding: 5px;
+	text-transform: uppercase;
+}
+.wsqo-parts .wsqo-parts-list-description {
+	padding: 2px 10px;
+	line-height: 20px;
+}
+.wsqo-parts .wsqo-parts-list-qty {
+	width: 64px;
+}
+.wsqo-parts .wsqo-parts-list-qty input {
+	width: 50px;
+	padding: 5px;
+	text-align: center;
+}
+.wsqo-parts .wsqo-parts-list-remove {
+	width: 50px;
+	text-align: center;
+}
+.wsqo-parts .wsqo-parts-list-remove span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url("../../images/body/ico-remove-cart.gif") no-repeat scroll 50% 50%;
+	vertical-align: middle;
+	cursor: pointer;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - styles for table header */
+.wsqo-parts thead {
+	background-color: #000;
+	color: #fff;
+	text-transform: uppercase;
+}
+.wsqo-parts thead tr {
+    border: solid 1px #000;
+}
+.wsqo-parts thead td {
+	padding: 5px 2px;
+}
+.wsqo-parts thead .wsqo-parts-list-lineNo {}
+.wsqo-parts thead .wsqo-parts-list-partnumber {
+	padding: 5px 9px;
+}
+.wsqo-parts thead .wsqo-parts-list-description {}
+.wsqo-parts thead .wsqo-parts-list-qty {}
+.wsqo-parts thead .wsqo-parts-list-remove {}
+/* - - - - - - - - - - - - - - - - - - - - - - styles for table footer */
+.wsqo-parts tfoot tr {
+    border: solid 1px #aaa;
+}
+.wsqo-parts tfoot th {
+	padding: 10px 36px;
+	background-color: #aaa;
+}
+.wsqo-parts-addline {
+	padding: 5px 20px;
+	border: solid 1px #777;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #fff;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.wsqo-pricenote {
+	margin: 20px 0 0;
+	font-size: 14px;
+	color: #e02129;
+}
+.wsqo-pricenote p {
+	margin: 10px 0;
+}
+.wsqo-button-container {
+	margin: 40px 0 20px;
+	text-align: right;
+}
+.wsqo-submit {
+	padding: 10px 40px;
+	border: solid 1px #aaa;
+	background-color: #e02129;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #fff;
+	cursor: pointer;
+}
+/*.wsqo-submit:disabled {
+	background-color: #777;
+	cursor: default;
+}*/
+
+#dropzone {}
+#dropzone.in {
+    font-size: larger;
+}
+#dropzone.hover {
+    background: lawngreen;
+}
+#dropzone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
+
+.wsqo-parts-list-description button {
+    padding: 0 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    color: #000;
+    cursor: pointer;
+}
+.wsqo-parts-list-description button:hover {
+	background-color: green;
+	border-color: green;
+	color: #fff;
+}
+
+
+
+.wsqo-parts-list-autocomplete-container {
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	z-index: 10;
+}
+.wsqo-parts-list-partnumber ul {
+	padding: 2px 10px;
+	border: 1px solid #aaa;
+	background-color: #fff;
+}
+.wsqo-parts-list-partnumber option {
+	padding: 2px 0;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.wsqo-item-check {
+	display: inline-block;
+	padding-right: 10px;
+}
+.wsqo-item-check strong {
+	color: darkgreen;
+}
+.wsqo-item-check italic {
+	margin-left: 3px;
+	color: #e02129;
+	font-weight: bold;
+}
+.wsqo-item-check-brand {
+	font-weight: bold;
+}
+.wsqo-item-check-notfound {
+	color: #e02129;
+	text-transform: uppercase;
+}
+.wsqo-item-check-relogin {
+	text-transform: uppercase;
+}
+.wsqo-item-check-relogin a {
+	color: #e02129;
+}
+.wsqo-item-check-relogin a[target="_blank"] {
+	padding-right: 20px;
+	background: transparent url("../images/quickorder/external_link.gif") no-repeat scroll right top;
+}
+.wsqo-item-check-relogin span {
+	padding: 0 10px;
+	font-weight: bold;
+}
+
+.wsqo-item-origin {
+	display: inline-block;
+	width: 20px;
+	margin: 0 5px 0 0;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+.wsqo-item-origin-oem {
+	background-image: url("../images/quickorder/oem.png");
+}
+.wsqo-item-origin-regular {
+	background-image: url("../images/quickorder/regular.png");
+}
+
+.wsqo-required-alert {
+	background-color: #FFFFBF!important;
+	border-color: red !important;
+}
+
+.wsqo-prerequisites {
+	background-color: #fdffc6;
+    border: 2px solid #f16048;
+    font-size: 14px;
+    padding: 20px;
+}
+.wsqo-prerequisites h2 {
+	margin: 0 0 20px;
+}
+.wsqo-prerequisites ul {
+	margin: 40px 0;
+}
+.wsqo-prerequisites li {
+    margin: 10px 0;
+	text-transform: uppercase;
+}
+.wsqo-prerequisites li span {}
+.wsqo-prerequisites .wsqo-prerequisites-plain {
+	color: #777;
+	font-weight: bold;
+}
+.wsqo-prerequisites .wsqo-prerequisites-red {
+	color: #e02129;
+	font-weight: bold;
+}
+.wsqo-prerequisites p {
+	margin: 40px 0 20px;
+	text-transform: uppercase;
+}
+.wsqo-prerequisites a {
+	background-color: #ddd;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	color: #000;
+	display: inline-block;
+	margin: 0 0 0 10px;
+	padding: 8px 20px;
+}
+.wsqo-prerequisites a:hover {
+	background-color: #e02129;
+	color: #fff;
+	text-decoration: none;
+}
+
+.wsqo-ordersuccess {
+	background-color: #eff5ea;
+    border: 2px solid green;
+    margin: 20px 0 40px;
+    padding: 20px;
+}
+.wsqo-ordersuccess h2 {
+	margin: 20px 0;
+}
+.wsqo-ordersuccess p {
+	font-size: 14px;
+    margin: 40px 0;
+    text-transform: uppercase;
+}
+.wsqo-ordersuccess a {
+	color: red;
+    font-weight: bold;
+}
+.wsqo-incrementId {
+	font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 0 10px;
+}
+.wsqo-ordersuccess-another {}
+.wsqo-ordersuccess-another a {
+	background-color: #ddd;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    color: #000;
+    display: inline-block;
+    padding: 10px 20px;
+}
+.wsqo-ordersuccess-another a:hover {
+	background-color: #e02129;
+	color: #fff;
+	text-decoration: none;
+}
+
+
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = WHOLESALE APPLICATION */
+
+.wsap {
+    font-size: 14px;
+}
+.wsap > h1 {
+    margin: 40px 0;
+}
+.wsap-fieldset {
+    border: 1px solid #aaa;
+    margin: 20px 0;
+    padding: 20px;
+    position: relative;
+}
+.wsap-fields > li {
+    margin: 20px 0;
+	clear: both;
+	overflow: auto;
+}
+.wsap-label {
+    float: left;
+    width: 200px;
+	margin: 2px 0 0;
+	text-transform: uppercase;
+}
+.wsap-label-wide {
+    display: block;
+    float: none;
+    margin-bottom: 3px;
+    width: auto;
+}
+.wsap-field {
+}
+.wsap-field-combo {
+	margin: 10px 0;
+}
+.wsap-field input[type="text"] {
+    border: 1px solid #aaa;
+    margin: 3px 0;
+    padding: 5px 10px;
+    width: 90%;
+}
+.wsap-field > textarea {
+    border: 1px solid #aaa;
+    width: 90%;
+}
+.wsap-radioitemcontainer {
+    display: inline-block;
+	margin-right: 20px;
+}
+.wsap-radioitemcontainer > label {
+    padding-left: 3px;
+    text-transform: uppercase;
+    vertical-align: middle;
+	cursor: pointer;
+}
+.wsap-address-source {
+    padding: 10px 0 0;
+}
+.wsap-address-source select {
+    border: 1px solid #aaa;
+    height: 28px;
+    margin: 3px 0;
+    padding: 2px 10px;
+    width: 90%;
+}
+.wsap-address-source .checkbox {
+    margin: 0 6px 0 0 !important;
+}
+.wsap-address-view-container {
+    margin: 10px 0;
+	text-transform: uppercase;
+}
+.wsap-address-view-container dt {
+    clear: both;
+    float: left;
+    margin: 0 0 5px;
+    min-width: 250px;
+	padding-right: 10px;
+}
+.wsap-address-view-container dd {
+    float: left;
+	font-weight: bold;
+}
+.wsap-button-container {
+    margin: 10px 0;
+    text-align: right;
+}
+.wsap-button {
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    color: #000;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 0 0 10px;
+    padding: 5px 20px;
+	text-transform: uppercase;
+    vertical-align: middle;
+}
+.wsap-button:hover {
+    background-color: #e02129;
+    color: #fff;
+    text-decoration: none;
+}
+.wsap-submit {
+    background-color: #e02129;
+    color: #fff;
+    font-weight: bold;
+    padding: 20px 20px;
+}
+.wsap .form-list .input-box {
+    width: 70%;
+}
+
+
+.wsap-resalecertificate {
+    background-color: #eee;
+    border: 1px solid #aaa;
+    margin: 40px 0 20px;
+    padding: 20px;
+}
+.wsap-resalecertificate h2 {
+    margin: 10px 0 20px;
+    text-align: center;
+}
+.wsap-resalecertificate h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.wsap-resalecertificate p {
+    margin: 10px 0;
+    text-align: justify;
+}
+.wsap-resalecert-field-container {
+	margin: 10px 0;
+}
+label.wsap-flatinput {
+    display: block;
+    font-size: 11px;
+    font-style: italic;
+    letter-spacing: 1px;
+    margin: 0 0 10px;
+    padding: 0 10% 10px 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+input.wsap-flatinput[type="text"] {
+	display: block;
+	width: 90%;
+	margin: 0 0 3px;
+	padding: 5px 10px;
+	border-bottom: solid 1px #aaa;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+.wsap-resalecertificate textarea {
+	width: 90%;
+	border: 1px solid #aaa;
+}
+.wsap-fyi {
+	color: #FF8C00;
+	font-style: italic;
+}
+.wsap-resalecertificate .wsap-date {
+    margin: 20px 0;
+}
+.wsap-resalecertificate .wsap-date span {
+	padding: 5px 10px;
+	background-color: #fff;
+	/*font-weight: bold;*/
+}
+.wsap-resalecertificate .wsap-iconfirm {
+    font-weight: bold;
+}
+.wsap-iconfirm input {
+    vertical-align: middle;
+}
+.wsap-iconfirm label {
+    vertical-align: middle;
+	cursor: pointer;
+}
+.wsap-resalecertificate .wsap-fieldsreqirednote {
+    color: red;
+    text-align: right;
+}
+
+.wsap-registerwarning {
+    background-color: #fdffc6;
+    border: 1px solid #aaa;
+    margin: 20px 0;
+    padding: 20px;
+    text-transform: uppercase;
+}
+.wsap-registerwarning a {
+    background-color: #e02129;
+    border: 1px solid #aaa;
+    color: #fff;
+    display: inline-block;
+    margin: 0 10px;
+    padding: 5px 20px;
+}
+.wsap-registerwarning a:hover {
+	text-decoration: none;
+}
+.wsap-success {
+    margin: 20px 0 40px;
+}
+.wsap-success h1 {
+    margin: 40px 0 20px;
+}
+.wsap-success h2 {
+    margin: 20px 0;
+}
+.wsap-success p {
+    margin: 10px 0;
+	line-height: 20px;
+}
+.wsap-success a {
+    color: #e02129;
+}
+
+
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = WHOLESALE APPLICATION */
+
+.wsdc {}
+.wsdc h3 {
+	margin: 10px 0;
+	padding: 10px;
+	background-color: #777;
+	color: #fff;
+}
+.wsdc-tablecontainer {
+	padding: 0 10px;
+}
+.wsdc p {
+	margin: 20px 10px;
+	font-size: 12px;
+}
+table.wsdc-fields {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.wsdc-fields th {
+	width: 200px;
+    padding: 5px 0;
+	line-height: 20px;
+}
+.wsdc-fields td {
+    padding: 5px;
+	line-height: 20px;
+}
+.wsdc-dealer {
+	margin: 0 0 40px;
+}
+td.ws-horseparator {
+	padding: 5px 0;
+}
+.ws-horseparator h4 {
+	padding: 10px 0 5px;
+	border-bottom: 1px solid #aaa;
+}
+.wsdc .buttons-set {
+	width: auto !important;
+	margin: 30px 0 !important;
+	border-top: 1px solid #aaa;
+}
+
+
+.corner-links a.dealer-corner {
+	margin-right: 10px;
+}
+
+.cms-dealer-terms-html .col-main p {
+	font-size: 14px;
+	line-height: 20px;
+	margin: 20px 0;
+	text-align: justify;
+}
+
+
+.wsap .form-list label {
+	width: 25%;
+	white-space: nowrap;
+	overflow: visible;
+}
+li.wsap-grouped {
+	margin: 10px 0;
+	padding: 10px 0;
+}
+.wsap-grouped > span {
+	display: block;
+	font-size: 14px;
+	margin: 10px 0;
+	text-transform: uppercase;
+}
+.wsap-predefined {
+	padding: 5px 10px;
+	background-color: #fff;
+}
+
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = POLICIES & PROCEDURES */
+.wholesale-home-policies {}
+.wholesale-home-policies h2 {
+	font-size: 20px;
+}
+.wholesale-home-policies p {
+	margin: 15px 0;
+}
+.wholesale-home-policies ul {
+	margin: 20px 0;
+	font-size: 12px;
+    list-style: outside none disc;
+    margin: 20px 0;
+    padding-left: 12px;
+}
+.wholesale-home-policies li {
+	margin: 10px 0;
+	line-height: 18px;
+	text-align: justify;
+}
+.wholesale-home-policies a {
+	font-size: 12px;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = WHOLESALE COMMON CMS STYLES */
+.wholesale-cms-page {
+	font-size: 14px;
+	line-height: 20px;
+	text-align: justify;
+}
+.wholesale-cms-page h1 {
+	margin: 30px 0;
+	font-size: 30px;
+}
+.wholesale-cms-page h2 {
+	margin: 20px 0;
+	font-size: 20px;
+}
+.wholesale-cms-page h5 {
+	margin: 20px 0 10px;
+	font-weight: bold;
+}
+.wholesale-cms-page p {
+	margin: 15px 0;
+}
+.wholesale-cms-page p {
+	margin: 5px 0;
+	font-weight: normal;
+	text-transform: none;
+}
+.wholesale-cms-page a {
+	font-size: 14px;
+}
+.wholesale-cms-page ul {
+	margin: 20px 0;
+	font-size: 12px;
+    list-style: outside none disc;
+    margin: 20px 0;
+    padding-left: 12px;
+}
+.wholesale-cms-page li {
+	margin: 10px 0;
+	line-height: 18px;
+	text-align: justify;
+}
+.wholesale-cms-page dl {
+    margin: 20px 0;
+}
+.wholesale-cms-page dl dt {
+    font-weight: bold;
+    margin: 20px 0 10px;
+}
+.wholesale-cms-page dl dd {
+	margin: 10px 0 30px;
+	padding: 0;
+}
+
+.wholesale-service-manuals h1 {
+	margin: 20px 0;
+	padding: 0 0 10px;
+	border-bottom: 1px solid #000;
+}
+.wholesale-cms-page hr {
+	margin: 20px 0;
+}
+.wholesale-cms-page h5 p {
+	text-transform: uppercase;
+}
+.wholesale-service-manuals h5 span {
+	font-weight: normal;
+}

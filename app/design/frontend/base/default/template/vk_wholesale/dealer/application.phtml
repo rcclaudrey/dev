@@ -1,0 +1,104 @@
+<?php
+
+$data = $this->getApplicationData();
+$address = $this->getAddress();
+$helper = Mage::helper('wholesale');
+
+?>
+<div class="wsdc-app wholesale">
+	<h3><?php echo $this->__('Application sent') ?></h3>
+	<div class="wsdc-tablecontainer">
+		<table class="wsdc-fields">
+			<tr>
+				<th><?php echo $this->__('Sent at') ?></th>
+				<td><?php echo $helper->value($data->getData('date_sent')) ?></td>
+			</tr>
+
+			<tr>
+				<td class="ws-horseparator" colspan="2"><h4><?php echo $this->__('Resale certificate') ?></h4></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Applicant\'s full name') ?></th>
+				<td><?php echo $helper->value($data->getData('full_name')) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Applicant\'s work title') ?></th>
+				<td><?php echo $helper->value($data->getData('work_title')) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Selling') ?></th>
+				<td><?php echo $helper->value($data->getData('parts_sold')) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Sellers permit No') ?></th>
+				<td><?php echo $helper->value($data->getData('seller_permit_no')) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Property to be purchased') ?></th>
+				<td><?php echo nl2br($helper->value($data->getData('parts_to_purchase'))) ?></td>
+			</tr>
+
+			<tr>
+				<td class="ws-horseparator" colspan="2"><h4><?php echo $this->__('Survey data') ?></h4></td>
+			</tr>
+
+			<tr>
+				<th><?php echo $this->__('Business experience') ?></th>
+				<td><?php echo nl2br($helper->value($data->getData('business_experience_term'))) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Amount spent in the last year') ?></th>
+				<td><?php echo nl2br($helper->value($data->getData('amount_spent_for_parts'))) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Brands being serviced') ?></th>
+				<td><?php echo nl2br($helper->value($data->getData('brands_serviced'))) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Switch reason') ?></th>
+				<td><?php echo nl2br($helper->value($data->getData('switch_reason'))) ?></td>
+			</tr>
+
+			<tr>
+				<td class="ws-horseparator" colspan="2"><h4><?php echo $this->__('Address Information') ?></h4></td>
+			</tr>
+
+			<tr>
+				<th><?php echo $this->__('Company') ?></th>
+				<td><?php echo $helper->value($address->getCompany()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Company Parts Representative') ?></th>
+				<td><?php echo $helper->value($address->getName()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Address') ?></th>
+				<td><?php echo $helper->value(implode(' ', $address->getStreet())) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('City') ?></th>
+				<td><?php echo $helper->value($address->getCity()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('State/Province') ?></th>
+				<td><?php echo $helper->value($address->getRegion()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Zip/Postal Code') ?></th>
+				<td><?php echo $helper->value($address->getPostcode()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Country') ?></th>
+				<td><?php echo $helper->value($address->getCountry()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Telephone number') ?></th>
+				<td><?php echo $helper->value($address->getTelephone()) ?></td>
+			</tr>
+			<tr>
+				<th><?php echo $this->__('Fax number') ?></th>
+				<td><?php echo $helper->value($address->getFax()) ?></td>
+			</tr>
+		</table>
+	</div>
+</div>

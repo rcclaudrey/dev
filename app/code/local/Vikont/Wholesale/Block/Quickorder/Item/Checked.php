@@ -83,7 +83,7 @@ class Vikont_Wholesale_Block_Quickorder_Item_Checked extends Mage_Core_Block_Tem
 				$result[] = array(
 					'partNumber' => $item['part_number'],
 					'price' => Mage::helper('core')->formatPrice($helper->calculateOEMPrice($item['cost']), false),
-					'brand' => $this->getBrandName(Vikont_Wholesale_Helper_OEM::getARI2TMSCode($item['supplier_code'])),
+					'brand' => $this->getBrandName(Vikont_Wholesale_Helper_OEM::getARI2TMSCode(trim($item['supplier_code']))),
 				);
 			}
 		} catch (Exception $e) {

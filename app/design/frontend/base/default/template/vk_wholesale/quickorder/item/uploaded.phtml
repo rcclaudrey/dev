@@ -1,0 +1,16 @@
+<?php
+
+$data = $this->getProcessedData();
+
+?>
+<?php foreach($data as $index => $item): ?>
+	<tr id="wqop-<?php echo mt_rand() ?>">
+		<td class="wsqo-parts-list-lineNo"><?php echo 1 + $index ?></td>
+		<td class="wsqo-parts-list-partnumber"><input class="wsqo-required" oninput="quickOrderForm.onPartNumberChange(this)" value="<?php echo htmlspecialchars($item['partNumber']) ?>" /><div class="wsqo-parts-list-autocomplete-container"></div></td>
+		<td class="wsqo-parts-list-description">
+			<?php echo $this->getItemBlock($item)->toHtml() ?>
+		</td>
+		<td class="wsqo-parts-list-qty"><input class="wsqo-required" value="<?php echo (int)$item['qty'] ?>" /></td>
+		<td class="wsqo-parts-list-remove"><span onclick="quickOrderForm.deleteRow(this)" title="<?php echo $this->__('Remove this item') ?>">&nbsp;</span></td>
+	</tr>
+<?php endforeach ?>

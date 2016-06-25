@@ -62,21 +62,23 @@ $colNames = array_map('strtolower', $col1stLineNames);
 
 // replacing similar column names with the proper ones ready for SQL
 $colNameConversion = array(
-	'supplier_code' => array('brand', 'code'),
-	'part_number' => array('sku', 'partnumber', 'part number', 'part#', 'part #'),
+	'supplier_code' => array('brand'),
+	'part_number' => array('sku', 'partnumber'),
 	'part_name' => array('name'),
 	'available' => array('avail', 'enabled'),
 	'cost' => array(),
-	'msrp' => array('retail', 'retail price', 'retail_price'),
-	'price' => array('price', 'sale_price', 'sale price'),
+	'msrp' => array('retail', 'retail price'),
+	'price' => array('sale_price'),
 	'hide_price' => array(),
-	'inv_local' => array('local', 'inv local'),
-	'inv_wh' => array('wh', 'wholesale', 'inv wh'),
+	'inv_local' => array('local'),
+	'inv_wh' => array('wh', 'wholesale'),
 	'dim_length' => array('length'),
 	'dim_width' => array('width'),
 	'dim_height' => array('height'),
 	'weight' => array(),
 	'oversized' => array(),
+	'uom' => array(),
+	'image_url' => array('image'),
 	'delete' => array('remove'),
 );
 

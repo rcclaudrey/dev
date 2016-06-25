@@ -235,7 +235,35 @@
 					</fields>
 				</order>
 
-
+				<ordering_manual translate="label">
+					<label>Manual order creation</label>
+					<sort_order>400</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<wholesale_customer_groups>
+							<label>Customer groups treated as wholesale</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>adminhtml/system_config_source_customer_group_multiselect</source_model>
+							<comment><![CDATA[]]></comment>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</wholesale_customer_groups>
+						<payment_methods_allowed translate="label">
+							<label>Payment methods allowed for wholesalers</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>adminhtml/system_config_source_payment_allowedmethods</source_model>
+							<!--<comment><![CDATA[This is for manual order creatin only]]></comment>-->
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</payment_methods_allowed>
+					</fields>
+				</ordering_manual>
 
 			</groups>
 		</wholesale>

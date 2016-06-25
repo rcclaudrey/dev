@@ -1,0 +1,11 @@
+<div class="block block-layered-nav">
+
+    <?php
+    $fitmentSelectorBlock = $this->getLayout()->createBlock('fitment/landing_selector');
+    if ($fitmentSelectorBlock instanceof Mage_Core_Block_Template)
+        echo $fitmentSelectorBlock->toHtml();
+    ?>
+
+    <div class="fitment-notice" style="font-size: 30px;">
+    </div>
+</div>

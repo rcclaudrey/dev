@@ -179,6 +179,16 @@ class Vikont_OEMGrid_Block_Adminhtml_Part_Grid extends Mage_Adminhtml_Block_Widg
 			'validate' => 'validate-number-gz',
         ));
 
+        $this->addColumn('uom', array(
+            'index'     => 'uom',
+            'header'    => $this->__('Unit of measure'),
+			'type'		=> 'options',
+			'options'	=> Mage::getSingleton('adminhtml/system_config_source_yesno')->toArray(),
+			'width'     => '50px',
+			'align'		=> 'center',
+			'is_editable'	=> true,
+        ));
+
 		$this->addColumn('image_url', array(
             'index'     => 'image_url',
             'header'    => $this->__('Image'),

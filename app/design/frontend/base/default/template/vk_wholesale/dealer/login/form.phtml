@@ -1,0 +1,78 @@
+<?php
+
+$formData = new Varien_Object(Mage::app()->getRequest()->getPost());
+$brands = array('BRP', 'HOM', 'HONPE', 'KUS', 'POL', 'SUZ', 'VIC', 'BRP_SEA', 'YAM');
+
+?>
+<div class="wslg wholesale">
+
+	<h1><?php echo $this->__('Dealer Corner') ?></h1>
+
+	<div class="wslg-topbanner"><img src="<?php echo $this->getSkinUrl('vk_wholesale/images/login/topbanner.jpg') ?>" alt="top banner" /></div>
+
+	<div class="wslg-form-container clearer">
+		<div class="wslg-form-registered">
+			<h2 class="wslg-registered-customers"><?php echo $this->__('Registered Customers') ?></h2>
+			<p><?php echo $this->__('If you have an account with us log in using your email address') ?></p>
+			<form id="wslg_form_login" action="<?php echo $this->getUrl('customer/account/loginPost') ?>" method="post" >
+				<?php echo $this->getBlockHtml('formkey'); ?>
+				<div>
+					<input name="login[username]" value="<?php echo htmlspecialchars($formData->getEmail()) ?>" class="wslg-form-input required-entry" placeholder="* Your Email Address" />
+				</div>
+				<div>
+					<input name="login[password]" type="password" value="<?php echo htmlspecialchars($formData->getPassword()) ?>" class="wslg-form-input required-entry" placeholder="* Your Password" />
+				</div>
+				<div>
+					<button class="wslg-button" href="<?php echo $this->getUrl('') ?>"><span><?php echo $this->__('Login') ?></span></button>
+				</div>
+				<p><?php echo $this->__('* Required fields') ?> / <a class="wslg-forgotpassword" href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a></p>
+			</form>
+			<script type="text/javascript">
+			//<![CDATA[
+				var dataForm = new VarienForm('login-form', true);
+			//]]>
+			</script>
+		</div>
+		<div class="wslg-form-new">
+			<h2 class="wslg-new-customers"><?php echo $this->__('New Customers') ?></h2>
+			<div>
+				<button class="wslg-button" onclick="location.href='<?php echo $this->getUrl('wholesale/application') ?>'"><span><?php echo $this->__('Apply to become a dealer') ?></span></button>
+			</div>
+		</div>
+	</div>
+
+	<ul class="wslg-brandbar">
+		<?php foreach($brands as $brandName): ?>
+			<li style="background-image: url('<?php echo $this->getSkinUrl('vk_wholesale/images/logos/logo-'.$brandName.'.png') ?>')">&nbsp;</li>
+		<?php endforeach ?>
+	</ul>
+
+	<h3 class=""><?php echo $this->__('Your customers demand the best. So do ours.') ?></h3>
+	<h4 class=""><?php echo $this->__('As authorized dealers of today\'s leading manufacturers, Temecula Motorsports has the genuine OEM parts your business needs to exceed client expectations, every time.') ?></h4>
+	<h5 class=""><?php echo $this->__('Get your customers back on the road faster with comprehensive features like:') ?></h5>
+
+	<dl class="wslg-benefits">
+		<dt><?php echo $this->__('Step-by-step updates') ?></dt>
+		<dd><?php echo $this->__('Our unique ordering process helps you to keep your clients - and your service department - in the know with extensive order confirmations and shipping notifications') ?></dd>
+
+		<dt><?php echo $this->__('Product locator') ?></dt>
+		<dd><?php echo $this->__('Our OEM Parts Finder eliminates the time-consuming task of tracking down parts allowing you to order quickly and easily') ?></dd>
+
+		<dt><?php echo $this->__('Local support') ?></dt>
+		<dd><?php echo $this->__('Never settle for a machine. At Temecula Motorsports, our staff is comprised of experienced riders who are as passionate about the industry as they are about the road') ?></dd>
+	</dl>
+
+	<div class="wslg-bluecomment"><?php echo $this->__('With our competitive pricing, industry-leading shipping times, and volume discounting options, we hope you\'ll consider Temecula Motorsports to be your next go-to OEM supplier') ?></div>
+
+	<div class="wslg-misclogos">
+		<span class="wslg-misclogos-payment">&nbsp;</span>
+		<span class="wslg-misclogos-shipping">&nbsp;</span>
+	</div>
+
+	<div class="wslg-bottombutton">
+		<button class="wslg-button" onclick="location.href='<?php echo $this->getUrl('wholesale/application') ?>'"><span><?php echo $this->__('Apply to become a dealer') ?></span></button>
+	</div>
+
+	<div class="wslg-callus">If you have any questions, click here or call 866-698-4123 to contact one of our customer service members</div>
+
+</div>

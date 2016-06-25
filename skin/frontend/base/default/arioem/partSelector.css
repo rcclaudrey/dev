@@ -844,16 +844,20 @@ div.arioem-step-content-part-img-popup-addto {
 	color: #fff;
 	cursor: pointer;
 }
-.arioem-step-content-part-img-popup-viewInPL {
-	margin: 20px 0 0;
-	padding-top: 7px;
+div.arioem-step-content-part-img-popup-view {
+	margin-top: 10px;
+}
+.arioem-step-content-part-img-popup-viewInPL,
+.arioem-step-content-part-img-popup-viewPartPage {
+	padding: 0 10px 0 0;
+	vertical-align: middle;
 	font-weight: bold;
-	text-align: center;
 	text-transform: uppercase;
 	color: #de1f27;
 	cursor: pointer;
 }
-.arioem-step-content-part-img-popup-viewInPL:hover {
+.arioem-step-content-part-img-popup-viewInPL:hover,
+.arioem-step-content-part-img-popup-viewPartPage:hover {
 	text-decoration: underline;
 }
 .arioem-step-content-part-img-popup-na {

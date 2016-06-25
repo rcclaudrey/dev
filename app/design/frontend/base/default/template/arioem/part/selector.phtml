@@ -10,8 +10,6 @@ $shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHt
 ?>
 <div class="arioem-content">
 
-	<div class="arioem-wideBg"></div>
-
 	<div class="arioem-brand-header-text"><?php echo $headerCmsContent ?></div>
 
 	<ul class="arioem-step-control">
@@ -328,8 +326,12 @@ var OEMPartSelector = function() {return function($) { return {
 							+			'<span>Add to Cart</span>'
 							+		'</button>'
 							+	'</div>'
-							+	'<div class="arioem-step-content-part-img-popup-viewInPL" '
-							+		'onclick="oemPartSelector.viewPartInPartList()">View in Part List</div>',
+							+	'<div class="arioem-step-content-part-img-popup-view">'
+							+		'<span class="arioem-step-content-part-img-popup-viewInPL" '
+							+			'onclick="oemPartSelector.viewPartInPartList()">View in Part List</span>'
+							+		'<a class="arioem-step-content-part-img-popup-viewPartPage" href="%VIEW_PAGE_URL%"'
+							+			'target="_blank" title="Will open in a new window/tab">View Part Page</a>'
+							+	'</div>',
 						no:	'<div class="arioem-step-content-part-img-popup-na">Part is not available</div>',
 						nla: '<div class="arioem-step-content-part-img-popup-nla">Part is no longer available</div>'
 					},
@@ -1065,10 +1067,11 @@ var OEMPartSelector = function() {return function($) { return {
 		var rowContainer = $('.arioem-step-content-part-partlist tr[ari_part_tag="' + tagNumber + '"]');
 		if (rowContainer.length) {
 			rowContainer.addClass('arioem-partlist-tr-hover');
+			var partNumber = rowContainer.find('.arioem-partlist-partNo').text();
 
 			html = this.config.templates.part.hotSpotPopup.common.found
 				.replace('%HEADER%', rowContainer.find('.arioem-partlist-descr span:first-child').text())
-				.replace('%PART_NUMBER%', rowContainer.find('.arioem-partlist-partNo').text());
+				.replace('%PART_NUMBER%', partNumber);
 
 			if (rowContainer.hasClass('arioem-nla')) {
 				html = html.replace('%AVAILABLE_SECTION%', this.config.templates.part.hotSpotPopup.available.nla);
@@ -1081,6 +1084,9 @@ var OEMPartSelector = function() {return function($) { return {
 						this.state.customerIsWholesale ? 'wholesale' : 'regular'])
 					.replace('%MSRP%', rowContainer.find('.arioem-partlist-msrp').text())
 					.replace('%PRICE%', rowContainer.find('.arioem-partlist-price').text())
+					.replace('%VIEW_PAGE_URL%', this.config.partPageURL
+						.replace('%BRAND_HASH%', this.state.brand.hash)
+						.replace('%PART_NUMBER%', partNumber))
 					.replace('%STOCK_LABEL%', rowContainer.find('.arioem-partlist-stock').html())
 					.replace('%QTY%', rowContainer.find('.arioem-partlist-qty input').attr('ari_part_qty'));
 			}
@@ -1094,10 +1100,16 @@ var OEMPartSelector = function() {return function($) { return {
 		var hotSpotPosition = hotSpot.position();
 		var scrollContainerPosition = $('#arioem-step-content-part-img-scrollArea-content').position();
 		var container = $('#arioem-step-content-part-img-scrollArea');
-		var left = Math.min(
-				scrollContainerPosition.left + hotSpotPosition.left + hotSpot.outerWidth() + this.config.hotSpotPopupOffset.x,
-				container.innerWidth() + Number(container.css('margin-left').replace('px', ''))
-			);
+		var rightBorder = container.innerWidth() + Number(container.css('margin-left').replace('px', ''));
+		var left = scrollContainerPosition.left + hotSpotPosition.left + hotSpot.outerWidth() + this.config.hotSpotPopupOffset.x;
+		var hotSpotPopupWidth = hotSpotPopup.outerWidth();
+		if (this.state.wideLayout > 0) { // wide mode
+			if (left + hotSpotPopupWidth > rightBorder) {
+				left = scrollContainerPosition.left + hotSpotPosition.left - hotSpotPopupWidth - this.config.hotSpotPopupOffset.x;
+			} 
+		} else {
+			left = Math.min(left, rightBorder);
+		}
 		var top = Math.max(
 				scrollContainerPosition.top + hotSpotPosition.top - hotSpotPopup.outerHeight() - this.config.hotSpotPopupOffset.y,
 				Number(container.css('margin-top').replace('px', ''))

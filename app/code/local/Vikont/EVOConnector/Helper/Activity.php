@@ -3,7 +3,12 @@
 class Vikont_EVOConnector_Helper_Activity extends Mage_Core_Helper_Abstract
 {
 	protected static $_customerIsWholesale = false;
-
+	protected static $_commentsXMLTemplate = <<<ORDER_COMMENT
+%skus%
+Customer Comment: %customer_comment%
+Warehouse: %warehouse%
+Customer Type: %customer_type%
+ORDER_COMMENT;
 
 
 	public function getOustandingActivity()
@@ -30,15 +35,29 @@ class Vikont_EVOConnector_Helper_Activity extends Mage_Core_Helper_Abstract
 				);
 		}
 
-		$commentsXMLTemplate = <<<ORDER_COMMENT
-%skus%
-Customer Comment: %customer_comment%
-Warehouse: %warehouse%
-Customer Type: %customer_type%
-ORDER_COMMENT;
-
 		foreach($ordersCollection as $order) {
 			$customerIsWholesale = $this->_isCustomerWholesale($order); // initializing global variable; dirty but cheap
+
+			// order comment
+//Related Skus: PU: 1112332 WP: 222552
+//Customer Comment:  some comment here
+//Warehouse: Tucker Rocky - Warehouse 5
+//Customer Type: Retail
+			$commentsXML = self::$_commentsXMLTemplate;
+
+			$commentsXML = str_replace('%skus%', implode("\n", $orderCommentInfo), $commentsXML);
+			$commentsXML = str_replace('%customer_comment%',
+					implode(',' . CR, $this->_getOrderComments($order)),
+					$commentsXML
+				);
+			$commentsXML = str_replace('%warehouse%', $orderCommentInfoItem['warehouse'], $commentsXML);
+			$commentsXML = str_replace('%customer_type%', Mage::helper('evoc/customer')->getCustomerType(), $commentsXML);
+
+			$payment = $order->getPaymentsCollection()->getFirstItem();
+			if('purchaseorder' == $payment->getMethod()) {
+				$commentsXML .= "\nPO Number: " . $payment->getPoNumber();
+			}
+
 
 			list($carrierCode) = explode('_', $order->getData('shipping_method'));
 			$shippingDescription = explode(' - ', $order->getData('shipping_description'), 2);
@@ -52,9 +71,22 @@ ORDER_COMMENT;
 				$shippingVendor = 'WC';
 				$shippingMethod = 'WC';
 			} else if($customerIsWholesale) {
-				$shippingCost = 0;
-				$shippingVendor = 'UPS';
-				$shippingMethod = 'GROUND';
+				$shippingCost = 0; /*				$shippingVendor = 'UPS';
+				$shippingMethod = 'GROUND'; /**/
+				$shippingVendor = 'DSO';
+
+				$shippingTypes = array(
+					'COMPLETE' => 'SHIP COMPLETE | ',
+					'PARTIAL' => 'SHIP PARTIAL | ',
+				);
+
+				$shippingType = (false !== strpos($commentsXML, $shippingTypes['COMPLETE']))
+					?	'COMPLETE'
+					:	'PARTIAL';
+
+				$commentsXML = str_replace($shippingTypes, '', $commentsXML); // removing from comments section
+
+				$shippingMethod = $shippingType;
 			}
 
 			$taxRule = Vikont_EVOConnector_Model_Source_Taxrules::detectTaxRule($order->getShippingAddress(), $customerIsWholesale);
@@ -65,7 +97,7 @@ ORDER_COMMENT;
 				'shippingCost' => $shippingCost,
 				'shippingVendor' => $shippingVendor,
 				'shippingMethod' => $shippingMethod,
-				'comment' => '%comment%',
+				'comment' => $commentsXML,
 				'taxRuleID' => $taxRule['id'],
 				'taxAmount' => sprintf('%.2f', $order->getData('tax_amount')),
 				'customers' => '%customers%',
@@ -153,29 +185,6 @@ ORDER_COMMENT;
 			}
 
 			$orderNodeXML = str_replace('%payments%', CR . $paymentsXML, $orderNodeXML);
-
-			// order comment
-//Related Skus: PU: 1112332 WP: 222552
-//Customer Comment:  some comment here
-//Warehouse: Tucker Rocky - Warehouse 5
-//Customer Type: Retail
-			$commentsXML = $commentsXMLTemplate;
-
-			$commentsXML = str_replace('%skus%', implode("\n", $orderCommentInfo), $commentsXML);
-			$commentsXML = str_replace('%customer_comment%',
-//					implode(','.CR, array_map('htmlspecialchars', $this->_getOrderComments($order))),
-					implode(','.CR, $this->_getOrderComments($order)),
-					$commentsXML
-				);
-			$commentsXML = str_replace('%warehouse%', $orderCommentInfoItem['warehouse'], $commentsXML);
-			$commentsXML = str_replace('%customer_type%', Mage::helper('evoc/customer')->getCustomerType(), $commentsXML);
-
-			$payment = $order->getPaymentsCollection()->getFirstItem();
-			if('purchaseorder' == $payment->getMethod()) {
-				$commentsXML .= "\nPO Number: " . $payment->getPoNumber();
-			}
-
-			$orderNodeXML = str_replace('%comment%', htmlspecialchars($commentsXML), $orderNodeXML);
 
 			// and finally adding order node XML to the nodes list
 			$orderNodesXML .= CR . $orderNodeXML;

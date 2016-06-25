@@ -93,4 +93,25 @@ class Vikont_Wholesale_Model_Observer
 		}
 	}
 
+
+
+	public function payment_method_is_active($observer)
+	{
+		$quote = $observer->getQuote();
+		if ($quote) {
+			$customer = $quote->getCustomer();
+			$customerGroupId = $customer->getGroupId();
+			if ($customerGroupId) { // filtering by registered customers
+				$customerGroupsAllowed = explode(',', Mage::getStoreConfig('wholesale/ordering_manual/wholesale_customer_groups'));
+				if(in_array($customerGroupId, $customerGroupsAllowed)) {
+					$paymentMethodsAllowed = explode(',', Mage::getStoreConfig('wholesale/ordering_manual/payment_methods_allowed'));
+					$observer->getEvent()->getResult()->isAvailable = in_array(
+							$observer->getMethodInstance()->getCode(),
+							$paymentMethodsAllowed
+						);
+				}
+			}
+		}
+	}
+
 }

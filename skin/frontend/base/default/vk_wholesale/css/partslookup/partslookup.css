@@ -1,0 +1,231 @@
+#ariPartImage {
+	background-color: white;
+	overflow: hidden;
+	position: relative;
+}
+#ariPartImage div {
+	z-index: 1;
+}
+#ariLeftSide, #ariRightSide {
+	float: left !important;
+}
+#ariSearchPanel, #ariDetailsPanel {
+	display: none;
+}
+#ariAssemblyInfo {
+	width: 100%;
+}
+.ariFloatLeft {
+	float: left !important;
+}
+.ariClear {
+	clear: both;
+}
+#ari_Assemblies_jl {
+	float: left !important;
+}
+.jl_class {
+	position: relative;
+	border:1px solid #ccc;
+	margin: 2px 0 2px 0;
+}
+.jl_class a {
+	display:block;
+	position: relative;
+}
+.jl_class ul {
+	display:none;
+	position:absolute;
+	width:100%;
+	border:1px solid #ccc;
+	padding:0;
+	margin:0;
+	background-color: #fff;
+}
+.jl_class li {
+	display:block;
+	width:100%;
+	margin-bottom:0.2em;
+	cursor: pointer;
+}
+.jl_class li:hover {
+	background-color: #ddeeff;
+	text-decoration: none;
+}
+.jl_class img {
+	border: 0;
+}
+.jl_item_folder, .jl_item_assembly {
+	height: 16px;
+	width: 16px;
+	display: inline-block;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+.jl_item {
+	display: inline-block;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+/* Search Result - Page Styles - BEGIN */
+ #ariPSSearchReasults_Page  { }
+ .ariPSSearchResults_header {
+	 width: 100%;
+	 margin: 10px 0;
+ }
+ .ari_searchResults_contents {
+	 width: 100%;
+ }
+  .ari_searchResults_GridPaging {
+	 padding: 5px;
+ }
+#ari_searchResults_Grid {
+	width: 100%;
+	border-collapse:collapse;
+}
+#ariPSSearchReasults_Page {
+	/* source: .listTable */
+	border:1px solid black;
+}
+#ari_searchResults_GridPageLoadingDiv {
+	height: 15px;
+	width: 50%;
+}
+
+/* Paging */
+.ariPagingNavPageInputClass {
+	font-size:x-small;
+	font-weight:100;
+	text-align:right;
+	width:15px;
+}
+.ariPagingPageNofMSectionClass {
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: x-small;
+	font-weight: 100;
+	height: 15px;
+	text-align: left;
+}
+.ariPagingSummarySectionClass {
+	font-weight: bold;
+	font-size: x-small;
+	font-weight: 100;
+	text-align: right;
+}
+
+/* Prompt UI Dialog */
+.ari_searchResults_Prompt,
+.ari_partImage_Prompt {
+	position: absolute;
+	padding: .2em;
+	overflow: hidden;
+	border: 1px solid black;
+	background-color: White;
+}
+.ari_searchResults_Prompt {
+	width: 400px;
+}
+
+.ari_searchResults_Prompt .ui-icon-closethick { background-position: -96px -128px; }
+.ari_searchResults_Prompt .ui-dialog-titlebar { padding: .5em 1em .3em; position: relative;  background-color: #efefef; border-bottom: #c6c6c6 1px solid}
+.ari_searchResults_Prompt .ui-dialog-title { margin: .1em 16px .2em 0; }
+.ari_searchResults_Prompt .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
+.ari_searchResults_Prompt .ui-dialog-titlebar-close span { display: block; margin: 1px; background-color: #AAA; }
+/* .ari_searchResults_Prompt .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; } */
+.ari_searchResults_Prompt .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
+.ari_searchResults_Prompt .ui-dialog-buttonpane { text-align: left; background-image: none; border-width: 1px 0 0 0; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
+.ari_searchResults_Prompt .ui-dialog-buttonpane .ui-dialog-buttonset { float: right !important; }
+.ari_searchResults_Prompt .ui-dialog-buttonpane button { margin: .5em .4em .5em 0; cursor: pointer; }
+.ari_searchResults_Prompt .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
+
+/* .ari_searchResults_Prompt */
+.ui-widget-overlay {
+	left: 0;
+	top: 0;
+	position: absolute;
+	opacity: 0.5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	background-color: #3b3b3b;
+}
+.ari_partImage_Thumbnail {
+	cursor: pointer;
+}
+.ari_partImage_Prompt {
+	width: 600px;
+}
+
+.ari_partImage_Prompt .ui-icon-closethick { background-position: -96px -128px; }
+.ari_partImage_Prompt .ui-dialog-titlebar { padding: .5em 1em .3em; position: relative;  background-color: #efefef; border-bottom: #c6c6c6 1px solid}
+.ari_partImage_Prompt .ui-dialog-title { margin: .1em 16px .2em 0; }
+.ari_partImage_Prompt .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
+.ari_partImage_Prompt .ui-dialog-titlebar-close span { display: block; margin: 1px; background-color: #AAA; }
+/* .ari_partImage_Prompt .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; } */
+.ari_partImage_Prompt .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
+.ari_partImage_Prompt .ui-dialog-buttonpane { text-align: left; background-image: none; border-width: 1px 0 0 0; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
+.ari_partImage_Prompt .ui-dialog-buttonpane .ui-dialog-buttonset { float: right !important; }
+.ari_partImage_Prompt .ui-dialog-buttonpane button { margin: .5em .4em .5em 0; cursor: pointer; }
+.ari_partImage_Prompt .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
+
+.ari_Alert_Prompt .ui-icon-closethick { background-position: -96px -128px; }
+.ari_Alert_Prompt .ui-dialog-titlebar-close { position: absolute; right: .3em;
+	width: 19px; padding: 1px; height: 18px;
+}
+.ari_Alert_Prompt .ui-dialog-titlebar-close span { display: block; margin: 1px; background-color: #AAA; }
+.ari_Alert_Prompt .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
+/* Search Result - Page Styles - END*/
+
+.ariHotSpotHide {
+	display:none;
+}
+
+
+
+#ariPartImage {
+	cursor: url('//partstream.arinet.com/Content/Images/openhand.cur'), default;
+}
+.ari_mag_glass {
+/*	background: url('//partstream.arinet.com/Content/Images/magGlass.png');
+	height: 15px;
+	width: 15px;
+	margin-right: 7px;
+	display: inline-block;*/
+	display: none;
+}
+.ari_loading {
+	background: url('//partstream.arinet.com/Scripts/jsTree/themes/classic/throbber.gif') no-repeat 100% 50% !important;
+}
+.ari_partImage_thumbnail_loading {
+	background: url('//partstream.arinet.com/Scripts/jsTree/themes/classic/throbber.gif') no-repeat 50% 50% !important;
+}
+.jl_item_folder {
+	background: url('//partstream.arinet.com/Scripts/jsTree/themes/classic/d.png') -56px -19px;
+}
+.jl_item_assembly {
+	background: url('//partstream.arinet.com/Scripts/jsTree/themes/classic/gear.png');
+}
+
+/* UI Dialog close - X icon */
+.ari_Alert_Prompt .ui-icon,
+.ari_searchResults_Prompt .ui-icon,
+.ari_partImage_Prompt .ui-icon {
+	background-image: url('//partstream.arinet.com/Content/Images/ui-icons_222222_256x240.png');
+	height: 16px;
+	width: 16px;
+	text-indent : -9999px;
+}
+#ari_searchResults_Column_Header_PartNum { width : 20%; }
+#ari_searchResults_Column_Header_PartDesc   { width : 30%; }
+
+.ari_searchResults_Column_Content_WhereUsed > div {
+	padding: 0 0 0 20px;
+    background: transparent url("//partstream.arinet.com/Content/Images/magGlass.png") no-repeat scroll 0 50%;
+    text-align: left !important;
+}
+.viewModels {
+	display: inline-block;
+	vertical-align: middle;
+}
