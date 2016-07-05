@@ -106,7 +106,7 @@ var OEMPartSearch = function() {return function($) { return {
 				tableRow: '<li id="arioem-pcSearch-part-%PART_ID%" class="%ROW_CLASS%" ari_part_number="%PART_NUMBER%" ari_part_id="%PART_ID%">' 
 						+	'<div class="arioem-pcSearch-res-body-line1">'
 						+		'<span class="arioem-pcSearch-res-body-partNo">%PART_NUMBER%</span>'
-						+		'<span class="arioem-pcSearch-res-body-descr">%PART_DESCRIPTION% %PART_SUPERSEDED%</span>'
+						+		'<span class="arioem-pcSearch-res-body-descr">%PART_DESCRIPTION%%PART_UOM% %PART_SUPERSEDED%</span>'
 						+		'<span class="arioem-pcSearch-res-body-msrp">%PART_MSRP%</span>'
 //						+		'<span class="arioem-pcSearch-res-body-price">%PART_PRICE%</span>'
 						+		'%PRICE%'
@@ -419,6 +419,7 @@ var OEMPartSearch = function() {return function($) { return {
 						.replace(/%PART_ID%/g, response.res[i].id)
 						.replace(/%PART_TAG%/g, response.res[i].tag)
 						.replace(/%PART_DESCRIPTION%/g, response.res[i].name)
+						.replace(/%PART_UOM%/g, response.res[i].uom ? ', ' + response.res[i].uom : '')
 						.replace(/%PART_NUMBER%/g, response.res[i].sku)
 						.replace(/%ROW_CLASS%/g, rowClass);
 				}

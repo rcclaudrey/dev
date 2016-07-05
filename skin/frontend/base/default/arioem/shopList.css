@@ -16,6 +16,50 @@
 	padding: 0 0 10px;
 	text-transform: uppercase;
 }
+.arioem-shopList-title-tip {
+	box-sizing: border-box;
+    cursor: pointer;
+    float: right;
+    overflow: visible;
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+}
+.arioem-shopList-title-tip-icon {
+	background-color: #dfdfdf;
+    border-radius: 15px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+}
+.arioem-shopList-title-tip-text {
+	display: none;
+	background-color: #eee;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-weight: normal;
+    height: 30px;
+    line-height: 30px;
+    min-width: 100px;
+    padding: 0 10px;
+    position: absolute;
+    right: 35px;
+    top: 0;
+    /*vertical-align: middle;*/
+    white-space: nowrap;
+    z-index: 110;
+}
+.arioem-shopList-title-tip:hover .arioem-shopList-title-tip-text,
+.arioem-shopList-title-tip-text.arioem-visible {
+	display: block;
+}
+
 .arioem-shopList table {
 	width: 100%;
 	margin: 15px 0;
@@ -40,7 +84,7 @@
 }
 .arioem-shopList tbody td {
 	font-size: 12px;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	padding: 10px;
 	vertical-align: middle;
 }

@@ -13,7 +13,12 @@ $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_pa
 ?>
 <?php if(!$isAjax): ?>
 <div class="arioem-shopList">
-	<div class="arioem-shopList-title"><?php echo $this->__('Shopping List') ?></div>
+	<div class="arioem-shopList-title"><?php echo $this->__('Shopping Cart') ?>
+		<div class="arioem-shopList-title-tip" onclick="jQuery(this).find('.arioem-shopList-title-tip-text').toggleClass('arioem-visible')">
+			<span class="arioem-shopList-title-tip-icon">?</span>
+			<div class="arioem-shopList-title-tip-text"><?php echo $this->__('Only OEM items are seen and processed here') ?></div>
+		</div>
+	</div>
 	<table>
 		<thead>
 			<tr>
@@ -48,7 +53,7 @@ $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_pa
 				<?php endforeach ?>
 			<?php else: ?>
 					<tr class="<?php echo $even ? 'arioem-even' : '' ?>">
-						<td class="arioem-shopList-noItem" colspan="6"><?php echo $this->__('No items in your Shopping List yet') ?></td>
+						<td class="arioem-shopList-noItem" colspan="6"><?php echo $this->__('No items in your Shopping Cart yet') ?></td>
 					</tr>
 			<?php endif ?>
 <?php if(!$isAjax): ?>
@@ -56,7 +61,7 @@ $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_pa
 	</table>
 	<div class="arioem-shopping-list-footer">
 		<button class="arioem-shopping-list-update" onclick="oemShoppingList.updateQtys(this)"><?php echo $this->__('Update Qtys') ?></button>
-		<button class="arioem-shopping-list-clear" onclick="oemShoppingList.clear()"><?php echo $this->__('Clear Shopping List') ?></button>
+		<button class="arioem-shopping-list-clear" onclick="oemShoppingList.clear()"><?php echo $this->__('Clear Shopping Cart') ?></button>
 		<button class="arioem-shopping-list-checkout" onclick="oemShoppingList.checkout()"><span><?php echo $this->__('Checkout') ?></span></button>
 	</div>
 </div>

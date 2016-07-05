@@ -1,7 +1,6 @@
 <?php
 
-$helper = Mage::helper('arioem');
-$brands = $helper->getBrands();
+$brands = $this->getBrands();
 
 $headerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-header')->toHtml();
 $footerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-footer')->toHtml();
@@ -184,9 +183,11 @@ var OEMPartSelector = function() {return function($) { return {
 			vehicle: 'vehicle',
 			year: 'year',
 			model: 'model',
+			parentModel: 'parentModel',
 			assembly: 'assembly',
 			part: 'part'
 		},
+		defaultLocationPathname: 'partcenter',
 		print: {
 			diagramURL: ''
 		},
@@ -229,8 +230,13 @@ var OEMPartSelector = function() {return function($) { return {
 			},
 			model: {
 				controlItem: '<span><span>%MODEL_NAME%</span></span>',
-				listContainer: '<ul class="%COLUMN_ODD%">%ITEMS%</ul>',
-				listItem: '<li ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%" onclick="oemPartSelector.selectModel(this)">%MODEL_NAME%</li>'
+				listContainer: '<ul class="arioem-l1 %COLUMN_ODD%">%ITEMS%</ul>',
+				listItem: '<li class="arioem-l1" ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%" '
+					+	'><span onclick="oemPartSelector.selectModel(this)">%MODEL_NAME%</span></li>',
+				listParentItem: '<li class="arioem-l1 arioem-expandable" ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%" '
+					+	'><span onclick="oemPartSelector.selectParentModel(this)">%MODEL_NAME%</span>'
+					+	'<ul class="arioem-subModel"></ul></li>',
+				subItem: '<li class="arioem-subModel" ari_model_id="%MODEL_ID%" ari_hash="%MODEL_HASH%" onclick="oemPartSelector.selectModel(this)">%MODEL_NAME%</li>'
 			},
 			assembly: {
 				sidebarTitle: '%YEAR% %BRAND% %MODEL%',
@@ -262,7 +268,7 @@ var OEMPartSelector = function() {return function($) { return {
 				},
 				tableRow: '<tr class="%ROW_CLASS%" ari_part_tag="%PART_TAG%" ari_part_number="%PART_NUMBER%" onclick="oemPartSelector.partListSelectPart(this)">'
 					+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
-					+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION% %PART_SUPERSEDED%</span>'
+					+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION%%PART_UOM% %PART_SUPERSEDED%</span>'
 					+	'<span class="arioem-partlist-partNo" onclick="oemPartSelector.viewPartPage(event)" title="View part page">%PART_NUMBER%</span>'
 					+ '</td>'
 					+ '<td class="arioem-partlist-msrp">$%PART_MSRP%</td>'
@@ -371,6 +377,19 @@ var OEMPartSelector = function() {return function($) { return {
 			}
 		},
 		customerId: 0,
+		brandHash: {
+			'ARC': 'arcticcat',
+			'BRP': 'canam',
+			'HOM': 'honda',
+			'HONPE': 'hondape',
+			'KUS': 'kawasaki',
+			'POL': 'polaris',
+			'BRP_SEA': 'seadoo',
+			'SUZ': 'suzuki',
+			'SLN': 'slingshot',
+			'VIC': 'victory',
+			'YAM': 'yamaha'
+		},
 		eventPropagation: {
 			senderId: 'oem_part_selector',
 			events: {
@@ -380,6 +399,7 @@ var OEMPartSelector = function() {return function($) { return {
 				}
 			}
 		}
+		
 	},
 	state: {
 		pageURL: '',
@@ -407,6 +427,11 @@ var OEMPartSelector = function() {return function($) { return {
 			name: '',
 			hash: ''
 		},
+		parentModel: {
+			code: null,
+			name: '',
+			hash: ''
+		},
 		model: {
 			code: null,
 			name: '',
@@ -424,19 +449,6 @@ var OEMPartSelector = function() {return function($) { return {
 			hash: ''
 		}
 	},
-	brandHash: {
-		'ARC': 'arcticcat',
-		'BRP': 'canam',
-		'HOM': 'honda',
-		'HONPE': 'hondape',
-		'KUS': 'kawasaki',
-		'POL': 'polaris',
-		'BRP_SEA': 'seadoo',
-		'SUZ': 'suzuki',
-		'SLN': 'slingshot',
-		'VIC': 'victory',
-		'YAM': 'yamaha'
-	},
 	cache: {
 		parts: null,
 		hotSpots: null
@@ -447,6 +459,20 @@ var OEMPartSelector = function() {return function($) { return {
 		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
 		$.extend(this.state, stateValues);
 		this.state.pageURL = location.toString().split('#')[0];
+/*
+		if (location.pathname.search(this.config.defaultLocationPathname) < 0) {
+			var brand = location.pathname.split('.html')[0].split('/')[2];
+			for (var i in this.config.brandHash) {
+				if (this.config.brandHash[i] == brand) {
+					var newLocation = location.href;
+					alocation = newLocation
+						.replace(location.pathname, '/' + this.config.defaultLocationPathname)
+						.replace(location.hash, '#brand=' + brand);
+console.log(alocation);
+					break;
+				}
+			}
+		}/**/
 
 		oemHotSpotTagNumber = null; // this must be a global object
 		oemHotSpotPopupCloseDelayed = null;
@@ -462,6 +488,7 @@ var OEMPartSelector = function() {return function($) { return {
 		$(window).on('resize', this._windowResize.bind(this));
 		$(window).on('hashchange', this.popState.bind(this));
 		$('.arioem-step-content-part-img-wideMode span').html(this.config.messages.wideModeButton.expand);
+
 		this.parseHash();
 
 		// putting this into the config explicitly as it's not known at the object creation state
@@ -536,6 +563,9 @@ var OEMPartSelector = function() {return function($) { return {
 		this.resetModel(false);
 	},
 	resetModel: function(activate) {
+		this.state.parentModel.code = null;
+		this.state.parentModel.name = '';
+		this.state.parentModel.hash = '';
 		this.state.model.code = null;
 		this.state.model.name = '';
 		this.state.model.hash = '';
@@ -594,7 +624,7 @@ var OEMPartSelector = function() {return function($) { return {
 			this.state.brand.code = $(sender).attr('ari_brand_code');
 			this.state.brand.name = $(sender).attr('ari_brand_name');
 		}
-		this.state.brand.hash = this.brandHash[this.state.brand.code];
+		this.state.brand.hash = this.config.brandHash[this.state.brand.code];
 		$('.arioem-step-control-brand').removeClass('arioem-step-active');
 		$('.arioem-step-control-brand').addClass('arioem-step-selected');
 		$('.arioem-step-control-brand .arioem-step-control-header-content').html(
@@ -790,19 +820,99 @@ var OEMPartSelector = function() {return function($) { return {
 				items = '';
 			}
 			if(theEnd) break;
-			items += this.config.templates.model.listItem
+			items += this.config.templates.model[response.res[i].isParent ? 'listParentItem' : 'listItem']
 					.replace(/%MODEL_ID%/g, response.res[i].id)
 					.replace(/%MODEL_NAME%/g, response.res[i].name)
-					.replace(/%MODEL_HASH%/g, response.res[i].hash);
+					.replace(/%MODEL_HASH%/g, response.res[i].hash)
 		}
 		$('.arioem-step-content-model .arioem-step-content-content').html(html);
 		this.updateHash();
 	},
-	selectModel: function(sender) {
+	selectParentModel: function(sender) {
+		var modelLI;
+		var parentModel;
+		if ($(sender).prop('tagName')) {
+			modelLI = $(sender).closest('li');
+			var parentModel = {
+				code: modelLI.attr('ari_model_id'),
+				name: modelLI.text(),
+				hash: modelLI.attr('ari_hash')
+			};
+		} else {
+			modelLI = $('#arioem-step-content-model li.arioem-l1[ari_model_id="' + sender.code + '"');
+			parentModel = sender;
+		}
+
 		if(!this.state.hashMode) {
-			this.state.model.code = $(sender).attr('ari_model_id');
-			this.state.model.name = $(sender).text();
-			this.state.model.hash = $(sender).attr('ari_hash');
+			$.extend(true, this.state.parentModel, parentModel);
+		}
+
+		modelLI.siblings().removeClass('arioem-expanded');
+
+		if (!modelLI.find('li.arioem-subModel').length) {
+			modelLI.addClass('arioem-loading');
+			$.ajax({
+				url: this.config.baseURL,
+				data: {
+					action: 'model',
+					brandCode: this.state.brand.code,
+					parentId: parentModel.code,
+					isParent: 1
+				},
+				dataType: 'json',
+				type: 'GET',
+				async: true,
+				cache: false,
+				success: this._selectParentModelSuccess.bind(this),
+				complete: function() { modelLI.removeClass('arioem-loading'); }
+			});
+		} else {
+			modelLI.addClass('arioem-expanded'); //	modelLI.toggleClass('arioem-expanded');
+		}
+		this.updateHash();
+	},
+	_selectParentModelSuccess: function(response) {
+		if(response.errorMessage) {
+			alert(response.errorMessage);
+			return;
+		}
+		var targetLI = $('#arioem-step-content-model li.arioem-l1[ari_model_id="' + response.parentId + '"]');
+		var itemsHtml = '';
+		for(var i=0; i < response.res.length; i++) {
+			itemsHtml += this.config.templates.model.subItem
+				.replace(/%MODEL_ID%/g, response.res[i].id)
+				.replace(/%MODEL_NAME%/g, response.res[i].name)
+				.replace(/%MODEL_HASH%/g, response.res[i].hash);
+		}
+		targetLI.find('ul.arioem-subModel').html(itemsHtml);
+		targetLI.addClass('arioem-expanded');
+	},
+	selectModel: function(sender) {
+		var modelLI;
+		var model;
+		if ($(sender).prop('tagName')) {
+			modelLI = $(sender).closest('li');
+			model = {
+				code: modelLI.attr('ari_model_id'),
+				name: modelLI.text(),
+				hash: modelLI.attr('ari_hash')
+			};
+		} else {
+			modelLI = $('#arioem-step-content-model li.arioem-l1[ari_model_id="' + sender.code + '"');
+			model = sender;
+		}
+
+		var parentModelLI = modelLI.closest('#arioem-step-content-model .arioem-expandable');
+		var parentModel = {code: null, name: '', hash: ''};
+		if (parentModelLI.length) {
+			parentModel.code = parentModelLI.attr('ari_model_id');
+			parentModel.name = parentModelLI.text();
+			parentModel.hash = parentModelLI.attr('ari_hash');
+		}
+
+		if(!this.state.hashMode) {
+			$.extend(true, this.state.parentModel, parentModel);
+			$.extend(true, this.state.model, model);
 		}
 		$('.arioem-step-control-model').removeClass('arioem-step-active');
 		$('.arioem-step-control-model').addClass('arioem-step-selected');
@@ -810,6 +920,7 @@ var OEMPartSelector = function() {return function($) { return {
 				this.config.templates.model.controlItem.replace(/%MODEL_NAME%/g, this.state.model.name)
 			);
 		$('.arioem-step-content-model').removeClass('arioem-step-active');
+
 		if(!this.state.hashMode) {
 			this.showLoader();
 			$.ajax({
@@ -978,6 +1089,7 @@ var OEMPartSelector = function() {return function($) { return {
 				.replace(/%PART_TAG%/g, response.parts[i].tag)
 				.replace(/%PART_DESCRIPTION%/g, response.parts[i].name)
 				.replace(/%PART_NUMBER%/g, response.parts[i].sku)
+				.replace(/%PART_UOM%/g, response.parts[i].uom ? ', ' + response.parts[i].uom : '')
 				.replace(/%ROW_CLASS%/g, rowClass);
 
 			if(this.state.part.sku == response.parts[i].sku) {
@@ -1461,9 +1573,17 @@ var OEMPartSelector = function() {return function($) { return {
 						this._selectVehicleSuccess(response.year);
 						if (response.state.hasOwnProperty('year') && response.state.year.hash) {
 							this.selectYear(response.state.year);
-							if(response.hasOwnProperty('model')) {
+							if (response.hasOwnProperty('parentModel')) {
+								this._selectYearSuccess(response.parentModel);
+							} else if (response.hasOwnProperty('model')) {
 								this._selectYearSuccess(response.model);
 			}}}}}
+			if (response.state.hasOwnProperty('parentModel') && response.state.parentModel.hash) {
+				if (response.hasOwnProperty('model')) {
+					this._selectParentModelSuccess(response.model);
+				}
+				this.selectParentModel(response.state.parentModel);
+			}
 			if (response.state.hasOwnProperty('model') && response.state.model.hash) {
 				this.selectModel(response.state.model);
 				if(response.hasOwnProperty('assembly')) {
@@ -1488,6 +1608,7 @@ var OEMPartSelector = function() {return function($) { return {
 		if (this.state.brand.hash) hash[this.config.urlKeyNames.brand] = this.state.brand.hash;
 		if (this.state.vehicle.hash) hash[this.config.urlKeyNames.vehicle] = this.state.vehicle.hash;
 		if (this.state.year.hash) hash[this.config.urlKeyNames.year] = this.state.year.hash;
+		if (this.state.parentModel.hash) hash[this.config.urlKeyNames.parentModel] = this.state.parentModel.hash;
 		if (this.state.model.hash) hash[this.config.urlKeyNames.model] = this.state.model.hash;
 		if (this.state.assembly.hash) hash[this.config.urlKeyNames.assembly] = this.state.assembly.hash;
 		if (this.state.part.hash) hash[this.config.urlKeyNames.part] = this.state.part.hash;
@@ -1548,6 +1669,7 @@ jQuery(document).ready(function() {
 		addToCartURL: '<?php echo $this->getUrl('arioem/partcenter/add') ?>',
 		refreshCartItemsUrl: '<?php echo $this->getUrl('arioem/partcenter/cartItems') ?>',
 		partPageURL: '<?php echo $this->getUrl('oem') ?>%BRAND_HASH%/%PART_NUMBER%',
+		defaultLocationPathname: '<?php echo addslashes(Mage::getStoreConfig('arioem/partcenter/shortname')) ?>',
 		print: {
 			diagramURL: '<?php echo $this->getUrl('arioem/partcenter/printDiagram') ?>'
 		},

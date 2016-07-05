@@ -10,6 +10,7 @@ $partName = htmlspecialchars($this->getPart()->getName());
 $isAvailable = $this->getPart()->isAvailable();
 
 $partInfo = $this->getPart()->getPartInfo();
+$uom = htmlspecialchars($partInfo['uom']);
 $barcodeImgUrl = Mage::helper('arioem')->getBarcodeImageFile($this->getPart()->getPartNumber());
 $models = $this->getPart()->getModels();
 
@@ -39,7 +40,9 @@ $brandColors = array(
 		<div class="oempart-barcode-container" <?php echo isset($brandColors[$brand]) ? 'style="border-color: ' . $brandColors[$brand] . '"' : '' ?>>
 			<div class="oempart-barcode-brand"><?php echo $brandName ?></div>
 			<div class="oempart-barcode-sku"><?php echo $partNumber ?></div>
-			<div class="oempart-barcode-partname"><?php echo $partName ?></div>
+			<div class="oempart-barcode-partname"><?php echo $partName ?><?php if($uom): ?><span 
+					class="oempart-barcode-uom">, <?php echo $uom ?></span><?php endif ?>
+			</div>
 			<img class="oempart-barcode-image" src="<?php echo $barcodeImgUrl ?>" alt="<?php echo $partNumber ?>" title="<?php echo $partNumber ?>" />
 		</div>
 
@@ -55,7 +58,9 @@ $brandColors = array(
 			<div class="oempart-cinfo-logo">
 				<img src="<?php echo $this->getSkinUrl('arioem/logos/named/' . htmlspecialchars($brand) . '.jpg') ?>" title="<?php echo $brandName ?> logo" alt="<?php echo $brandName ?> logo" />
 			</div>
-			<div class="oempart-cinfo-title"><?php echo $partName ?></div>
+			<div class="oempart-cinfo-title"><?php echo $partName ?><?php if($uom): ?><span 
+					class="oempart-barcode-uom">, <?php echo $uom ?></span><?php endif ?>
+			</div>
 			<?php if ($isAvailable): ?>
 				<div class="oempart-cinfo-prices clearer">
 					<?php if($hidePrice): ?>
@@ -179,6 +184,11 @@ $brandColors = array(
 
 				<dt><?php echo $this->__('Description') ?></dt>
 				<dd><?php echo $partName ?></dd>
+
+				<?php if ($uom): ?>
+					<dt><?php echo $this->__('UOM') ?></dt>
+					<dd><?php echo $uom ?></dd>
+				<?php endif ?>
 
 				<?php if ($isAvailable): ?>
 					<dt><?php echo $this->__('MSRP') ?></dt>

@@ -9,10 +9,10 @@ class ARIOEMAPI_Translate
 			'vehicle' => array(
 				'ARC' => array(
 					'ATV' => 'ATV',
-					'GENERATORS' => 'GENERATORS',
-					'ROV' => 'ROV',
-					'SNOWMOBILE' => 'SNOWMOBILE',
-					'WATERCRAFT' => 'H2O',
+					'GENERATORS' => false,
+					'ROV' => 'SIDE BY SIDE',
+					'SNOWMOBILE' => false,
+					'WATERCRAFT' => false,
 				),
 				'BRP' => array(
 					'ROADSTER' => 'SPYDER',
@@ -20,7 +20,7 @@ class ARIOEMAPI_Translate
 					'ATV' => 'ATV',
 				),
 				'HOM' => array(
-					'ALL-TERRAIN VEHICLE (ATV)' => 'ATV',
+					'ALL-TERRAIN VEHICLE (ATV)' => 'ATV / SIDE BY SIDE',
 					'MOTOR SCOOTER' => 'SCOOTER',
 					'PERSONAL WATERCRAFT' => 'H2O',
 					'MOTORCYCLE' => 'MOTORCYCLE',
@@ -76,7 +76,7 @@ class ARIOEMAPI_Translate
 					'SLINGSHOT' => 'SLINGSHOT',
 				),
 				'VIC' => array(
-					'VIC' => '',
+					'VIC' => 'MOTORCYCLE',
 				),
 				'YAM' => array(
 					'ALL TERRAIN VEHICLE' => 'ATV',

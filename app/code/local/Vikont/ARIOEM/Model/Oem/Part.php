@@ -159,6 +159,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 //					'id' => $dbData['id'],
 					'supplier_code' => $dbData['supplier_code'],
 					'name' => $dbData['part_name'], // overriding the name in case TMS corrected that
+					'uom' => $dbData['uom'],
 
 					'cost' => $dbData['cost'],
 					'msrp' => $dbData['msrp'],

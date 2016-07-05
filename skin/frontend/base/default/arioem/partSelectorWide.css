@@ -112,6 +112,25 @@
 	font-size: 18px;
 	padding: 0;
 }
+
+.arioem-wide .arioem-shopList-title-tip {
+    font-size: 11px;
+}
+.arioem-wide .arioem-shopList-title-tip-icon {
+    border-radius: 10px;
+    display: inline-block;
+    font-weight: bold;
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+}
+.arioem-wide .arioem-shopList-title-tip-text {
+    height: 20px;
+    line-height: 20px;
+    right: 25px;
+    top: 5px;
+}
+
 .arioem-wide .arioem-shopList table {
 	display: block;
 	margin: 0;
@@ -156,6 +175,7 @@
 
 .arioem-wide .arioem-shopList tbody td {
 	padding: 5px 3px;
+	font-size: 11px;
 }
 .arioem-wide .arioem-shopList-descr {
 	width: 300px;

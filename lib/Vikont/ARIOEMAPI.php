@@ -744,6 +744,24 @@ class Vikont_ARIOEMAPI
 
 
 
+	public function parseParent($params, &$data)
+	{
+		$isParent = @$params['isParent'];
+
+		if ($isParent) {
+			foreach($data as &$item) {
+				$item['name'] = trim(ltrim($item['name'], '0123456789'), ' ,');
+			}
+		} else {
+			foreach($data as &$item) {
+				$item['isParent'] = true;
+			}
+		}
+		return $isParent;
+	}
+
+
+
 	public function convertValues($action, $params, &$data)
 	{
 		$brand = isset($params['brand'])
@@ -822,6 +840,9 @@ class Vikont_ARIOEMAPI
 			case 'model':
 				switch ($brand) {
 					case 'BRP':
+						$this->parseParent($params, $data);
+						break;
+
 					case 'BRP_SEA':
 						if (1 == count($data) && 'SPYDER' == strtoupper($data[0]['name'])) {
 							$params['parentId'] = $data[0]['id'];
@@ -844,6 +865,8 @@ class Vikont_ARIOEMAPI
 								);
 							}
 							$data = array_values($data);
+						} else {
+							$this->parseParent($params, $data);
 						}
 						break;
 
@@ -922,9 +945,23 @@ class Vikont_ARIOEMAPI
 
 			case 'assembly':
 				switch ($brand) {
+					case 'BRP':
+						foreach($data as &$item) {
+							$item['name'] = ltrim($item['name'], '0123456789- ');
+
+							$_pos = strrpos($item['name'], '_');
+							if (false !== $_pos) {
+								$item['name'] = rtrim(substr($item['name'], 0, $_pos));
+							}
+
+							$item['name'] = str_replace('_', ' ', $item['name']);
+						}
+						break;
+
 					case 'BRP_SEA':
-						foreach($data as $index => $item) {
-							$item['name'] = trim(preg_replace('/([^\D\s]|_)/i', '', $item['name']));
+						foreach($data as &$item) {
+							$item['name'] = ltrim($item['name'], '0123456789\- ');
+							$item['name'] = rtrim(str_replace('2_Sea-Doo', '', $item['name']));
 						}
 						break;
 
@@ -951,24 +988,27 @@ class Vikont_ARIOEMAPI
 
 	public function processAssembly($params, $action)
 	{
-		if(!isset($params['parentId'])) {  // parentId for the root nodes
-			$params[] = -1;
+		$requestParams = array(
+			'brand' => @$params['brandCode'],
+			'parentId' => (isset($params['parentId'])
+				?	$params['parentId']
+				:	-1 ), // parentId for root nodes
+		);
+
+		$data = $this->request($this->_config['ari']['calls']['node_children'], $requestParams);
+
+		if(!isset($data['Data'])) {
+			throw new Exception('No Data key in result');
 		}
 
 		$result = array(
-			'parentId' => $params['parentId'],
-			'res' => array()
+			'parentId' => $requestParams['parentId'],
+			'res' => array(),
 		);
 
 		if (isset($params['partId'])) {
 			$result['partId'] = $params['partId'];
-			unset($params['partId']);
-		}
-
-		$data = $this->request($this->_config['ari']['calls']['node_children'], $params);
-
-		if(!isset($data['Data'])) {
-			throw new Exception('No Data key in result');
+//			unset($params['partId']);
 		}
 
 		foreach($data['Data'] as $item) {
@@ -1036,6 +1076,7 @@ class Vikont_ARIOEMAPI
 					'name' => trim(	$oemData[$sku]['part_name']
 						?	$oemData[$sku]['part_name']
 						:	$part['Description'] ),
+					'uom' => $oemData[$sku]['uom'],
 					'msrp' => ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']), //$part['MSRP'],
 					'price' => $price,
 					'hidePrice' => $oemData[$sku]['hide_price'],
@@ -1149,9 +1190,32 @@ class Vikont_ARIOEMAPI
 						'hash' => $yearHash,
 					);
 					$modelData = $this->processAssembly(array('brandCode' => $brandCode, 'parentId' => $yearRecord['id']), 'model');
+
+					// checkig for parent model, if specified
+					$parentModelHash = @$params['parentModel'];
+					if($parentModelHash) {
+						$parentModelRecord = arraySearchByField($modelData['res'], 'hash', $parentModelHash);
+						if(!$parentModelRecord) {
+							throw new Exception(sprintf('OEM HASH ERROR: brand=%s (%s) vehicle=%s (%s) (%d) year=%s (%s) (%d) model=%s, PARENT MODEL NOT FOUND',
+									$brandHash, $brandCode, 
+									$vehicleHash, $vehicleRecord['name'], $vehicleRecord['id'],
+									$yearHash, $yearRecord['name'], $yearRecord['id'],
+									$parentModelHash
+								));
+						}
+						$result['state']['parentModel'] = array(
+							'code' => $parentModelRecord['id'],
+							'name' => $parentModelRecord['name'],
+							'hash' => $parentModelHash,
+						);
+						$result['parentModel'] = $modelData;
+						// here we need to repeat the last request with a new parentId from the parent model
+
+						$modelData = $this->processAssembly(array('brandCode' => $brandCode, 'parentId' => $parentModelRecord['id']), 'model');
+					}
+
 					$result['model'] = $modelData;
 
-					// checkig for model
 					$modelHash = @$params['model'];
 					if($modelHash) {
 						$modelRecord = arraySearchByField($modelData['res'], 'hash', $modelHash);
@@ -1267,8 +1331,14 @@ class Vikont_ARIOEMAPI
 
 	public function hashName($value)
 	{
-//		return strtolower(preg_replace('/[^A-Za-z0-9\/-]/', '_', $value));
-		return strtolower(trim(str_replace(array(' ', '#', '&', '=', '-'), '_', $value)));
+//		$res = strtolower(trim(str_replace(array(' ', '#', '&', '=', '-', '/'), '_', $value)));
+		$res = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $value));
+
+		do {
+			$res = str_replace('__', '_', $res, $count);
+		} while ($count);
+
+		return $res;
 	}
 
 
@@ -1458,6 +1528,7 @@ class Vikont_ARIOEMAPI
 						'name' => trim(	$oemData[$sku]['part_name']
 									?	$oemData[$sku]['part_name']
 									:	$part['Description'] ),
+						'uom' => $oemData[$sku]['uom'],
 						'msrp' => ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']),
 						'price' => $price,
 						'hidePrice' => (int)$oemData[$sku]['hide_price'],
