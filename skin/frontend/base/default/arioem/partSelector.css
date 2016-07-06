@@ -89,7 +89,7 @@ li.arioem-step-selected .arioem-step-control-header-reset {
 	background: #000 none repeat scroll 0 0;
 	color: #fff;
 	font-family: tahoma;
-	font-size: 23px;
+	font-size: 22px;
 	font-weight: 500;
 	text-transform: uppercase;
 }
@@ -213,7 +213,7 @@ li.arioem-step-selected .arioem-step-control-header-reset {
 }
 .arioem-step-content-title {
 	margin: 2px;
-	padding: 16px 20px;
+	padding: 11px 20px;
 	font-size: 20px;
 	background-color: #000;
 	color: #fff;
