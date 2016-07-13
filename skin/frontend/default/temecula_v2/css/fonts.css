@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'TradegothicLT Bold';
+    src: url("../fonts/tradegothic/Trade Gothic LT Bold.ttf");
+}
+
+@font-face {
+    font-family: 'TradegothicLT';
+    src: url("../fonts/tradegothic/Trade Gothic LT.ttf");
+}
+
+@font-face {
+    font-family: 'HelveticaLT Bold';
+    src: url("../fonts/helvetica/Helvetica LT Bold.ttf");
+}
+
+@font-face {
+    font-family: 'HelveticaLT Black';
+    src: url("../fonts/helvetica/Helvetica LT Black.ttf");
+}
+
+@font-face {
+    font-family: 'Helvetica';
+    src: url("../fonts/helvetica/Helvetica CE Regular.ttf");
+}
+
+@font-face {
+    font-family: 'Tradegothic BoldCondTwenty';
+    src: url("../fonts/tradegothic-boldcondtwenty-webfont.ttf");
+}
+
+@font-face {
+    font-family: 'HelveticaOrig';
+    src: url("../fonts/helvetica/Helvetica.otf");
+}
+
+@font-face {
+    font-family: 'MicroTechnicExtBold';
+    src: url("../fonts/microtechnicextbold-opentype.otf");
+}
+
+@font-face {
+    font-family: 'DinBold';
+    src: url("../fonts/din/DIN-Bold.otf");
+}
+
+@font-face {
+    font-family: 'Industry';
+    src: url("../fonts/Industry.ttf");
+}
+
+@font-face {
+    font-family: 'UnitedSansBold';
+    src: url("../fonts/Unitedsans/unitedsansrgbd.ttf");
+}
+@font-face {
+    font-family: 'UnitedSansHeavy';
+    src: url("../fonts/Unitedsans/unitedsansrghv.ttf");
+}
+@font-face {
+    font-family: 'FontAwesome';
+    src: url("../fonts/fontawesome/fontawesome-webfont.ttf");
+}

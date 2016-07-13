@@ -1,0 +1,67 @@
+/* Basic jQuery Slider essential styles */
+
+ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
+li.bjqs-slide{position:absolute; display:none;}
+ul.bjqs-controls{list-style:none;margin:0;padding:0;z-index:9999;}
+ul.bjqs-controls.v-centered li a{
+    position:absolute;
+    width: 56px;
+    line-height: 56px;    
+}
+ul.bjqs-controls.v-centered li.bjqs-next a{right:36px; background: url(../../images/slider/banner-next-prev.png) -56px 0 no-repeat; text-indent: -9999px}
+ul.bjqs-controls.v-centered li.bjqs-prev a{    
+    left: 36px;
+    background: url(../../images/slider/banner-next-prev.png) 0 0 no-repeat;
+    text-indent: -9999px
+}
+
+ol.bjqs-markers{list-style: none; padding: 0; margin: 0; width:100%;}
+
+ol.bjqs-markers li {
+    display: inline-block;    
+    margin-right: 10px;
+}
+
+ol.bjqs-markers {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    position: relative;
+    left: 54px;
+    text-align: left;
+    top: -58px;
+    z-index: 999;
+    font-size: 22px;
+}
+
+ol.bjqs-markers.h-centered{text-align: center;}
+ol.bjqs-markers li a{
+    display:inline-block; 
+    color: #ff1f23; 
+    width: 37px;
+    height: 37px;
+    line-height: 16px;
+    text-align: center; 
+    font-size: 18px;  
+    background: url(../../images/slider/banner-nav-bg2-1.png) -37px 0 no-repeat;
+    padding-top: 10px;
+}
+
+ol.bjqs-markers li.active-marker{}
+ol.bjqs-markers li.active-marker a{color: #fff; background: url(../../images/slider/banner-nav-bg2-1.png) -74px 0 no-repeat; }
+ol.bjqs-markers li a:hover{ background: url(../../images/slider/banner-nav-bg2-1.png) 0 0 no-repeat; text-decoration: none;}
+
+p.bjqs-caption{display:block;width:96%;margin:0;padding:2%;position:absolute;bottom:0;}
+
+span.banner-tooltip {
+    color: #fff;
+    position: absolute;
+    bottom: 50px;
+    font-size: 10px;
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+    text-transform: uppercase;
+    margin-left: -26px;
+}

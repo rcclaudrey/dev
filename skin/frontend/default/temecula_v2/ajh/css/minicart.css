@@ -1,0 +1,225 @@
+.header-minicart {
+    cursor: pointer;
+}
+
+#topCartContent {
+    margin-bottom: 0;
+    position: absolute;
+    visibility: hidden;
+    right: 0;
+    top: 50px;
+    width: 270px;
+    z-index: 200;
+    background: lightgray;
+}
+
+#topCartContent .inner-wrapper {
+    margin: 2px;
+    border: 2px solid #3F3F3F;
+    font-weight: bold;
+    background: url("../images/top-cart-bg.gif") repeat scroll 0 0 #e7e7e7;
+    color: black;
+}
+
+.top-cart {
+    position: relative;
+}
+.top-cart.no-items .block-subtitle {
+    display: none;
+}
+.cart-empty {
+    padding: 20px 10px;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#topCartContent p.subtotal,
+#topCartContent div.actions {
+    text-align: center;
+}
+
+#topCartContent p.subtotal span.price {
+    float: right;
+    padding: 0 10px;
+}
+
+#topCartContent .header-minicart .block-subtitle {
+    margin: 0 0 10px;
+    font-weight: normal;
+    color: white;
+}
+#topCartContent .inner-wrapper p.block-subtitle {
+    padding: 10px;
+    border-bottom: 1px solid black;
+    font-size: 12px;
+    font-weight: bold;
+    background:url('../images/top-cart-list-header-bg.gif') 0 0 repeat scroll transparent;
+    color: #000;
+}
+#topCartContent .inner-wrapper p.block-subtitle .close-btn {
+    display: none;
+}
+
+#add_cart_popup_window_top {
+    display:none
+}
+
+#add_cart_popup_window .top.table_window,
+#add_cart_popup_window .magento_w,
+#add_cart_popup_window .magento_e,
+#add_cart_popup_window .magento_content {
+    background: none repeat scroll 0 0 #e7e7e7;
+}
+
+#add_cart_popup_window_content p {
+    padding: 10px 0 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#featured-products div.tags{
+    position:absolute; top:3px; left:1px
+}
+
+p.availability.out-of-stock-list {
+    background: url(../images/out_of_stock.jpg) no-repeat;
+    height: 30px;
+    width: 126px;
+    text-indent: -9999px;
+    margin-top: -1px;
+    margin-left: -1px;
+    position: absolute;
+}
+
+/*div.product-view div.tags {
+    position:absolute; top:-4px; left:0px
+}*/
+
+.tags.closeout_tag{
+
+}
+
+div.tags.second {
+    left: 120px !important;
+}
+
+div.tags.last {
+    left: 220px !important;
+}
+
+.cms-index-index div.tags.last {
+    display: none !important;
+}
+
+.catalog-category-view .products-grid div.tags.last,
+.catalogsearch-result-index .products-grid div.tags.last
+{
+    display: none !important;
+}
+
+
+#topCartContent li.item {
+    position: relative;
+    padding:10px;
+    border-bottom: solid 1px #C3C3C3;
+}
+#topCartContent li a.product-image {
+    float: none;
+    width: auto;
+    margin: 0 10px 0 0;
+    border: medium none;
+}
+#topCartContent li a.product-image img {
+    max-width: 28px;
+    max-height: 28px;
+}
+#topCartContent li .product-details {
+    display: inline-block;
+}
+#topCartContent li .product-details .truncated a {
+    color: red;
+    cursor: help;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+#topCartContent li .product-details .btn-remove {
+    position: absolute;
+    right: 8px;
+    top: 10px;
+}
+#topCartContent li .product-details .btn-edit {
+    display:none;
+}
+#topCartContent li .product-details .product-name {
+    display: inline-block;
+    width: 110px;
+}
+#topCartContent li .product-details .product-name a {
+    color: #000;
+}
+#topCartContent li .product-details strong {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+#topCartContent li .product-details .price {
+    display: inline-block;
+    color: #ff3841;
+}
+#topCartContent table {
+    border-bottom: 1px solid #c3c3c3;
+    width: 100%;
+}
+#topCartContent table th {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 24px;
+}
+#topCartContent table .topcart-col-part {
+    width: 150px;
+    padding: 0 0 0 10px;
+}
+#topCartContent table .topcart-col-qty {
+    width: 30px;
+    text-align: center;
+}
+#topCartContent table .topcart-col-price {
+    padding-left: 10px;
+}
+
+#topCartContent p.subtotal {
+    background: none repeat scroll 0 0 #3c3c3c;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px;
+    text-align: left;
+}
+#topCartContent .actions div {
+    margin: 14px 4px;
+    background-color: #DE1F27;
+}
+#topCartContent .actions div button {
+    width: 100%;
+}
+#topCartContent .actions button.button > span {
+    line-height: 40px;
+    background: none;
+}
+#topCartContent .actions button.button span span {
+    background: url("../images/checkout-cart.gif") no-repeat scroll left center transparent;
+    display: inline;
+    font-family: Arial,Helvetica,Sans-serif !important;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 40px;
+    padding: 0 0 0 40px;
+}
+
+.mini-products-list .product-details {
+    margin-left: auto;
+}
+.header-minicart .mini-products-list {
+    background: none;
+}

@@ -1,0 +1,104 @@
+@font-face {
+    font-family: 'HelveticaLT Bold';
+    src: url("../fonts/helvetica/Helvetica LT Bold.ttf");
+}
+@font-face {
+    font-family: 'Helvetica';
+    src: url("../fonts/helvetica/Helvetica CE Regular.ttf");
+}
+
+#navv2 .level-top.parent.over ul.level0, #navv2 .level-top.parent.active ul.level0 {    
+    /*min-width: 930px;*/
+    top: 94px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+#navv2 ul.level0 li.level1 {    
+    padding-left:20px;    
+    float: left;
+}
+#navv2 ul.level0 li.level1 a span {
+    text-transform: uppercase;
+    color: #000;
+    font-weight: bold;    
+    padding-left: 8px;
+    width: 105px;
+    font-family: "HelveticaLT Bold";
+}
+
+#navv2 ul.level0 li.level1 a span:hover{
+    text-decoration: underline;
+}
+
+#navv2 .level-top.parent.over ul.level0 li.level1 a:hover span, 
+#navv2 ul.level0 li.level1.over a.over span, 
+#navv2 ul.level0 li.level1.active a.active-a span {
+    color: #000;
+    text-transform: uppercase;    
+}
+
+#navv2 ul.level0 li.level1 ul.level1 li.level2 a span {
+    text-transform: uppercase;
+    color: #7c7c7c;
+    font-weight: normal;
+    padding: 5px 0px 5px 8px;
+    font-family: "Helvetica";
+}
+
+#navv2 ul.level0 li.level1 ul.level1 li.level2.over a.over span {
+    padding: 5px 0px 5px 8px;
+    background-color: #f00;
+    color: #fff;
+}
+
+#navv2 ul.level0 li.level2.active a.active-a span, #navv2 ul.level0 li.level3.active a.active-a span, #navv2 ul.level0 li.level4.active a.active-a span, #navv2 ul.level0 li.level5.active a.active-a span {
+    color: #7e7e7e;
+}
+#navv2 .level-top.parent.over ul.level0 li.level2 a:hover span {
+    color: #de1f27;
+}
+#navv2 ul.level0 {
+    width: 948px;
+}
+
+/* Corrective CSS for Nav */
+ul.nav-ul-v2 li a span {
+    font-size:12px;
+}
+ul.level0.shown-sub {
+    margin:3px 0px 0px 0px;
+    border: solid 1px #939393;
+}
+ul.level0.shown-sub li a span {
+    font-size:11px;
+}
+.featured-brands-menu li a {
+    font-size:12px !important;
+}
+
+ul.level2 li a {
+    padding:7px 0px 7px 0px !important;
+}
+.nav-links {
+    display:block;
+    margin:10px 0px 10px 0px\9;
+}
+
+.nav-links-loader {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 125px;
+    z-index: 1;
+    background-color: #000;
+    opacity: .5;
+}
+
+
+ul.level1 {
+    margin-top: 9px;
+}
+
+li.level2 {
+    padding-bottom: 2px;
+}

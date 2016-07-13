@@ -1,0 +1,340 @@
+.tireshop-content {
+	margin: 20px 0;
+    border: 1px solid #000;
+}
+.tireshop-content h3.rlabel {
+    float: left;
+    position: relative;
+    margin: 0 0 15px;
+    padding: 0 35px 0 20px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    line-height: 48px;
+    background: url("../images/tireshop/content/bg-red-ts-pattern.gif") repeat scroll 0 0 transparent;
+    color: #fff;
+}
+.tireshop-content h3.rlabel span {
+    background: url("../images/tireshop/content/img-white-cut.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 34px;
+}
+.cms-page-view .col-main .tireshop-content p {
+	clear: both;
+    font-size: 13px;
+    margin: 20px 20px 15px;
+}
+.tireshop-content .dimensions {
+	position: relative;
+    height: 500px;
+	margin: 20px 0 0;
+	/*border: solid 1px #aaa;*/
+	background-color: #000;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+	background-size: contain;
+}
+.tireshop-content .dimensions.dimensions-street {	background-image: url('../images/tireshop/content/measurements/street.jpg');	}
+.tireshop-content .dimensions.dimensions-cruiser {	background-image: url('../images/tireshop/content/measurements/cruiser.jpg');	}
+.tireshop-content .dimensions.dimensions-dirt {	background-image: url('../images/tireshop/content/measurements/dirt.jpg');	}
+.tireshop-content .dimensions.dimensions-adventure {	background-image: url('../images/tireshop/content/measurements/adventure.jpg');	}
+.tireshop-content .dimensions.dimensions-atv {	background-image: url('../images/tireshop/content/measurements/atv.jpg');	}
+.tireshop-content .dimensions.dimensions-utv {	background-image: url('../images/tireshop/content/measurements/utv.jpg');	}
+.tireshop-content .dimensions.dimensions-scooter {	background-image: url('../images/tireshop/content/measurements/scooter.jpg');	}
+
+.tireshop-content .dimensions-tips {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    padding: 20px 15px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+	background-color: #000;
+}
+.tireshop-content .dimensions-tips-header {
+	margin: 0 0 10px;
+	color: #fff;
+}
+.tireshop-content .dimensions-tips dt {
+	margin: 15px 0 3px;
+	color: #d4914d;
+}
+.tireshop-content .dimensions-tips dd {
+	margin: 0;
+	padding: 0;
+	color: #8e9295;
+}
+.tireshop-content .dimensions-sizes {}
+.tireshop-content .dimensions-sizes-title {}
+.tireshop-content .dimensions-sizes-value {}
+.tireshop-content .dimensions-sizes-total {}
+
+
+.tireshop-content .terms-definitions {
+    clear: both;
+    margin: 20px;
+}
+.tireshop-content .terms-definitions dt {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    text-transform: uppercase;
+}
+.tireshop-content .terms-definitions dd {
+	margin: 10px 0;
+	padding: 0;
+	font-size: 13px;
+}
+
+.tireshop-content .speedRating-chart {
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    margin: 20px 0;
+    text-align: center;
+}
+.tireshop-content .speedRating-chart thead {
+    background-color: #888;
+    border-collapse: separate;
+    color: #fff;
+    font-weight: bold;
+}
+.tireshop-content .speedRating-chart th {
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    padding: 3px 20px;
+    text-align: center;
+}
+.tireshop-content .speedRating-chart td {
+    border: 1px solid #aaa;
+    padding: 3px 20px;
+    text-align: center;
+}
+
+.tireshop-content .dimensions-sizes {
+    background-color: #191919;
+    list-style: outside none none;
+    margin: 0 0 40px;
+    padding: 20px 0;
+    text-transform: uppercase;
+}
+.tireshop-content .dimensions-sizes li {
+    border-right: 1px solid #333;
+    color: #f8f8f8;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    width: 190px;
+}
+.tireshop-content .dimensions-sizes-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+.tireshop-content .dimensions-sizes-value {
+    color: #fd9407;
+    font-size: 34px;
+    line-height: 30px;
+}
+.tireshop-content .dimensions-sizes .dimensions-sizes-total {
+    border: medium none;
+    font-size: 50px;
+    width: 360px;
+    line-height: 50px;
+}
+.tireshop-content .dimensions-sizes .dimensions-sizes-total-street {
+	font-size: 38px;
+}
+.tireshop-content .dimensions-sizes .dimensions-sizes-total-cruiser {
+	font-size: 38px;
+}
+.tireshop-content .dimensions-sizes .dimensions-sizes-total-scooter {
+	/*font-size: 38px;*/
+}
+
+
+.tireshop-content .tireConstruction {
+	position: relative;
+	margin: 20px 0;
+	min-height: 500px;
+	background: no-repeat scroll 50% 50% transparent;
+}
+.tireshop-content .tireConstruction-popup {
+	position: absolute;
+	width: 200px;
+	padding: 10px 20px;
+	border: 1px solid #aaa;
+	background-color: #ddd;
+}
+.tireshop-content .tireConstruction-popup-title {
+	margin: 0 0 10px;
+	padding: 0 0 10px;
+	border-bottom: 1px solid #aaa;
+	font-size: 20px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.tireshop-content .tireConstruction-popup-radial {
+	left: 50px;
+	top: 20px;
+}
+.tireshop-content .tireConstruction-popup-belted {
+	left: 620px;
+	top: 140px;
+}
+.tireshop-content .tireConstruction-popup-biasPly {
+	left: 40px;
+	top: 340px;
+}
+.tireshop-content .tireConstruction-street {
+	background-image: url("../images/tireshop/content/construction/street.jpg");
+}
+.tireshop-content .tireConstruction-cruiser {
+	background-image: url("../images/tireshop/content/construction/cruiser.jpg");
+}
+.tireshop-content .tireConstruction-scooter {
+	background-image: url("../images/tireshop/content/construction/scooter.jpg");
+}
+.tireshop-content .tireConstruction-dirt {
+	background-image: url("../images/tireshop/content/construction/dirt.jpg");
+}
+.tireshop-content .tireConstruction-adventure {
+	background-image: url("../images/tireshop/content/construction/adventure.jpg");
+}
+.tireshop-content .tireConstruction-atv {
+	background-image: url("../images/tireshop/content/construction/atv.jpg");
+}
+.tireshop-content .tireConstruction-utv {
+	background-image: url("../images/tireshop/content/construction/utv.jpg");
+}
+
+
+.tireshop-content .loadRating-chart {
+	float: left;
+    margin: 20px 80px 20px 0;
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    text-align: center;
+}
+.tireshop-content .loadRating-chart thead {
+    background-color: #666;
+    border-collapse: separate;
+    color: #fff;
+    font-weight: bold;
+}
+.tireshop-content .loadRating-chart th {
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    padding: 3px 20px;
+    text-align: center;
+}
+.tireshop-content .loadRating-chart td {
+    border: 1px solid #aaa;
+    padding: 3px 30px;
+    text-align: center;
+}
+
+
+.tireshop-content .tireDesignationsCharts-container {
+    clear: both;
+    margin: 20px 20px 40px;
+}
+.tireshop-content .tireDesignationsCharts-decipher {
+    float: left;
+    width: 50%;
+    background: url("../images/tireshop/content/tire-designations-chart.jpg") no-repeat scroll 50% 50% transparent;
+    height: 480px;
+}
+.tireshop-content .tireDesignationsCharts-tables-title {
+	font-size: 18px;
+	text-transform: uppercase;
+}
+.tireshop-content .tireDesignationsCharts-tables table {
+	border: 1px solid #aaa;
+	border-collapse: collapse;
+	margin: 10px 0 20px;
+	font-size: 13px;
+	text-align: center;
+}
+.tireshop-content .tireDesignationsCharts-tables th {
+	background-color: #666;
+	border: 1px solid #aaa;
+	color: #fff;
+	min-width: 80px;
+	padding: 5px 20px;
+	text-align: center;
+}
+.tireshop-content .tireDesignationsCharts-tables td {
+	border: 1px solid #aaa;
+	padding: 3px 20px;
+	text-align: center;
+}
+
+.tireshop-content .wheelSizing-container {
+    clear: both;
+    margin: 20px;
+}
+.tireshop-content .wheelSizing-container dl {}
+.tireshop-content .wheelSizing-container dt {
+	margin: 20px 0 10px;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.tireshop-content .wheelSizing-container dd {
+	margin: 10px 0 20px;
+	padding: 0;
+	font-size: 13px;
+}
+.tireshop-content .wheelSizing-container dd.strong {
+	padding-right: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.tireshop-content .wheelSizing-chart {
+	height: 250px;
+	background: url(../images/tireshop/content/wheel-sizing-chart.jpg) no-repeat scroll transparent 50% 50%;
+}
+
+.tireshop-content .safety-warning {
+	clear: both;
+	margin: 40px 20px;
+}
+.tireshop-content .safety-warning dt {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 20px 0 10px;
+	text-transform: uppercase;
+}
+.tireshop-content .safety-warning dd {
+	font-size: 13px;
+	margin: 10px 0 20px;
+	padding: 0;
+}
+
+.tireshop-content a.backToTop {
+    display: block;
+    margin: 20px 20px 40px;
+    font-size: 18px;
+    text-align: right;
+    text-transform: uppercase;
+    color: #000;
+}
+.tireshop-content a.backToTop:hover {
+    color: #de1f27;
+}
+
+.tireshop-shopbyall {
+	text-align: center;
+}
+.tireshop-shopbyall .tireshop-goSearch {
+	width: auto;
+	padding: 10px 30px;
+	font-size: 14px;
+	font-weight: bold;
+}

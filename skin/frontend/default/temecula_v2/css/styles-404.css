@@ -1,0 +1,48 @@
+/* Page 404 */
+
+#page-404,
+#page-503,
+#page-report {
+    background: url(../images/404/page-404-bg.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.page-404-wrap {
+    margin-top: 240px;
+}
+
+.page-404-message {
+    color: #1c1818;
+    font-size: 46px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 60px;
+}
+
+span.page-404-text {
+    color: #d52027;
+    font-size: 46px;
+    font-weight: bold;
+}
+
+.page-404-note{
+    font-size: 19px;
+    color: #1c1818;
+    background: url(../images/404/404-note-bg.png) no-repeat center center;
+    margin-top: 12px;
+    line-height: 31px;
+}
+.page-404-btn {
+	margin: 20px 0 60px;
+}
+.page-404-btn button{
+    background: url(../images/404/404-button.png) no-repeat center center;
+    border: none;
+    width: 171px;
+    height: 46px;
+    margin-top: 15px;
+    cursor: pointer;
+}

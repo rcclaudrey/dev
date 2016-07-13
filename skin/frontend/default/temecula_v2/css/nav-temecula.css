@@ -1,0 +1,311 @@
+/********** < Navigation */
+#navv2 h3 {
+    font-size:14px;
+    border-bottom:1px solid #737373;
+    padding:0 0 3px;
+    display:inline;
+}
+#navv2 li.headrmenu {
+    margin:0 0 15px
+}
+
+#navv2 a, #navv2 a:hover {
+    display:block;
+    line-height:1.3em;
+    text-decoration:none;
+}
+#navv2 span {
+    display:block;
+    cursor:pointer;
+    white-space:nowrap;
+}
+#navv2 li ul span {
+    white-space:normal;
+}
+
+.nav-links {
+    background: url(../images/header/nav-link-bg.gif) 0 0 repeat-x;
+    position:relative;
+    float:left;
+    width:100%;
+    margin:10px 0 0
+}
+.nav-links .li-first {
+    background:url(../images/header/nav-bor-top-left.gif) 0 0 no-repeat;
+    width:16px;
+    height:15px;
+    position:absolute;
+    top:0;
+    left:0
+}
+.nav-links .li-last {
+    background:url(../images/header/nav-bor-top-right.gif) 0 0 no-repeat;
+    width:15px;
+    height:15px;
+    position:absolute;
+    top:0;
+    right:0
+}
+/* 0 Level */
+.nav-links ul.nav-ul-v2 {
+}
+.nav-links ul.nav-ul-v2 li.level-top {
+    background: url("../images/header/nav-pic-divide.gif") no-repeat scroll right 0 rgba(0, 0, 0, 0);
+    display: inline-block;    
+    text-align: center;
+    width: 10%
+}
+.nav-links ul.nav-ul-v2 li.last.level-top {
+    background:none
+}
+.nav-links ul.nav-ul-v2 li.level-top a.level-top {
+    bottom: 0;
+    color: #fff;
+    font-size: 11px;
+    height: 100%;
+    margin-top: 10px;
+    padding-top: 60px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.nav-links ul.nav-ul-v2 li.level-top a.level-top span {
+    margin: 5px 0 0;
+    height: 24px;
+}
+.nav-links ul.nav-ul-v2 li.level-top a.level-top.over {
+    color:#fff
+}
+.nav-links ul.nav-ul-v2 li.level-top.parent a.level-top.over span, .nav-links ul.nav-ul-v2 li.level-top.parent.active a.level-top span {
+    background:url(../images/header/ico-down.jpg) bottom center no-repeat;
+}
+
+#navv2 ul a, #navv2 ul a:hover {
+    float:none;
+}
+
+/* 2nd Level */
+#navv2 ul.level0 {
+    position:absolute;
+    width:15em;
+    top:109px;
+    left:-10000px;
+    text-align:left;
+}
+#navv2 div ul {
+    position:static;
+    width:auto;
+    border:none;
+}
+
+/* Show menu */
+#navv2 li ul.shown-sub, #navv2 li div.shown-sub {    
+    z-index:100;
+}
+#navv2 li .shown-sub ul.shown-sub, #navv2 li .shown-sub li div.shown-sub {
+}
+/********** Navigation > */
+/* ======================================================================================= */
+li.level1.parent a.over span {
+    
+}
+li.level2.parent a.over span {
+    color: #fff !important;
+    background-color: #fa1f23;
+}
+
+li.level1 {
+    background:none;
+    padding:0;
+    margin:0
+}
+
+#navv2 ul.level1.shown-sub li.featured-brands-menu {
+    position:absolute;
+    right:25px;
+    top:25px
+}
+#navv2 ul.level1.shown-sub li.featured-brands-menu ul {
+    position:static
+}
+#navv2 ul.level1.shown-sub li.featured-brands-menu ul li a {
+    display:block;
+    font-size:10px;
+    color:#4b4b4b;
+    text-transform:uppercase;
+    padding:2px 0 3px
+}
+#navv2 ul.level1.shown-sub li.featured-brands-menu ul li a:hover {
+    color:#de1f27;
+    background:none;
+    border:none;
+    padding:2px 0 3px
+}
+#navv2 ul #dd-banner {
+    height: 100%;
+    left: -270px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: auto;
+}
+a.show-more {
+    background: url("../images/catalog/show-more.png") no-repeat;
+    display: inline-block;
+    height: 26px;
+    width: 93px;
+    text-indent: -9999px;
+}
+a.show-less {
+    background: url("../images/catalog/show-less.png") no-repeat;
+    display: inline-block;
+    height: 26px;
+    width: 93px;
+    text-indent: -9999px;
+}
+.show-more-less-li {
+    text-align: center;
+}
+.show-more-less-li a {
+    margin-top: 20px;
+}
+.level0.nav-1.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") 0 0 no-repeat;
+}
+.level0.nav-1.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -950px 0px no-repeat;
+}
+.level0.nav-2.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -95px 0 no-repeat;
+}
+.level0.nav-2.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1045px 0 no-repeat;
+}
+.level0.nav-3.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -190px 0 no-repeat;
+}
+.level0.nav-3.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1140px 0 no-repeat;
+}
+.level0.nav-4.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -285px 0 no-repeat;
+}
+.level0.nav-4.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1235px 0 no-repeat;
+}
+.level0.nav-5.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -380px 0 no-repeat;
+}
+.level0.nav-5.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1330px 0 no-repeat;
+}
+.level0.nav-6.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -475px 0 no-repeat;
+}
+.level0.nav-6.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1425px 0 no-repeat;
+}
+.level0.nav-7.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -570px 0 no-repeat;
+}
+.level0.nav-7.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1520px 0 no-repeat;
+}
+.level0.nav-8.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -665px 0 no-repeat;
+}
+.level0.nav-8.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1615px 0 no-repeat;
+}
+.level0.nav-9.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -760px 0 no-repeat;
+}
+.level0.nav-9.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1710px 0 no-repeat;
+}
+.level0.nav-10.level-top.parent a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -855px 0 no-repeat;
+}
+.level0.nav-10.level-top.parent a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1805px 0 no-repeat;
+}
+.level0.nav-11.level-top a.level-top {
+    background: url("../images/header/menu-ico-hr.png") -950px 0 no-repeat;
+}
+.level0.nav-11.level-top a.level-top:hover {
+    background: url("../images/header/menu-ico-hr.png") -1900px 0 no-repeat;
+}
+
+#navv2 ul.level0 {
+    background: url(../images/header/menu-bg.jpg);
+}
+
+#navv2 ul.level0.shown-sub {
+    left: 0px ;
+}
+
+#navv2 .nav-2 ul.level0.shown-sub {
+    left: 0px;
+}
+#navv2 .nav-3 ul.level0.shown-sub {
+    left: 0px;
+}
+
+#navv2 .nav-4 ul.level0.shown-sub {
+    left: 0px;
+}
+
+#navv2 .nav-5 ul.level0.shown-sub {
+    left: 0px;
+}
+
+#navv2 .nav-6 ul.level0.shown-sub {
+    left: 0px;
+}
+
+#navv2 .nav-7 ul.level0.shown-sub,
+#navv2 .nav-8 ul.level0.shown-sub{
+    left: 0px;
+}
+#navv2 .nav-9 ul.level0.shown-sub{
+    left: 0px;
+
+}
+
+#navv2 .nav-10 ul.level0.shown-sub{
+    left: 0px;
+}
+
+#navv2 .nav-11 ul.level0.shown-sub{
+    left: 190px;
+}
+
+#navv2 .level0.nav-5 ul.level1.shown-sub{
+    left: -72px !important;
+}
+
+#navv2 .level0.nav-6 ul.level1.shown-sub{
+    left: -158px !important;
+}
+
+#navv2 .level0.nav-7 ul.level1.shown-sub{
+    left: -198px !important;
+}
+
+#navv2 .level0.nav-8 ul.level1.shown-sub{
+    left: -198px !important;
+}
+
+#navv2 .level0.nav-9 ul.level1.shown-sub{
+    left: -333px !important;
+}
+
+#navv2 .level0.nav-10 ul.level1.shown-sub{
+    left: -258px !important;
+}
+
+#navv2 ul.level0.shown-sub li.menu-view-all-sub a span{
+    color: #fc0100;
+    font-weight: normal;
+    font-style: italic;
+}

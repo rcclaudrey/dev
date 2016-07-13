@@ -1,0 +1,169 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+.prehead12{
+    background: #434343;
+    height: 44px;
+}
+
+.prehead-content{
+    /*max-width: 930px;*/
+    margin: auto;
+}
+
+.header-container{
+    background: #000;
+}
+
+.prehead-social ul.socials{
+    list-style: none;
+}
+
+.prehead-social ul.socials li{
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.prehead-social {
+    float: left;
+    margin-top: 10px;
+}
+
+.prehead-left.get-free-shipping p{
+    display: inline;    
+    border-bottom: solid 1px #717171;
+}
+
+.prehead-shipping-icon{
+    background: url("../images/free-shipping-icon.png") no-repeat right center;
+    width: 48px;
+    display: inline-block;
+}
+
+.prehead-left.get-free-shipping{
+    background: url("../images/free-shipping-bg.jpg");
+    height: 32px;
+    border: solid 1px #000;
+    float: left;        
+    border-radius: 11px;
+    line-height: 27px;
+    padding: 0px 10px;
+    text-shadow: 0px 1px #fff;
+    font-family: 'TradegothicLT Bold', sans-serif;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.free-shipping-text{
+    color: #f31e28;
+    text-shadow: 0px 1px #fff;
+    font-size: 18px;
+}
+
+.prehead-right ul{
+    list-style: none;    
+}
+
+.prehead-right ul li {
+    display: inline-block;
+    padding: 0px;
+    margin-left: -4px;
+    border: solid 1px #fff;
+}
+
+.prehead-right ul li:nth-child(3){
+    border: none;
+    padding-left: 10px;
+    position: relative;
+    top: -2px;
+}
+
+.prehead-right ul li:nth-child(3) a {
+    background-image: url("../images/header/contact-us-btn.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 110px;
+    height: 16px;
+    text-indent: -9999px;
+}
+
+.prehead-right ul li:first-child a span{
+    color: #fff;
+}
+
+.prehead-right ul li a{
+    color: #fff;
+    background-color: #212121;
+    padding: 7px 8px;
+    display: inline-block;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.prehead-right ul li.header-my-account a {
+    color: #fff !important;
+    background: #212121 url(../images/header/account-icon.png) no-repeat 10px center;
+    padding-left: 28px;
+}
+
+.prehead-right ul li a:hover{
+    text-decoration: none;
+}
+
+.prehead-right ul li:first-child a{
+    color: #f31e28;
+}
+
+.prehead-right {
+    float: right;
+    margin-top: 8px;
+}
+
+.head-contacts{
+    background: #282828;
+    border: solid 1px #888888;
+    padding: 10px 0px 8px;
+    display: none;
+}
+
+.header-container {
+    padding-top: 10px;
+}
+
+.head-contacts ul{
+    padding: 0px;
+    margin: 0px;
+}
+.head-contacts ul li{
+    display: inline-block;
+    color: #fff;
+    width: 33%;
+    text-align: center;    
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.head-contacts ul li span{
+    color: #f31e28;
+}
+
+.head-contacts ul li:nth-child(2){
+    border-right: solid 1px #fff;
+    border-left: solid 1px #fff;
+}
+
+.header-search {
+    float: left;
+    margin-top: 20px;
+    margin-left: 38px;
+}

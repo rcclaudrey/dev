@@ -1,0 +1,221 @@
+.amconf-image{
+    margin: 3px;
+
+    border: solid 2px transparent;
+    padding: 3px;
+}
+
+em{
+    color:red;
+}
+
+.product-image img#amasty_zoom:nth-child(2){
+    display: none;
+} 
+
+#amasty_gallery img{
+    /*display: inline !important;*/
+    cursor: pointer;
+}
+
+.amasty-main-spinner{
+    top: 0;
+}
+
+.zoomLens {
+    background-color: white;
+}
+
+#amasty_zoom{
+    position: relative !important;
+}
+
+.zoomContainer {
+    z-index: 4;
+}
+
+.zoomWindow {
+    z-index: 70000 !important;
+}
+
+.zoomWrapper {
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image {
+    overflow: visible;
+    text-align: center;
+    position: relative;
+}
+
+hr.amconf-hr{
+    -moz-transform: rotate(135deg);  
+    -o-transform: rotate(135deg);  
+    -webkit-transform: rotate(135deg);  
+    -ms-transform: rotate(135deg);  
+    transform: rotate(135deg);  
+    filter:  progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand',  
+        M11=0.9914448613738104, M12=-0.13052619222005157,M21=0.13052619222005157, M22=0.9914448613738104); 
+    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.9914448613738104, M12=-0.13052619222005157, M21=0.13052619222005157, M22=0.9914448613738104,sizingMethod='auto expand')"; 
+
+    zoom: 1;
+    color: white;
+    border-color: white;
+    background-color: white; 
+    position: absolute;
+    top: 9px;  
+    width: 100%;
+    z-index: 4;
+    margin: 0;
+}
+
+.swatch-title{
+    font-weight: 600;
+    position: absolute;
+    padding-left: 3px;
+}
+
+.amconf-image-selected
+{
+    margin: 3px;
+    border-radius: 3px;
+    border: solid 2px #de1f27;
+    padding: 3px;
+}
+
+.amconf-image-outofstock
+{
+    opacity:0.6;
+    filter:alpha(opacity=60); 
+}
+
+.amconf-images-container
+{
+    width: 100%;
+    clear: both;
+    margin-top: 7px;
+}
+
+.amconf-image-container
+{
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    margin-right: 5px;
+    margin-bottom: 3px;  
+}
+
+.amconf-image-title
+{
+    margin-bottom:5px;
+}
+
+#amconf_price_clone_container 
+{
+    float: left;
+}
+#amconf_price_clone_container ul
+{
+    clear: both;
+}
+
+.MagicScrollArrows {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+}
+
+.MagicScrollArrowPrev { 
+    width: 35px;
+    height: 35px;
+    background: url(../images/miscellaneous_sprite_sm.png) 0 -35px no-repeat transparent;
+    left:0;
+}
+
+.MagicScrollArrowNext {
+    width: 35px;
+    height: 35px; 
+    background: url(../images/miscellaneous_sprite_sm.png) -35px -35px no-repeat transparent;
+    right:0;
+}
+
+#nextGallery.disabled, #prevGallery.disabled {
+    opacity: 0.4;
+    filter: alpha(opacity = 40);
+    cursor: default;
+}
+
+.caroufredsel_wrapper {
+    /*margin:0 auto !important;*/    
+}
+
+#amasty_gallery a{
+    text-decoration: none;
+    padding-right: 20px;
+}
+
+#ampagination {
+    text-align: center;
+}
+#ampagination a {
+    background: url(../images/miscellaneous_sprite.png) 0 -300px no-repeat transparent;
+    width: 15px;
+    height: 15px;
+    margin: 0 5px 0 0;
+    display: inline-block;
+}
+#ampagination a.selected {
+    background-position: -25px -300px;
+    cursor: default;
+}
+#ampagination a span {
+    display: none;
+}
+
+.no-display{
+    display: none !important;
+}
+
+.am-swatch-arrow{
+    background: url(../images/swatch_arrow.png);
+    background-color: transparent;
+    position: absolute;
+    text-indent: -9999px;
+    cursor: pointer;
+    z-index: 10;
+    width: 25px;
+    height: 25px;
+    line-height: 0;
+    top: 2px;
+}
+
+.am-swatch-arrow.disabled {
+    opacity: 0.4;
+    filter: alpha(opacity = 40);
+    cursor: default;
+}
+
+.input-box{
+    position: relative;
+}
+
+.am-swatch-prev{
+    background-position: 0px 25px;
+}
+
+.am-swatch-next{
+    right: 0;
+    background-position: -27px 25px;
+    line-height: 0;
+    background-color: #fff;
+}
+
+.am-swatch-prev:not(.disabled):hover {
+    background-position: 0px 52px;
+}
+
+.am-swatch-next:not(.disabled):hover {
+    background-position: -27px 52px;
+}
