@@ -32,6 +32,7 @@ class Vikont_ARIOEM_PartcenterController extends Mage_Core_Controller_Front_Acti
 			if($report->hasWarnings()) {
 				$response['warnings'] = $report->getWarnings();
 			}
+
 			if($report->getError()) {
 				$response['errorMessage'] = $this->__('An error has occurred while adding to Cart');
 			} else {

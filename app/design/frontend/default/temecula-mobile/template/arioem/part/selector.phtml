@@ -3,7 +3,7 @@
 $helper = Mage::helper('arioem');
 
 $brandName = $helper->getCurrentBrandName();
-$brandCode = $helper->brandName2Code($brandName);
+$brandCode = $helper->brandURLNameToARI($brandName);
 if(!$brandCode) {
 	Mage::log('ERROR: ARI OEM: selector.phtml: no brand code found for name='.$brandName);
 	return;

@@ -24,7 +24,7 @@ class Vikont_ARIOEM_Block_Part_Selector extends Mage_Core_Block_Template
 
 		$currentBrand = $helper->getCurrentBrandName();
 		if ($currentBrand) {
-			$currentBrandCode = Vikont_ARIOEM_Helper_Data::brandName2Code($currentBrand);
+			$currentBrandCode = Vikont_ARIOEM_Helper_Data::brandURLNameToARI($currentBrand);
 			if ($currentBrandCode && isset($brands[$currentBrandCode])) {
 				return array($currentBrandCode => $brands[$currentBrandCode]);
 			}

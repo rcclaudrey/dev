@@ -147,8 +147,10 @@ li.arioem-step-selected .arioem-step-control-header-reset {
 .arioem-step-control-vehicle-ranger { background-image: url('vehicles/ranger.png') }
 .arioem-step-control-vehicle-razor { background-image: url('vehicles/razor.png') }
 .arioem-step-control-vehicle-scooter { background-image: url('vehicles/scooter.png') }
+.arioem-step-control-vehicle-side_by_side { background-image: url('vehicles/side_by_side.png') }
 .arioem-step-control-vehicle-slingshot { background-image: url('vehicles/slingshot.png') }
 .arioem-step-control-vehicle-snow { background-image: url('vehicles/snow.png') }
+.arioem-step-control-vehicle-snowmobile { background-image: url('vehicles/snow.png') }
 .arioem-step-control-vehicle-spyder { background-image: url('vehicles/spyder.png') }
 .arioem-step-control-vehicle-utv { background-image: url('vehicles/utv.png') }
 .arioem-step-control-vehicle-watercraft { background-image: url('vehicles/watercraft.png') }
@@ -881,6 +883,7 @@ div.arioem-step-content-part-img-popup-addto {
 }
 div.arioem-step-content-part-img-popup-view {
 	margin-top: 10px;
+	text-align: center;
 }
 .arioem-step-content-part-img-popup-viewInPL,
 .arioem-step-content-part-img-popup-viewPartPage {
@@ -890,6 +893,9 @@ div.arioem-step-content-part-img-popup-view {
 	text-transform: uppercase;
 	color: #de1f27;
 	cursor: pointer;
+}
+.arioem-wholesale .arioem-step-content-part-img-popup-viewPartPage {
+	display: none;
 }
 .arioem-step-content-part-img-popup-viewInPL:hover,
 .arioem-step-content-part-img-popup-viewPartPage:hover {
@@ -970,13 +976,20 @@ div.arioem-step-content-part-img-popup-view {
 .arioem-step-content-part-partlist tbody .arioem-preSelected .arioem-partlist-partNo {
 	color: #fff;
 }
+.arioem-step-content-part-partlist tbody .arioem-preSelected .arioem-partlist-msrp,
+.arioem-step-content-part-partlist tbody .arioem-preSelected .arioem-partlist-price {
+	color: #fff;
+}
 .arioem-step-content-part-partlist tr.arioem-partlist-tr-hover,
 .arioem-step-content-part-partlist tbody tr:hover {
 	background-color: #CDE1C8;
 	color: #000 !important;
 }
 .arioem-step-content-part-partlist tr.arioem-partlist-tr-hover .arioem-partlist-partNo,
-.arioem-step-content-part-partlist tbody tr:hover  .arioem-partlist-partNo {
+.arioem-step-content-part-partlist tbody tr:hover .arioem-partlist-partNo,
+.arioem-step-content-part-partlist tbody tr:hover.arioem-preSelected .arioem-partlist-msrp,
+.arioem-step-content-part-partlist tbody tr:hover.arioem-preSelected .arioem-partlist-price
+{
 	color: #000;
 }
 .arioem-step-content-part-partlist tbody td {
@@ -999,12 +1012,18 @@ div.arioem-step-content-part-img-popup-view {
 	display: block;
 }
 .arioem-step-content-part-partlist .arioem-partlist-partNo {
+	display: inline;
 	font-weight: bold;
 	color: #8c8c8c;
 }
 .arioem-partlist-partNo:hover {
+	color: #d95f6a !important;
 	text-decoration: underline;
 }
+.arioem-wholesale .arioem-partlist-partNo:hover {
+	text-decoration: none;
+}
+
 .arioem-step-content-part-partlist .arioem-partlist-msrp {
 	width: 55px;
 }

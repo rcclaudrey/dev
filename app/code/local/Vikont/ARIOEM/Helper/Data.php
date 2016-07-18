@@ -11,7 +11,7 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 	protected static $_customerCostPercent = null;
 	protected static $_currentBrandName = null;
 
-	protected static $_brands = array(
+	protected static $_brandARICode2Name = array(
 		'ARC'		=> 'Arctic Cat',
 		'BRP'		=> 'Can-Am',
 		'HOM'		=> 'Honda',
@@ -25,22 +25,95 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 		'YAM'		=> 'Yamaha',
 	);
 
+	protected static $_brandShortcode2Name = array(
+		'acat' => 'Arctic Cat',
+		'arcticcat' => 'Arctic Cat',
+		'canam' => 'Can Am',
+		'can-am' => 'Can Am',
+		'honda' => 'Honda',
+		'hondape' => 'Honda PE',
+		'honda-pe' => 'Honda PE',
+		'kawasaki' => 'Kawasaki',
+		'polarsea-doois' => 'Polaris',
+		'seadoo' => 'Sea-Doo',
+		'sea-doo' => 'Sea-Doo',
+		'slingshot' => 'Slingshot',
+		'suzuki' => 'Suzuki',
+		'victory' => 'Victory',
+		'yamaha' => 'Yamaha',
+	);
+
+	protected static $_brandShortcode2ari = array(
+		'acat' => 'ARC',
+		'arcticcat' => 'ARC',
+		'canam' => 'BRP',
+		'can-am' => 'BRP',
+		'honda' => 'HOM',
+		'hondape' => 'HONPE',
+		'honda-pe' => 'HONPE',
+		'kawasaki' => 'KUS',
+		'polaris' => 'POL',
+		'seadoo' => 'BRP_SEA',
+		'sea-doo' => 'BRP_SEA',
+		'slingshot' => 'SLN',
+		'suzuki' => 'SUZ',
+		'victory' => 'VIC',
+		'yamaha' => 'YAM',
+	);
 
 
-	public static function brandName2Code($brandName)
+
+	public static function brandARICode2Name($code)
 	{
-		$brandName = strtolower($brandName);
+		$code = strtoupper($code);
+
+		return isset(self::$_brandARICode2Name[$code])
+			?	self::$_brandARICode2Name[$code]
+			:	false;
+	}
+
+
+
+	public static function brandURLNameToName($urlName)
+	{
+		return isset(self::$_brandShortcode2Name[$urlName])
+			?	self::$_brandShortcode2Name[$urlName]
+			:	false;
+	}
+
+
+
+	protected static function getParsedBrandCodes()
+	{
+		$result = array();
+
 		$lines = explode(',', Mage::getStoreConfig('arioem/ari/ari_brands_codes'));
 
 		foreach($lines as $line) {
-			$line = str_replace(array(',', "\n", "\r", "\t"), '', $line);
+			$line = str_replace(array(' ', ',', "\n", "\r", "\t"), '', $line);
 			if(!$line) continue;
-			@list($brand, $code) = explode('=', $line);
-			if(strtolower(trim($brand)) == $brandName) {
-				return trim($code);
-			}
+			@list($urlCode, $ariCode) = explode('=', $line);
+			$result[strtolower($urlCode)] = strtoupper($ariCode);
 		}
-		return false;
+
+		return $result;
+	}
+
+
+
+	public static function brandURLNameToARI($value)
+	{
+		$brandCode = strtolower($value);
+
+		$parsedCodes = self::getParsedBrandCodes();
+
+		if (isset($parsedCodes[$value])) {
+			return $parsedCodes[$value];
+		}
+
+		return isset(self::$_brandShortcode2ari[$brandCode])
+			?	self::$_brandShortcode2ari[$brandCode]
+			:	false;
 	}
 
 
@@ -149,7 +222,7 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 
 	public function getBrands()
 	{
-		return self::$_brands;
+		return self::$_brandARICode2Name;
 	}
 
 
@@ -184,6 +257,15 @@ class Vikont_ARIOEM_Helper_Data extends Mage_Core_Helper_Abstract
 	public static function convertVehicleNameToImageName($value)
 	{
 		return preg_replace('/[^\w\d\-_]/', '', strtolower($value));
+	}
+
+
+
+	public function isCustomerWholesale()
+	{
+		return
+//			Mage::helper('core')->isModuleEnabled('Vikont_Wholesale') &&
+			Vikont_Wholesale_Helper_Data::isActiveDealer();
 	}
 
 

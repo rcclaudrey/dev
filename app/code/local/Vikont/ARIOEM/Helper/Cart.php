@@ -60,8 +60,9 @@ class Vikont_ARIOEM_Helper_Cart extends Mage_Core_Helper_Abstract
 				if($gainPercent) {
 					$price = $partData['cost'] * (100 + $gainPercent) / 100;
 				} else {
-					$price = $partData['price']
-						?	(float)$partData['price']
+					$origPrice = floatval($partData['price']);
+					$price = $origPrice
+						?	$origPrice
 						:	$price = (float) trim(str_replace(',', '', $part['price']), ' $');
 				}
 			} else {

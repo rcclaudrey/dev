@@ -2,14 +2,18 @@
 
 $brands = $this->getBrands();
 
-$headerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-header')->toHtml();
-$footerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('arioem-brand-footer')->toHtml();
+$headerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('oem-lander-header')->toHtml();
+$footerCmsContent = $this->getLayout()->createBlock('cms/block')->setBlockId('oem-lander-footer')->toHtml();
 $shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHtml();
 
-?>
-<div class="arioem-content">
+$customerIsWholesale = Mage::helper('arioem')->isCustomerWholesale();
 
-	<div class="arioem-brand-header-text"><?php echo $headerCmsContent ?></div>
+?>
+<div class="arioem-content <?php echo $customerIsWholesale ? 'arioem-wholesale' : '' ?>">
+
+	<?php if ($headerCmsContent): ?>
+		<div class="arioem-lander-header"><?php echo $headerCmsContent ?></div>
+	<?php endif ?>
 
 	<ul class="arioem-step-control">
 		<li class="arioem-step-active arioem-step-control-brand" id="arioem-step-control-brand">
@@ -134,7 +138,15 @@ $shoppingListHtml = $this->getLayout()->createBlock('arioem/shoppinglist')->toHt
 			<div class="arioem-step-content-part-partlist">
 				<table>
 					<thead>
-						<tr></tr>
+						<tr>
+							<td class="arioem-partlist-tag"><?php echo $this->__('Tag') ?></td>
+							<td class="arioem-partlist-descr"><?php echo $this->__('Description /Part#') ?></td>
+							<td class="arioem-partlist-msrp"><?php echo $this->__('Retail price') ?></td>
+							<td class="arioem-partlist-price"><?php echo $this->__('Web Price') ?></td>
+							<td class="arioem-partlist-stock"><?php echo $this->__('Stock status') ?></td>
+							<td class="arioem-partlist-qty"><?php echo $this->__('Qty') ?></td>
+							<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1" /></td>
+						</tr>
 					</thead>
 					<tbody>
 					</tbody>
@@ -164,7 +176,9 @@ its own resale price for all parts, apparel and accessories.') ?></p>
 
 	<?php echo $shoppingListHtml ?>
 
-	<div class="arioem-brand-footer-text"><?php echo $footerCmsContent ?></div>
+	<?php if ($footerCmsContent): ?>
+		<div class="arioem-lander-footer"><?php echo $footerCmsContent ?></div>
+	<?php endif ?>
 
 </div>
 
@@ -248,30 +262,12 @@ var OEMPartSelector = function() {return function($) { return {
 			},
 			part: {
 				assemblySelectOption: '<option value="%ASSEMBLY_ID%" ari_hash="%ASSEMBLY_HASH%">%ASSEMBLY_NAME%</option>',
-				wholesale: {
-					tableHeading: '<td class="arioem-partlist-tag">Tag</td>'
-						+ '<td class="arioem-partlist-descr">Description /Part#</td>'
-						+ '<td class="arioem-partlist-msrp">Retail price</td>'
-						+ '<td class="arioem-partlist-price">Price</td>'
-						+ '<td class="arioem-partlist-stock">Stock status</td>'
-						+ '<td class="arioem-partlist-qty">Qty</td>'
-						+ '<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1"/></td>'
-				},
-				regular: {
-					tableHeading: '<td class="arioem-partlist-tag">Tag</td>'
-						+ '<td class="arioem-partlist-descr">Description /Part#</td>'
-						+ '<td class="arioem-partlist-msrp">MSRP</td>'
-						+ '<td class="arioem-partlist-price">Web price</td>'
-						+ '<td class="arioem-partlist-stock">Stock status</td>'
-						+ '<td class="arioem-partlist-qty">Qty</td>'
-						+ '<td class="arioem-partlist-select"><input type="checkbox" onclick="oemPartSelector.partListSelectAllParts(this)" value="1"/></td>'
-				},
 				tableRow: '<tr class="%ROW_CLASS%" ari_part_tag="%PART_TAG%" ari_part_number="%PART_NUMBER%" onclick="oemPartSelector.partListSelectPart(this)">'
 					+ '<td class="arioem-partlist-tag">%PART_TAG%</td>'
 					+ '<td class="arioem-partlist-descr"><span>%PART_DESCRIPTION%%PART_UOM% %PART_SUPERSEDED%</span>'
 					+	'<span class="arioem-partlist-partNo" onclick="oemPartSelector.viewPartPage(event)" title="View part page">%PART_NUMBER%</span>'
 					+ '</td>'
-					+ '<td class="arioem-partlist-msrp">$%PART_MSRP%</td>'
+					+ '<td class="arioem-partlist-msrp">%PART_MSRP%</td>'
 					+ '%PRICE_CELL%'
 					+ '<td class="arioem-partlist-stock">%PART_STOCK%</td>'
 					+ '<td class="arioem-partlist-qty"><input type="text" name="%PART_ID%" value="%PART_QTY%" ari_part_qty="%PART_QTY%" onclick=oemPartSelector.stopEventPropagation(event) /></td>'
@@ -306,7 +302,7 @@ var OEMPartSelector = function() {return function($) { return {
 					1: '<span class="arioem-instock">In stock</span>'
 				},
 				price: {
-					0: '<td class="arioem-partlist-price">$%PART_PRICE%</td>',
+					0: '<td class="arioem-partlist-price">%PART_PRICE%</td>',
 					1: '<td class="arioem-partlist-price arioem-partlist-hidePrice" onclick="oemPartSelector.showHiddenPrice(this, 0)" '
 						+ 'onmouseover="oemPartSelector.showHiddenPrice(this, 1)" onmouseout="oemPartSelector.showHiddenPrice(null, -1)"'
 						+ '>See price in cart</td>'
@@ -347,7 +343,7 @@ var OEMPartSelector = function() {return function($) { return {
 							+		'<span class="arioem-step-content-part-img-popup-value">%MSRP%</span>'
 							+	'</div>'
 							+	'<div class="arioem-step-content-part-img-popup-price">'
-							+		'<span class="arioem-step-content-part-img-popup-label">Price:</span>'
+							+		'<span class="arioem-step-content-part-img-popup-label">Web price:</span>'
 							+		'<span class="arioem-step-content-part-img-popup-value">%PRICE%</span>'
 							+	'</div>',
 						regular: '<div class="arioem-step-content-part-img-popup-msrp">'
@@ -355,7 +351,7 @@ var OEMPartSelector = function() {return function($) { return {
 							+		'<span class="arioem-step-content-part-img-popup-value">%MSRP%</span>'
 							+	'</div>'
 							+	'<div class="arioem-step-content-part-img-popup-price">'
-							+		'<span class="arioem-step-content-part-img-popup-label">Price:</span>'
+							+		'<span class="arioem-step-content-part-img-popup-label">Web price:</span>'
 							+		'<span class="arioem-step-content-part-img-popup-value">%PRICE%</span>'
 							+	'</div>'
 					}
@@ -377,6 +373,7 @@ var OEMPartSelector = function() {return function($) { return {
 			}
 		},
 		customerId: 0,
+		customerIsWholesale: false,
 		brandHash: {
 			'ARC': 'arcticcat',
 			'BRP': 'canam',
@@ -398,8 +395,8 @@ var OEMPartSelector = function() {return function($) { return {
 					callback: null
 				}
 			}
-		}
-		
+		},
+		messageTimeoutInterval: 3000
 	},
 	state: {
 		pageURL: '',
@@ -459,20 +456,6 @@ var OEMPartSelector = function() {return function($) { return {
 		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
 		$.extend(this.state, stateValues);
 		this.state.pageURL = location.toString().split('#')[0];
-/*
-		if (location.pathname.search(this.config.defaultLocationPathname) < 0) {
-			var brand = location.pathname.split('.html')[0].split('/')[2];
-			for (var i in this.config.brandHash) {
-				if (this.config.brandHash[i] == brand) {
-					var newLocation = location.href;
-					alocation = newLocation
-						.replace(location.pathname, '/' + this.config.defaultLocationPathname)
-						.replace(location.hash, '#brand=' + brand);
-console.log(alocation);
-					break;
-				}
-			}
-		}/**/
 
 		oemHotSpotTagNumber = null; // this must be a global object
 		oemHotSpotPopupCloseDelayed = null;
@@ -517,6 +500,15 @@ console.log(alocation);
 			}
 			this.loader.hide(targetSelector);
 		}
+	},
+	inform: function(message, delayed) {
+		if (window.hasOwnProperty('informer')) {
+			if ('undefined' == typeof(delayed)) {
+				delayed = true;
+			}
+			if (delayed) window.informer.appear(message, this.config.messageTimeoutInterval);
+			else window.informer.show(message);
+		} else alert(message);
 	},
 	resetBrand: function() {
 		this.state.brand.code = null;
@@ -594,6 +586,9 @@ console.log(alocation);
 
 		this.resetImage();
 
+		$('.arioem-lander-header').show();
+		$('.arioem-lander-footer').show();
+
 		if (this.state.vehicle.code) { // if this was opened not from part search page
 			$('.arioem-step-control').show();
 		}
@@ -652,7 +647,7 @@ console.log(alocation);
 	},
 	_selectBrandSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		$('.arioem-step-control-vehicle').addClass('arioem-step-active');
@@ -702,7 +697,7 @@ console.log(alocation);
 	},
 	_selectVehicleSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		$('.arioem-step-control-year').addClass('arioem-step-active');
@@ -791,7 +786,7 @@ console.log(alocation);
 	},
 	_selectYearSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		$('.arioem-step-control-model').addClass('arioem-step-active');
@@ -867,13 +862,13 @@ console.log(alocation);
 				complete: function() { modelLI.removeClass('arioem-loading'); }
 			});
 		} else {
-			modelLI.addClass('arioem-expanded'); //	modelLI.toggleClass('arioem-expanded');
+			modelLI.toggleClass('arioem-expanded'); //modelLI.addClass('arioem-expanded'); //	
 		}
 		this.updateHash();
 	},
 	_selectParentModelSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		var targetLI = $('#arioem-step-content-model li.arioem-l1[ari_model_id="' + response.parentId + '"]');
@@ -941,7 +936,7 @@ console.log(alocation);
 	},
 	_selectModelSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		$('.arioem-step-content-assembly').addClass('arioem-step-active');
@@ -1034,12 +1029,14 @@ console.log(alocation);
 	},
 	_selectAssemblySuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		this.cache.parts = response.parts;
 		this.state.customerIsWholesale = response.isWholesale;
 
+		$('.arioem-lander-header').hide();
+		$('.arioem-lander-footer').hide();
 		$('.arioem-step-content-part').addClass('arioem-step-active');
 		$('.arioem-step-control').hide();
 		$('.arioem-step-content-part-img-popup-header').html(this.state.assembly.name);
@@ -1058,9 +1055,6 @@ console.log(alocation);
 		this.cache.hotSpots = response.hotSpots;
 
 		// populating table
-		$('.arioem-step-content-part-partlist thead tr').html(
-			this.config.templates.part[response.isWholesale ? 'wholesale' : 'regular'].tableHeading);
-
 		var rowsHtml = '', rowHtml;
 		var rowClass, stockLabel, superseded, rowTemplateIndex;
 		var partFound = false;
@@ -1118,7 +1112,7 @@ console.log(alocation);
 			});
 
 		if(this.config.customerId && (response.customerId != this.config.customerId)) {
-			alert(this.config.messages.sessionExpired);
+			this.inform(this.config.messages.sessionExpired);
 		}
 
 		this.updateHash();
@@ -1407,6 +1401,7 @@ console.log(alocation);
 	},
 	viewPartPage: function(event) {
 		this.stopEventPropagation(event);
+		if (this.config.customerIsWholesale) return;
 		var sender = event.target;
 		window.open(this.config.partPageURL
 					.replace('%BRAND_HASH%', this.state.brand.hash)
@@ -1419,12 +1414,12 @@ console.log(alocation);
 		return location.href.split(key)[0] + key + encodeURIComponent(sku)
 	},
 	addToCartSingle: function(sender) {
-		var sku = $('.arioem-step-content-part-img-popup-partNo').text();
+		var sku = $('.arioem-step-content-part-img-popup-partNo .arioem-step-content-part-img-popup-value').text();
 		var data = [{
 			name: $('.arioem-step-content-part-img-popup-header').text().trim(),
 			sku: sku,
 			qty: $('#arioem-part-popup-qty').val(),
-			price: $('.arioem-step-content-part-img-popup-price').text(),
+			price: $('.arioem-step-content-part-img-popup-price .arioem-step-content-part-img-popup-value').text(),
 			pageURL: this._getAssemblyPartURL(sku)
 		}];
 		this._addToCart(data);
@@ -1476,16 +1471,16 @@ console.log(alocation);
 	},
 	_addToCartSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		if(response.hasOwnProperty('warnings')) {
-			alert(response.warnings.join('\n'));
+			this.inform(response.warnings.join('\n'));
 		}
 		$(document).trigger(this.config.eventPropagation.events.cartChange.name, [this.config.eventPropagation.senderId]);
 		this.markCartItems(response.skusAdded); // by this we save another AJAX call to refreshCartItemsUrl
-		if(response.hasOwnProperty('message')) {
-			alert(response.message);
+		if(response.hasOwnProperty('message') && response.message) {
+			this.inform(response.message, true);
 		}
 	},
 	refreshCartItems: function(event, sender) {
@@ -1500,7 +1495,7 @@ console.log(alocation);
 	},
 	_refreshCartItemsSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		this.state.cartItems = response.cartItems;
@@ -1556,7 +1551,7 @@ console.log(alocation);
 	},
 	_parseHashSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(this.config.messages.hashError + ' ' + response.errorMessage);
+			this.inform(this.config.messages.hashError + ' ' + response.errorMessage);
 			return;
 		}
 		this.state.hashMode = true;
@@ -1674,6 +1669,7 @@ jQuery(document).ready(function() {
 			diagramURL: '<?php echo $this->getUrl('arioem/partcenter/printDiagram') ?>'
 		},
 		customerId: <?php echo (int)Mage::getSingleton('customer/session')->getCustomerId() ?>,
+		customerIsWholesale: <?php echo $customerIsWholesale ? 'true' : 'false' ?>,
 		templates: {
 			part: {
 				stock: {

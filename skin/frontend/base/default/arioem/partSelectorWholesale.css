@@ -1,0 +1,10 @@
+/*
+	OEM Part Selector for Wholesale
+*/
+.arioem-wholesale {}
+.arioem-wholesale .arioem-partlist-stock {
+	display: none;
+}
+.arioem-wholesale .arioem-step-content-part-partlist .arioem-partlist-descr {
+	width: 250px;
+}

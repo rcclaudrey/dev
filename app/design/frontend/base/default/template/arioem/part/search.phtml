@@ -278,6 +278,10 @@ var OEMPartSearch = function() {return function($) { return {
 			this.loader.hide(targetSelector);
 		}
 	},
+	inform: function(message) {
+		if (window.hasOwnProperty('informer')) window.informer.show(message);
+		else alert(message);
+	},
 	addPaging: function(containerSelector, data, callback) {
 		if (this.pager) {
 			var requestData = data._request;
@@ -466,7 +470,7 @@ var OEMPartSearch = function() {return function($) { return {
 	},
 	_selectModelSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 
@@ -531,7 +535,7 @@ var OEMPartSearch = function() {return function($) { return {
 	},
 	_selectPartSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		var parentElementSelector = '#arioem-pcSearch-part-' + response.partId;
@@ -603,7 +607,7 @@ var OEMPartSearch = function() {return function($) { return {
 	},
 	_selectPartModelSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 
@@ -725,11 +729,11 @@ var OEMPartSearch = function() {return function($) { return {
 	},
 	_addToCartSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		if(response.hasOwnProperty('warnings')) {
-			alert(response.warnings.join('\n'));
+			this.inform(response.warnings.join('\n'));
 		}
 		this.markCartItems(response.skusAdded);
 		if(window.popupcart) {
@@ -750,7 +754,7 @@ var OEMPartSearch = function() {return function($) { return {
 			window.oemShoppingList.updateHtml(response.shoppingList);
 		}
 		if(response.hasOwnProperty('message')) {
-			alert(response.message);
+			this.inform(response.message);
 		}
 	},
 	markCartItems: function(newItems) {
@@ -775,11 +779,21 @@ var OEMPartSearch = function() {return function($) { return {
 		}
 	},
 	_autocompleteKeyDown: function(event) {
+		var key = event.which || event.keyCode;
 		var input = $(event.target);
 		var wrapper = input.closest('.arioem-pcSearch-selector-container-ac-wrap');
-		if (!wrapper.hasClass('arioem-active')) return;
+		if (!wrapper.hasClass('arioem-active')) {
+			if (key == 13) {
+				if ('model' == input.attr('ari_search_type')) {
+					$('#arioem-pcSearch-selector-part').focus();
+				} else {
+					this.search();
+				}
+			} else {
+				return;
+			}
+		}
 		var ul = wrapper.find('.arioem-pcSearch-selector-autocomplete');
-		var key = event.which || event.keyCode;
 		switch (key) {
 			case 13: // enter
 				var currentLI = ul.find('.arioem-autocomplete-selected');

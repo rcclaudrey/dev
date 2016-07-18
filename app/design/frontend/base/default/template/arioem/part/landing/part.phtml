@@ -66,7 +66,7 @@ $brandColors = array(
 					<?php if($hidePrice): ?>
 						<div class="oempart-cinfo-price-msrp oempart-seePriceInCart">
 							<span class="oempart-cinfo-price-msrp-label"><?php echo $this->__('MSRP') ?></span>
-							<span class="oempart-cinfo-price-msrp-value"><?php echo $coreHelper->formatPrice($partInfo['msrp'], false) ?></span>
+							<span class="oempart-cinfo-price-msrp-value"><?php echo Vikont_Format::formatPrice($partInfo['msrp']) ?></span>
 						</div>
 						<div class="oempart-cinfo-price-seeInCart">
 							<span class="oempart-cinfo-price-seeInCart-label"><?php echo $this->__('Our price') ?></span>
@@ -93,16 +93,16 @@ $brandColors = array(
 						<?php if($showYouSave): ?>
 							<div class="oempart-cinfo-price-msrp">
 								<span class="oempart-cinfo-price-msrp-label"><?php echo $this->__('MSRP') ?></span>
-								<span class="oempart-cinfo-price-msrp-value"><?php echo $coreHelper->formatPrice($partInfo['msrp'], false) ?></span>
+								<span class="oempart-cinfo-price-msrp-value"><?php echo Vikont_Format::formatPrice($partInfo['msrp']) ?></span>
 							</div>
 							<div class="oempart-cinfo-price-yousave">
 								<span class="oempart-cinfo-price-yousave-label"><?php echo $this->__('You Save') ?></span>
-								<span class="oempart-cinfo-price-yousave-value"><?php echo $coreHelper->formatPrice($youSave, false) ?></span>
+								<span class="oempart-cinfo-price-yousave-value"><?php echo Vikont_Format::formatPrice($youSave) ?></span>
 							</div>
 						<?php endif ?>
 						<div class="oempart-cinfo-price-regular">
 							<span class="oempart-cinfo-price-regular-label"><?php echo $this->__('Regular price') ?></span>
-							<span class="oempart-cinfo-price-regular-value"><?php echo $coreHelper->formatPrice($partInfo['price'], false) ?></span>
+							<span class="oempart-cinfo-price-regular-value"><?php echo Vikont_Format::formatPrice($partInfo['price']) ?></span>
 						</div>
 					<?php endif ?>
 				</div>
@@ -130,12 +130,13 @@ $brandColors = array(
 				</div>
 				<div class="oempart-cinfo-buttons buttons-prod">
 					<button onclick="oemAddToCart(
-								'<?php echo htmlspecialchars($brand) ?>',
+								'<?php echo htmlspecialchars($this->getPart()->getBrandCode()) ?>',
 								'<?php echo $partName ?>',
 								jQuery('#qty').val(),
 								'<?php echo $partNumber ?>',
 								<?php echo (float) $partInfo['price'] ?>
-							)" class="button btn-cart" id="product-btn-cart" title="<?php echo $this->__('Add to Cart') ?>" type="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+							)" class="button btn-cart" id="product-btn-cart" title="<?php echo $this->__('Add to Cart') ?>"
+							type="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
 				</div>
 			<?php endif ?>
 		</div>
@@ -192,10 +193,10 @@ $brandColors = array(
 
 				<?php if ($isAvailable): ?>
 					<dt><?php echo $this->__('MSRP') ?></dt>
-					<dd><?php echo $coreHelper->formatPrice($partInfo['msrp'], false) ?></dd>
+					<dd><?php echo Vikont_Format::formatPrice($partInfo['msrp']) ?></dd>
 
-					<dt><?php echo $this->__('Retail Price') ?></dt>
-					<dd><?php echo $coreHelper->formatPrice($partInfo['price'], false) ?></dd>
+					<dt><?php echo $this->__('Web only price') ?></dt>
+					<dd><?php echo Vikont_Format::formatPrice($partInfo['price']) ?></dd>
 
 					<dt><?php echo $this->__('Is superseded') ?></dt>
 					<dd><?php echo $partInfo['superseded'] ? $this->__('Yes')  : $this->__('No') ?></dd>
@@ -328,43 +329,51 @@ $brandColors = array(
 
 	function oemAddToCart(brand, partName, qty, sku, price) {
 		jQuery.ajax({
-			url : '<?php echo $this->getUrl('arioem/cart/add') ?>',
+			url : '<?php echo $this->getUrl('arioem/partcenter/add') ?>',
 			dataType : 'json',
 			type : 'POST',
 			data : {
-				pageURL: location.href,
+				brand: brand,
 				parts: [{
-					brand: brand,
 					name: partName,
+					pageURL: location.href,
+					price: price,
 					qty: qty,
-					sku: sku,
-					price: price
+					sku: sku
 				}]
 			},
 			beforeSend: function() {
 				loader.show('.wrapper');
 			},
 			success : function(response) {
-				if(response.error) {
-					jQuery("#cart-overlay-content").html("<div class=\"error-message-wrap\">" + response.message + "</div>");
-				} else {
-					jQuery(window.popupcart.header).html(response.cart_top);
-					jQuery(window.popupcart.qty).html(response.qty);
-					jQuery('#minicart .cart-table').click(function() {
-						jQuery('#topCartContent').css({visibility: 'visible'});
-					});
-					jQuery('#topCartContent').mouseleave(function() {
-						jQuery('#topCartContent').css({visibility: 'hidden'});
-					});
-
-					if(response.hasOwnProperty('cart_content')) {
-						window.popupcart.show();
-						jQuery("#cart-overlay-content").html(response.cart_content);
-					} else {	// we do not display the pop-up, so add some animation
-						jQuery('#topCartContent').css({visibility: 'visible'});
-						jQuery('html, body').animate({scrollTop: jQuery("#minicart").offset().top}, 1500);
-					}
+				if(response.errorMessage) {
+					informer.show(response.errorMessage);
+					return;
 				}
+				if(response.hasOwnProperty('warnings') && response.hasOwnProperty('warnings').length) {
+					informer.show(response.warnings.join('\n'));
+				} else if (response.message) {
+					informer.show(response.message);
+				}
+				jQuery(document).trigger('cartChanged', ['oem_lander']);
+/*
+				jQuery(window.popupcart.header).html(response.cart_top);
+				jQuery(window.popupcart.qty).html(response.qty);
+				jQuery('#minicart .cart-table').click(function() {
+					jQuery('#topCartContent').css({visibility: 'visible'});
+				});
+				jQuery('#topCartContent').mouseleave(function() {
+					jQuery('#topCartContent').css({visibility: 'hidden'});
+				});
+
+				if(response.hasOwnProperty('cart_content')) {
+					window.popupcart.show();
+					jQuery("#cart-overlay-content").html(response.cart_content);
+				} else {	// we do not display the pop-up, so add some animation
+					jQuery('#topCartContent').css({visibility: 'visible'});
+					jQuery('html, body').animate({scrollTop: jQuery("#minicart").offset().top}, 1500);
+				}
+				/**/
 			},
 			complete: function() {
 				loader.hide();

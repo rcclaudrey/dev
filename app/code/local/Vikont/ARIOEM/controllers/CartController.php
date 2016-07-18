@@ -127,14 +127,14 @@ class Vikont_ARIOEM_CartController extends Mage_Core_Controller_Front_Action
 					: $this->__('%d items were added to your shopping cart', $itemsAddedTotal);
 				$response->setMessage($message);
 
-				$cartTopBlock = $this->getLayout()->createBlock('checkout/cart_sidebar');
-				$topCartHtml = $cartTopBlock
-						?	$cartTopBlock
-								->setTemplate('checkout/cart/cartheader.phtml')
-								->setIsAjax(true)
-								->toHtml()
-						:	'';
-				$response->setCartTop($topCartHtml);
+//				$cartTopBlock = $this->getLayout()->createBlock('checkout/cart_sidebar');
+//				$topCartHtml = $cartTopBlock
+//						?	$cartTopBlock
+//								->setTemplate('checkout/cart/cartheader.phtml')
+//								->setIsAjax(true)
+//								->toHtml()
+//						:	'';
+//				$response->setCartTop($topCartHtml);
 			} else {
 				$response->setError(1);
 				$response->setMessage($this->__('Some error has occurred while adding to Cart'));

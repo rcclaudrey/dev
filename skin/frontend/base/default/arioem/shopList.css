@@ -110,9 +110,6 @@
 	text-align: right;
 	color: #bd0401;
 }
-.arioem-shopList-stock {
-	width: 150px;
-}
 .arioem-shopList-qty {
 	text-align: center;
 	width: 52px;
@@ -184,3 +181,5 @@ button.arioem-shopping-list-checkout {
 	border: 2px solid #c01c23;
 	background-color: #de1f27;
 }
+
+

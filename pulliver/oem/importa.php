@@ -209,16 +209,18 @@ while(true) {
 		$sqlData = array();
 
 		foreach($colPositions as $colName => $colIndex) {
+			$value = trim($rowData[$colIndex]);
+
 			if (in_array($colIndex, $yesNoColIndexes)) {
-				$colValue = (int)normalizeYesNo($rowData[$colIndex]);
+				$colValue = (int)normalizeYesNo($value);
 			} else if (in_array($colIndex, $priceColIndexes)) {
-				$colValue = round(str_replace(array(' ', ','), '', $rowData[$colIndex]), 2);
+				$colValue = round(str_replace(array(' ', ','), '', $value), 2);
 			} else if (in_array($colIndex, $nonEmptyColIndexes)) {
 				$colValue = $rowData[$colIndex]
-					?	addslashes($rowData[$colIndex])
+					?	addslashes($value)
 					:	'0';
 			} else {
-				$colValue = addslashes($rowData[$colIndex]);
+				$colValue = addslashes($value);
 			}
 
 			$sqlData[] = $colValue;

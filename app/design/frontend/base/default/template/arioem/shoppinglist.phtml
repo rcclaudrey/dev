@@ -4,15 +4,10 @@ $coreHelper = Mage::helper('core');
 
 $list = $this->getList();
 $isAjax = $this->isAjax();
-/*
-$brandOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_brand_option_id');
-$yearOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_year_option_id');
-$modelOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_model_option_id');
-$partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_partNo_option_id');
-/**/
+
 ?>
 <?php if(!$isAjax): ?>
-<div class="arioem-shopList">
+<div class="arioem-shopList <?php echo Mage::helper('arioem')->isCustomerWholesale() ? 'arioem-wholesale' : '' ?>">
 	<div class="arioem-shopList-title"><?php echo $this->__('Shopping Cart') ?>
 		<div class="arioem-shopList-title-tip" onclick="jQuery(this).find('.arioem-shopList-title-tip-text').toggleClass('arioem-visible')">
 			<span class="arioem-shopList-title-tip-icon">?</span>
@@ -23,8 +18,7 @@ $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_pa
 		<thead>
 			<tr>
 				<td class="arioem-shopList-descr"><?php echo $this->__('Part Name') ?></td>
-				<td class="arioem-shopList-price"><?php echo $this->__('Unit price') ?></td>
-				<td class="arioem-shopList-stock"><?php echo $this->__('Stock status') ?></td>
+				<td class="arioem-shopList-price"><?php echo $this->__('Web price') ?></td>
 				<td class="arioem-shopList-qty"><?php echo $this->__('Qty') ?></td>
 				<td class="arioem-shopList-subtotal"><?php echo $this->__('Subtotal') ?></td>
 				<td class="arioem-shopList-remove"><?php echo $this->__('Remove') ?></td>
@@ -37,16 +31,9 @@ $partNumberOptionId  = Mage::getStoreConfig('arioem/add_to_cart/dummy_product_pa
 				<?php foreach($this->getItems() as $itemId => $item): ?>
 					<tr class="<?php echo $even ? 'arioem-even' : '' ?>">
 						<td class="arioem-shopList-descr"><?php echo htmlspecialchars($item['name']) ?></td>
-							<?php /* ?>
-							<span class="arioem-shopList-partNo"><?php echo $item['options'][$partNumberOptionId]['print_value'] ?></span>
-							<span class="arioem-shopList-brand"><?php echo $item['options'][$brandOptionId]['print_value'] ?></span>
-							<span class="arioem-shopList-model"><?php echo $item['options'][$modelOptionId]['print_value'] ?></span>
-							<span class="arioem-shopList-year"><?php echo $item['options'][$yearOptionId]['print_value'] ?></span>
-							<?php /**/ ?>
-						<td class="arioem-shopList-price"><?php echo $coreHelper->formatPrice($item['price'], false) ?></td>
-						<td class="arioem-shopList-stock"><?php echo htmlspecialchars($item['availability']) ?></td>
+						<td class="arioem-shopList-price"><?php echo Vikont_Format::formatPrice($item['price']) ?></td>
 						<td class="arioem-shopList-qty"><input name="<?php echo (int)$itemId ?>" value="<?php echo (int)$item['qty'] ?>"/></td>
-						<td class="arioem-shopList-subtotal"><?php echo $coreHelper->formatPrice($item['rowTotal'], false) ?></td>
+						<td class="arioem-shopList-subtotal"><?php echo Vikont_Format::formatPrice($item['rowTotal']) ?></td>
 						<td class="arioem-shopList-remove"><span onclick="oemShoppingList.deleteItem(<?php echo (int)$itemId ?>)">X</span></td>
 					</tr>
 				<?php $even = !$even; ?>
@@ -98,6 +85,10 @@ var OEMShoppingList = function() {return function($) { return {
 		this.config.baseURL = this.config.baseURL.replace('http:', location.protocol);
 		$(document).on(this.config.cartChangedEventName, this.cartChanged.bind(this));
 	},
+	inform: function(message) {
+		if (window.hasOwnProperty('informer')) window.informer.show(message);
+		else alert(message);
+	},
 	cartChanged: function(event, sender) {
 		if (sender !== this.config.propagatorId) {
 			this.refresh({action: 'refresh'});
@@ -121,7 +112,7 @@ var OEMShoppingList = function() {return function($) { return {
 	},
 	_refreshSuccess: function(response) {
 		if(response.errorMessage) {
-			alert(response.errorMessage);
+			this.inform(response.errorMessage);
 			return;
 		}
 		if (response.action != 'refresh') {

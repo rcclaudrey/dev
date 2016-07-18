@@ -128,6 +128,19 @@ class Vikont_ARIOEMAPI
 		'yamaha' => 'YAM',
 	);
 
+	protected static $_ARI2TMS = array(
+		'ARC' => 'AC',
+		'HOM' => 'HO',
+		'HONPE' => 'HP',
+		'KUS' => 'KA',
+		'POL' => 'PO',
+		'BRP' => 'SD',
+		'BRP_SEA' => 'SD',
+		'SLN' => 'SL',
+		'SUZ' => 'SU',
+		'YAM' => 'YA',
+	);
+
 //	const CACHE_KEY_SEPARATOR = ARI_CACHE_KEY_SEPARATOR;
 //	const CACHE_DIR = ARI_CACHE_DIR;
 
@@ -652,14 +665,12 @@ class Vikont_ARIOEMAPI
 			die('DB init not successful');
 		}
 
-		require_once $this->_config['SITE_ROOT'] . '/app/code/core/Mage/Core/Helper/Abstract.php';
-		require_once $this->_config['SITE_ROOT'] . '/app/code/local/Vikont/ARIOEM/Helper/OEM.php';
+		$tmsBrandCode = self::$_ARI2TMS[$brandCode];
+		if(!$tmsBrandCode) {
+			throw new Exception('No TMS brand code known for ARI code ' . $brandCode);
+		}
 
-		$brand = Vikont_ARIOEM_Helper_OEM::TMS2ARI($brandCode);
-
-		if(!$brand) die('No brand found!');
-
-		$sql = 'SELECT * FROM ' . $this->_config['tables']['oem_cost'] . ' WHERE supplier_code="' . addslashes($brand)
+		$sql = 'SELECT * FROM ' . $this->_config['tables']['oem_cost'] . ' WHERE supplier_code="' . addslashes($tmsBrandCode)
 			. '" AND part_number IN ("' . implode('","', array_map('addslashes', $skus)) . '")';
 
 		if(@self::$_params['debug']) sql($sql);
@@ -819,6 +830,25 @@ class Vikont_ARIOEMAPI
 							$newValue = trim(preg_replace('/\([0-9]{4}\)/i', '', $data[$index]['name']));
 							if($newValue) {
 								$data[$index]['name'] = $newValue;
+							}
+						}
+						break;
+
+					case 'YAM':
+						require_once 'OEM/Conversion/Yamaha/Year.php';
+						foreach($data as $index => $value) {
+							$newName = Vikont_OEM_Conversion_Yamaha_Year::convert($data[$index]['name']);
+							if ($newName) {
+								$data[$index]['name'] = $newName;
+							} else {
+								$newValue = $data[$index]['name'];
+								if(ctype_digit($newValue) && ($newValue > 1910) && ($newValue < 2020)) {
+									continue;
+								}
+								$newValue = str_replace(preg_split("/[0-9]{4}/i", $newValue), '', $newValue);
+								if($newValue) {
+									$data[$index]['name'] = $newValue;
+								}
 							}
 						}
 						break;
@@ -1056,14 +1086,18 @@ class Vikont_ARIOEMAPI
 		$parts = array();
 		$tags = array();
 
+		require_once 'Format.php';
+
 		foreach($data['Data']['Parts'] as $part) {
 			$sku = $part['Sku'];
 			$tags[] = $part['Tag'];
 
 			if(isset($oemData[$sku]) && $oemData[$sku]['available']) { // if there is such record in OEM table and this part is availailable
+				$oemData[$sku]['price'] = floatval($oemData[$sku]['price']);
+
 				$retailPrice = $oemData[$sku]['price']
 					?	$oemData[$sku]['price']
-					:	$oemData[$sku]['msrp'];
+					:	floatval($oemData[$sku]['msrp']);
 
 				$price = ($isWholesale && ($customerCostPercent > 0)) // if this is is a wholesale customer
 					?	round($oemData[$sku]['cost'] * (100 + $customerCostPercent) / 100, 2)
@@ -1077,8 +1111,8 @@ class Vikont_ARIOEMAPI
 						?	$oemData[$sku]['part_name']
 						:	$part['Description'] ),
 					'uom' => $oemData[$sku]['uom'],
-					'msrp' => ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']), //$part['MSRP'],
-					'price' => $price,
+					'msrp' => Vikont_Format::formatPrice($oemData[$sku]['msrp']), // ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']), //$part['MSRP'],
+					'price' => Vikont_Format::formatPrice($price),
 					'hidePrice' => $oemData[$sku]['hide_price'],
 					'qty' => (int)$part['Qty'],
 					'tag' => $part['Tag'], // Reference tag for this part
@@ -1496,6 +1530,9 @@ class Vikont_ARIOEMAPI
 		if(!isset($data['Data'])) {
 			throw new Exception('No Data key in result');
 		}
+
+		require_once 'Format.php';
+
 		if(isset($data['Data']['Results'])  && count($data['Data']['Results'])) {
 			$skus = array();
 			foreach($data['Data']['Results'] as $part) {
@@ -1529,8 +1566,8 @@ class Vikont_ARIOEMAPI
 									?	$oemData[$sku]['part_name']
 									:	$part['Description'] ),
 						'uom' => $oemData[$sku]['uom'],
-						'msrp' => ($isWholesale ? $retailPrice : $oemData[$sku]['msrp']),
-						'price' => $price,
+						'msrp' => Vikont_Format::formatPrice($oemData[$sku]['msrp']), //($isWholesale ? $retailPrice : $oemData[$sku]['msrp']),
+						'price' => Vikont_Format::formatPrice($price),
 						'hidePrice' => (int)$oemData[$sku]['hide_price'],
 						'isSuperseded' => (bool)$part['IsSuperseded'], // If true, the original part data is prefixed by Org (bool)
 						'nla' => (bool)$part['NLA'], // Stands for No Longer Available (bool)

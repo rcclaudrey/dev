@@ -12,48 +12,6 @@ class Vikont_ARIOEM_Model_Oem_Part
 	protected $_oemAPI = null;
 	protected $_assemblyImageUrl = null;
 
-	protected static $_brands = array(
-		'acat' => 'Arctic Cat',
-		'arcticcat' => 'Arctic Cat',
-		'canam' => 'Can Am',
-		'can-am' => 'Can Am',
-		'honda' => 'Honda',
-		'hondape' => 'Honda PE',
-		'honda-pe' => 'Honda PE',
-		'kawasaki' => 'Kawasaki',
-		'polaris' => 'Polaris',
-		'sea-doo' => 'Sea-Doo',
-		'seadoo' => 'Sea-Doo',
-		'slingshot' => 'Slingshot',
-		'suzuki' => 'Suzuki',
-		'victory' => 'Victory',
-		'yamaha' => 'Yamaha',
-	);
-
-	protected static $_brands2shortcode = array(
-		'acat' => 'ARC',
-		'arcticcat' => 'ARC',
-		'canam' => 'BRP',
-		'can-am' => 'BRP',
-		'honda' => 'HOM',
-		'hondape' => 'HONPE',
-		'honda-pe' => 'HONPE',
-		'kawasaki' => 'KUS',
-		'polaris' => 'POL',
-		'sea-doo' => 'BRP_SEA',
-		'seadoo' => 'BRP_SEA',
-		'slingshot' => 'SLN',
-		'suzuki' => 'SUZ',
-		'victory' => 'VIC',
-		'yamaha' => 'YAM',
-	);
-
-
-//	public function Vikont_ARIOEM_Model_Oem_Part()
-//	{
-//	}
-
-
 
 	public function getBrand()
 	{
@@ -63,7 +21,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 				$brand = Mage::app()->getRequest()->getParam('brand');
 			}
 			$this->_brand = $brand;
-			$this->_brandCode = Vikont_ARIOEM_Helper_Data::brandName2Code($this->_brand);
+			$this->_brandCode = Vikont_ARIOEM_Helper_Data::brandURLNameToARI($this->_brand);
 		}
 
 		return $this->_brand;
@@ -83,9 +41,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 	{
 		$this->getBrand();
 
-		return isset(self::$_brands[$this->_brand])
-			?	self::$_brands[$this->_brand]
-			:	$this->_brand;
+		return Vikont_ARIOEM_Helper_Data::brandARICode2Name($this->_brand);
 	}
 
 
@@ -154,6 +110,11 @@ class Vikont_ARIOEM_Model_Oem_Part
 			$dbData = Mage::helper('arioem/OEM')->getOEMData($this->getBrandCode(), $this->getPartNumber());
 
 			if ($dbData && $dbData['available']) {
+				$price = floatval($dbData['price']);
+				if (!$price) {
+					$price = $dbData['msrp'];
+				}
+
 				$this->_partInfo = array_merge($this->_partInfo, array(
 					'available' => true,
 //					'id' => $dbData['id'],
@@ -163,7 +124,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 
 					'cost' => $dbData['cost'],
 					'msrp' => $dbData['msrp'],
-					'price' => $dbData['price'],
+					'price' => $price,
 					'hide_price' => $dbData['hide_price'],
 
 					'inv_local' => $dbData['inv_local'],
@@ -207,7 +168,7 @@ class Vikont_ARIOEM_Model_Oem_Part
 	{
 		$this->getPartInfo();
 		return $formatted
-			?	Mage::helper('core')->formatPrice($this->_partInfo['price'], false)
+			?	Vikont_Format::formatPrice($this->_partInfo['price'])
 			:	$this->_partInfo['price'];
 	}
 

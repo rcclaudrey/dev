@@ -215,15 +215,10 @@ class Vikont_ARIOEM_Helper_OEM extends Mage_Core_Helper_Abstract
 					self::$_filteredItems[$item->getId()] = array(
 						'brandCode' => $brandCode,
 						'partNumber' => $partNumber,
-//						'sku' => $item->getSku(),
 						'name' => $item->getName(),
 						'price' => $item->getPrice(),
 						'rowTotal' => $item->getRowTotal(),
 						'qty' => $qty,
-						'availability' => (($oemData && ($oemData['inv_local'] < $qty))
-							?	'Usually ships in 1-3 business days'
-							:	'In stock'),
-//						'options' => Vikont_ARIOEM_Helper_Data::indexArray($configHelper->getCustomOptions($item), 'option_id'),
 					);
 				}
 			}

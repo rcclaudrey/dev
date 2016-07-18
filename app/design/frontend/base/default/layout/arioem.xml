@@ -3,9 +3,27 @@
 
 	<default>
 		<reference name="head">
+			<action method="addJs">
+				<script>arioem/informer.js</script>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/partSelector.css</name>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/partSelectorWide.css</name>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>arioem/partSelectorWholesale.css</name>
+			</action>
 			<action method="addItem">
 				<type>skin_css</type>
 				<name>arioem/shopList.css</name>
+			</action>
+			<action method="addJs">
+				<script>arioem/jquery.mousewheel.min.js</script>
 			</action>
 		</reference>
 	</default>
@@ -30,19 +48,6 @@
     <arioem_partcenter_index>
 		<reference name="root">
 			<action method="setTemplate"><template>page/1column.phtml</template></action>
-		</reference>
-		<reference name="head">
-			<action method="addItem">
-				<type>skin_css</type>
-				<name>arioem/partSelector.css</name>
-			</action>
-			<action method="addItem">
-				<type>skin_css</type>
-				<name>arioem/partSelectorWide.css</name>
-			</action>
-			<action method="addJs">
-				<script>arioem/jquery.mousewheel.min.js</script>
-			</action>
 		</reference>
 		<reference name="content">
 			<block type="arioem/part_selector" name="arioem_part_selector" />
