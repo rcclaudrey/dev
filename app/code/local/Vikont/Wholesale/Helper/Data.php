@@ -209,13 +209,60 @@ class Vikont_Wholesale_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 
-	public function calculateOEMPrice($cost)
+	public function calculateOEMPrice($cost, $price = 0, $msrp = 0)
 	{
 		$gainPercent = self::getCustomerDealerCostPercent();
 
-		return (float)$gainPercent
-			?	$cost * (100 + $gainPercent) / 100
-			:	$cost;
+		if ((float)$gainPercent) {
+			return $cost * (100 + $gainPercent) / 100;
+		} else {
+			$price = floatval($price);
+			return $price ? $price : $msrp;
+		}
+	}
+
+
+
+	protected $_wholesalePriceDiscountDisplayRules = null;
+
+	protected function _getWholesalePriceDiscountDisplayRules()
+	{
+		if (null === $this->_wholesalePriceDiscountDisplayRules) {
+			$this->_wholesalePriceDiscountDisplayRules = array();
+
+			$data = explode(';', Mage::getStoreConfig('wholesale/order/quickorder_price_display_discounts'));
+			if (is_array($data)) {
+				foreach($data as $item) {
+					if (!$item) continue;
+
+					$pair = explode('=', $item);
+					if (count($pair) < 2) continue;
+
+					$customerGroupId = (int) $pair[0];
+					$discountPercent = floatval($pair[1]);
+
+					if (!$customerGroupId || !$discountPercent) continue;
+
+					$this->_wholesalePriceDiscountDisplayRules[$customerGroupId] = $discountPercent;
+				}
+			}
+		}
+
+		return $this->_wholesalePriceDiscountDisplayRules;
+	}
+
+
+
+	public function calculateWholesalePrice($price)
+	{
+		$rules = $this->_getWholesalePriceDiscountDisplayRules();
+		$groupId = self::getCustomer()->getGroupId();
+
+		return (	Mage_Customer_Model_Group::NOT_LOGGED_IN_ID == $groupId
+				&&	isset($rules[$groupId])
+			)
+			?	$price
+			:	$price * (100 - $rules[$groupId]) / 100;
 	}
 
 

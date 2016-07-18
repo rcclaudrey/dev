@@ -518,6 +518,7 @@ var OEMPartSelector = function() {return function($) { return {
 		$('.arioem-step-control-brand').removeClass('arioem-step-selected');
 		$('.arioem-step-content-brand').addClass('arioem-step-active');
 		$('.arioem-step-control-brand .arioem-step-control-header-content').html('');
+		$('.arioem-step-control').show();
 		this.resetVehicle(false);
 	},
 	resetVehicle: function(activate) {
@@ -589,9 +590,9 @@ var OEMPartSelector = function() {return function($) { return {
 		$('.arioem-lander-header').show();
 		$('.arioem-lander-footer').show();
 
-		if (this.state.vehicle.code) { // if this was opened not from part search page
-			$('.arioem-step-control').show();
-		}
+//		if (this.state.vehicle.code) { // if this was opened not from part search page
+//			$('.arioem-step-control').show();
+//		}
 		$('.arioem-step-content-part').removeClass('arioem-step-active');
 
 		if(activate) {

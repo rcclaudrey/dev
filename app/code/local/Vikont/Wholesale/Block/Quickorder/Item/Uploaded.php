@@ -46,88 +46,101 @@ class Vikont_Wholesale_Block_Quickorder_Item_Uploaded extends Mage_Core_Block_Te
 
 
 
-	public function getProcessedData()
+	public function getOutputData()
 	{
 		$result = array();
 		$partNumbers = array();
 
-		if(is_array($this->getPartNumbers())) {	// just for a case
-			foreach($this->getPartNumbers() as $line) {
-				$item = array();
-				if(count($line) > 0) {
-					$partNumbers[] = $line[0];
+		if(!is_array($this->getPartNumbers())) {	// just for a case
+			return $result;
+		}
 
-					$item = array();
+		foreach($this->getPartNumbers() as $line) {
+			$partNumber = @$line[0];
+			if (!$partNumber) continue;
 
-					if(count($line) > 1) {
-						$qty = (int)$line[1];
-						$qty = $qty ? $qty : 1;
-					} else {
-						$qty = 1;
-					}
+			if(count($line) > 0) {
+				if(count($line) > 1) {
+					$qty = (int)$line[1];
+					$qty = $qty ? $qty : 1;
+				} else {
+					$qty = 1;
+				}
 
-					$item['partNumber'] = $line[0];
-					$item['qty'] = $qty;
-					$item['productId'] = false; // for the product found by its SKU
-					$item['skus'] = array(); // for the products found by their part numbers at SKU table
-					$item['oemData'] = array(); // just to not to leave this empty
+				if (isset($result[$partNumber])) {
+					$result[$partNumber]['qty'] += $qty;
+				} else {
+					$partNumbers[$partNumber] = true;
 
-					$result[] = $item;
+					$result[$partNumber] = array(
+						'partNumber' => $partNumber,
+						'qty' => $qty,
+						'type' => 'na',
+						'name' => 'Part not found',
+					);
 				}
 			}
 		}
 
-		// checking for regular products
-		$productIds = Mage::helper('wholesale/product')->findRegularProducts($partNumbers);
-		if($productIds) {
-			foreach($result as &$value) {
-				foreach($productIds as $productId => $sku) {
-					if($sku == $value['partNumber']) {
-						$value['productId'] = $productId;
-					}
-				}
+		$oemData = Mage::helper('wholesale/OEM')->findParts(array_keys($partNumbers));
+		if ($oemData) {
+			foreach ($oemData as $item) {
+				$partNumber = $item['part_number'];
+
+				unset($partNumbers[$partNumber]);
+
+				$result[$partNumber]['type'] = 'oem';
+				$result[$partNumber]['brand'] = Vikont_Wholesale_Helper_OEM::getBrandNameByCode(
+						Vikont_Wholesale_Helper_OEM::getARI2TMSCode($item['supplier_code']));
+				$result[$partNumber]['name'] = $item['part_name'];
+				$result[$partNumber]['msrp'] = Vikont_Format::formatPrice($item['msrp']);
+				$result[$partNumber]['price'] = Vikont_Format::formatPrice(
+						Mage::helper('wholesale')->calculateOEMPrice(
+								$item['cost'],
+								$item['price'],
+								$item['msrp']
+					));
 			}
-			unset($value);
 		}
 
-		foreach($result as &$value) {
-			$skus = Mage::helper('wholesale/OEM')->getSkusByPartNumber($value['partNumber']);
-			if(is_array($skus)) {
-				foreach($skus as $sku) {
-					$productId = Mage::getResourceModel('catalog/product')->getIdBySku($sku['sku']);
+		// now checking for regular products
+		if (count($partNumbers)) {
+			$productIds = Mage::helper('wholesale/product')->findRegularProducts(array_keys($partNumbers));
+			if ($productIds) {
+				foreach($productIds as $productId => $partNumber) {
+					unset($partNumbers[$partNumber]);
+
+					$product = Mage::getModel('catalog/product')->load($productId);
+
+					$result[$partNumber]['type'] = 'regular';
+					$result[$partNumber]['brand'] = $product->getData('ari_manufacturer');
+					$result[$partNumber]['name'] = $product->getName();
+					$result[$partNumber]['msrp'] = Vikont_Format::formatPrice($product->getMsrp());
+					$result[$partNumber]['price'] = Vikont_Format::formatPrice(calculateWholesalePrice($product->getPrice()));
+				}
+			}
+		}
+
+		// now checking for regular products found by part number
+		if (count($partNumbers)) {
+			foreach($partNumbers as $partNumber => $value) { // yes, we don't need $value here
+				$sku = Mage::helper('wholesale/OEM')->getSkuByPartNumber($partNumber);
+				if ($sku) {
+					$productId = Mage::getResourceModel('catalog/product')->getIdBySku($sku);
 					if($productId) {
-						$value['skus'][] = array(
-							'sku' => $sku,
-							'productId' => $productId,
-							'product' => Mage::getModel('catalog/product')->load($productId),
-						);
+						$product = Mage::getModel('catalog/product')->load($productId);
+
+						$result[$partNumber]['type'] = 'sku';
+						$result[$partNumber]['brand'] = $product->getData('ari_manufacturer');
+						$result[$partNumber]['name'] = $product->getName();
+						$result[$partNumber]['msrp'] = Vikont_Format::formatPrice($product->getMsrp());
+						$result[$partNumber]['price'] = Vikont_Format::formatPrice(calculateWholesalePrice($product->getPrice()));
 					}
 				}
 			}
 		}
-		unset($value);
 
-		// checking for OEM products
-		$checkedData = Mage::helper('wholesale/OEM')->findParts($partNumbers);
-		if($checkedData) {
-			foreach($result as &$value) {
-				foreach($checkedData as $item) {
-					if($item['part_number'] == $value['partNumber']) {
-						$value['oemData'][] = $item;
-					}
-				}
-			}
-			unset($value);
-		}
-		return $result;
-	}
-
-
-
-	public function getItemBlock($itemInfo)
-	{
-		return $this->getLayout()->createBlock('wholesale/quickorder_item_checked')
-				->setData(Vikont_Wholesale_Block_Quickorder_Item_Checked::PARTS_INFO, $itemInfo);
+		return array_values($result);
 	}
 
 }

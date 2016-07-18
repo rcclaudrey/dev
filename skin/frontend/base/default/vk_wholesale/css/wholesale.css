@@ -261,10 +261,17 @@
 	padding: 5px;
 	text-transform: uppercase;
 }
+.wsqo-parts .wsqo-parts-list-type {}
+.wsqo-parts .wsqo-parts-list-type-regular {}
+.wsqo-parts .wsqo-parts-list-type-sku {}
+.wsqo-parts .wsqo-parts-list-type-oem {}
+.wsqo-parts .wsqo-parts-list-brand {}
 .wsqo-parts .wsqo-parts-list-description {
 	padding: 2px 10px;
 	line-height: 20px;
 }
+.wsqo-parts .wsqo-parts-list-price {}
+.wsqo-parts .wsqo-parts-list-msrp {}
 .wsqo-parts .wsqo-parts-list-qty {
 	width: 64px;
 }
@@ -281,9 +288,25 @@
 	display: inline-block;
 	width: 20px;
 	height: 20px;
-	background: url("../../images/body/ico-remove-cart.gif") no-repeat scroll 50% 50%;
+	background: url("../images/quickorder/remove-cart.gif") no-repeat scroll 50% 50%;
 	vertical-align: middle;
 	cursor: pointer;
+}
+/* - - - - - - - - - - - - - - - - - - - - - - styles for table body */
+.wsqo-parts tbody .wsqo-parts-list-brand {
+	font-weight: bold;
+}
+.wsqo-parts tbody .wsqo-parts-list-msrp {
+	font-style: italic;
+}
+.wsqo-parts tbody .wsqo-parts-list-price {
+	font-weight: bold;
+	color: #e02129;
+}
+
+.wsqo-parts .wsqo-type-na .wsqo-parts-list-description {
+	color: red;
+    text-transform: uppercase;
 }
 /* - - - - - - - - - - - - - - - - - - - - - - styles for table header */
 .wsqo-parts thead {
@@ -312,7 +335,7 @@
 	padding: 10px 36px;
 	background-color: #aaa;
 }
-.wsqo-parts-addline {
+.wsqo-parts tfoot button {
 	padding: 5px 20px;
 	border: solid 1px #777;
 	font-size: 12px;
@@ -321,6 +344,12 @@
 	text-transform: uppercase;
 	cursor: pointer;
 }
+.wsqo-parts tfoot button:hover {
+	color: #e02129;
+}
+.wsqo-parts tfoot button.wsqo-parts-addline {
+}
+.wsqo-parts tfoot button.wsqo-parts-clear {}
 .wsqo-pricenote {
 	margin: 20px 0 0;
 	font-size: 14px;
@@ -411,6 +440,19 @@
 .wsqo-item-check-brand {
 	font-weight: bold;
 }
+.wsqo-item-check-msrp {
+	padding: 0 10px;
+	white-space: nowrap;
+}
+.wsqo-item-check-aLabel {
+	color: darkred;
+}
+.wsqo-item-check-aValue {
+	color: darkred;
+    font-weight: bold;
+}
+
+
 .wsqo-item-check-notfound {
 	color: #e02129;
 	text-transform: uppercase;

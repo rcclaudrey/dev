@@ -7,7 +7,7 @@ class Vikont_Wholesale_QuickorderController extends Mage_Core_Controller_Front_A
 	{
 		$session = Mage::getSingleton('customer/session');
 
-		if(!$session->authenticate($this, Mage::getUrl('*/*/login'))) return false;
+		if(!$session->authenticate($this, Mage::getUrl('*/dealer/login'))) return false;
 
 		if(!Vikont_Wholesale_Helper_Data::isActiveDealer()) {
 			$this->getResponse()->setRedirect(Mage::getUrl('wholesale/dealer/corner'));
@@ -49,11 +49,16 @@ class Vikont_Wholesale_QuickorderController extends Mage_Core_Controller_Front_A
 						->toHtml();
 		} else {
 			try {
-				$result['html'] = $this->getLayout()
+//				$result['html'] = $this->getLayout()
+//						->createBlock('wholesale/quickorder_item_checked')
+//							->setData(Vikont_Wholesale_Block_Quickorder_Item_Checked::PARTNUMBER_DATA_NAME,
+//									$this->getRequest()->getParam('partNumber'))
+//							->toHtml();
+				$result['data'] = $this->getLayout()
 						->createBlock('wholesale/quickorder_item_checked')
 							->setData(Vikont_Wholesale_Block_Quickorder_Item_Checked::PARTNUMBER_DATA_NAME,
 									$this->getRequest()->getParam('partNumber'))
-							->toHtml();
+							->getOutputData();
 			} catch (Exception $e) {
 				Mage::logException($e);
 				$result['errrorMessage'] = $e->getMessage();
@@ -87,16 +92,12 @@ class Vikont_Wholesale_QuickorderController extends Mage_Core_Controller_Front_A
 
 			$result['errorMessage'] = 'We\'re sorry, but your browser session has expired. Please relogin.';
 			$result['redirect'] = Mage::getUrl('customer/account/login');
-//			$result['html'] = $this->getLayout()
-//					->createBlock('core/template')
-//						->setTemplate('vk_wholesale/quickorder/item/relogin.phtml')
-//						->toHtml();
 		} else {
 			try {
-				$result['html'] = $this->getLayout()
+				$result['res'] = $this->getLayout()
 						->createBlock('wholesale/quickorder_item_uploaded')
 							->setData(Vikont_Wholesale_Block_Quickorder_Item_Uploaded::ROWS_DATA_NAME, $fileContents)
-							->toHtml();
+							->getOutputData();
 			} catch (Exception $e) {
 				Mage::logException($e);
 				$result['errorMessage'] = $e->getMessage();

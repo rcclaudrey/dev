@@ -102,29 +102,39 @@ $errorMessages = $this->checkAvailability();
 					<tr>
 						<td class="wsqo-parts-list-lineNo"></td>
 						<td class="wsqo-parts-list-partnumber"><?php echo $this->__('Part Number') ?></td>
-						<td class="wsqo-parts-list-description"><?php echo $this->__('Check') ?></td>
+						<td class="wsqo-parts-list-type">&nbsp;</td>
+						<td class="wsqo-parts-list-brand"><?php echo $this->__('Brand') ?></td>
+						<td class="wsqo-parts-list-description"><?php echo $this->__('Description') ?></td>
+						<td class="wsqo-parts-list-msrp"><?php echo $this->__('MSRP') ?></td>
+						<td class="wsqo-parts-list-price"><?php echo $this->__('Price') ?></td>
 						<td class="wsqo-parts-list-qty"><?php echo $this->__('Quantity') ?></td>
 						<td class="wsqo-parts-list-remove"></td>
 					</tr>
 				</thead>
 				<tbody>
-					<?php echo $this->getLayout()->createBlock('wholesale/quickorder_item_uploaded')
-								->setData(Vikont_Wholesale_Block_Quickorder_Item_Uploaded::ROWS_DATA_NAME, $fields['rows'])
-								->toHtml()
+					<?php // echo $this->getLayout()->createBlock('wholesale/quickorder_item_uploaded')
+//								->setData(Vikont_Wholesale_Block_Quickorder_Item_Uploaded::ROWS_DATA_NAME, $fields['rows'])
+//								->toHtml()
 					?>
 				</tbody>
 				<tfoot>
-					<tr id="wqop_HASH_">
+<!--					<tr id="wqop_HASH_">
 						<td class="wsqo-parts-list-lineNo">_ROW_</td>
 						<td class="wsqo-parts-list-partnumber"><input class="wsqo-required" oninput="quickOrderForm.onPartNumberChange(this)" value="" /><div class="wsqo-parts-list-autocomplete-container"></div></td>
+						<td class="wsqo-parts-list-brand"></td>
 						<td class="wsqo-parts-list-description">
 							<span class="wsqo-item-check-notfound">&nbsp;</span>
 						</td>
+						<td class="wsqo-parts-list-msrp"></td>
+						<td class="wsqo-parts-list-price"></td>
 						<td class="wsqo-parts-list-qty"><input class="wsqo-required" value="1" /></td>
 						<td class="wsqo-parts-list-remove"><span onclick="quickOrderForm.deleteRow(this)" title="<?php echo $this->__('Remove this item') ?>">&nbsp;</span></td>
-					</tr>
+					</tr>-->
 					<tr>
-						<th colspan="100"><button type="button" class="wsqo-parts-addline" onclick="quickOrderForm.addRow()"><?php echo $this->__('Add row') ?></button></th>
+						<th colspan="100">
+							<button type="button" class="wsqo-parts-addline" onclick="quickOrderForm.addRow()"><?php echo $this->__('Add row') ?></button>
+							<button type="button" class="wsqo-parts-clear" onclick="quickOrderForm.clearRows()"><?php echo $this->__('Clear rows') ?></button>
+						</th>
 					</tr>
 				</tfoot>
 			</table>
@@ -141,27 +151,417 @@ $errorMessages = $this->checkAvailability();
 	<?php endif ?>
 </div>
 
-<?php if(!count($errorMessages)): ?>
-	<script type="text/javascript">
+<?php // if(!count($errorMessages)): ?>
+<script type="text/javascript">
 
-	jQuery(document).ready(function() {
-		quickOrderForm = new QuickOrderForm();
-		quickOrderForm.init({
-			uploadFileURL: '<?php echo $this->getUrl('wholesale/quickorder/fileUpload') ?>'.replace('http:', location.protocol),
-			checkPartNumberURL: '<?php echo $this->getUrl('wholesale/quickorder/checkPartNumber') ?>'.replace('http:', location.protocol),
-			autocompleteURL: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php?action=search&key=part')) ?>'.replace('http:', location.protocol),
-			sendOrderURL: '<?php echo $this->getUrl('wholesale/quickorder/orderPost') ?>'.replace('http:', location.protocol),
-			rowTemplateId: '#wqop_HASH_',
-			messages: {
-				fieldsValidationNotPopulated: '<?php echo $this->__('Please populate the required field(s)') ?>',
-				fieldsValidationNotFound: '<?php echo $this->__('You can only order parts that exist in our database') ?>',
-				fieldsValidationPONumberLength: '<?php echo $this->__('PO Number cannot exceed 10 characters') ?>',
-				dragFileHere: '<?php echo $this->__('Drag and drop a .csv file here') ?>',
-				fileIsUploading: '<?php echo $this->__('Uploading the file, please wait...') ?>',
-				common: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+var QuickOrderForm = function() {return function($) { return {
+	config: {
+		uploadFileURL: '',
+		autocompleteURL: '',
+		checkPartNumberURL: '',
+		sendOrderURL: '',
+		minQueryLength: 5,
+		_loaderTargetSelector: null,
+		_state: '',
+		templates: {
+			rowNew: '<tr id="%ROW_HASH%">'
+				+		'<td class="wsqo-parts-list-lineNo">%ROW_NUMBER%</td>'
+				+		'<td class="wsqo-parts-list-partnumber"><input class="wsqo-required" '
+				+			' oninput="quickOrderForm.onPartNumberChange(this)" value="" '
+				+			'/><div class="wsqo-parts-list-autocomplete-container"></div></td>'
+				+		'<td class="wsqo-parts-list-type"></td>'
+				+		'<td class="wsqo-parts-list-brand"></td>'
+				+		'<td class="wsqo-parts-list-description">'
+				+			'<span class="wsqo-item-check-notfound">&nbsp;</span>'
+				+		'</td>'
+				+		'<td class="wsqo-parts-list-msrp"></td>'
+				+		'<td class="wsqo-parts-list-price"></td>'
+				+		'<td class="wsqo-parts-list-qty"><input class="wsqo-required" value="1" /></td>'
+				+		'<td class="wsqo-parts-list-remove"><span onclick="quickOrderForm.deleteRow(this)" title="Remove this item">&nbsp;</span></td>'
+				+	'</tr>',
+			rowCells: {
+				types: {
+					regular: '<span class="wsqo-parts-list-type-regular" title="This is a regular product found by part number"></span>',
+					sku: '<span class="wsqo-parts-list-type-sku" title="This is a regular product found at one of vendors"></span>',
+					oem: '<span class="wsqo-parts-list-type-oem" title="This is an OEM product"></span>',
+					na: '<span class="wsqo-parts-list-type-na" title="Product not found"></span>'
+				},
+				brand: '',
+				description: '',
+				price: '',
+				msrp: ''
 			}
-		});
-	});
+		},
+		messages: {
+			dragFileHere: 'Drag and drop a .csv file here',
+			fileIsUploading: 'Uploading the file, please wait...',
+			fieldsValidationNotPopulated: 'Please populate the required field(s)',
+			fieldsValidationNotFound: 'You can only order parts that exist in our database',
+			fieldsValidationPONumberLength: 'PO Number cannot exceed 10 characters',
+			noRowsInFileUploaded: 'No meaning rows were found in the file uploaded',
+			okToClearRows: 'Are you sure you want to clear all the rows in the table?',
+			common: 'An error occurred, please contact site administrator'
+		},
+		messagePopupDelay: 5000
+	},
+	init: function(config) {
+		$.extend(true, this.config, config);
 
-	</script>
-<?php endif ?>
+		this.addRow();
+		this.setState('manual');
+
+		$('#wsqo-uploadFile').fileupload({
+			url: this.config.uploadFileURL,
+			dataType: 'json',
+			dropZone: $('#dropzone'),
+			done: this._uploadFileResponse.bind(this),
+			fail: function(e, data) {
+				this.hideLoader('.wsqo-dropzone');
+				this.inform(this.config.messages.common + String.fromCharCode(13) + String.fromCharCode(10) + data.errorThrown);
+			}.bind(this),
+			always: function() {
+				this.hideLoader('.wsqo-dropzone');
+			}.bind(this),
+			start: function() {
+				this.showLoader('.wsqo-dropzone');
+			}.bind(this)
+		});
+
+		$(document).bind('dragover', function (e) {
+			var dropZone = $('#dropzone'),
+				timeout = window.dropZoneTimeout;
+			if (!timeout) {
+				dropZone.addClass('in');
+			} else {
+				clearTimeout(timeout);
+			}
+			var found = false,
+				node = e.target;
+			do {
+				if (node === dropZone[0]) {
+					found = true;
+					break;
+				}
+				node = node.parentNode;
+			} while (node != null);
+
+			if (found) {
+				dropZone.addClass('hover');
+			} else {
+				dropZone.removeClass('hover');
+			}
+			window.dropZoneTimeout = setTimeout(function () {
+				window.dropZoneTimeout = null;
+				dropZone.removeClass('in hover');
+			}, 100);
+		});
+
+		$(document).bind('drop dragover', function (e) {
+			e.preventDefault();
+		});
+	},
+	addRow: function(rowHash) {
+		if (!rowHash) {
+			rowHash = 'wqop' + Math.floor((Math.random() * 1000000) + 1);
+		}
+		var rowNumber = $('.wsqo-parts tbody tr').length + 1;
+		var rowHtml = this.config.templates.rowNew
+				.replace(/%ROW_HASH%/g, rowHash)
+				.replace(/%ROW_NUMBER%/g, rowNumber);
+		$('.wsqo-parts tbody').append(rowHtml);
+		return rowHash;
+	},
+	deleteRow: function(sender) {
+		$(sender).closest('tr').remove();
+		this._renumberRows();
+	},
+	clearRows: function() {
+		if (confirm(this.config.messages.okToClearRows)) {
+			$('.wsqo-parts tbody').html('');
+		}
+	},
+	_renumberRows: function() {
+		var rows = $('.wsqo-parts tbody tr');
+		for(var i=0; i<rows.length; i++) {
+			$(rows[i]).find('.wsqo-parts-list-lineNo').text(i+1);
+		}
+	},
+	showUploadInstructions: function(show) {
+		if(!arguments.length) {
+			show = !$('.wsqo-uploadInstructions').is(':visible');
+		}
+		if(show) {
+			$('.wsqo-uploadInstructions').show();
+		} else {
+			$('.wsqo-uploadInstructions').hide();
+		}
+	},
+	showLoader: function(targetSelector, multiMode) {
+		multiMode = multiMode || false;
+		if(window.hasOwnProperty('loader')) {
+			if(!multiMode) {
+				this.config._loaderTargetSelector = targetSelector;
+			}
+			window.loader.show(targetSelector);
+		}
+	},
+	hideLoader: function(selector) {
+		if(window.hasOwnProperty('loader')) {
+			if(('string' != typeof selector) || !selector) {
+				selector = this.config._loaderTargetSelector;
+			}
+			window.loader.hide(selector);
+		}
+	},
+	inform: function(message, autoHide) {
+		if ('undefined' == typeof(autoHide)) autoHide = true;
+		if (window.hasOwnProperty('informer')) {
+			if (autoHide) {
+				window.informer.appear(message, this.config.messagePopupDelay);
+			} else {
+				window.informer.show(message);
+			}
+		} else {
+			alert(message);
+		}
+	},
+	setState: function(state) {
+		if(state == this.config._state) return;
+		var previousState = this.config._state;
+		this.config._state = state;
+		switch (state) {
+			case 'manual':
+				$('#wsqo-inputType-manual').prop('checked', 'checked');
+				$('.wsqo-uploadFile-container').hide();
+				$('.wsqo-resetUpload').hide();
+				$('.wsqo-parts').show();
+				this.showUploadInstructions(false);
+				break;
+
+			case 'file-upload':
+				if(previousState == 'manual') {
+					$('.wsqo-uploadFile-container').show();
+					$('.wsqo-resetUpload').hide();
+					$('.wsqo-parts').hide();
+					this.showUploadInstructions(false);
+				}
+				break;
+
+			case 'file-reupload':
+				$('.wsqo-uploadFile-container').show();
+				$('.wsqo-resetUpload').hide();
+				$('.wsqo-parts').hide();
+				this.showUploadInstructions(false);
+				$('#wsqo-uploadFile').click();
+				break;
+
+			case 'file-uploading':
+				$('.wsqo-parts').hide();
+				break;
+
+			case 'file-uploaded':
+				$('.wsqo-uploadFile-container').hide();
+				$('.wsqo-resetUpload').show();
+				$('.wsqo-parts').show();
+				break;
+		}
+	},
+	_uploadFileResponse: function(e, data) {
+		var response = data._response.result;
+		if(response.errorMessage) {
+			this.inform(response.errorMessage);
+			if(response.redirect) {
+				location = response.redirect;
+				return;
+			}
+//			if(!response.html) return;
+	//			$('.wsqo-parts tbody').html('<tr><td colspan="100">' + response.html + '</td></tr>');
+		}
+		this.setState('file-uploaded');
+
+		if (response.res.length) {
+			if (!$('.wsqo-parts tbody tr:last-child input').val()) {
+				$('.wsqo-parts tbody tr:last-child').remove();
+			}
+			var rowId;
+			for(var i=0; i < response.res.length; i++ ) {
+				rowId = 'wqop' + Math.floor(1000000 * Math.random());
+				this._populateRowData(rowId, response.res[i]);
+			}
+			this.addRow();
+			$('.wsqo-parts tbody tr:last-child input').focus();
+		} else {
+			informer.appear(this.config.messages.noRowsInFileUploaded);
+		}
+	},
+	onPartNumberChange: function(sender) {
+		var partNumber = sender.value;
+		if(partNumber.length < this.config.minQueryLength) {
+			var rowId = $(sender).closest('tr').attr('id');
+			var row = $('#' + rowId);
+			row.find('.wsqo-parts-list-type').html('');
+			row.find('.wsqo-parts-list-brand').html('');
+			row.find('.wsqo-parts-list-description').html('');
+			row.find('.wsqo-parts-list-msrp').html('');
+			row.find('.wsqo-parts-list-price').html('');
+			this.hideLoader('#' + rowId + ' .wsqo-parts-list-description');
+			return;
+		}
+		this.checkPartNumber(sender);
+	},
+	_onAutoComplete: function(response) {
+		if(response.errorMessage) {
+			this.inform(response.errorMessage);
+			if(response.redirect) {
+				location = response.redirect;
+			}
+			if(!response.html) return;
+		}
+		$('#' + response.id + ' .wsqo-parts-list-autocomplete-container').html(response.html);
+	},
+	checkPartNumber: function(sender) {
+		var rowId = $(sender).closest('TR').attr('id');
+		var partNumber = $('#' + rowId + ' .wsqo-parts-list-partnumber input').val();
+		if(this.config.minQueryLength > partNumber.length) return;
+		this.showLoader('#' + rowId + ' .wsqo-parts-list-description', true);
+		$.ajax({
+			url: this.config.checkPartNumberURL,
+			data: {
+				partNumber: $('#' + rowId + ' .wsqo-parts-list-partnumber input').val(),
+				id: rowId
+			},
+			dataType: 'json',
+			type: 'POST',
+			cache: false,
+			success: this._checkPartNumber.bind(this),
+			complete: this.hideLoader.bind(this)
+		});
+	},
+	_checkPartNumber: function(response) {
+		if(response.errorMessage) {
+			this.inform(response.errorMessage);
+			if(response.redirect) {
+				location = response.redirect;
+			}
+		}
+		this.hideLoader('#' + response.id + ' .wsqo-parts-list-description');
+		this._populateRowData(response.id, response.data);
+	},
+	_populateRowData: function(id, data) {
+		var row = $('#' + id);
+		var isNewRow = !row.length;
+		if (isNewRow) {
+			var rowHash = this.addRow(id);
+			row = $('#' + rowHash);
+		}
+		if (data) {
+			if (isNewRow) {
+				row.find('.wsqo-parts-list-partnumber input').val(data.partNumber);
+				row.find('.wsqo-parts-list-qty input').val(data.qty);
+			}
+			row.attr('class', 'wsqo-type-' + data.type);
+			row.find('.wsqo-parts-list-type').html(this.config.templates.rowCells.types[data.type]);
+			row.find('.wsqo-parts-list-brand').html(data.brand);
+			row.find('.wsqo-parts-list-description').html(data.name);
+			row.find('.wsqo-parts-list-msrp').html(data.msrp);
+			row.find('.wsqo-parts-list-price').html(data.price);
+		} else {
+			row.attr('class', 'wsqo-type-na');
+			row.find('.wsqo-parts-list-type').html(this.config.templates.rowCells.types.na);
+			row.find('.wsqo-parts-list-brand').html('');
+			row.find('.wsqo-parts-list-description').html('Part not found');
+			row.find('.wsqo-parts-list-msrp').html('');
+			row.find('.wsqo-parts-list-price').html('');
+		}
+	},
+	validateOrderFields: function() {
+		var result = true;
+		var elements = $('.wsqo-form .wsqo-required');
+		var focus = true;
+		for(var i=0; i<elements.length; i++) {
+			if($(elements[i]).val()) {
+				$(elements[i]).removeClass('wsqo-required-alert');
+			} else {
+				$(elements[i]).addClass('wsqo-required-alert');
+				if(focus) {
+					elements[i].focus();
+					focus = false;
+				}
+				result = false;
+			}
+		}
+		if(!result) {
+			this.inform(this.config.messages.fieldsValidationNotPopulated);
+		}
+		if(result) {
+			if($('#wsqo-poNumber').val().length > 10) {
+				$('#wsqo-poNumber').addClass('wsqo-required-alert');
+				this.inform(this.config.messages.fieldsValidationPONumberLength);
+				result = false;
+			} else {
+				$('#wsqo-poNumber').removeClass('wsqo-required-alert');
+			}
+		}
+
+		return result;
+	},
+	sendOrder: function() {
+		if(!this.validateOrderFields()) {
+			return;
+		}
+
+		var rows = [];
+		var elements = $('.wsqo-parts tbody tr');
+		for(var i=0; i<elements.length; i++) {
+			rows.push([
+				$(elements[i]).find('.wsqo-parts-list-partnumber input').val(),
+				$(elements[i]).find('.wsqo-parts-list-qty input').val()]
+			);
+		}
+
+		this.showLoader('.wsqo-form');
+		$.ajax({
+			url: this.config.sendOrderURL,
+			data: {
+				rows: rows,
+				poNumber: $('#wsqo-poNumber').val(),
+				notes: $('#wsqo-notes').val(),
+				shippingType: $('input:checked[name="shippingType"]').val()
+			},
+			dataType: 'json',
+			type: 'POST',
+			cache: false,
+			success: this._sendOrderResponse.bind(this),
+			complete: this.hideLoader.bind(this)
+		});
+	},
+	_sendOrderResponse: function(response) {
+		if(response.errorMessage) {
+			this.inform(response.errorMessage);
+			if(!response.html) return;
+		}
+		$('.wsqo').html(response.html);
+	}
+};}(jQuery);};
+
+
+jQuery(document).ready(function() {
+	quickOrderForm = new QuickOrderForm();
+	quickOrderForm.init({
+		uploadFileURL: '<?php echo $this->getUrl('wholesale/quickorder/fileUpload') ?>'.replace('http:', location.protocol),
+		checkPartNumberURL: '<?php echo $this->getUrl('wholesale/quickorder/checkPartNumber') ?>'.replace('http:', location.protocol),
+		autocompleteURL: '<?php echo $this->getUrl('', array('_direct' => 'arioem/index.php?action=search&key=part')) ?>'.replace('http:', location.protocol),
+		sendOrderURL: '<?php echo $this->getUrl('wholesale/quickorder/orderPost') ?>'.replace('http:', location.protocol),
+		messages: {
+			fieldsValidationNotPopulated: '<?php echo $this->__('Please populate the required field(s)') ?>',
+			fieldsValidationNotFound: '<?php echo $this->__('You can only order parts that exist in our database') ?>',
+			fieldsValidationPONumberLength: '<?php echo $this->__('PO Number cannot exceed 10 characters') ?>',
+			dragFileHere: '<?php echo $this->__('Drag and drop a .csv file here') ?>',
+			fileIsUploading: '<?php echo $this->__('Uploading the file, please wait...') ?>',
+			common: '<?php echo $this->__('An error occurred, please contact site administrator') ?>'
+		}
+	});
+});
+
+</script>
+<?php // endif ?>

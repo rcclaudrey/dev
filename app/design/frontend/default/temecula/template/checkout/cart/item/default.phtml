@@ -1,17 +1,25 @@
 <?php
+
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 
 $_product = Mage::getModel('catalog/product')->load($_item->getProduct()->getId());
 
-$ari_product_image = null;
-$attribute = $_product->getResource()->getAttribute('ari_product_image');
-if ($attribute) {
-    $ari_product_image = $attribute->getFrontend()->getValue($_product);
+$productImage = '';
+
+if($_product->getThumbnail()) {
+	$productImage = $this->getProductThumbnail()->resize(110);
+} else {
+	$attribute = $_product->getResource()->getAttribute('ari_product_image');
+	if ($attribute) {
+		$productImage = '//accessorystreamimages.arinet.com/image/AccessoryItem/' . preg_replace('/\?.*/', '?width=110&height=110', $attribute->getFrontend()->getValue($_product));
+	}
 }
 
-$isOEMProduct = Vikont_Pulliver_Helper_OEM::isOemProduct($_product);
+$isOEMProduct = Mage::helper('core')->isModuleEnabled('Vikont_ARIOEM')
+		&& Vikont_ARIOEM_Helper_Cart::isOemProduct($_item->getProductId());
+
 if($isOEMProduct) {
 	$itemName = $this->escapeHtml($_item->getName());
 	$itemURL = $_item->getRedirectUrl();
@@ -24,7 +32,7 @@ if($isOEMProduct) {
 
 ?>
 <tr>
-    <td><?php if ($hasProductURL): ?><a href="<?php echo $itemURL ?>" title="<?php echo $itemName ?>" class="product-image"><?php endif; ?><img src="<?php echo $ari_product_image?preg_replace('/\?.*/', '?width=110&height=110', $ari_product_image):$this->getProductThumbnail()->resize(110); ?>" width="110" height="110" alt="<?php echo $itemName ?>" /><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></td>
+    <td><?php if ($hasProductURL): ?><a href="<?php echo $itemURL ?>" title="<?php echo $itemName ?>" class="product-image"><?php endif; ?><img src="<?php echo $productImage ?>" width="110" height="110" alt="<?php echo $itemName ?>" /><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></td>
     <td>
         <h2 class="product-name">
             <?php if ($hasProductURL): ?>

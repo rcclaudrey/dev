@@ -1,3 +1,4 @@
+/**/
 var QuickOrderForm = new Class.create({
 	config: {
 		uploadFileURL: '',
@@ -302,3 +303,4 @@ var QuickOrderForm = new Class.create({
 		jQuery('.wsqo').html(response.html);
 	}
 });
+/**/

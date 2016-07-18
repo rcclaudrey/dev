@@ -232,6 +232,25 @@
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</dummy_product>
+
+						<heading_quickorder_price_display translate="label">
+							<label>Regular products price discount at Quick Order Form</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>350</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</heading_quickorder_price_display>
+						<quickorder_price_display_discounts translate="label">
+							<label>Discounts by customer groups</label>
+							<comment><![CDATA[A list of customer_group_id=discount_value pairs separated with semicolon.
+								This must correspond to shopping cart price rules.]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>360</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</quickorder_price_display_discounts>
 					</fields>
 				</order>
 

@@ -21,83 +21,56 @@ class Vikont_Wholesale_Block_Quickorder_Item_Checked extends Mage_Core_Block_Tem
 
 
 
-	public function getPartsInfo()
+	public function getOutputData()
 	{
-		if(!$this->hasData(self::PARTS_INFO)) {
-			$partNumber = $this->getPartNumber();
+		$result = false;
+		$partNumber = $this->getPartNumber();
 
-			$data = array();
+		$oemPart = Mage::helper('wholesale/OEM')->findPart($partNumber);
+		if($oemPart) {
+			$result = array(
+				'type' => 'oem',
+				'sku' => $partNumber,
+				'brand' => Vikont_Wholesale_Helper_OEM::getBrandNameByCode(Vikont_Wholesale_Helper_OEM::getARI2TMSCode(
+						trim($oemPart['supplier_code']))),
+				'name' => $oemPart['part_name'],
+				'msrp' => Vikont_Format::formatPrice($oemPart['msrp']),
+				'price' => Vikont_Format::formatPrice(Mage::helper('wholesale')->calculateOEMPrice($oemPart['cost'])),
+			);
+		} else {
+			$productId = Mage::helper('wholesale/product')->findProductIdByAttributeValue('ari_part_number', $partNumber);
+			if($productId) {
+				$product = Mage::getModel('catalog/product')->load($productId);
 
-			$data['partNumber'] = $partNumber;
-			$data['productId'] = Mage::getResourceModel('catalog/product')->getIdBySku($partNumber);
-			$data['skus'] = array();
-			$data['oemData'] = Mage::helper('wholesale/OEM')->findPart($partNumber);
-
-			$skus = Mage::helper('wholesale/OEM')->getSkusByPartNumber($partNumber);
-
-			if(is_array($skus)) {
-				foreach($skus as $sku) {
-					$productId = Mage::getResourceModel('catalog/product')->getIdBySku($sku['sku']);
+				$result = array(
+					'type' => 'regular',
+					'sku' => $product->getSku(),
+					'brand' => $product->getData('ari_manufacturer'),
+					'name' => $product->getName(),
+					'msrp' => Vikont_Format::formatPrice($product->getMsrp()),
+					'price' => Vikont_Format::formatPrice(Mage::helper('wholesale')->calculateWholesalePrice($product->getPrice())),
+				);
+			} else {
+				$sku = Mage::helper('wholesale/OEM')->getSkuByPartNumber($partNumber);
+				if($sku) {
+					$productId = Mage::getResourceModel('catalog/product')->getIdBySku($sku);
 					if($productId) {
-						$data['skus'][] = array(
-							'sku' => $sku['sku'],
-							'productId' => $productId,
-							'product' => Mage::getModel('catalog/product')->load($productId),
+						$product = Mage::getModel('catalog/product')->load($productId);
+
+						$result = array(
+							'type' => 'sku',
+							'sku' => $sku,
+							'brand' => $product->getData('ari_manufacturer'),
+							'name' => $product->getName(),
+							'msrp' => Vikont_Format::formatPrice($product->getMsrp()),
+							'price' => Vikont_Format::formatPrice(Mage::helper('wholesale')->calculateWholesalePrice($product->getPrice())),
 						);
 					}
 				}
 			}
+		} 
 
-			$this->setData(self::PARTS_INFO, $data);
-		}
-		return $this->getData(self::PARTS_INFO);
-	}
-
-
-
-	public function getProduct()
-	{
-		$partsInfo = $this->getPartsInfo();
-		$productId = $partsInfo['productId'];
-
-		$this->setProduct(
-				$productId
-				?	Mage::getModel('catalog/product')->load($productId)
-				:	false
-			);
-
-		return $this->getData('product');
-	}
-
-
-
-	public function getOEMExtendedInfo()
-	{
-		$result = array();
-		$helper = Mage::helper('wholesale');
-
-		try {
-			$partsInfo = $this->getPartsInfo();
-
-			foreach($partsInfo['oemData'] as $item) {
-				$result[] = array(
-					'partNumber' => $item['part_number'],
-					'price' => Mage::helper('core')->formatPrice($helper->calculateOEMPrice($item['cost']), false),
-					'brand' => $this->getBrandName(Vikont_Wholesale_Helper_OEM::getARI2TMSCode(trim($item['supplier_code']))),
-				);
-			}
-		} catch (Exception $e) {
-			// do nothing as we don't need to report any errors from here
-		}
 		return $result;
-	}
-
-
-
-	public function getBrandName($code)
-	{
-		$brandName = Mage::getModel('wholesale/source_oembrand')->getOptionText($code);
-		return $brandName ? $brandName : $code;
 	}
 
 }

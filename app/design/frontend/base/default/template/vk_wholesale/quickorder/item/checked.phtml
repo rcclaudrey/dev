@@ -2,6 +2,14 @@
 
 $data = $this->getPartsInfo();
 
+//'type' => 'regular',
+//'sku' => $data['partNumber'],
+//'brand' => $product->getData('ari_manufacturer'),
+//'name' => $product->getName(),
+//'price' => $product->getPrice(),
+//'msrp' => $product->getMsrp(),
+
+
 ?>
 <?php if($data['productId']): ?>
 	<?php $product = $this->getProduct(); ?>
@@ -9,7 +17,6 @@ $data = $this->getPartsInfo();
 		<span class="wsqo-item-origin-regular wsqo-item-origin" title="<?php echo $this->__('Regular product found by SKU') ?>">&nbsp;</span>
 		<span class="wsqo-item-check-brand"><?php echo htmlspecialchars($product->getData('ari_manufacturer')) ?></span>
 		<strong><?php echo htmlspecialchars($product->getName()) ?></strong>
-<?php /*		<italic><?php echo Mage::helper('core')->currency($product->getPrice(), true, false) ?></italic>  /**/ ?>
 	</div>
 <?php endif ?>
 
@@ -32,6 +39,10 @@ $data = $this->getPartsInfo();
 			<span class="wsqo-item-check-brand"><?php echo htmlspecialchars($item['brand']) ?></span>
 			<strong><?php echo htmlspecialchars($item['partNumber']) ?></strong>
 			<italic><?php echo htmlspecialchars($item['price']) ?></italic>
+			<span class="wsqo-item-check-msrp">
+				<span class="wsqo-item-check-aLabel"><?php echo $this->__('MSRP:') ?></span>
+				<span class="wsqo-item-check-aValue"><?php echo htmlspecialchars($item['msrp']) ?></span>
+			</span>
 		</div>
 	<?php endforeach ?>
 <?php endif ?>

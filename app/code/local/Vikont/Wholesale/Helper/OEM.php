@@ -112,25 +112,28 @@ class Vikont_Wholesale_Helper_OEM extends Mage_Core_Helper_Abstract
 
 	public function findPart($partNumber)
 	{
-		$sql = 'SELECT supplier_code, part_number, cost FROM ' . self::getResource()->getTableName('oemdb/cost')
-				.' WHERE part_number="' . addslashes($partNumber) . '"';
+		$sql = 'SELECT * FROM ' . self::getResource()->getTableName('oemdb/cost')
+				.' WHERE part_number="' . addslashes($partNumber) . '" LIMIT 1';
 
 		try {
-			$result = self::getConnection('oemdb_read')->fetchAll($sql);
+			$data = self::getConnection('oemdb_read')->fetchAll($sql);
+			return isset($data[0])
+				?	$data[0]
+				:	false;
 		} catch (Exception $e) {
 			Mage::logException($e);
-			$result = false;
 		}
-
-		return $result;
+		return false;
 	}
 
 
 
 	public function findParts($partNumbers)
 	{
-		$sql = 'SELECT part_number, supplier_code, cost FROM ' . self::getResource()->getTableName('oemdb/cost')
-				.' WHERE part_number IN ("' . implode('","', array_map('addslashes', $partNumbers)) . '")';
+		$sql = 'SELECT part_number, supplier_code, part_name, cost, msrp, price'
+				. ' FROM ' . self::getResource()->getTableName('oemdb/cost')
+				. ' WHERE part_number IN ("' . implode('","', array_map('addslashes', $partNumbers)) . '")'
+				. ' AND available=1';
 
 		try {
 			$result = self::getConnection('oemdb_read')->fetchAll($sql);
@@ -174,21 +177,15 @@ class Vikont_Wholesale_Helper_OEM extends Mage_Core_Helper_Abstract
 		$connection = $resource->getConnection('oemdb_read');
 
 		try {
-//			$parts = array();
 			$where = array();
 			$itemNumber = addslashes($itemNumber);
 			$tableName = $resource->getTableName('oemdb/sku');
 
-//			foreach(self::$_distributorFieldNames as $fieldName => $vendorName) {
-//				$parts[] = 'SELECT DISTINCT sku, "'.$fieldName.'" AS distributor FROM '.$tableName.' WHERE d_' . $fieldName . '="'.$itemNumber.'"';
-//			}
-//			$sql = implode(' UNION ', $parts);
-
 			foreach(self::$_distributorFieldNames as $fieldName => $vendorName) {
-				$where[] = 'd_' . $fieldName . '="'.$itemNumber.'"';
+				$where[] = 'd_' . $fieldName . '="' . $itemNumber . '"';
 			}
 
-			$sql = 'SELECT DISTINCT sku FROM '.$resource->getTableName('oemdb/sku') .' WHERE ' . implode(' OR ', $where);
+			$sql = 'SELECT DISTINCT sku FROM ' . $tableName .' WHERE ' . implode(' OR ', $where);
 
 			return $connection->fetchAll($sql);
 		} catch (Exception $e) {
@@ -205,4 +202,21 @@ class Vikont_Wholesale_Helper_OEM extends Mage_Core_Helper_Abstract
 			?	self::$_supplierNames[$supplierCode]
 			:	$supplierCode;
 	}
+
+
+
+	public static function getBrandNameByCode($code)
+	{
+		$brandName = Mage::getModel('wholesale/source_oembrand')->getOptionText($code);
+		return $brandName ? $brandName : $code;
+	}
+
+
+
+	public static function getPrice($price, $msrp)
+	{
+		$aPrice = floatval($price);
+		return $aPrice ? $aPrice : $msrp;
+	}
+
 }
